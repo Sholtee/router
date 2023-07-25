@@ -73,5 +73,33 @@ namespace Router.Tests
         [TestCase("cica//mica")]
         public void SplitShouldThrowOnEmptyChunk(string input) =>
             Assert.Throws<ArgumentException>(() => PathSplitter.Split(input).ToList());
+
+        [TestCase("%E1", arg2: new string[] { "á" })]
+        [TestCase("%E1/", arg2: new string[] { "á" })]
+        [TestCase("%E1/mica", arg2: new string[] { "á", "mica" })]
+        [TestCase("cica/%E1", arg2: new string[] { "cica", "á" })]
+        [TestCase("cica/%E1/", arg2: new string[] { "cica", "á" })]
+        [TestCase("cica/%E1/mica", arg2: new string[] { "cica", "á", "mica" })]
+        [TestCase("/%E1", arg2: new string[] { "á" })]
+        [TestCase("/%E1/", arg2: new string[] { "á" })]
+        [TestCase("/%E1/mica", arg2: new string[] { "á", "mica" })]
+        [TestCase("/cica/%E1", arg2: new string[] { "cica", "á" })]
+        [TestCase("/cica/%E1/", arg2: new string[] { "cica", "á" })]
+        [TestCase("/cica/%E1/mica", arg2: new string[] { "cica", "á", "mica" })]
+
+        [TestCase("%E1bc", arg2: new string[] { "ábc" })]
+        [TestCase("%E1bc/", arg2: new string[] { "ábc" })]
+        [TestCase("%E1bc/mica", arg2: new string[] { "ábc", "mica" })]
+        [TestCase("cica/%E1bc", arg2: new string[] { "cica", "ábc" })]
+        [TestCase("cica/%E1bc/", arg2: new string[] { "cica", "ábc" })]
+        [TestCase("cica/%E1bc/mica", arg2: new string[] { "cica", "ábc", "mica" })]
+        [TestCase("/%E1bc", arg2: new string[] { "ábc" })]
+        [TestCase("/%E1bc/", arg2: new string[] { "ábc" })]
+        [TestCase("/%E1bc/mica", arg2: new string[] { "ábc", "mica" })]
+        [TestCase("/cica/%E1bc", arg2: new string[] { "cica", "ábc" })]
+        [TestCase("/cica/%E1bc/", arg2: new string[] { "cica", "ábc" })]
+        [TestCase("/cica/%E1bc/mica", arg2: new string[] { "cica", "ábc", "mica" })]
+        public void SplitShouldHandleHexChunks(string input, string[] expected) =>
+            Assert.That(PathSplitter.Split(input).SequenceEqual(expected));
     }
 }
