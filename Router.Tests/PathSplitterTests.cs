@@ -101,5 +101,33 @@ namespace Router.Tests
         [TestCase("/cica/%E1bc/mica", arg2: new string[] { "cica", "ábc", "mica" })]
         public void SplitShouldHandleHexChunks(string input, string[] expected) =>
             Assert.That(PathSplitter.Split(input).SequenceEqual(expected));
+
+        [TestCase("+", arg2: new string[] { " " })]
+        [TestCase("+/", arg2: new string[] { " " })]
+        [TestCase("+/mica", arg2: new string[] { " ", "mica" })]
+        [TestCase("cica/+", arg2: new string[] { "cica", " " })]
+        [TestCase("cica/+/", arg2: new string[] { "cica", " " })]
+        [TestCase("cica/+/mica", arg2: new string[] { "cica", " ", "mica" })]
+        [TestCase("/+", arg2: new string[] { " " })]
+        [TestCase("/+/", arg2: new string[] { " " })]
+        [TestCase("/+/mica", arg2: new string[] { " ", "mica" })]
+        [TestCase("/cica/+", arg2: new string[] { "cica", " " })]
+        [TestCase("/cica/+/", arg2: new string[] { "cica", " " })]
+        [TestCase("/cica/+/mica", arg2: new string[] { "cica", " ", "mica" })]
+
+        [TestCase("a+b", arg2: new string[] { "a b" })]
+        [TestCase("a+b/", arg2: new string[] { "a b" })]
+        [TestCase("a+b/mica", arg2: new string[] { "a b", "mica" })]
+        [TestCase("cica/a+b", arg2: new string[] { "cica", "a b" })]
+        [TestCase("cica/a+b/", arg2: new string[] { "cica", "a b" })]
+        [TestCase("cica/a+b/mica", arg2: new string[] { "cica", "a b", "mica" })]
+        [TestCase("/a+b", arg2: new string[] { "a b" })]
+        [TestCase("/a+b/", arg2: new string[] { "a b" })]
+        [TestCase("/a+b/mica", arg2: new string[] { "a b", "mica" })]
+        [TestCase("/cica/a+b", arg2: new string[] { "cica", "a b" })]
+        [TestCase("/cica/a+b/", arg2: new string[] { "cica", "a b" })]
+        [TestCase("/cica/a+b/mica", arg2: new string[] { "cica", "a b", "mica" })]
+        public void SplitShouldHandleSpaces(string input, string[] expected) =>
+            Assert.That(PathSplitter.Split(input).SequenceEqual(expected));
     }
 }

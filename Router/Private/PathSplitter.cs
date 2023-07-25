@@ -50,15 +50,18 @@ namespace Router.Internals
                         // Validate the HEX value.
                         //
 
-                        if (path.Length - i <= 2 || !int.TryParse(path.Substring(i + 1, 2), NumberStyles.HexNumber, null, out int chr))
+                        if (path.Length - i <= 2 || !byte.TryParse(path.Substring(i + 1, 2), NumberStyles.HexNumber, null, out byte chr))
                             throw new ArgumentException(Resources.INVALID_PATH, nameof(path));
 
                         c = (char) chr;
                         i += 2;
                         break;
+                    case '+':
+                        c = ' ';
+                        break;
                 }
-                buffer[pos++] = c;
 
+                buffer[pos++] = c;
             }
 
             if (pos > 0)
