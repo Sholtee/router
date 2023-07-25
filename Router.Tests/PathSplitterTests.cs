@@ -17,9 +17,10 @@ namespace Router.Tests
         public void SplitShouldNotTakeLeadingAndTrailingSeparatorsIntoAccount(string input, string[] expected) =>
             Assert.That(PathSplitter.Split(input).SequenceEqual(expected));
 
-        [Test]
-        public void SplitShouldHandleEmptyPath() =>
-            Assert.That(!PathSplitter.Split("").Any());
+        [TestCase("")]
+        [TestCase("/")]
+        public void SplitShouldHandleEmptyPath(string input) =>
+            Assert.That(!PathSplitter.Split(input).Any());
 
         // Too short hex
         [TestCase("%")]
