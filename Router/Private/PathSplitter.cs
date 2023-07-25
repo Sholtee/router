@@ -34,11 +34,22 @@ namespace Router.Internals
 
                         if (i > 0)
                         {
+                            //
+                            // Ensure the chunk is not empty
+                            //
+
+                            if (pos == 0)
+                                throw new ArgumentException(Resources.INVALID_PATH, nameof(path));
+
                             yield return new string(buffer, 0, pos);
                             pos = 0;
                         }
                         continue;
                     case '%':
+                        //
+                        // Validate the HEX value.
+                        //
+
                         if (path.Length - i <= 2 || !int.TryParse(path.Substring(i + 1, 2), NumberStyles.HexNumber, null, out int chr))
                             throw new ArgumentException(Resources.INVALID_PATH, nameof(path));
 
