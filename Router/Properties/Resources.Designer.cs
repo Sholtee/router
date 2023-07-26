@@ -61,6 +61,15 @@ namespace Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Capturing groups are not supported..
+        /// </summary>
+        internal static string CAPTURING_GROUPS_NOT_SUPPORTED {
+            get {
+                return ResourceManager.GetString("CAPTURING_GROUPS_NOT_SUPPORTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The given path is not valid..
         /// </summary>
         internal static string INVALID_PATH {

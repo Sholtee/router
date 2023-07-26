@@ -16,7 +16,7 @@ namespace Router.Internals
         /// <summary>
         /// Splits the given path converting hex values if necessary.
         /// </summary>
-        public static IEnumerable<string> Split(string path)
+        public static IEnumerable<T> Split<T>(string path, Func<char[], int, T> convert)
         {
             char[] buffer = new char[path.Length];
             int pos = 0;
@@ -41,7 +41,7 @@ namespace Router.Internals
                             if (pos == 0)
                                 throw new ArgumentException(Resources.INVALID_PATH, nameof(path));
 
-                            yield return new string(buffer, 0, pos);
+                            yield return convert(buffer, pos);
                             pos = 0;
                         }
                         continue;
@@ -65,7 +65,13 @@ namespace Router.Internals
             }
 
             if (pos > 0)
-                yield return new string(buffer, 0, pos);
-        } 
+                yield return convert(buffer, pos);
+        }
+
+        public static IEnumerable<string> Split(string path) => Split
+        (
+            path,
+            static (char[] buffer, int len) => new string(buffer, 0, len)
+        );
     }
 }
