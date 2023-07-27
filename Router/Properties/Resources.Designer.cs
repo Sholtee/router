@@ -61,11 +61,11 @@ namespace Router.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Capturing groups are not supported..
+        ///   Looks up a localized string similar to Converter cannot be found: {0}.
         /// </summary>
-        internal static string CAPTURING_GROUPS_NOT_SUPPORTED {
+        internal static string CONVERTER_NOT_FOUND {
             get {
-                return ResourceManager.GetString("CAPTURING_GROUPS_NOT_SUPPORTED", resourceCulture);
+                return ResourceManager.GetString("CONVERTER_NOT_FOUND", resourceCulture);
             }
         }
         

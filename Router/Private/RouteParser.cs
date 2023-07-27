@@ -12,36 +12,41 @@ namespace Router.Internals
 {
     using Properties;
 
+    internal delegate bool TryConvert(string input, out object? value);
+
+    internal delegate bool TryConvertEx(string input, string? userData, out object? value);
+
+
     /// <summary>
-    /// Represents a segment of route (for instance "getpictures" && "id" in case of "/getpictures/id:(\d+)") 
+    /// Represents a segment of route (for instance "picture" && "id" in case of "/picture/{id:int}") 
     /// </summary>
     /// <param name="Name">The name of segment or variable</param>
-    /// <param name="Regex">The related <see cref="System.Text.RegularExpressions.Regex"/> if we have to match by expression</param>
-    internal sealed record RouteSegment(string Name, Regex? Regex);
+    /// <param name="Converter">The converter function</param>
+    internal sealed record RouteSegment(string Name, TryConvert? Converter);
 
     internal static class RouteParser
     {
-        private static readonly Regex FTemplateMatcher = new("^(?<name>\\w+):\\((?<regex>.+)\\)(?<options>i?)$", RegexOptions.Compiled);
+        private static readonly Regex FTemplateMatcher = new("^{(?<name>\\w+):(?<converter>\\w+)(?::(?<param>\\w+))?}$", RegexOptions.Compiled);
 
-        internal static IEnumerable<RouteSegment> Parse(string input) => PathSplitter.Split(input).Select(static segment =>
+        internal static IEnumerable<RouteSegment> Parse(string input, IReadOnlyDictionary<string, TryConvertEx> converters) => PathSplitter.Split(input).Select(segment =>
         {
             Match match = FTemplateMatcher.Match(segment);
             if (!match.Success)
                 return new RouteSegment(segment, null);
 
             string
-                expr = match.Groups["regex"].Value,
-                opts = match.Groups["options"].Value;
+                name      = match.Groups[nameof(name)].Value,
+                converter = match.Groups[nameof(converter)].Value,
+                param     = match.Groups[nameof(param)].Value;
 
-            RegexOptions regexOptions = RegexOptions.Compiled;
-            if (opts?.Contains("i") is true)
-                regexOptions |= RegexOptions.IgnoreCase;
+            if (!converters.TryGetValue(converter, out TryConvertEx converterFnCore))
+                throw new ArgumentException(string.Format(Resources.Culture, Resources.CONVERTER_NOT_FOUND, converter), nameof(input));
 
-            Regex regex = new(expr, regexOptions);
-            if (regex.GetGroupNames().Length > 1)
-                throw new ArgumentException(Resources.CAPTURING_GROUPS_NOT_SUPPORTED, nameof(input));
-
-            return new RouteSegment(match.Groups["name"].Value, regex);
+            return new RouteSegment
+            (
+                name,
+                (string input, out object? value) => converterFnCore(input, param, out value)
+            );    
         });
     }
 }
