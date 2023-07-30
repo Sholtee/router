@@ -109,12 +109,12 @@ namespace Router.Internals
             ).Body
         ).Member;
 
-        private readonly RouteParser FRouteParser;
+        private readonly RouteParser FRouteParser = null!;
 
 
         private static IEnumerator<string> GetSegments(string path) => PathSplitter.Split(path).GetEnumerator();
 
-        private readonly DefaultHandler<TRequest, TUserData, TResponse> FDefaultHandler;
+        private readonly DefaultHandler<TRequest, TUserData, TResponse> FDefaultHandler = null!;
 
         private sealed class Junction
         {
