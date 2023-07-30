@@ -12,23 +12,21 @@ namespace Router.Internals
 {
     using Properties;
 
-    internal delegate bool TryConvert(string input, out object? value);
-
-    internal delegate bool TryConvertEx(string input, string? userData, out object? value);
-
-
     /// <summary>
-    /// Represents a segment of route (for instance "picture" && "id" in case of "/picture/{id:int}") 
+    /// Parses the given route template.
     /// </summary>
-    /// <param name="Name">The name of segment or variable</param>
-    /// <param name="Converter">The converter function</param>
-    internal sealed record RouteSegment(string Name, TryConvert? Converter);
-
-    internal static class RouteParser
+    /// <remarks>
+    /// Route template looks like: <code>"[/]segment1/{paramName:converter[:userData]}/segment3[/]"</code>
+    /// </remarks>
+    internal sealed class RouteParser
     {
         private static readonly Regex FTemplateMatcher = new("^{(?<name>\\w+):(?<converter>\\w+)(?::(?<param>\\w+))?}$", RegexOptions.Compiled);
 
-        internal static IEnumerable<RouteSegment> Parse(string input, IReadOnlyDictionary<string, TryConvertEx> converters) => PathSplitter.Split(input).Select(segment =>
+        private readonly IReadOnlyDictionary<string, TryConvert> FConverters;
+
+        public RouteParser(IReadOnlyDictionary<string, TryConvert> converters) => FConverters = converters;
+
+        public IEnumerable<RouteSegment> Parse(string input) => PathSplitter.Split(input).Select(segment =>
         {
             Match match = FTemplateMatcher.Match(segment);
             if (!match.Success)
@@ -39,7 +37,7 @@ namespace Router.Internals
                 converter = match.Groups[nameof(converter)].Value,
                 param     = match.Groups[nameof(param)].Value;
 
-            if (!converters.TryGetValue(converter, out TryConvertEx converterFnCore))
+            if (!FConverters.TryGetValue(converter, out TryConvert converterFnCore))
                 throw new ArgumentException(string.Format(Resources.Culture, Resources.CONVERTER_NOT_FOUND, converter), nameof(input));
 
             return new RouteSegment
