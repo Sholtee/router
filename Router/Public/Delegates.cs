@@ -33,4 +33,13 @@ namespace Router
     /// <param name="path">Path led to here</param>
     /// <returns>The response object.</returns>
     public delegate TResponse Handler<TRequest, TUserData, TResponse>(TRequest request, IReadOnlyDictionary<string, object?> paramz, TUserData userData, string path);
+
+    /// <summary>
+    /// Router delegate.
+    /// </summary>
+    /// <param name="request">The request object.</param>
+    /// <param name="userData">Custom user data to be passed to handlers.</param>
+    /// <param name="path">Path where to route the request.</param>
+    /// <returns>The response object.</returns>
+    public delegate TResponse Router<TRequest, TUserData, TResponse>(TRequest request, TUserData userData, string path);
 }

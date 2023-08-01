@@ -17,7 +17,7 @@ namespace Router.Internals
     /// <summary>
     /// Builds the switch statement which does the actual routing.
     /// <code>
-    /// TResponse Route(string path, TRequest request, TUserData userData)
+    /// TResponse Route(TRequest request, TUserData userData, string path)
     /// {
     ///     Dictionary&lt;string, object?&gt; paramz = new();
     ///     object converted;
@@ -42,12 +42,13 @@ namespace Router.Internals
     ///                     
     ///                     if (intParser(segments.Current, out converted))
     ///                     {
+    ///                         paramz.Add("id", val);
+    ///                         
     ///                         if (segments.MoveNext())
     ///                         {
     ///                             return DefaultHandler(request, userData, path);
     ///                         }
     /// 
-    ///                         paramz.Add("id", val);
     ///                         return CicaIdHandler(request, paramz, userData, path); // "/cica/{id:int}" defined
     ///                     }
     ///                     
@@ -84,7 +85,19 @@ namespace Router.Internals
             ParameterExpression UserData,
             ParameterExpression Path,
             ParameterExpression Converted
-        );
+        )
+        {
+            public CaseContext(): this
+            (
+                Segments:  Expression.Variable(typeof(IEnumerator<string>),         nameof(Segments).ToLower()),
+                Converted: Expression.Variable(typeof(object),                      nameof(Converted).ToLower()),
+                Params:    Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower()),
+
+                Request:  Expression.Parameter(typeof(TRequest),  nameof(Request).ToLower()),
+                UserData: Expression.Parameter(typeof(TUserData), nameof(UserData).ToLower()),
+                Path:     Expression.Parameter(typeof(string),    nameof(Path).ToLower())
+            ) {}
+        };
 
         private static readonly MethodInfo FMoveNext =
         (
@@ -132,47 +145,40 @@ namespace Router.Internals
 
         private readonly RouteParser FRouteParser = null!;
 
-
-        private static IEnumerator<string> GetSegments(string path) => PathSplitter.Split(path).GetEnumerator();
-
         private readonly DefaultHandler<TRequest, TUserData, TResponse> FDefaultHandler = null!;
 
-        private Expression DefineCase
-        (
-            CaseContext context,
-            Junction junction
-        )
+        private readonly Junction FRoot = new();
+
+        private Expression BuildJunction(Junction junction, CaseContext context)
         {
-            Expression tryProcessNextJunction = Expression.IfThen
-            (
-                Expression.Call(context.Segments, FMoveNext),
-                Expression.Block
+            Expression
+                tryProcessNextJunction = Expression.IfThen
                 (
-                    type: typeof(TResponse),
-                    junction
-                        .Children
-                        .Select(junction => DefineCase(context, junction))
-                        // default handler
-                        .Append(Expression.Invoke(Expression.Constant(FDefaultHandler), context.Request, context.UserData, context.Path))
-                )
-            );
+                    Expression.Call(context.Segments, FMoveNext),
+                    Expression.Block
+                    (
+                        type: typeof(TResponse),
+                        junction
+                            .Children
+                            .Select(junction => BuildJunction(junction, context))
+                            // default handler
+                            .Append(Expression.Invoke(Expression.Constant(FDefaultHandler), context.Request, context.UserData, context.Path))
+                    )
+                ),
+                invokeHandler = junction.Handler is not null
+                    ? Expression.Invoke(Expression.Constant(junction.Handler), context.Request, context.Params, context.UserData, context.Path)
+                    : Expression.Invoke(Expression.Constant(FDefaultHandler), context.Request, context.UserData, context.Path);
 
             if (junction.Segment is null)  // root node, no segment
-            {
                 return Expression.Block
                 (
                     type: typeof(TResponse),
                     tryProcessNextJunction,
-                    junction.Handler is not null
-                        ? Expression.Invoke(Expression.Constant(junction.Handler), context.Request, context.Params, context.UserData, context.Path)
-                        : Expression.Invoke(Expression.Constant(FDefaultHandler), context.Request, context.UserData, context.Path)
+                    invokeHandler
                 );
-            }
 
-            Debug.Assert(junction.Handler is not null, "Handler cannot be null");
-
-            return junction.Segment.Converter is null
-                ? Expression.IfThen
+            if (junction.Segment.Converter is null)
+                return Expression.IfThen
                 (
                     Expression.Equal
                     (
@@ -183,28 +189,35 @@ namespace Router.Internals
                     (
                         type: typeof(TResponse),
                         tryProcessNextJunction,
-                        Expression.Invoke(Expression.Constant(junction.Handler), context.Request, context.Params, context.UserData, context.Path)
-                    )
-                )
-                : Expression.IfThen
-                (
-                    Expression.Invoke
-                    (
-                        Expression.Constant(junction.Segment.Converter),
-                        Expression.Property(context.Segments, FCurrent),
-                        context.Converted
-                    ),
-                    Expression.Block
-                    (
-                        type: typeof(TResponse),
-                        tryProcessNextJunction,
-                        Expression.Call(context.Params, FAddParam, Expression.Constant(junction.Segment.Name), context.Converted),
-                        Expression.Invoke(Expression.Constant(junction.Handler), context.Request, context.Params, context.UserData, context.Path)
+                        invokeHandler
                     )
                 );
+
+            return Expression.IfThen
+            (
+                Expression.Invoke
+                (
+                    Expression.Constant(junction.Segment.Converter),
+                    Expression.Property(context.Segments, FCurrent),
+                    context.Converted
+                ),
+                Expression.Block
+                (
+                    type: typeof(TResponse),
+                    tryProcessNextJunction,
+                    Expression.Call(context.Params, FAddParam, Expression.Constant(junction.Segment.Name), context.Converted),
+                    invokeHandler
+                )
+            );
         }
 
-        private readonly Junction FRoot = new();
+        private static IEnumerator<string> GetSegments(string path) => PathSplitter.Split(path).GetEnumerator();
+
+
+        public Router<TRequest, TUserData, TResponse> Build()
+        {
+            throw new NotImplementedException();
+        }
 
         public void AddRoute(string route, Handler<TRequest, TUserData, TResponse> handler)
         {
