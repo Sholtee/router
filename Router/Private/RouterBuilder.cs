@@ -132,6 +132,17 @@ namespace Router.Internals
             ).Body
         ).Method;
 
+        private static readonly MethodInfo FEquals =
+        (
+            (MethodCallExpression)
+            (
+                (Expression<Action<string>>)
+                (
+                    static s => s.Equals(null!, default(StringComparison))
+                )
+            ).Body
+        ).Method;
+
         private static readonly PropertyInfo FCurrent = (PropertyInfo) 
         (
             (MemberExpression) 
@@ -180,10 +191,12 @@ namespace Router.Internals
             if (junction.Segment.Converter is null)
                 return Expression.IfThen
                 (
-                    Expression.Equal
+                    Expression.Call
                     (
                         Expression.Property(context.Segments, FCurrent),
-                        Expression.Constant(junction.Segment.Name)
+                        FEquals,
+                        Expression.Constant(junction.Segment.Name),
+                        Expression.Constant(StringComparison)
                     ),
                     Expression.Block
                     (
@@ -219,6 +232,8 @@ namespace Router.Internals
             throw new NotImplementedException();
         }
 
+        public StringComparison StringComparison { get; init; } = StringComparison.OrdinalIgnoreCase;
+
         public void AddRoute(string route, Handler<TRequest, TUserData, TResponse> handler)
         {
             Junction target = FRoot;
@@ -231,7 +246,7 @@ namespace Router.Internals
                 {
                     Debug.Assert(child.Segment is not null, "Root cannot be a child");
 
-                    if (child.Segment!.Name == segment.Name)
+                    if (child.Segment!.Name.Equals(segment.Name, StringComparison))
                     {
                         target = child;
                         found = true;
