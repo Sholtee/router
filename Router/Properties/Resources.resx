@@ -123,4 +123,7 @@
   <data name="INVALID_PATH" xml:space="preserve">
     <value>The given path is not valid.</value>
   </data>
+  <data name="ROUTE_ALREADY_REGISTERED" xml:space="preserve">
+    <value>Route already registered: {0}</value>
+  </data>
 </root>

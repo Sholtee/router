@@ -77,5 +77,14 @@ namespace Router.Properties {
                 return ResourceManager.GetString("INVALID_PATH", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Route already registered: {0}.
+        /// </summary>
+        internal static string ROUTE_ALREADY_REGISTERED {
+            get {
+                return ResourceManager.GetString("ROUTE_ALREADY_REGISTERED", resourceCulture);
+            }
+        }
     }
 }
