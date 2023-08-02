@@ -3,6 +3,9 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
+using System.Linq;
+
 using NUnit.Framework;
 
 namespace Solti.Utils.Router.Tests

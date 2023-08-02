@@ -2,8 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	<OutputPath>..\BIN\$(Configuration)</OutputPath>
+	<Nullable>enable</Nullable>
+	<AssemblyName>Solti.Utils.Router.Tests</AssemblyName>
+	<RootNamespace>Solti.Utils.Router.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
