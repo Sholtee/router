@@ -29,7 +29,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("")]
         [TestCase("/")]
         [TestCase("/cica")]
-        [TestCase("/param:int/cica")]
+        [TestCase("/{param:int}/cica")]
         public void AddRouteShouldThrowOnDuplicateRegistration(string route)
         {
             RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, new Dictionary<string, TryConvert>
@@ -39,6 +39,14 @@ namespace Solti.Utils.Router.Tests
 
             Assert.DoesNotThrow(() => builder.AddRoute(route, DummyHandler));
             Assert.Throws<ArgumentException>(() => builder.AddRoute(route, DummyHandler));          
+        }
+
+        [Test]
+        public void AddRouteShouldThrowOnMissingConverter()
+        {
+            RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, new Dictionary<string, TryConvert> {});
+
+            Assert.Throws<ArgumentException>(() => builder.AddRoute("/{param:int}/cica", DummyHandler));
         }
 
         public static IEnumerable<string[]> Routes
@@ -58,33 +66,33 @@ namespace Solti.Utils.Router.Tests
                 };
                 yield return new string[]
                 {
-                    "/param:int/cica",
-                    "/param:int/kutya"
+                    "/{param:int}/cica",
+                    "/{param:int}/kutya"
                 };
                 yield return new string[]
                 {
                     "/",
-                    "/param:int/cica",
-                    "/param:int/kutya"
+                    "/{param:int}/cica",
+                    "/{param:int}/kutya"
                 };
                 yield return new string[]
                 {
-                    "/param:int/cica/param2:int",
-                    "/param:int/kutya/param2:int"
+                    "/{param:int}/cica/{param2:int}",
+                    "/{param:int}/kutya/{param2:int}"
                 };
                 yield return new string[]
                 {
                     "/",
-                    "/param:int/cica/param2:int",
-                    "/param:int/kutya/param2:int"
+                    "/{param:int}/cica/{param2:int}",
+                    "/{param:int}/kutya/{param2:int}"
                 };
                 yield return new string[]
                 {
                     "/",
                     "/cica",
                     "/kutya",
-                    "/param:int/cica/param2:int",
-                    "/param:int/kutya/param2:int"
+                    "/{param:int}/cica/{param2:int}",
+                    "/{param:int}/kutya/{param2:int}"
                 };
             }
         }
