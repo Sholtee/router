@@ -1,4 +1,9 @@
-﻿using NUnit.Framework;
+﻿/********************************************************************************
+* PathSplitterTests.cs                                                          *
+*                                                                               *
+* Author: Denes Solti                                                           *
+********************************************************************************/
+using NUnit.Framework;
 
 namespace Solti.Utils.Router.Tests
 {

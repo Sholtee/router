@@ -67,8 +67,9 @@ namespace Solti.Utils.Router.Internals
     /// }
     /// </code>
     /// </summary>
-    internal class RouterBuilder<TRequest, TUserData, TResponse>
+    internal sealed class RouterBuilder<TRequest, TUserData, TResponse>
     {
+        #region Private
         private sealed class Junction
         {
             public RouteSegment? Segment { get; init; }  // null at "/"
@@ -90,7 +91,7 @@ namespace Solti.Utils.Router.Internals
         {
             public BuildContext(): this
             (
-                Converted: Expression.Variable(typeof(object).MakeByRefType(),      nameof(Converted).ToLower()),
+                Converted: Expression.Variable(typeof(object),                      nameof(Converted).ToLower()),
                 Params:    Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower()),
 
                 Segments: Expression.Parameter(typeof(IEnumerator<string>), nameof(Segments).ToLower()),
@@ -144,9 +145,9 @@ namespace Solti.Utils.Router.Internals
             ).Body
         ).Member;
 
-        private readonly RouteParser FRouteParser = null!;
+        private readonly RouteParser FRouteParser;
 
-        private readonly DefaultHandler<TRequest, TUserData, TResponse> FDefaultHandler = null!;
+        private readonly DefaultHandler<TRequest, TUserData, TResponse> FDefaultHandler;
 
         private readonly Junction FRoot = new();
 
@@ -213,7 +214,17 @@ namespace Solti.Utils.Router.Internals
                 )
             );
         }
+        #endregion
 
+        public RouterBuilder(DefaultHandler<TRequest, TUserData, TResponse> defaultHandler, IReadOnlyDictionary<string, TryConvert> converters)
+        {
+            FDefaultHandler = defaultHandler;
+            FRouteParser = new RouteParser(converters);
+        }
+
+        /// <summary>
+        /// Builds the actual <see cref="Router{TRequest, TUserData, TResponse}"/>.
+        /// </summary>
         public Router<TRequest, TUserData, TResponse> Build()
         {
             BuildContext context = new();
@@ -253,6 +264,12 @@ namespace Solti.Utils.Router.Internals
 
         public StringComparison StringComparison { get; init; } = StringComparison.OrdinalIgnoreCase;
 
+        /// <summary>
+        /// Registers a route.
+        /// </summary>
+        /// <param name="route">Route to be registered.</param>
+        /// <param name="handler">Function accepting requests on the given route.</param>
+        /// <exception cref="ArgumentException">If the route already registered.</exception>
         public void AddRoute(string route, Handler<TRequest, TUserData, TResponse> handler)
         {
             Junction target = FRoot;
