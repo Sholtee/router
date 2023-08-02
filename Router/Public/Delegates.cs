@@ -5,7 +5,7 @@
 ********************************************************************************/
 using System.Collections.Generic;
 
-namespace Router
+namespace Solti.Utils.Router
 {
     /// <summary>
     /// Tries to convert the input string to a given type.

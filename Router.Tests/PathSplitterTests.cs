@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace Router.Tests
+namespace Solti.Utils.Router.Tests
 {
     using Internals;
 

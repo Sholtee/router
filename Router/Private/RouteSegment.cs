@@ -4,7 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 
-namespace Router.Internals
+namespace Solti.Utils.Router.Internals
 {
     /// <summary>
     /// The simplified version of <see cref="TryConvert"/>. The user data shall be embedded.

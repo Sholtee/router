@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Router.Internals
+namespace Solti.Utils.Router.Internals
 {
     using Properties;
 

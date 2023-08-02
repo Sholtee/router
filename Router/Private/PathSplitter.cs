@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Router.Internals
+namespace Solti.Utils.Router.Internals
 {
     using Properties;
 

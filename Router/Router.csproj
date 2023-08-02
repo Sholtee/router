@@ -5,6 +5,8 @@
 	<LangVersion>11</LangVersion>
 	<AnalysisMode>AllEnabledByDefault</AnalysisMode>
 	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	<AssemblyName>Solti.Utils.Router</AssemblyName>
+	<RootNamespace>Solti.Utils.Router</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,10 +30,11 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.*">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-	</ItemGroup>
+  <ItemGroup>
+	<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.*">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="Solti.Utils.Primitives" Version="8.*" />
+  </ItemGroup>
 </Project>

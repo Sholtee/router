@@ -10,20 +10,21 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Router.Internals
+namespace Solti.Utils.Router.Internals
 {
+    using Primitives;
     using Properties;
 
     /// <summary>
     /// Builds the switch statement which does the actual routing.
     /// <code>
     /// TResponse Route(TRequest request, TUserData userData, string path)
-    /// {
-    ///     Dictionary&lt;string, object?&gt; paramz = new();
-    ///     object converted;
-    ///     
+    /// { 
     ///     using(IEnumerator&lt;string&gt; segments = PathSplitter.Split(path).GetEnumerator())
     ///     {
+    ///         Dictionary&lt;string, object?&gt; paramz = new();
+    ///         object converted;
+    ///    
     ///         if (segments.MoveNext())
     ///         {
     ///             if (segments.Current == "cica")
@@ -77,7 +78,7 @@ namespace Router.Internals
             public IList<Junction> Children { get; } = new List<Junction>();
         }
 
-        private sealed record CaseContext
+        private sealed record BuildContext
         (
             ParameterExpression Segments,
             ParameterExpression Request,
@@ -87,15 +88,15 @@ namespace Router.Internals
             ParameterExpression Converted
         )
         {
-            public CaseContext(): this
+            public BuildContext(): this
             (
-                Segments:  Expression.Variable(typeof(IEnumerator<string>),         nameof(Segments).ToLower()),
-                Converted: Expression.Variable(typeof(object),                      nameof(Converted).ToLower()),
+                Converted: Expression.Variable(typeof(object).MakeByRefType(),      nameof(Converted).ToLower()),
                 Params:    Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower()),
 
-                Request:  Expression.Parameter(typeof(TRequest),  nameof(Request).ToLower()),
-                UserData: Expression.Parameter(typeof(TUserData), nameof(UserData).ToLower()),
-                Path:     Expression.Parameter(typeof(string),    nameof(Path).ToLower())
+                Segments: Expression.Parameter(typeof(IEnumerator<string>), nameof(Segments).ToLower()),
+                Request:  Expression.Parameter(typeof(TRequest),            nameof(Request).ToLower()),
+                UserData: Expression.Parameter(typeof(TUserData),           nameof(UserData).ToLower()),
+                Path:     Expression.Parameter(typeof(string),              nameof(Path).ToLower())
             ) {}
         };
 
@@ -117,17 +118,6 @@ namespace Router.Internals
                 (Expression<Action<Dictionary<string, object?>>>)
                 (
                     static dict => dict.Add(null!, null)
-                )
-            ).Body
-        ).Method;
-
-        private static readonly MethodInfo FDispose =
-        (
-            (MethodCallExpression)
-            (
-                (Expression<Action<IEnumerator<string>>>)
-                (
-                    static enumerator => enumerator.Dispose()
                 )
             ).Body
         ).Method;
@@ -160,7 +150,7 @@ namespace Router.Internals
 
         private readonly Junction FRoot = new();
 
-        private Expression BuildJunction(Junction junction, CaseContext context)
+        private Expression BuildJunction(Junction junction, BuildContext context)
         {
             Expression
                 tryProcessNextJunction = Expression.IfThen
@@ -224,12 +214,41 @@ namespace Router.Internals
             );
         }
 
-        private static IEnumerator<string> GetSegments(string path) => PathSplitter.Split(path).GetEnumerator();
-
-
         public Router<TRequest, TUserData, TResponse> Build()
         {
-            throw new NotImplementedException();
+            BuildContext context = new();
+
+            Expression<Func<TRequest, IEnumerator<string>, TUserData, string, TResponse>> coreExpr = Expression.Lambda<Func<TRequest, IEnumerator<string>, TUserData, string, TResponse>>
+            (
+                body: Expression.Block
+                (
+                    type: typeof(TResponse),
+                    variables: new ParameterExpression[]
+                    {
+                        context.Params,
+                        context.Converted
+                    },
+                    Expression.Assign(context.Params, Expression.New(typeof(Dictionary<string, object?>))),
+                    BuildJunction(FRoot, context)
+                ),
+                parameters: new ParameterExpression[]
+                {
+                    context.Request,
+                    context.Segments,
+                    context.UserData,
+                    context.Path
+                }
+            );
+
+            Debug.WriteLine(coreExpr.GetDebugView());
+
+            Func<TRequest, IEnumerator<string>, TUserData, string, TResponse> core = coreExpr.Compile();
+
+            return (TRequest request, TUserData userData, string path) =>
+            {
+                using IEnumerator<string> segments = PathSplitter.Split(path).GetEnumerator();
+                return core(request, segments, userData, path);
+            };
         }
 
         public StringComparison StringComparison { get; init; } = StringComparison.OrdinalIgnoreCase;
