@@ -30,21 +30,17 @@ namespace Solti.Utils.Router.Internals
         {
             Match match = FTemplateMatcher.Match(segment);
             if (!match.Success)
-                return new RouteSegment(segment, null);
+                return new RouteSegment(segment, null, null);
 
             string
                 name      = match.Groups[nameof(name)].Value,
                 converter = match.Groups[nameof(converter)].Value,
                 param     = match.Groups[nameof(param)].Value;
 
-            if (!FConverters.TryGetValue(converter, out TryConvert converterFnCore))
+            if (!FConverters.TryGetValue(converter, out TryConvert converterFn))
                 throw new ArgumentException(string.Format(Resources.Culture, Resources.CONVERTER_NOT_FOUND, converter), nameof(input));
 
-            return new RouteSegment
-            (
-                name,
-                (string input, out object? value) => converterFnCore(input, param, out value)
-            );    
+            return new RouteSegment(name, converterFn, param);    
         });
     }
 }

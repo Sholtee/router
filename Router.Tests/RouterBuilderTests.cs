@@ -44,6 +44,19 @@ namespace Solti.Utils.Router.Tests
             Assert.Throws<ArgumentException>(() => builder.AddRoute(route, DummyHandler));          
         }
 
+        [TestCase("/{param:int}/cica", "/{param2:int}/cica")]
+        [TestCase("/cica/{param:int}", "/cica/{param2:int}")]
+        public void AddRouteShouldThrowOnDuplicateRegistration(string a, string b)
+        {
+            RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, new Dictionary<string, TryConvert>
+            {
+                { "int", IntParser }
+            });
+
+            Assert.DoesNotThrow(() => builder.AddRoute(a, DummyHandler));
+            Assert.Throws<ArgumentException>(() => builder.AddRoute(b, DummyHandler));
+        }
+
         [Test]
         public void AddRouteShouldThrowOnMissingConverter()
         {

@@ -203,6 +203,7 @@ namespace Solti.Utils.Router.Internals
                 (
                     Expression.Constant(junction.Segment.Converter),
                     Expression.Property(context.Segments, FCurrent),
+                    Expression.Constant(junction.Segment.ConverterParam),
                     context.Converted
                 ),
                 Expression.Block
@@ -282,7 +283,7 @@ namespace Solti.Utils.Router.Internals
                 {
                     Debug.Assert(child.Segment is not null, "Root cannot be a child");
 
-                    if (child.Segment!.Name.Equals(segment.Name, StringComparison))
+                    if (child.Segment!.Name.Equals(segment.Name, StringComparison) || (segment.Converter is not null && segment.Converter == child.Segment.Converter))
                     {
                         target = child;
                         found = true;
