@@ -18,7 +18,10 @@ namespace Solti.Utils.Router.Internals
         /// </summary>
         public static IEnumerable<T> Split<T>(string path, Func<char[], int, T> convert)
         {
-            char[] buffer = new char[path.Length];
+            char[]
+                resultBuffer = new char[path.Length],
+                hexBuffer = new char[2];
+
             int pos = 0;
 
             for (int i = 0; i < path.Length; i++)
@@ -39,9 +42,9 @@ namespace Solti.Utils.Router.Internals
                             //
 
                             if (pos == 0)
-                                throw new ArgumentException(Resources.INVALID_PATH, nameof(path));
+                                ThrowInvalidPath();
 
-                            yield return convert(buffer, pos);
+                            yield return convert(resultBuffer, pos);
                             pos = 0;
                         }
                         continue;
@@ -50,22 +53,39 @@ namespace Solti.Utils.Router.Internals
                         // Validate the HEX value.
                         //
 
-                        if (path.Length - i <= 2 || !byte.TryParse(path.Substring(i + 1, 2), NumberStyles.HexNumber, null, out byte chr))
-                            throw new ArgumentException(Resources.INVALID_PATH, nameof(path));
+                        if (path.Length - i > 2)
+                        {
+                            hexBuffer[0] = path[i + 1];
+                            hexBuffer[1] = path[i + 2];
 
-                        c = (char) chr;
-                        i += 2;
+                            if (byte.TryParse(hexBuffer, NumberStyles.HexNumber, null, out byte chr))
+                            {
+                                c = (char) chr;
+                                i += 2;
+                                break;
+                            }
+                        }
+
+                        ThrowInvalidPath();
                         break;
                     case '+':
                         c = ' ';
                         break;
                 }
 
-                buffer[pos++] = c;
+                resultBuffer[pos++] = c;
+
+                void ThrowInvalidPath()
+                {
+                    ArgumentException ex = new(Resources.INVALID_PATH, nameof(path));
+                    ex.Data["Position"] = i;
+                    ex.Data["Path"] = path;
+                    throw ex;
+                }
             }
 
             if (pos > 0)
-                yield return convert(buffer, pos);
+                yield return convert(resultBuffer, pos);
         }
 
         public static IEnumerable<string> Split(string path) => Split
