@@ -73,32 +73,18 @@ namespace Solti.Utils.Router.Internals
         private sealed class Junction
         {
             public RouteSegment? Segment { get; init; }  // null at "/"
-
             public Handler<TRequest, TUserData, TResponse>? Handler { get; set; }
-
             public IList<Junction> Children { get; } = new List<Junction>();
         }
 
-        private sealed record BuildContext
-        (
-            ParameterExpression Segments,
-            ParameterExpression Request,
-            ParameterExpression Params,
-            ParameterExpression UserData,
-            ParameterExpression Path,
-            ParameterExpression Converted
-        )
+        private sealed class BuildContext
         {
-            public BuildContext(): this
-            (
-                Converted: Expression.Variable(typeof(object),                      nameof(Converted).ToLower()),
-                Params:    Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower()),
-
-                Segments: Expression.Parameter(typeof(IEnumerator<string>), nameof(Segments).ToLower()),
-                Request:  Expression.Parameter(typeof(TRequest),            nameof(Request).ToLower()),
-                UserData: Expression.Parameter(typeof(TUserData),           nameof(UserData).ToLower()),
-                Path:     Expression.Parameter(typeof(string),              nameof(Path).ToLower())
-            ) {}
+            public ParameterExpression Segments { get; } = Expression.Parameter(typeof(IEnumerator<string>), nameof(Segments).ToLower());
+            public ParameterExpression Request { get; } = Expression.Parameter(typeof(TRequest), nameof(Request).ToLower());
+            public ParameterExpression Params { get; } = Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower());
+            public ParameterExpression UserData { get; } = Expression.Parameter(typeof(TUserData), nameof(UserData).ToLower());
+            public ParameterExpression Path { get; } = Expression.Parameter(typeof(string), nameof(Path).ToLower());
+            public ParameterExpression Converted { get; } = Expression.Variable(typeof(object), nameof(Converted).ToLower());
         };
 
         private static readonly MethodInfo FMoveNext =
@@ -283,7 +269,7 @@ namespace Solti.Utils.Router.Internals
                 {
                     Debug.Assert(child.Segment is not null, "Root cannot be a child");
 
-                    if (child.Segment!.Name.Equals(segment.Name, StringComparison) || (segment.Converter is not null && segment.Converter == child.Segment.Converter))
+                    if (segment.Name.Equals(child.Segment.Name, StringComparison) || (segment.Converter is not null && segment.Converter == child.Segment.Converter))
                     {
                         target = child;
                         found = true;
