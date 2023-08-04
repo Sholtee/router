@@ -195,8 +195,8 @@ namespace Solti.Utils.Router.Internals
                 Expression.Block
                 (
                     type: typeof(TResponse),
-                    tryProcessNextJunction,
                     Expression.Call(context.Params, FAddParam, Expression.Constant(junction.Segment.Name), context.Converted),
+                    tryProcessNextJunction,
                     invokeHandler
                 )
             );
