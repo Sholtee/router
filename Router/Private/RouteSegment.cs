@@ -3,7 +3,6 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
-
 namespace Solti.Utils.Router.Internals
 {
     /// <summary>

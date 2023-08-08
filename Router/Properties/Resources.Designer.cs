@@ -61,6 +61,15 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} cannot be null..
+        /// </summary>
+        internal static string CANNOT_BE_NULL {
+            get {
+                return ResourceManager.GetString("CANNOT_BE_NULL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Converter cannot be found: {0}.
         /// </summary>
         internal static string CONVERTER_NOT_FOUND {

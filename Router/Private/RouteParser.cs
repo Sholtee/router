@@ -20,7 +20,7 @@ namespace Solti.Utils.Router.Internals
     /// </remarks>
     internal sealed class RouteParser
     {
-        private static readonly Regex FTemplateMatcher = new("^{(?<name>\\w+):(?<converter>\\w+)(?::(?<param>\\w+))?}$", RegexOptions.Compiled);
+        private static readonly Regex FTemplateMatcher = new("^{(?<name>\\w+)?(?::(?<converter>\\w+)?)?(?::(?<param>\\w+)?)?}$", RegexOptions.Compiled);
 
         private readonly IReadOnlyDictionary<string, TryConvert> FConverters;
 
@@ -32,15 +32,27 @@ namespace Solti.Utils.Router.Internals
             if (!match.Success)
                 return new RouteSegment(segment, null, null);
 
-            string
-                name      = match.Groups[nameof(name)].Value,
-                converter = match.Groups[nameof(converter)].Value,
-                param     = match.Groups[nameof(param)].Value;
+            string?
+                name      = GetMatch(nameof(name)),
+                converter = GetMatch(nameof(converter)),
+                param     = GetMatch(nameof(param));
+
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentException(string.Format(Resources.Culture, Resources.CANNOT_BE_NULL, nameof(name)), nameof(input));
+
+            if (string.IsNullOrEmpty(converter))
+                throw new ArgumentException(string.Format(Resources.Culture, Resources.CANNOT_BE_NULL, nameof(converter)), nameof(input));
 
             if (!FConverters.TryGetValue(converter, out TryConvert converterFn))
                 throw new ArgumentException(string.Format(Resources.Culture, Resources.CONVERTER_NOT_FOUND, converter), nameof(input));
 
-            return new RouteSegment(name, converterFn, param);    
+            return new RouteSegment(name, converterFn, param); 
+            
+            string? GetMatch(string name)
+            {
+                Group group = match.Groups[name];
+                return group.Success ? group.Value : null;
+            }
         });
     }
 }
