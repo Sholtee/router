@@ -73,7 +73,7 @@ namespace Solti.Utils.Router.Internals
         private sealed class Junction
         {
             public RouteSegment? Segment { get; init; }  // null at "/"
-            public Handler<TRequest, TUserData, TResponse>? Handler { get; set; }
+            public Handler<TRequest, TUserData?, TResponse>? Handler { get; set; }
             public IList<Junction> Children { get; } = new List<Junction>();
         }
 
@@ -82,7 +82,7 @@ namespace Solti.Utils.Router.Internals
             public ParameterExpression Segments { get; } = Expression.Parameter(typeof(IEnumerator<string>), nameof(Segments).ToLower());
             public ParameterExpression Request { get; } = Expression.Parameter(typeof(TRequest), nameof(Request).ToLower());
             public ParameterExpression Params { get; } = Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower());
-            public ParameterExpression UserData { get; } = Expression.Parameter(typeof(TUserData), nameof(UserData).ToLower());
+            public ParameterExpression UserData { get; } = Expression.Parameter(typeof(TUserData?), nameof(UserData).ToLower());
             public ParameterExpression Path { get; } = Expression.Parameter(typeof(string), nameof(Path).ToLower());
             public ParameterExpression Converted { get; } = Expression.Variable(typeof(object), nameof(Converted).ToLower());
         };
@@ -208,7 +208,7 @@ namespace Solti.Utils.Router.Internals
         }
 
         /// <summary>
-        /// Builds the actual <see cref="Router{TRequest, TUserData, TResponse}"/>.
+        /// Builds the actual <see cref="Router{TRequest, TUserData?, TResponse}"/>.
         /// </summary>
         public Router<TRequest, TUserData?, TResponse> Build()
         {
@@ -273,7 +273,7 @@ namespace Solti.Utils.Router.Internals
         /// <param name="route">Route to be registered.</param>
         /// <param name="handler">Function accepting requests on the given route.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(string route, Handler<TRequest, TUserData, TResponse> handler)
+        public void AddRoute(string route, Handler<TRequest, TUserData?, TResponse> handler)
         {
             Junction target = FRoot;
 
