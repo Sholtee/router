@@ -27,7 +27,7 @@ namespace Solti.Utils.Router.Tests
             return false;
         }
 
-        private static object? DummyHandler(object request, IReadOnlyDictionary<string, object?> paramz, object userData, string path) => null;
+        private static object? DummyHandler(object request, IReadOnlyDictionary<string, object?> paramz, object? userData, string path) => null;
 
         [TestCase("")]
         [TestCase("/")]

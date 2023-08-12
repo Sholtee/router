@@ -26,5 +26,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Router\Router.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="routerTestCases.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 	
 </Project>

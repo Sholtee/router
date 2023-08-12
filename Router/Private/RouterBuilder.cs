@@ -18,7 +18,7 @@ namespace Solti.Utils.Router.Internals
     /// <summary>
     /// Builds the switch statement which does the actual routing.
     /// <code>
-    /// TResponse Route(TRequest request, TUserData userData, string path)
+    /// TResponse Route(TRequest request, TUserData? userData, string path)
     /// { 
     ///     using(IEnumerator&lt;string&gt; segments = PathSplitter.Split(path).GetEnumerator())
     ///     {
@@ -85,6 +85,7 @@ namespace Solti.Utils.Router.Internals
             public ParameterExpression UserData { get; } = Expression.Parameter(typeof(TUserData?), nameof(UserData).ToLower());
             public ParameterExpression Path { get; } = Expression.Parameter(typeof(string), nameof(Path).ToLower());
             public ParameterExpression Converted { get; } = Expression.Variable(typeof(object), nameof(Converted).ToLower());
+            public LabelTarget Exit { get; } = Expression.Label(typeof(TResponse), nameof(Exit));
         };
 
         private static readonly MethodInfo FMoveNext =
@@ -148,12 +149,21 @@ namespace Solti.Utils.Router.Internals
                             .Children
                             .Select(junction => BuildJunction(junction, context))
                             // default handler
-                            .Append(Expression.Invoke(Expression.Constant(DefaultHandler), context.Request, context.UserData, context.Path))
+                            .Append
+                            (
+                                Return
+                                (
+                                    Expression.Invoke(Expression.Constant(DefaultHandler), context.Request, context.UserData, context.Path)
+                                )
+                            )
                     )
                 ),
-                invokeHandler = junction.Handler is not null
-                    ? Expression.Invoke(Expression.Constant(junction.Handler), context.Request, context.Params, context.UserData, context.Path)
-                    : Expression.Invoke(Expression.Constant(DefaultHandler), context.Request, context.UserData, context.Path);
+                invokeHandler = Return
+                (
+                    junction.Handler is not null
+                        ? Expression.Invoke(Expression.Constant(junction.Handler), context.Request, context.Params, context.UserData, context.Path)
+                        : Expression.Invoke(Expression.Constant(DefaultHandler), context.Request, context.UserData, context.Path)
+                );
 
             if (junction.Segment is null)  // root node, no segment
                 return Expression.Block
@@ -198,6 +208,13 @@ namespace Solti.Utils.Router.Internals
                     invokeHandler
                 )
             );
+
+            Expression Return(InvocationExpression invocation) => Expression.Return
+            (
+                context.Exit,
+                invocation,
+                typeof(TResponse)
+            );
         }
         #endregion
 
@@ -225,7 +242,8 @@ namespace Solti.Utils.Router.Internals
                         context.Converted
                     },
                     Expression.Assign(context.Params, Expression.New(typeof(Dictionary<string, object?>))),
-                    BuildJunction(FRoot, context)
+                    BuildJunction(FRoot, context),
+                    Expression.Label(context.Exit, Expression.Constant(default(TResponse)))
                 ),
                 parameters: new ParameterExpression[]
                 {

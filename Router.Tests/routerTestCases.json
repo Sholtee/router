@@ -1,0 +1,33 @@
+[
+	// deepness = 1 + param 
+	{
+		"routes": ["/{param:int}"],
+		"inputs": {
+			"/1986/": {
+				"param": 1986
+			},
+			"/1986": {
+				"param": 1986
+			},
+			"/1986x": null,
+			"/cica": null,
+			"/cica/1986": null
+		}
+	},
+	// deepness = 2 + prefix + param 
+	{
+		"routes": ["id/num-{param:int}"],
+		"inputs": {
+			"id/num-1986/": {
+				"param": 1986
+			},
+			"id/num-1986": {
+				"param": 1986
+			},
+			"/": null,
+			"/id": null,
+			"/id/1986": null,
+			"id/num-1986x": null
+		}
+	}
+]
