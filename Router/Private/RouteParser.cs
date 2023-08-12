@@ -22,7 +22,7 @@ namespace Solti.Utils.Router.Internals
     /// </remarks>
     internal class RouteParser
     {
-        private static readonly Regex FTemplateMatcher = new("^(?<prefix>.+)?{(?<name>\\w+)?(?::(?<converter>\\w+)?)?(?::(?<param>\\w+)?)?}(?<suffix>.+)?$", RegexOptions.Compiled);
+        private static readonly Regex FTemplateMatcher = new("{(?<name>\\w+)?(?::(?<converter>\\w+)?)?(?::(?<param>\\w+)?)?}", RegexOptions.Compiled);
 
         protected virtual TryConvert Wrap(string prefix, string suffix, TryConvert original) => (string input, string? userData, out object? value) =>
         {
@@ -65,19 +65,18 @@ namespace Solti.Utils.Router.Internals
             if (!Converters.TryGetValue(converter, out TryConvert converterFn))
                 throw new ArgumentException(Format(Culture, CONVERTER_NOT_FOUND, converter), nameof(input));
 
-            string
-                prefix = GetMatch("prefix", Empty)!,
-                suffix = GetMatch("suffix", Empty)!;
-
-            if (!IsNullOrEmpty(prefix) || !IsNullOrEmpty(suffix))
-                converterFn = Wrap(prefix, suffix, converterFn);
-
+            if (match[0].ToString() != segment)
+            {
+                string[] extra = segment.Split(match[0].ToString(), StringSplitOptions.None);
+                converterFn = Wrap(extra[0], extra[1], converterFn);
+            }
+            
             return new RouteSegment(name, converterFn, GetMatch("param")); 
             
-            string? GetMatch(string name, string? @default = null)
+            string? GetMatch(string name)
             {
                 Group group = match[0].Groups[name];
-                return group.Success ? group.Value : @default;
+                return group.Success ? group.Value : null;
             }
         });
     }
