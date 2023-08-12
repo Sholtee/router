@@ -1,0 +1,293 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: Solti.Utils.Router
+  name: Solti.Utils.Router
+  href: Solti.Utils.Router.html
+  commentId: N:Solti.Utils.Router
+  fullName: Solti.Utils.Router
+  nameWithType: Solti.Utils.Router
+- uid: Solti.Utils.Router.DefaultHandler`3
+  name: DefaultHandler<TRequest, TUserData, TResponse>
+  href: Solti.Utils.Router.DefaultHandler-3.html
+  commentId: T:Solti.Utils.Router.DefaultHandler`3
+  name.vb: DefaultHandler(Of TRequest, TUserData, TResponse)
+  fullName: Solti.Utils.Router.DefaultHandler<TRequest, TUserData, TResponse>
+  fullName.vb: Solti.Utils.Router.DefaultHandler(Of TRequest, TUserData, TResponse)
+  nameWithType: DefaultHandler<TRequest, TUserData, TResponse>
+  nameWithType.vb: DefaultHandler(Of TRequest, TUserData, TResponse)
+- uid: Solti.Utils.Router.DefaultHandler`3.#ctor(System.Object,System.IntPtr)
+  name: DefaultHandler(Object, IntPtr)
+  href: Solti.Utils.Router.DefaultHandler-3.html#Solti_Utils_Router_DefaultHandler_3__ctor_System_Object_System_IntPtr_
+  commentId: M:Solti.Utils.Router.DefaultHandler`3.#ctor(System.Object,System.IntPtr)
+  fullName: Solti.Utils.Router.DefaultHandler<TRequest, TUserData, TResponse>.DefaultHandler(System.Object, System.IntPtr)
+  fullName.vb: Solti.Utils.Router.DefaultHandler(Of TRequest, TUserData, TResponse).DefaultHandler(System.Object, System.IntPtr)
+  nameWithType: DefaultHandler<TRequest, TUserData, TResponse>.DefaultHandler(Object, IntPtr)
+  nameWithType.vb: DefaultHandler(Of TRequest, TUserData, TResponse).DefaultHandler(Object, IntPtr)
+- uid: Solti.Utils.Router.DefaultHandler`3.#ctor*
+  name: DefaultHandler
+  href: Solti.Utils.Router.DefaultHandler-3.html#Solti_Utils_Router_DefaultHandler_3__ctor_
+  commentId: Overload:Solti.Utils.Router.DefaultHandler`3.#ctor
+  fullName: Solti.Utils.Router.DefaultHandler<TRequest, TUserData, TResponse>.DefaultHandler
+  fullName.vb: Solti.Utils.Router.DefaultHandler(Of TRequest, TUserData, TResponse).DefaultHandler
+  nameWithType: DefaultHandler<TRequest, TUserData, TResponse>.DefaultHandler
+  nameWithType.vb: DefaultHandler(Of TRequest, TUserData, TResponse).DefaultHandler
+- uid: Solti.Utils.Router.DefaultHandler`3.BeginInvoke(`0,`1,System.String,System.AsyncCallback,System.Object)
+  name: BeginInvoke(TRequest, TUserData, String, AsyncCallback, Object)
+  href: Solti.Utils.Router.DefaultHandler-3.html#Solti_Utils_Router_DefaultHandler_3_BeginInvoke__0__1_System_String_System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Router.DefaultHandler`3.BeginInvoke(`0,`1,System.String,System.AsyncCallback,System.Object)
+  fullName: Solti.Utils.Router.DefaultHandler<TRequest, TUserData, TResponse>.BeginInvoke(TRequest, TUserData, System.String, System.AsyncCallback, System.Object)
+  fullName.vb: Solti.Utils.Router.DefaultHandler(Of TRequest, TUserData, TResponse).BeginInvoke(TRequest, TUserData, System.String, System.AsyncCallback, System.Object)
+  nameWithType: DefaultHandler<TRequest, TUserData, TResponse>.BeginInvoke(TRequest, TUserData, String, AsyncCallback, Object)
+  nameWithType.vb: DefaultHandler(Of TRequest, TUserData, TResponse).BeginInvoke(TRequest, TUserData, String, AsyncCallback, Object)
+- uid: Solti.Utils.Router.DefaultHandler`3.BeginInvoke*
+  name: BeginInvoke
+  href: Solti.Utils.Router.DefaultHandler-3.html#Solti_Utils_Router_DefaultHandler_3_BeginInvoke_
+  commentId: Overload:Solti.Utils.Router.DefaultHandler`3.BeginInvoke
+  fullName: Solti.Utils.Router.DefaultHandler<TRequest, TUserData, TResponse>.BeginInvoke
+  fullName.vb: Solti.Utils.Router.DefaultHandler(Of TRequest, TUserData, TResponse).BeginInvoke
+  nameWithType: DefaultHandler<TRequest, TUserData, TResponse>.BeginInvoke
+  nameWithType.vb: DefaultHandler(Of TRequest, TUserData, TResponse).BeginInvoke
+- uid: Solti.Utils.Router.DefaultHandler`3.EndInvoke(System.IAsyncResult)
+  name: EndInvoke(IAsyncResult)
+  href: Solti.Utils.Router.DefaultHandler-3.html#Solti_Utils_Router_DefaultHandler_3_EndInvoke_System_IAsyncResult_
+  commentId: M:Solti.Utils.Router.DefaultHandler`3.EndInvoke(System.IAsyncResult)
+  fullName: Solti.Utils.Router.DefaultHandler<TRequest, TUserData, TResponse>.EndInvoke(System.IAsyncResult)
+  fullName.vb: Solti.Utils.Router.DefaultHandler(Of TRequest, TUserData, TResponse).EndInvoke(System.IAsyncResult)
+  nameWithType: DefaultHandler<TRequest, TUserData, TResponse>.EndInvoke(IAsyncResult)
+  nameWithType.vb: DefaultHandler(Of TRequest, TUserData, TResponse).EndInvoke(IAsyncResult)
+- uid: Solti.Utils.Router.DefaultHandler`3.EndInvoke*
+  name: EndInvoke
+  href: Solti.Utils.Router.DefaultHandler-3.html#Solti_Utils_Router_DefaultHandler_3_EndInvoke_
+  commentId: Overload:Solti.Utils.Router.DefaultHandler`3.EndInvoke
+  fullName: Solti.Utils.Router.DefaultHandler<TRequest, TUserData, TResponse>.EndInvoke
+  fullName.vb: Solti.Utils.Router.DefaultHandler(Of TRequest, TUserData, TResponse).EndInvoke
+  nameWithType: DefaultHandler<TRequest, TUserData, TResponse>.EndInvoke
+  nameWithType.vb: DefaultHandler(Of TRequest, TUserData, TResponse).EndInvoke
+- uid: Solti.Utils.Router.DefaultHandler`3.Invoke(`0,`1,System.String)
+  name: Invoke(TRequest, TUserData, String)
+  href: Solti.Utils.Router.DefaultHandler-3.html#Solti_Utils_Router_DefaultHandler_3_Invoke__0__1_System_String_
+  commentId: M:Solti.Utils.Router.DefaultHandler`3.Invoke(`0,`1,System.String)
+  fullName: Solti.Utils.Router.DefaultHandler<TRequest, TUserData, TResponse>.Invoke(TRequest, TUserData, System.String)
+  fullName.vb: Solti.Utils.Router.DefaultHandler(Of TRequest, TUserData, TResponse).Invoke(TRequest, TUserData, System.String)
+  nameWithType: DefaultHandler<TRequest, TUserData, TResponse>.Invoke(TRequest, TUserData, String)
+  nameWithType.vb: DefaultHandler(Of TRequest, TUserData, TResponse).Invoke(TRequest, TUserData, String)
+- uid: Solti.Utils.Router.DefaultHandler`3.Invoke*
+  name: Invoke
+  href: Solti.Utils.Router.DefaultHandler-3.html#Solti_Utils_Router_DefaultHandler_3_Invoke_
+  commentId: Overload:Solti.Utils.Router.DefaultHandler`3.Invoke
+  fullName: Solti.Utils.Router.DefaultHandler<TRequest, TUserData, TResponse>.Invoke
+  fullName.vb: Solti.Utils.Router.DefaultHandler(Of TRequest, TUserData, TResponse).Invoke
+  nameWithType: DefaultHandler<TRequest, TUserData, TResponse>.Invoke
+  nameWithType.vb: DefaultHandler(Of TRequest, TUserData, TResponse).Invoke
+- uid: Solti.Utils.Router.Handler`3
+  name: Handler<TRequest, TUserData, TResponse>
+  href: Solti.Utils.Router.Handler-3.html
+  commentId: T:Solti.Utils.Router.Handler`3
+  name.vb: Handler(Of TRequest, TUserData, TResponse)
+  fullName: Solti.Utils.Router.Handler<TRequest, TUserData, TResponse>
+  fullName.vb: Solti.Utils.Router.Handler(Of TRequest, TUserData, TResponse)
+  nameWithType: Handler<TRequest, TUserData, TResponse>
+  nameWithType.vb: Handler(Of TRequest, TUserData, TResponse)
+- uid: Solti.Utils.Router.Handler`3.#ctor(System.Object,System.IntPtr)
+  name: Handler(Object, IntPtr)
+  href: Solti.Utils.Router.Handler-3.html#Solti_Utils_Router_Handler_3__ctor_System_Object_System_IntPtr_
+  commentId: M:Solti.Utils.Router.Handler`3.#ctor(System.Object,System.IntPtr)
+  fullName: Solti.Utils.Router.Handler<TRequest, TUserData, TResponse>.Handler(System.Object, System.IntPtr)
+  fullName.vb: Solti.Utils.Router.Handler(Of TRequest, TUserData, TResponse).Handler(System.Object, System.IntPtr)
+  nameWithType: Handler<TRequest, TUserData, TResponse>.Handler(Object, IntPtr)
+  nameWithType.vb: Handler(Of TRequest, TUserData, TResponse).Handler(Object, IntPtr)
+- uid: Solti.Utils.Router.Handler`3.#ctor*
+  name: Handler
+  href: Solti.Utils.Router.Handler-3.html#Solti_Utils_Router_Handler_3__ctor_
+  commentId: Overload:Solti.Utils.Router.Handler`3.#ctor
+  fullName: Solti.Utils.Router.Handler<TRequest, TUserData, TResponse>.Handler
+  fullName.vb: Solti.Utils.Router.Handler(Of TRequest, TUserData, TResponse).Handler
+  nameWithType: Handler<TRequest, TUserData, TResponse>.Handler
+  nameWithType.vb: Handler(Of TRequest, TUserData, TResponse).Handler
+- uid: Solti.Utils.Router.Handler`3.BeginInvoke(`0,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},`1,System.String,System.AsyncCallback,System.Object)
+  name: BeginInvoke(TRequest, IReadOnlyDictionary<String, Object>, TUserData, String, AsyncCallback, Object)
+  href: Solti.Utils.Router.Handler-3.html#Solti_Utils_Router_Handler_3_BeginInvoke__0_System_Collections_Generic_IReadOnlyDictionary_System_String_System_Object___1_System_String_System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Router.Handler`3.BeginInvoke(`0,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},`1,System.String,System.AsyncCallback,System.Object)
+  name.vb: BeginInvoke(TRequest, IReadOnlyDictionary(Of String, Object), TUserData, String, AsyncCallback, Object)
+  fullName: Solti.Utils.Router.Handler<TRequest, TUserData, TResponse>.BeginInvoke(TRequest, System.Collections.Generic.IReadOnlyDictionary<System.String, System.Object>, TUserData, System.String, System.AsyncCallback, System.Object)
+  fullName.vb: Solti.Utils.Router.Handler(Of TRequest, TUserData, TResponse).BeginInvoke(TRequest, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.Object), TUserData, System.String, System.AsyncCallback, System.Object)
+  nameWithType: Handler<TRequest, TUserData, TResponse>.BeginInvoke(TRequest, IReadOnlyDictionary<String, Object>, TUserData, String, AsyncCallback, Object)
+  nameWithType.vb: Handler(Of TRequest, TUserData, TResponse).BeginInvoke(TRequest, IReadOnlyDictionary(Of String, Object), TUserData, String, AsyncCallback, Object)
+- uid: Solti.Utils.Router.Handler`3.BeginInvoke*
+  name: BeginInvoke
+  href: Solti.Utils.Router.Handler-3.html#Solti_Utils_Router_Handler_3_BeginInvoke_
+  commentId: Overload:Solti.Utils.Router.Handler`3.BeginInvoke
+  fullName: Solti.Utils.Router.Handler<TRequest, TUserData, TResponse>.BeginInvoke
+  fullName.vb: Solti.Utils.Router.Handler(Of TRequest, TUserData, TResponse).BeginInvoke
+  nameWithType: Handler<TRequest, TUserData, TResponse>.BeginInvoke
+  nameWithType.vb: Handler(Of TRequest, TUserData, TResponse).BeginInvoke
+- uid: Solti.Utils.Router.Handler`3.EndInvoke(System.IAsyncResult)
+  name: EndInvoke(IAsyncResult)
+  href: Solti.Utils.Router.Handler-3.html#Solti_Utils_Router_Handler_3_EndInvoke_System_IAsyncResult_
+  commentId: M:Solti.Utils.Router.Handler`3.EndInvoke(System.IAsyncResult)
+  fullName: Solti.Utils.Router.Handler<TRequest, TUserData, TResponse>.EndInvoke(System.IAsyncResult)
+  fullName.vb: Solti.Utils.Router.Handler(Of TRequest, TUserData, TResponse).EndInvoke(System.IAsyncResult)
+  nameWithType: Handler<TRequest, TUserData, TResponse>.EndInvoke(IAsyncResult)
+  nameWithType.vb: Handler(Of TRequest, TUserData, TResponse).EndInvoke(IAsyncResult)
+- uid: Solti.Utils.Router.Handler`3.EndInvoke*
+  name: EndInvoke
+  href: Solti.Utils.Router.Handler-3.html#Solti_Utils_Router_Handler_3_EndInvoke_
+  commentId: Overload:Solti.Utils.Router.Handler`3.EndInvoke
+  fullName: Solti.Utils.Router.Handler<TRequest, TUserData, TResponse>.EndInvoke
+  fullName.vb: Solti.Utils.Router.Handler(Of TRequest, TUserData, TResponse).EndInvoke
+  nameWithType: Handler<TRequest, TUserData, TResponse>.EndInvoke
+  nameWithType.vb: Handler(Of TRequest, TUserData, TResponse).EndInvoke
+- uid: Solti.Utils.Router.Handler`3.Invoke(`0,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},`1,System.String)
+  name: Invoke(TRequest, IReadOnlyDictionary<String, Object>, TUserData, String)
+  href: Solti.Utils.Router.Handler-3.html#Solti_Utils_Router_Handler_3_Invoke__0_System_Collections_Generic_IReadOnlyDictionary_System_String_System_Object___1_System_String_
+  commentId: M:Solti.Utils.Router.Handler`3.Invoke(`0,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},`1,System.String)
+  name.vb: Invoke(TRequest, IReadOnlyDictionary(Of String, Object), TUserData, String)
+  fullName: Solti.Utils.Router.Handler<TRequest, TUserData, TResponse>.Invoke(TRequest, System.Collections.Generic.IReadOnlyDictionary<System.String, System.Object>, TUserData, System.String)
+  fullName.vb: Solti.Utils.Router.Handler(Of TRequest, TUserData, TResponse).Invoke(TRequest, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.Object), TUserData, System.String)
+  nameWithType: Handler<TRequest, TUserData, TResponse>.Invoke(TRequest, IReadOnlyDictionary<String, Object>, TUserData, String)
+  nameWithType.vb: Handler(Of TRequest, TUserData, TResponse).Invoke(TRequest, IReadOnlyDictionary(Of String, Object), TUserData, String)
+- uid: Solti.Utils.Router.Handler`3.Invoke*
+  name: Invoke
+  href: Solti.Utils.Router.Handler-3.html#Solti_Utils_Router_Handler_3_Invoke_
+  commentId: Overload:Solti.Utils.Router.Handler`3.Invoke
+  fullName: Solti.Utils.Router.Handler<TRequest, TUserData, TResponse>.Invoke
+  fullName.vb: Solti.Utils.Router.Handler(Of TRequest, TUserData, TResponse).Invoke
+  nameWithType: Handler<TRequest, TUserData, TResponse>.Invoke
+  nameWithType.vb: Handler(Of TRequest, TUserData, TResponse).Invoke
+- uid: Solti.Utils.Router.Router`3
+  name: Router<TRequest, TUserData, TResponse>
+  href: Solti.Utils.Router.Router-3.html
+  commentId: T:Solti.Utils.Router.Router`3
+  name.vb: Router(Of TRequest, TUserData, TResponse)
+  fullName: Solti.Utils.Router.Router<TRequest, TUserData, TResponse>
+  fullName.vb: Solti.Utils.Router.Router(Of TRequest, TUserData, TResponse)
+  nameWithType: Router<TRequest, TUserData, TResponse>
+  nameWithType.vb: Router(Of TRequest, TUserData, TResponse)
+- uid: Solti.Utils.Router.Router`3.#ctor(System.Object,System.IntPtr)
+  name: Router(Object, IntPtr)
+  href: Solti.Utils.Router.Router-3.html#Solti_Utils_Router_Router_3__ctor_System_Object_System_IntPtr_
+  commentId: M:Solti.Utils.Router.Router`3.#ctor(System.Object,System.IntPtr)
+  fullName: Solti.Utils.Router.Router<TRequest, TUserData, TResponse>.Router(System.Object, System.IntPtr)
+  fullName.vb: Solti.Utils.Router.Router(Of TRequest, TUserData, TResponse).Router(System.Object, System.IntPtr)
+  nameWithType: Router<TRequest, TUserData, TResponse>.Router(Object, IntPtr)
+  nameWithType.vb: Router(Of TRequest, TUserData, TResponse).Router(Object, IntPtr)
+- uid: Solti.Utils.Router.Router`3.#ctor*
+  name: Router
+  href: Solti.Utils.Router.Router-3.html#Solti_Utils_Router_Router_3__ctor_
+  commentId: Overload:Solti.Utils.Router.Router`3.#ctor
+  fullName: Solti.Utils.Router.Router<TRequest, TUserData, TResponse>.Router
+  fullName.vb: Solti.Utils.Router.Router(Of TRequest, TUserData, TResponse).Router
+  nameWithType: Router<TRequest, TUserData, TResponse>.Router
+  nameWithType.vb: Router(Of TRequest, TUserData, TResponse).Router
+- uid: Solti.Utils.Router.Router`3.BeginInvoke(`0,`1,System.String,System.AsyncCallback,System.Object)
+  name: BeginInvoke(TRequest, TUserData, String, AsyncCallback, Object)
+  href: Solti.Utils.Router.Router-3.html#Solti_Utils_Router_Router_3_BeginInvoke__0__1_System_String_System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Router.Router`3.BeginInvoke(`0,`1,System.String,System.AsyncCallback,System.Object)
+  fullName: Solti.Utils.Router.Router<TRequest, TUserData, TResponse>.BeginInvoke(TRequest, TUserData, System.String, System.AsyncCallback, System.Object)
+  fullName.vb: Solti.Utils.Router.Router(Of TRequest, TUserData, TResponse).BeginInvoke(TRequest, TUserData, System.String, System.AsyncCallback, System.Object)
+  nameWithType: Router<TRequest, TUserData, TResponse>.BeginInvoke(TRequest, TUserData, String, AsyncCallback, Object)
+  nameWithType.vb: Router(Of TRequest, TUserData, TResponse).BeginInvoke(TRequest, TUserData, String, AsyncCallback, Object)
+- uid: Solti.Utils.Router.Router`3.BeginInvoke*
+  name: BeginInvoke
+  href: Solti.Utils.Router.Router-3.html#Solti_Utils_Router_Router_3_BeginInvoke_
+  commentId: Overload:Solti.Utils.Router.Router`3.BeginInvoke
+  fullName: Solti.Utils.Router.Router<TRequest, TUserData, TResponse>.BeginInvoke
+  fullName.vb: Solti.Utils.Router.Router(Of TRequest, TUserData, TResponse).BeginInvoke
+  nameWithType: Router<TRequest, TUserData, TResponse>.BeginInvoke
+  nameWithType.vb: Router(Of TRequest, TUserData, TResponse).BeginInvoke
+- uid: Solti.Utils.Router.Router`3.EndInvoke(System.IAsyncResult)
+  name: EndInvoke(IAsyncResult)
+  href: Solti.Utils.Router.Router-3.html#Solti_Utils_Router_Router_3_EndInvoke_System_IAsyncResult_
+  commentId: M:Solti.Utils.Router.Router`3.EndInvoke(System.IAsyncResult)
+  fullName: Solti.Utils.Router.Router<TRequest, TUserData, TResponse>.EndInvoke(System.IAsyncResult)
+  fullName.vb: Solti.Utils.Router.Router(Of TRequest, TUserData, TResponse).EndInvoke(System.IAsyncResult)
+  nameWithType: Router<TRequest, TUserData, TResponse>.EndInvoke(IAsyncResult)
+  nameWithType.vb: Router(Of TRequest, TUserData, TResponse).EndInvoke(IAsyncResult)
+- uid: Solti.Utils.Router.Router`3.EndInvoke*
+  name: EndInvoke
+  href: Solti.Utils.Router.Router-3.html#Solti_Utils_Router_Router_3_EndInvoke_
+  commentId: Overload:Solti.Utils.Router.Router`3.EndInvoke
+  fullName: Solti.Utils.Router.Router<TRequest, TUserData, TResponse>.EndInvoke
+  fullName.vb: Solti.Utils.Router.Router(Of TRequest, TUserData, TResponse).EndInvoke
+  nameWithType: Router<TRequest, TUserData, TResponse>.EndInvoke
+  nameWithType.vb: Router(Of TRequest, TUserData, TResponse).EndInvoke
+- uid: Solti.Utils.Router.Router`3.Invoke(`0,`1,System.String)
+  name: Invoke(TRequest, TUserData, String)
+  href: Solti.Utils.Router.Router-3.html#Solti_Utils_Router_Router_3_Invoke__0__1_System_String_
+  commentId: M:Solti.Utils.Router.Router`3.Invoke(`0,`1,System.String)
+  fullName: Solti.Utils.Router.Router<TRequest, TUserData, TResponse>.Invoke(TRequest, TUserData, System.String)
+  fullName.vb: Solti.Utils.Router.Router(Of TRequest, TUserData, TResponse).Invoke(TRequest, TUserData, System.String)
+  nameWithType: Router<TRequest, TUserData, TResponse>.Invoke(TRequest, TUserData, String)
+  nameWithType.vb: Router(Of TRequest, TUserData, TResponse).Invoke(TRequest, TUserData, String)
+- uid: Solti.Utils.Router.Router`3.Invoke*
+  name: Invoke
+  href: Solti.Utils.Router.Router-3.html#Solti_Utils_Router_Router_3_Invoke_
+  commentId: Overload:Solti.Utils.Router.Router`3.Invoke
+  fullName: Solti.Utils.Router.Router<TRequest, TUserData, TResponse>.Invoke
+  fullName.vb: Solti.Utils.Router.Router(Of TRequest, TUserData, TResponse).Invoke
+  nameWithType: Router<TRequest, TUserData, TResponse>.Invoke
+  nameWithType.vb: Router(Of TRequest, TUserData, TResponse).Invoke
+- uid: Solti.Utils.Router.TryConvert
+  name: TryConvert
+  href: Solti.Utils.Router.TryConvert.html
+  commentId: T:Solti.Utils.Router.TryConvert
+  fullName: Solti.Utils.Router.TryConvert
+  nameWithType: TryConvert
+- uid: Solti.Utils.Router.TryConvert.#ctor(System.Object,System.IntPtr)
+  name: TryConvert(Object, IntPtr)
+  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert__ctor_System_Object_System_IntPtr_
+  commentId: M:Solti.Utils.Router.TryConvert.#ctor(System.Object,System.IntPtr)
+  fullName: Solti.Utils.Router.TryConvert.TryConvert(System.Object, System.IntPtr)
+  nameWithType: TryConvert.TryConvert(Object, IntPtr)
+- uid: Solti.Utils.Router.TryConvert.#ctor*
+  name: TryConvert
+  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert__ctor_
+  commentId: Overload:Solti.Utils.Router.TryConvert.#ctor
+  fullName: Solti.Utils.Router.TryConvert.TryConvert
+  nameWithType: TryConvert.TryConvert
+- uid: Solti.Utils.Router.TryConvert.BeginInvoke(System.String,System.String,System.Object@,System.AsyncCallback,System.Object)
+  name: BeginInvoke(String, String, out Object, AsyncCallback, Object)
+  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert_BeginInvoke_System_String_System_String_System_Object__System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Router.TryConvert.BeginInvoke(System.String,System.String,System.Object@,System.AsyncCallback,System.Object)
+  name.vb: BeginInvoke(String, String, ByRef Object, AsyncCallback, Object)
+  fullName: Solti.Utils.Router.TryConvert.BeginInvoke(System.String, System.String, out System.Object, System.AsyncCallback, System.Object)
+  fullName.vb: Solti.Utils.Router.TryConvert.BeginInvoke(System.String, System.String, ByRef System.Object, System.AsyncCallback, System.Object)
+  nameWithType: TryConvert.BeginInvoke(String, String, out Object, AsyncCallback, Object)
+  nameWithType.vb: TryConvert.BeginInvoke(String, String, ByRef Object, AsyncCallback, Object)
+- uid: Solti.Utils.Router.TryConvert.BeginInvoke*
+  name: BeginInvoke
+  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert_BeginInvoke_
+  commentId: Overload:Solti.Utils.Router.TryConvert.BeginInvoke
+  fullName: Solti.Utils.Router.TryConvert.BeginInvoke
+  nameWithType: TryConvert.BeginInvoke
+- uid: Solti.Utils.Router.TryConvert.EndInvoke(System.Object@,System.IAsyncResult)
+  name: EndInvoke(out Object, IAsyncResult)
+  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert_EndInvoke_System_Object__System_IAsyncResult_
+  commentId: M:Solti.Utils.Router.TryConvert.EndInvoke(System.Object@,System.IAsyncResult)
+  name.vb: EndInvoke(ByRef Object, IAsyncResult)
+  fullName: Solti.Utils.Router.TryConvert.EndInvoke(out System.Object, System.IAsyncResult)
+  fullName.vb: Solti.Utils.Router.TryConvert.EndInvoke(ByRef System.Object, System.IAsyncResult)
+  nameWithType: TryConvert.EndInvoke(out Object, IAsyncResult)
+  nameWithType.vb: TryConvert.EndInvoke(ByRef Object, IAsyncResult)
+- uid: Solti.Utils.Router.TryConvert.EndInvoke*
+  name: EndInvoke
+  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert_EndInvoke_
+  commentId: Overload:Solti.Utils.Router.TryConvert.EndInvoke
+  fullName: Solti.Utils.Router.TryConvert.EndInvoke
+  nameWithType: TryConvert.EndInvoke
+- uid: Solti.Utils.Router.TryConvert.Invoke(System.String,System.String,System.Object@)
+  name: Invoke(String, String, out Object)
+  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert_Invoke_System_String_System_String_System_Object__
+  commentId: M:Solti.Utils.Router.TryConvert.Invoke(System.String,System.String,System.Object@)
+  name.vb: Invoke(String, String, ByRef Object)
+  fullName: Solti.Utils.Router.TryConvert.Invoke(System.String, System.String, out System.Object)
+  fullName.vb: Solti.Utils.Router.TryConvert.Invoke(System.String, System.String, ByRef System.Object)
+  nameWithType: TryConvert.Invoke(String, String, out Object)
+  nameWithType.vb: TryConvert.Invoke(String, String, ByRef Object)
+- uid: Solti.Utils.Router.TryConvert.Invoke*
+  name: Invoke
+  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert_Invoke_
+  commentId: Overload:Solti.Utils.Router.TryConvert.Invoke
+  fullName: Solti.Utils.Router.TryConvert.Invoke
+  nameWithType: TryConvert.Invoke
