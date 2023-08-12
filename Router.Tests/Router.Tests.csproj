@@ -1,11 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-	<OutputPath>..\BIN\$(Configuration)</OutputPath>
-	<Nullable>enable</Nullable>
-	<AssemblyName>Solti.Utils.Router.Tests</AssemblyName>
-	<RootNamespace>Solti.Utils.Router.Tests</RootNamespace>
+    <TargetFrameworks>netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <LangVersion>10</LangVersion>
+    <OutputPath>..\BIN\$(Configuration)</OutputPath>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Solti.Utils.Router.Tests</AssemblyName>
+    <RootNamespace>Solti.Utils.Router.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
