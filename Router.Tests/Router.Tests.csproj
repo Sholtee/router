@@ -6,6 +6,8 @@
     <LangVersion>10</LangVersion>
     <OutputPath>..\BIN\$(Configuration)</OutputPath>
     <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
     <AssemblyName>Solti.Utils.Router.Tests</AssemblyName>
     <RootNamespace>Solti.Utils.Router.Tests</RootNamespace>
   </PropertyGroup>
