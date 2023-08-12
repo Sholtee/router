@@ -95,5 +95,14 @@ namespace Solti.Utils.Router.Properties {
                 return ResourceManager.GetString("ROUTE_ALREADY_REGISTERED", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A segment may contain one parameter descriptor only..
+        /// </summary>
+        internal static string TOO_MANY_PARAM_DESCRIPTOR {
+            get {
+                return ResourceManager.GetString("TOO_MANY_PARAM_DESCRIPTOR", resourceCulture);
+            }
+        }
     }
 }

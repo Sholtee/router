@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,7 +12,7 @@ using NUnit.Framework;
 namespace Solti.Utils.Router.Tests
 {
     using Internals;
-    using System;
+    using Properties;
 
     [TestFixture]
     internal class RouteParserTests
@@ -36,8 +37,13 @@ namespace Solti.Utils.Router.Tests
                 yield return ("/cica", new RouteSegment[] { new RouteSegment("cica", null, null) });
                 yield return ("/cica/{param:int}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null) });
                 yield return ("/cica/{param:int:}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null) });
+                yield return ("/cica/pre-{param:int}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", RouteParser.Wrap("pre", "", IntParser, StringComparison.OrdinalIgnoreCase), null) });
+                yield return ("/cica/{param:int}-su", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", RouteParser.Wrap("", "su", IntParser, StringComparison.OrdinalIgnoreCase), null) });
+                yield return ("/cica/pre-{param:int}-su", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", RouteParser.Wrap("pre", "su", IntParser, StringComparison.OrdinalIgnoreCase), null) });
                 yield return ("/cica/{param:int:x}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, "x") });
-                yield return ("/cica/{param:int}/{param2:str}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null), new RouteSegment("param2", StrParser, null)});
+                yield return ("/cica/{param:int}/mica/{param2:str}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null), new RouteSegment("mica", null, null), new RouteSegment("param2", StrParser, null) });
+                yield return ("/cica/{param:int}/{param2:str}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null), new RouteSegment("param2", StrParser, null) });
+
             }
         }
 
@@ -56,10 +62,18 @@ namespace Solti.Utils.Router.Tests
 
         [Test]
         public void ParseShouldThrowOnMissingConverter([Values("{param}", "{param:}")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, TryConvert>(0)).Parse(input).ToList());
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, TryConvert>(0)).Parse(input).ToList(), Resources.CANNOT_BE_NULL);
 
         [Test]
         public void ParseShouldThrowOnMissingParameterName([Values("{}", "{:int}")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, TryConvert>(0)).Parse(input).ToList());
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, TryConvert>(0)).Parse(input).ToList(), Resources.CANNOT_BE_NULL);
+
+        [Test]
+        public void ParseShouldThrowOnNonregisteredConverter([Values("{param:cica}")] string input) =>
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, TryConvert>(0)).Parse(input).ToList(), Resources.CONVERTER_NOT_FOUND);
+
+        [Test]
+        public void ParseShouldThrowOnMultipleParameters([Values("{param:int}{param2:int}", "pre-{param:int}-{param2:int}", "{param:int}-{param2:int}-su", "pre-{param:int}-{param2:int}-su")] string input) =>
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, TryConvert>(0)).Parse(input).ToList(), Resources.TOO_MANY_PARAM_DESCRIPTOR);
     }
 }

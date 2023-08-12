@@ -133,8 +133,6 @@ namespace Solti.Utils.Router.Internals
 
         private readonly RouteParser FRouteParser;
 
-        private readonly DefaultHandler<TRequest, TUserData, TResponse> FDefaultHandler;
-
         private readonly Junction FRoot = new();
 
         private Expression BuildJunction(Junction junction, BuildContext context)
@@ -150,12 +148,12 @@ namespace Solti.Utils.Router.Internals
                             .Children
                             .Select(junction => BuildJunction(junction, context))
                             // default handler
-                            .Append(Expression.Invoke(Expression.Constant(FDefaultHandler), context.Request, context.UserData, context.Path))
+                            .Append(Expression.Invoke(Expression.Constant(DefaultHandler), context.Request, context.UserData, context.Path))
                     )
                 ),
                 invokeHandler = junction.Handler is not null
                     ? Expression.Invoke(Expression.Constant(junction.Handler), context.Request, context.Params, context.UserData, context.Path)
-                    : Expression.Invoke(Expression.Constant(FDefaultHandler), context.Request, context.UserData, context.Path);
+                    : Expression.Invoke(Expression.Constant(DefaultHandler), context.Request, context.UserData, context.Path);
 
             if (junction.Segment is null)  // root node, no segment
                 return Expression.Block
@@ -189,7 +187,7 @@ namespace Solti.Utils.Router.Internals
                 (
                     Expression.Constant(junction.Segment.Converter),
                     Expression.Property(context.Segments, FCurrent),
-                    Expression.Constant(junction.Segment.ConverterParam),
+                    Expression.Constant(junction.Segment.ConverterParam, typeof(string)),
                     context.Converted
                 ),
                 Expression.Block
@@ -203,10 +201,10 @@ namespace Solti.Utils.Router.Internals
         }
         #endregion
 
-        public RouterBuilder(DefaultHandler<TRequest, TUserData, TResponse> defaultHandler, IReadOnlyDictionary<string, TryConvert> converters)
+        public RouterBuilder(DefaultHandler<TRequest, TUserData, TResponse> defaultHandler, IReadOnlyDictionary<string, TryConvert> converters, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
         {
-            FDefaultHandler = defaultHandler;
-            FRouteParser = new RouteParser(converters);
+            DefaultHandler = defaultHandler;
+            FRouteParser = new RouteParser(converters, StringComparison = stringComparison);
         }
 
         /// <summary>
@@ -249,7 +247,9 @@ namespace Solti.Utils.Router.Internals
             };
         }
 
-        public StringComparison StringComparison { get; init; } = StringComparison.OrdinalIgnoreCase;
+        public DefaultHandler<TRequest, TUserData, TResponse> DefaultHandler { get; }
+
+        public StringComparison StringComparison { get; }
 
         /// <summary>
         /// Registers a route.
