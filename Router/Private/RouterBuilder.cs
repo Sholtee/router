@@ -201,7 +201,7 @@ namespace Solti.Utils.Router.Internals
         }
         #endregion
 
-        public RouterBuilder(DefaultHandler<TRequest, TUserData, TResponse> defaultHandler, IReadOnlyDictionary<string, TryConvert> converters, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        public RouterBuilder(DefaultHandler<TRequest, TUserData?, TResponse> defaultHandler, IReadOnlyDictionary<string, TryConvert> converters, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
         {
             DefaultHandler = defaultHandler;
             FRouteParser = new RouteParser(converters, StringComparison = stringComparison);
@@ -210,11 +210,11 @@ namespace Solti.Utils.Router.Internals
         /// <summary>
         /// Builds the actual <see cref="Router{TRequest, TUserData, TResponse}"/>.
         /// </summary>
-        public Router<TRequest, TUserData, TResponse> Build()
+        public Router<TRequest, TUserData?, TResponse> Build()
         {
             BuildContext context = new();
 
-            Expression<Func<TRequest, IEnumerator<string>, TUserData, string, TResponse>> coreExpr = Expression.Lambda<Func<TRequest, IEnumerator<string>, TUserData, string, TResponse>>
+            Expression<Func<TRequest, IEnumerator<string>, TUserData?, string, TResponse>> coreExpr = Expression.Lambda<Func<TRequest, IEnumerator<string>, TUserData?, string, TResponse>>
             (
                 body: Expression.Block
                 (
@@ -238,16 +238,32 @@ namespace Solti.Utils.Router.Internals
 
             Debug.WriteLine(coreExpr.GetDebugView());
 
-            Func<TRequest, IEnumerator<string>, TUserData, string, TResponse> core = coreExpr.Compile();
+            Func<TRequest, IEnumerator<string>, TUserData?, string, TResponse> core = coreExpr.Compile();
 
-            return (TRequest request, TUserData userData, string path) =>
+            return (TRequest request, TUserData? userData, string path) =>
             {
-                using IEnumerator<string> segments = PathSplitter.Split(path).GetEnumerator();
-                return core(request, segments, userData, path);
+                //
+                // This delegate will be exposed so do proper input validation
+                //
+
+                using IEnumerator<string> segments = PathSplitter
+                    .Split
+                    (
+                        path ?? throw new ArgumentNullException(nameof(path))
+                    )
+                    .GetEnumerator();
+
+                return core
+                (
+                    request ?? throw new ArgumentNullException(nameof(request)),
+                    segments,
+                    userData,
+                    path
+                );
             };
         }
 
-        public DefaultHandler<TRequest, TUserData, TResponse> DefaultHandler { get; }
+        public DefaultHandler<TRequest, TUserData?, TResponse> DefaultHandler { get; }
 
         public StringComparison StringComparison { get; }
 
