@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Moq;
+using Moq.Protected;
 using NUnit.Framework;
 
 namespace Solti.Utils.Router.Tests
@@ -29,36 +31,52 @@ namespace Solti.Utils.Router.Tests
             return false;
         }
 
-        public static IEnumerable<(string Route, IEnumerable<RouteSegment> Parsed)> Cases
+        private static bool WrappedParser(string input, string? userData, out object? value)
+        {
+            value = null;
+            return false;
+        }
+
+        public static IEnumerable<(string Route, IEnumerable<RouteSegment> Parsed, Action<Mock<RouteParser>>? Assert)> Cases
         {
             get
             {
-                yield return ("/", new RouteSegment[0] {  });
-                yield return ("/cica", new RouteSegment[] { new RouteSegment("cica", null, null) });
-                yield return ("/cica/{param:int}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null) });
-                yield return ("/cica/{param:int:}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null) });
-                yield return ("/cica/pre-{param:int}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", RouteParser.Wrap("pre", "", IntParser, StringComparison.OrdinalIgnoreCase), null) });
-                yield return ("/cica/{param:int}-su", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", RouteParser.Wrap("", "su", IntParser, StringComparison.OrdinalIgnoreCase), null) });
-                yield return ("/cica/pre-{param:int}-su", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", RouteParser.Wrap("pre", "su", IntParser, StringComparison.OrdinalIgnoreCase), null) });
-                yield return ("/cica/{param:int:x}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, "x") });
-                yield return ("/cica/{param:int}/mica/{param2:str}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null), new RouteSegment("mica", null, null), new RouteSegment("param2", StrParser, null) });
-                yield return ("/cica/{param:int}/{param2:str}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null), new RouteSegment("param2", StrParser, null) });
-
+                yield return ("/", new RouteSegment[0] {  }, null);
+                yield return ("/cica", new RouteSegment[] { new RouteSegment("cica", null, null) }, null);
+                yield return ("/cica/{param:int}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null) }, null);
+                yield return ("/cica/{param:int}/kutya", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null), new RouteSegment("kutya", null, null) }, null);
+                yield return ("/cica/{param:int:}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null) }, null);
+                yield return ("/cica/pre-{param:int}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", WrappedParser, null) }, mock => mock.Protected().Verify<TryConvert>("Wrap", Times.Once(), "pre-", "", (TryConvert) IntParser));
+                yield return ("/cica/{param:int}-su", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", WrappedParser, null) }, mock => mock.Protected().Verify<TryConvert>("Wrap", Times.Once(), "", "-su", (TryConvert) IntParser));
+                yield return ("/cica/pre-{param:int}-su", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", WrappedParser, null) }, mock => mock.Protected().Verify<TryConvert>("Wrap", Times.Once(), "pre-", "-su", (TryConvert) IntParser));
+                yield return ("/cica/pre-{param:int}-su/kutya", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", WrappedParser, null), new RouteSegment("kutya", null, null) }, mock => mock.Protected().Verify<TryConvert>("Wrap", Times.Once(), "pre-", "-su", (TryConvert) IntParser));
+                yield return ("/cica/{param:int:x}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, "x") }, null);
+                yield return ("/cica/{param:int}/mica/{param2:str}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null), new RouteSegment("mica", null, null), new RouteSegment("param2", StrParser, null) }, null);
+                yield return ("/cica/{param:int}/{param2:str}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null), new RouteSegment("param2", StrParser, null) }, null);
             }
         }
 
         [TestCaseSource(nameof(Cases))]
-        public void ParseShouldBreakDownTheInputToProperSegments((string Route, IEnumerable<RouteSegment> Parsed) @case) => Assert.That
-        (
-            new RouteParser
+        public void ParseShouldBreakDownTheInputToProperSegments((string Route, IEnumerable<RouteSegment> Parsed, Action<Mock<RouteParser>>? Assert) @case)
+        {
+            Mock<RouteParser> mockParser = new
             (
+                MockBehavior.Strict,
                 new Dictionary<string, TryConvert>
                 {
                     { "int", IntParser },
                     { "str", StrParser }
-                }
-            ).Parse(@case.Route).SequenceEqual(@case.Parsed)
-        );
+                },
+                StringComparison.OrdinalIgnoreCase
+            );
+            mockParser
+                .Protected()
+                .Setup<TryConvert>("Wrap", ItExpr.IsAny<string>(), ItExpr.IsAny<string>(), ItExpr.IsAny<TryConvert>())
+                .Returns(WrappedParser);
+
+            Assert.That(mockParser.Object.Parse(@case.Route).SequenceEqual(@case.Parsed));
+            @case.Assert?.Invoke(mockParser);
+        }
 
         [Test]
         public void ParseShouldThrowOnMissingConverter([Values("{param}", "{param:}")] string input) =>
