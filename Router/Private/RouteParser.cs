@@ -48,30 +48,33 @@ namespace Solti.Utils.Router.Internals
         public IEnumerable<RouteSegment> Parse(string input) => PathSplitter.Split(input).Select(segment =>
         {
             MatchCollection match = FTemplateMatcher.Matches(segment);
-            if (match.Count is 0)
-                return new RouteSegment(segment, null, null);
 
-            if (match.Count is not 1)
-                throw new ArgumentException(TOO_MANY_PARAM_DESCRIPTOR);
-
-            string? name = GetMatch("name");
-            if (IsNullOrEmpty(name))
-                throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(name)), nameof(input));
-
-            string? converter = GetMatch("converter");
-            if (IsNullOrEmpty(converter))
-                throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(converter)), nameof(input));
-
-            if (!Converters.TryGetValue(converter, out TryConvert converterFn))
-                throw new ArgumentException(Format(Culture, CONVERTER_NOT_FOUND, converter), nameof(input));
-
-            if (match[0].ToString() != segment)
+            switch (match.Count)
             {
-                string[] extra = segment.Split(match[0].ToString(), StringSplitOptions.None);
-                converterFn = Wrap(extra[0], extra[1], converterFn);
+                case 0:
+                    return new RouteSegment(segment, null, null);
+                case 1:
+                    string? name = GetMatch("name");
+                    if (IsNullOrEmpty(name))
+                        throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(name)), nameof(input));
+
+                    string? converter = GetMatch("converter");
+                    if (IsNullOrEmpty(converter))
+                        throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(converter)), nameof(input));
+
+                    if (!Converters.TryGetValue(converter, out TryConvert converterFn))
+                        throw new ArgumentException(Format(Culture, CONVERTER_NOT_FOUND, converter), nameof(input));
+
+                    if (match[0].ToString() != segment)
+                    {
+                        string[] extra = segment.Split(match[0].ToString(), StringSplitOptions.None);
+                        converterFn = Wrap(extra[0], extra[1], converterFn);
+                    }
+
+                    return new RouteSegment(name, converterFn, GetMatch("param"));
+                default:
+                    throw new ArgumentException(TOO_MANY_PARAM_DESCRIPTOR);
             }
-            
-            return new RouteSegment(name, converterFn, GetMatch("param")); 
             
             string? GetMatch(string name)
             {
