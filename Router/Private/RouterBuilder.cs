@@ -70,6 +70,8 @@ namespace Solti.Utils.Router.Internals
     internal sealed class RouterBuilder<TRequest, TUserData, TResponse>
     {
         #region Private
+        private delegate TResponse CoreFn(TRequest request, PathSplitter segment, TUserData? userData, string path);
+
         private sealed class Junction
         {
             public RouteSegment? Segment { get; init; }  // null at "/"
@@ -79,7 +81,7 @@ namespace Solti.Utils.Router.Internals
 
         private sealed class BuildContext
         {
-            public ParameterExpression Segments { get; } = Expression.Parameter(typeof(IEnumerator<string>), nameof(Segments).ToLower());
+            public ParameterExpression Segments { get; } = Expression.Parameter(typeof(PathSplitter), nameof(Segments).ToLower());
             public ParameterExpression Request { get; } = Expression.Parameter(typeof(TRequest), nameof(Request).ToLower());
             public ParameterExpression Params { get; } = Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower());
             public ParameterExpression UserData { get; } = Expression.Parameter(typeof(TUserData?), nameof(UserData).ToLower());
@@ -92,7 +94,7 @@ namespace Solti.Utils.Router.Internals
         (
             (MethodCallExpression) 
             (
-                (Expression<Action<IEnumerator<string>>>) 
+                (Expression<Action<PathSplitter>>) 
                 (
                     static enumerator => enumerator.MoveNext()
                 )
@@ -125,7 +127,7 @@ namespace Solti.Utils.Router.Internals
         (
             (MemberExpression) 
             (
-                (Expression<Func<IEnumerator<string>, string>>)
+                (Expression<Func<PathSplitter, string>>)
                 (
                     static enumerator => enumerator.Current
                 )
@@ -135,6 +137,8 @@ namespace Solti.Utils.Router.Internals
         private readonly RouteParser FRouteParser;
 
         private readonly Junction FRoot = new();
+
+        private int FMaxParameters;
 
         private Expression BuildJunction(Junction junction, BuildContext context)
         {
@@ -231,7 +235,7 @@ namespace Solti.Utils.Router.Internals
         {
             BuildContext context = new();
 
-            Expression<Func<TRequest, IEnumerator<string>, TUserData?, string, TResponse>> coreExpr = Expression.Lambda<Func<TRequest, IEnumerator<string>, TUserData?, string, TResponse>>
+            Expression<CoreFn> coreExpr = Expression.Lambda<CoreFn>
             (
                 body: Expression.Block
                 (
@@ -241,7 +245,15 @@ namespace Solti.Utils.Router.Internals
                         context.Params,
                         context.Converted
                     },
-                    Expression.Assign(context.Params, Expression.New(typeof(Dictionary<string, object?>))),
+                    Expression.Assign
+                    (
+                        context.Params,
+                        Expression.New
+                        (
+                            typeof(Dictionary<string, object?>).GetConstructor(new Type[] { typeof(int) }), // ctor(capacity)
+                            Expression.Constant(FMaxParameters)
+                        )
+                    ),
                     BuildJunction(FRoot, context),
                     Expression.Label(context.Exit, Expression.Constant(default(TResponse)))
                 ),
@@ -256,7 +268,7 @@ namespace Solti.Utils.Router.Internals
 
             Debug.WriteLine(coreExpr.GetDebugView());
 
-            Func<TRequest, IEnumerator<string>, TUserData?, string, TResponse> core = coreExpr.Compile();
+            CoreFn core = coreExpr.Compile();
 
             return (TRequest request, TUserData? userData, string path) =>
             {
@@ -264,7 +276,7 @@ namespace Solti.Utils.Router.Internals
                 // This delegate will be exposed so do proper input validation
                 //
 
-                using IEnumerator<string> segments = PathSplitter.Split
+                PathSplitter segments = PathSplitter.Split
                 (
                     path ?? throw new ArgumentNullException(nameof(path))
                 );
@@ -293,6 +305,8 @@ namespace Solti.Utils.Router.Internals
         {
             Junction target = FRoot;
 
+            int parameters = 0;
+
             foreach (RouteSegment segment in FRouteParser.Parse(route))
             {
                 bool found = false;
@@ -315,12 +329,17 @@ namespace Solti.Utils.Router.Internals
                     target.Children.Add(child);
                     target = child;
                 }
+
+                if (segment.Converter is not null)
+                    parameters++;
             }
 
             if (target.Handler is not null)
                 throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
 
             target.Handler = handler;
+
+            FMaxParameters = Math.Max(FMaxParameters, parameters);
         }
     }
 }

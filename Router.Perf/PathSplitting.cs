@@ -26,7 +26,7 @@ namespace Solti.Utils.Router.Perf
         [Benchmark]
         public void Split()
         {
-            using IEnumerator<string> enumerator = PathSplitter.Split(Input);
+            PathSplitter enumerator = PathSplitter.Split(Input);
             while (enumerator.MoveNext()) { }
         }
     }

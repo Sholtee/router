@@ -4,7 +4,6 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.CompilerServices;
@@ -13,12 +12,14 @@ namespace Solti.Utils.Router.Internals
 {
     using static Properties.Resources;
 
-    internal sealed class PathSplitter: IEnumerator<string>
+    internal sealed class PathSplitter
     {
         private readonly string FPath;
+
         private readonly char[]
             FResultBuffer,
             FHexBufffer = new char[2];
+
         private int
             FPosition,
             FIndex;
@@ -38,6 +39,7 @@ namespace Solti.Utils.Router.Internals
             return ex;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
             FPosition = 0;
@@ -79,7 +81,7 @@ namespace Solti.Utils.Router.Internals
 
                             if (byte.TryParse(FHexBufffer, NumberStyles.HexNumber, null, out byte chr))
                             {
-                                c = (char) chr;
+                                c = (char)chr;
                                 FIndex += 2;
                                 break;
                             }
@@ -95,13 +97,16 @@ namespace Solti.Utils.Router.Internals
             }
         }
 
-        public string Current => new(FResultBuffer, 0, FPosition);
+        public string Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return new(FResultBuffer, 0, FPosition);
+            }
+        }
 
         public void Reset() => FPosition = FIndex = 0;
-
-        object IEnumerator.Current => Current;
-
-        void IDisposable.Dispose() { }
 
         public IEnumerable<string> AsEnumerable()
         {
@@ -116,7 +121,7 @@ namespace Solti.Utils.Router.Internals
         /// <summary>
         /// Splits the given path converting hex values if necessary.
         /// </summary>
-        /// <remarks>Due to performance considerations, this method intentionally returns an <see cref="IEnumerator{string}"/> instead of <see cref="IEnumerable{string}"/>.</remarks>
+        /// <remarks>Due to performance considerations, this method intentionally doesn't return an <see cref="IEnumerable{string}"/>.</remarks>
         public static PathSplitter Split(string path) => new(path);
     }
 }
