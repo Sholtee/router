@@ -10,6 +10,8 @@
     <IsTestProject>true</IsTestProject>
     <AssemblyName>Solti.Utils.Router.Tests</AssemblyName>
     <RootNamespace>Solti.Utils.Router.Tests</RootNamespace>
+    <Configurations>Debug;</Configurations>
+	<Optimize>false</Optimize>
   </PropertyGroup>
 
   <ItemGroup>

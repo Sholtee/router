@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+	<IsPackable>false</IsPackable>
+	<IsTestProject>true</IsTestProject>
+    <TargetFramework>net7.0</TargetFramework>
+    <Configurations>Debug;Release</Configurations>
+	<Nullable>enable</Nullable>
+    <!--BenchmarkDotNet requires the exe and csproj name to be the same-->
+    <AssemblyName>Router.Perf</AssemblyName>
+    <RootNamespace>Solti.Utils.Router.Perf</RootNamespace>
+    <OutputPath>..\BIN\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="docfx.json" />
+    <None Remove="index.md" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'!='Debug|AnyCPU'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.*" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(LibVersion)' != ''">
+    <PackageReference Include="Compass.NET" Version="$(LibVersion)"></PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(LibVersion)' == ''">
+    <ProjectReference Include="..\Router\Router.csproj" />
+  </ItemGroup>
+</Project>

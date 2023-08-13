@@ -7,6 +7,7 @@
   "skipon": ["net7.0"],
   "artifacts": "\\Artifacts",
   "coveragefilter": "+[Solti.Utils.Router*]* -[Solti.Utils.Router.Tests*]* -[*]*.Properties.*",
+  "perftests": "\\Router.Perf\\Router.Perf.csproj",
   "docsbranch": "gh-pages",
   "CI": "AppVeyor"
 }
