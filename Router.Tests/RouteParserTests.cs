@@ -87,6 +87,10 @@ namespace Solti.Utils.Router.Tests
             Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, TryConvert>(0)).Parse(input).ToList(), Resources.CANNOT_BE_NULL);
 
         [Test]
+        public void ParseShouldThrowOnDuplicateParameterName([Values("{param:int}/{param:int}", "{param:int}/pre-{param:int}", "{param:int}/segment/{param:int}")] string input) =>
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, TryConvert> { { "int", new Mock<TryConvert>().Object } }).Parse(input).ToList(), Resources.DUPLICATE_PARAMETER);
+
+        [Test]
         public void ParseShouldThrowOnNonregisteredConverter([Values("{param:cica}")] string input) =>
             Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, TryConvert>(0)).Parse(input).ToList(), Resources.CONVERTER_NOT_FOUND);
 

@@ -61,7 +61,7 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} cannot be null..
+        ///   Looks up a localized string similar to &quot;{0}&quot; cannot be null..
         /// </summary>
         internal static string CANNOT_BE_NULL {
             get {
@@ -70,11 +70,20 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Converter cannot be found: {0}.
+        ///   Looks up a localized string similar to Converter cannot be found: &quot;{0}&quot;.
         /// </summary>
         internal static string CONVERTER_NOT_FOUND {
             get {
                 return ResourceManager.GetString("CONVERTER_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate parameter name found: &quot;{0}&quot;.
+        /// </summary>
+        internal static string DUPLICATE_PARAMETER {
+            get {
+                return ResourceManager.GetString("DUPLICATE_PARAMETER", resourceCulture);
             }
         }
         
@@ -97,7 +106,7 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The given path is not valid: {0}.
+        ///   Looks up a localized string similar to The given path is not valid: &quot;{0}&quot;.
         /// </summary>
         internal static string INVALID_PATH {
             get {
@@ -106,7 +115,7 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Route already registered: {0}.
+        ///   Looks up a localized string similar to Route already registered:&quot; {0}&quot;.
         /// </summary>
         internal static string ROUTE_ALREADY_REGISTERED {
             get {

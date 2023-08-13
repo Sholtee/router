@@ -118,10 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CANNOT_BE_NULL" xml:space="preserve">
-    <value>{0} cannot be null.</value>
+    <value>"{0}" cannot be null.</value>
   </data>
   <data name="CONVERTER_NOT_FOUND" xml:space="preserve">
-    <value>Converter cannot be found: {0}</value>
+    <value>Converter cannot be found: "{0}"</value>
+  </data>
+  <data name="DUPLICATE_PARAMETER" xml:space="preserve">
+    <value>Duplicate parameter name found: "{0}"</value>
   </data>
   <data name="EMPTY_CHUNK" xml:space="preserve">
     <value>The chunk is empty.</value>
@@ -130,10 +133,10 @@
     <value>Invalid HEX value</value>
   </data>
   <data name="INVALID_PATH" xml:space="preserve">
-    <value>The given path is not valid: {0}</value>
+    <value>The given path is not valid: "{0}"</value>
   </data>
   <data name="ROUTE_ALREADY_REGISTERED" xml:space="preserve">
-    <value>Route already registered: {0}</value>
+    <value>Route already registered:" {0}"</value>
   </data>
   <data name="TOO_MANY_PARAM_DESCRIPTOR" xml:space="preserve">
     <value>A segment may contain one parameter descriptor only.</value>

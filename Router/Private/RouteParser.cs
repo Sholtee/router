@@ -45,42 +45,50 @@ namespace Solti.Utils.Router.Internals
             StringComparison = stringComparison;
         }
 
-        public IEnumerable<RouteSegment> Parse(string input) => PathSplitter.Split(input).AsEnumerable().Select(segment =>
+        public IEnumerable<RouteSegment> Parse(string input)
         {
-            MatchCollection match = FTemplateMatcher.Matches(segment);
+            HashSet<string> paramz = new();
 
-            switch (match.Count)
+            return PathSplitter.Split(input).AsEnumerable().Select(segment =>
             {
-                case 0:
-                    return new RouteSegment(segment, null, null);
-                case 1:
-                    string? name = GetMatch("name");
-                    if (IsNullOrEmpty(name))
-                        throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(name)), nameof(input));
+                MatchCollection match = FTemplateMatcher.Matches(segment);
 
-                    string? converter = GetMatch("converter");
-                    if (IsNullOrEmpty(converter))
-                        throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(converter)), nameof(input));
+                switch (match.Count)
+                {
+                    case 0:
+                        return new RouteSegment(segment, null, null);
+                    case 1:
+                        string? name = GetMatch("name");
+                        if (IsNullOrEmpty(name))
+                            throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(name)), nameof(input));
 
-                    if (!Converters.TryGetValue(converter, out TryConvert converterFn))
-                        throw new ArgumentException(Format(Culture, CONVERTER_NOT_FOUND, converter), nameof(input));
+                        if (!paramz.Add(name))
+                            throw new ArgumentException(Format(Culture, DUPLICATE_PARAMETER, name), nameof(input));
 
-                    if (match[0].ToString() != segment)
-                    {
-                        string[] extra = segment.Split(match[0].ToString(), StringSplitOptions.None);
-                        converterFn = Wrap(extra[0], extra[1], converterFn);
-                    }
+                        string? converter = GetMatch("converter");
+                        if (IsNullOrEmpty(converter))
+                            throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(converter)), nameof(input));
 
-                    return new RouteSegment(name, converterFn, GetMatch("param"));
-                default:
-                    throw new ArgumentException(TOO_MANY_PARAM_DESCRIPTOR);
-            }
-            
-            string? GetMatch(string name)
-            {
-                Group group = match[0].Groups[name];
-                return group.Success ? group.Value : null;
-            }
-        });
+                        if (!Converters.TryGetValue(converter, out TryConvert converterFn))
+                            throw new ArgumentException(Format(Culture, CONVERTER_NOT_FOUND, converter), nameof(input));
+
+                        if (match[0].ToString() != segment)
+                        {
+                            string[] extra = segment.Split(match[0].ToString(), StringSplitOptions.None);
+                            converterFn = Wrap(extra[0], extra[1], converterFn);
+                        }
+
+                        return new RouteSegment(name, converterFn, GetMatch("param"));
+                    default:
+                        throw new ArgumentException(TOO_MANY_PARAM_DESCRIPTOR, nameof(input));
+                }
+
+                string? GetMatch(string name)
+                {
+                    Group group = match[0].Groups[name];
+                    return group.Success ? group.Value : null;
+                }
+            });
+        }
     }
 }
