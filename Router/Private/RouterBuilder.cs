@@ -264,12 +264,10 @@ namespace Solti.Utils.Router.Internals
                 // This delegate will be exposed so do proper input validation
                 //
 
-                using IEnumerator<string> segments = PathSplitter
-                    .Split
-                    (
-                        path ?? throw new ArgumentNullException(nameof(path))
-                    )
-                    .GetEnumerator();
+                using IEnumerator<string> segments = PathSplitter.Split
+                (
+                    path ?? throw new ArgumentNullException(nameof(path))
+                );
 
                 return core
                 (

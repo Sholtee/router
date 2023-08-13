@@ -4,30 +4,50 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace Solti.Utils.Router.Internals
 {
-    using Properties;
+    using static Properties.Resources;
 
-    internal static class PathSplitter
+    internal sealed class PathSplitter: IEnumerator<string>
     {
-        /// <summary>
-        /// Splits the given path converting hex values if necessary.
-        /// </summary>
-        public static IEnumerable<string> Split(string path)
+        private readonly string FPath;
+        private readonly char[]
+            FResultBuffer,
+            FHexBufffer = new char[2];
+        private int
+            FPosition,
+            FIndex;
+
+        private PathSplitter(string path)
         {
-            char[]
-                resultBuffer = new char[path.Length],
-                hexBuffer = new char[2];
+            FPath = path;
+            FResultBuffer = new char[path.Length];
+        }
 
-            int pos = 0;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private InvalidOperationException InvalidPath(string err)
+        {
+            InvalidOperationException ex = new(string.Format(Culture, INVALID_PATH, err));
+            ex.Data["Position"] = FPosition;
+            ex.Data["Path"] = FPath;
+            return ex;
+        }
 
-            for (int i = 0; i < path.Length; i++)
+        public bool MoveNext()
+        {
+            FPosition = 0;
+
+            for (; ; FIndex++)
             {
-                char c = path[i];
+                if (FIndex == FPath.Length)
+                    return FPosition > 0;
 
+                char c = FPath[FIndex];
                 switch (c)
                 {
                     case '/':
@@ -35,57 +55,68 @@ namespace Solti.Utils.Router.Internals
                         // Skip leading separator
                         //
 
-                        if (i > 0)
-                        {
-                            //
-                            // Ensure the chunk is not empty
-                            //
+                        if (FIndex is 0)
+                            continue;
 
-                            if (pos == 0)
-                                ThrowInvalidPath();
+                        //
+                        // Ensure the chunk is not empty
+                        //
 
-                            yield return new string(resultBuffer, 0, pos);
-                            pos = 0;
-                        }
-                        continue;
+                        if (FPosition is 0)
+                            throw InvalidPath(EMPTY_CHUNK);
+
+                        FIndex++;
+                        return true;
                     case '%':
                         //
                         // Validate the HEX value.
                         //
 
-                        if (path.Length - i > 2)
+                        if (FPath.Length - FIndex > 2)
                         {
-                            hexBuffer[0] = path[i + 1];
-                            hexBuffer[1] = path[i + 2];
+                            FHexBufffer[0] = FPath[FIndex + 1];
+                            FHexBufffer[1] = FPath[FIndex + 2];
 
-                            if (byte.TryParse(hexBuffer, NumberStyles.HexNumber, null, out byte chr))
+                            if (byte.TryParse(FHexBufffer, NumberStyles.HexNumber, null, out byte chr))
                             {
                                 c = (char) chr;
-                                i += 2;
+                                FIndex += 2;
                                 break;
                             }
                         }
 
-                        ThrowInvalidPath();
-                        break;
+                        throw InvalidPath(INVALID_HEX);
                     case '+':
                         c = ' ';
                         break;
                 }
 
-                resultBuffer[pos++] = c;
-
-                void ThrowInvalidPath()
-                {
-                    ArgumentException ex = new(Resources.INVALID_PATH, nameof(path));
-                    ex.Data["Position"] = i;
-                    ex.Data["Path"] = path;
-                    throw ex;
-                }
+                FResultBuffer[FPosition++] = c;
             }
-
-            if (pos > 0)
-                yield return new string(resultBuffer, 0, pos);
         }
+
+        public string Current => new(FResultBuffer, 0, FPosition);
+
+        public void Reset() => FPosition = FIndex = 0;
+
+        object IEnumerator.Current => Current;
+
+        void IDisposable.Dispose() { }
+
+        public IEnumerable<string> AsEnumerable()
+        {
+            Reset();
+
+            while (MoveNext())
+            {
+                yield return Current;
+            }
+        }
+
+        /// <summary>
+        /// Splits the given path converting hex values if necessary.
+        /// </summary>
+        /// <remarks>Due to performance considerations, this method intentionally returns an <see cref="IEnumerator{string}"/> instead of <see cref="IEnumerable{string}"/>.</remarks>
+        public static PathSplitter Split(string path) => new(path);
     }
 }

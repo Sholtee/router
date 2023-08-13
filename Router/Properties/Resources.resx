@@ -123,8 +123,14 @@
   <data name="CONVERTER_NOT_FOUND" xml:space="preserve">
     <value>Converter cannot be found: {0}</value>
   </data>
+  <data name="EMPTY_CHUNK" xml:space="preserve">
+    <value>The chunk is empty.</value>
+  </data>
+  <data name="INVALID_HEX" xml:space="preserve">
+    <value>Invalid HEX value</value>
+  </data>
   <data name="INVALID_PATH" xml:space="preserve">
-    <value>The given path is not valid.</value>
+    <value>The given path is not valid: {0}</value>
   </data>
   <data name="ROUTE_ALREADY_REGISTERED" xml:space="preserve">
     <value>Route already registered: {0}</value>

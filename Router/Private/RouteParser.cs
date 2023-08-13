@@ -45,7 +45,7 @@ namespace Solti.Utils.Router.Internals
             StringComparison = stringComparison;
         }
 
-        public IEnumerable<RouteSegment> Parse(string input) => PathSplitter.Split(input).Select(segment =>
+        public IEnumerable<RouteSegment> Parse(string input) => PathSplitter.Split(input).AsEnumerable().Select(segment =>
         {
             MatchCollection match = FTemplateMatcher.Matches(segment);
 

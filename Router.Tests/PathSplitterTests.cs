@@ -23,12 +23,12 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/cica/mica", arg2: new string[] { "cica", "mica" })]
         [TestCase("cica/mica/", arg2: new string[] { "cica", "mica" })]
         public void SplitShouldNotTakeLeadingAndTrailingSeparatorsIntoAccount(string input, string[] expected) =>
-            Assert.That(PathSplitter.Split(input).SequenceEqual(expected));
+            Assert.That(PathSplitter.Split(input).AsEnumerable().SequenceEqual(expected));
 
         [TestCase("")]
         [TestCase("/")]
         public void SplitShouldHandleEmptyPath(string input) =>
-            Assert.That(!PathSplitter.Split(input).Any());
+            Assert.That(!PathSplitter.Split(input).AsEnumerable().Any());
 
         // Too short hex
         [TestCase("%")]
@@ -72,7 +72,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("cica/%AÁ/")]
         [TestCase("cica/%AÁ/mica")]
         public void SplitShouldThrowOnInvalidHex(string input) =>
-            Assert.Throws<ArgumentException>(() => PathSplitter.Split(input).ToList());
+            Assert.Throws<InvalidOperationException>(() => PathSplitter.Split(input).AsEnumerable().ToList());
 
         [TestCase("//")]
         [TestCase("//mica")]
@@ -81,7 +81,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("cica//")]
         [TestCase("cica//mica")]
         public void SplitShouldThrowOnEmptyChunk(string input) =>
-            Assert.Throws<ArgumentException>(() => PathSplitter.Split(input).ToList());
+            Assert.Throws<InvalidOperationException>(() => PathSplitter.Split(input).AsEnumerable().ToList());
 
         [TestCase("%E1", arg2: new string[] { "á" })]
         [TestCase("%E1/", arg2: new string[] { "á" })]
@@ -109,7 +109,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/cica/%E1bc/", arg2: new string[] { "cica", "ábc" })]
         [TestCase("/cica/%E1bc/mica", arg2: new string[] { "cica", "ábc", "mica" })]
         public void SplitShouldHandleHexChunks(string input, string[] expected) =>
-            Assert.That(PathSplitter.Split(input).SequenceEqual(expected));
+            Assert.That(PathSplitter.Split(input).AsEnumerable().SequenceEqual(expected));
 
         [TestCase("+", arg2: new string[] { " " })]
         [TestCase("+/", arg2: new string[] { " " })]
@@ -137,6 +137,6 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/cica/a+b/", arg2: new string[] { "cica", "a b" })]
         [TestCase("/cica/a+b/mica", arg2: new string[] { "cica", "a b", "mica" })]
         public void SplitShouldHandleSpaces(string input, string[] expected) =>
-            Assert.That(PathSplitter.Split(input).SequenceEqual(expected));
+            Assert.That(PathSplitter.Split(input).AsEnumerable().SequenceEqual(expected));
     }
 }

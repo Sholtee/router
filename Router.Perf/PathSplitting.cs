@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System.Collections.Generic;
 using System.Linq;
 
 using BenchmarkDotNet.Attributes;
@@ -25,7 +26,8 @@ namespace Solti.Utils.Router.Perf
         [Benchmark]
         public void Split()
         {
-            foreach (string _ in PathSplitter.Split(Input)) { }
+            using IEnumerator<string> enumerator = PathSplitter.Split(Input);
+            while (enumerator.MoveNext()) { }
         }
     }
 
@@ -39,5 +41,26 @@ namespace Solti.Utils.Router.Perf
 
         [Benchmark]
         public string CreateString() => new(FChars, 0, Length);
+    }
+
+    [MemoryDiagnoser]
+    public class Enumerator
+    {
+        [Params(1, 5, 10, 100)]
+        public int Length { get; set; }
+
+        private IEnumerable<int> GetEnum()
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                yield return i;
+            }
+        }
+
+        [Benchmark]
+        public void Enumerate()
+        {
+            foreach (int i in GetEnum()) { }
+        }
     }
 }

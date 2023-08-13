@@ -79,7 +79,25 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The given path is not valid..
+        ///   Looks up a localized string similar to The chunk is empty..
+        /// </summary>
+        internal static string EMPTY_CHUNK {
+            get {
+                return ResourceManager.GetString("EMPTY_CHUNK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid HEX value.
+        /// </summary>
+        internal static string INVALID_HEX {
+            get {
+                return ResourceManager.GetString("INVALID_HEX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The given path is not valid: {0}.
         /// </summary>
         internal static string INVALID_PATH {
             get {
