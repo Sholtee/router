@@ -16,7 +16,7 @@ namespace Solti.Utils.Router.Internals
         /// <summary>
         /// Splits the given path converting hex values if necessary.
         /// </summary>
-        public static IEnumerable<T> Split<T>(string path, Func<char[], int, T> convert)
+        public static IEnumerable<string> Split(string path)
         {
             char[]
                 resultBuffer = new char[path.Length],
@@ -44,7 +44,7 @@ namespace Solti.Utils.Router.Internals
                             if (pos == 0)
                                 ThrowInvalidPath();
 
-                            yield return convert(resultBuffer, pos);
+                            yield return new string(resultBuffer, 0, pos);
                             pos = 0;
                         }
                         continue;
@@ -85,13 +85,7 @@ namespace Solti.Utils.Router.Internals
             }
 
             if (pos > 0)
-                yield return convert(resultBuffer, pos);
+                yield return new string(resultBuffer, 0, pos);
         }
-
-        public static IEnumerable<string> Split(string path) => Split
-        (
-            path,
-            static (char[] buffer, int len) => new string(buffer, 0, len)
-        );
     }
 }
