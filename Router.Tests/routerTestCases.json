@@ -1,8 +1,49 @@
 [
+	// deepness = 1, 2
+	{
+		"routes": [
+			"/",
+			"/cica/"
+		],
+		"cases": {
+			"/": {},
+			"/cica": {},
+			"/cica/": {},
+			"/kutya": null
+		}
+	},
+	// precedence test
+	{
+		"routes": [
+			"/1986",
+			"/{param:int}"
+		],
+		"cases": {
+			"/1986": {},
+			"/2023": {
+				"param": 2023
+			}
+		}
+	},
+	// precedence test II
+	{
+		"routes": [
+			"/19{param:str}",
+			"/{param:str}"
+		],
+		"cases": {
+			"/1986": {
+				"param": "86"
+			},
+			"/2023": {
+				"param": "2023"
+			}
+		}
+	},
 	// deepness = 1 + param 
 	{
 		"routes": ["/{param:int}"],
-		"inputs": {
+		"cases": {
 			"/1986/": {
 				"param": 1986
 			},
@@ -14,14 +55,23 @@
 			"/cica/1986": null
 		}
 	},
-	// deepness = 2 + prefix + param 
+	// deepness = 2 + prefix + param
 	{
-		"routes": ["id/num-{param:int}"],
-		"inputs": {
+		"routes": [
+			"id/num-{param:int}",
+			"id/num-{param:int:X}"
+		],
+		"cases": {
 			"id/num-1986/": {
 				"param": 1986
 			},
 			"id/num-1986": {
+				"param": 1986
+			},
+			"id/num-7C2/": {
+				"param": 1986
+			},
+			"id/num-7C2": {
 				"param": 1986
 			},
 			"/": null,

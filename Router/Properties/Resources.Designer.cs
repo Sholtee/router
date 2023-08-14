@@ -97,6 +97,15 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid format style: &quot;{0}&quot;.
+        /// </summary>
+        internal static string INVALID_FORMAT_STYLE {
+            get {
+                return ResourceManager.GetString("INVALID_FORMAT_STYLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid HEX value.
         /// </summary>
         internal static string INVALID_HEX {

@@ -19,18 +19,6 @@ namespace Solti.Utils.Router.Tests
     [TestFixture]
     internal class RouteParserTests
     {
-        private static bool IntParser(string input, string? userData, out object? value)
-        {
-            value = null;
-            return false;
-        }
-
-        private static bool StrParser(string input, string? userData, out object? value)
-        {
-            value = null;
-            return false;
-        }
-
         private static bool WrappedParser(string input, string? userData, out object? value)
         {
             value = null;
@@ -43,16 +31,16 @@ namespace Solti.Utils.Router.Tests
             {
                 yield return ("/", new RouteSegment[0] { }, null);
                 yield return ("/cica", new RouteSegment[] { new RouteSegment("cica", null, null) }, null);
-                yield return ("/cica/{param:int}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null) }, null);
-                yield return ("/cica/{param:int}/kutya", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null), new RouteSegment("kutya", null, null) }, null);
-                yield return ("/cica/{param:int:}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null) }, null);
-                yield return ("/cica/pre-{param:int}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", WrappedParser, null) }, mock => mock.Protected().Verify<TryConvert>("Wrap", Times.Once(), "pre-", "", (TryConvert)IntParser));
-                yield return ("/cica/{param:int}-su", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", WrappedParser, null) }, mock => mock.Protected().Verify<TryConvert>("Wrap", Times.Once(), "", "-su", (TryConvert)IntParser));
-                yield return ("/cica/pre-{param:int}-su", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", WrappedParser, null) }, mock => mock.Protected().Verify<TryConvert>("Wrap", Times.Once(), "pre-", "-su", (TryConvert)IntParser));
-                yield return ("/cica/pre-{param:int}-su/kutya", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", WrappedParser, null), new RouteSegment("kutya", null, null) }, mock => mock.Protected().Verify<TryConvert>("Wrap", Times.Once(), "pre-", "-su", (TryConvert)IntParser));
-                yield return ("/cica/{param:int:x}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, "x") }, null);
-                yield return ("/cica/{param:int}/mica/{param2:str}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null), new RouteSegment("mica", null, null), new RouteSegment("param2", StrParser, null) }, null);
-                yield return ("/cica/{param:int}/{param2:str}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", IntParser, null), new RouteSegment("param2", StrParser, null) }, null);
+                yield return ("/cica/{param:int}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", DefaultConverters.IntConverter, null) }, null);
+                yield return ("/cica/{param:int}/kutya", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", DefaultConverters.IntConverter, null), new RouteSegment("kutya", null, null) }, null);
+                yield return ("/cica/{param:int:}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", DefaultConverters.IntConverter, null) }, null);
+                yield return ("/cica/pre-{param:int}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", WrappedParser, null) }, mock => mock.Protected().Verify<TryConvert>("Wrap", Times.Once(), "pre-", "", (TryConvert) DefaultConverters.IntConverter));
+                yield return ("/cica/{param:int}-su", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", WrappedParser, null) }, mock => mock.Protected().Verify<TryConvert>("Wrap", Times.Once(), "", "-su", (TryConvert) DefaultConverters.IntConverter));
+                yield return ("/cica/pre-{param:int}-su", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", WrappedParser, null) }, mock => mock.Protected().Verify<TryConvert>("Wrap", Times.Once(), "pre-", "-su", (TryConvert) DefaultConverters.IntConverter));
+                yield return ("/cica/pre-{param:int}-su/kutya", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", WrappedParser, null), new RouteSegment("kutya", null, null) }, mock => mock.Protected().Verify<TryConvert>("Wrap", Times.Once(), "pre-", "-su", (TryConvert) DefaultConverters.IntConverter));
+                yield return ("/cica/{param:int:x}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", DefaultConverters.IntConverter, "x") }, null);
+                yield return ("/cica/{param:int}/mica/{param2:str}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", DefaultConverters.IntConverter, null), new RouteSegment("mica", null, null), new RouteSegment("param2", DefaultConverters.StrConverter, null) }, null);
+                yield return ("/cica/{param:int}/{param2:str}", new RouteSegment[] { new RouteSegment("cica", null, null), new RouteSegment("param", DefaultConverters.IntConverter, null), new RouteSegment("param2", DefaultConverters.StrConverter, null) }, null);
             }
         }
 
@@ -62,11 +50,7 @@ namespace Solti.Utils.Router.Tests
             Mock<RouteParser> mockParser = new
             (
                 MockBehavior.Strict,
-                new Dictionary<string, TryConvert>
-                {
-                    { "int", IntParser },
-                    { "str", StrParser }
-                },
+                DefaultConverters.Instance,
                 StringComparison.OrdinalIgnoreCase
             );
             mockParser
@@ -88,7 +72,7 @@ namespace Solti.Utils.Router.Tests
 
         [Test]
         public void ParseShouldThrowOnDuplicateParameterName([Values("{param:int}/{param:int}", "{param:int}/pre-{param:int}", "{param:int}/segment/{param:int}")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, TryConvert> { { "int", new Mock<TryConvert>().Object } }).Parse(input).ToList(), Resources.DUPLICATE_PARAMETER);
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, TryConvert> { { "int", new Mock<TryConvert>(MockBehavior.Strict).Object } }).Parse(input).ToList(), Resources.DUPLICATE_PARAMETER);
 
         [Test]
         public void ParseShouldThrowOnNonregisteredConverter([Values("{param:cica}")] string input) =>

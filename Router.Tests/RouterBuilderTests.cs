@@ -16,17 +16,6 @@ namespace Solti.Utils.Router.Tests
     [TestFixture]
     public class RouterBuilderTests
     {
-        private static bool IntParser(string input, string? userData, out object? value)
-        {
-            if (int.TryParse(input, out int val))
-            {
-                value = val;
-                return true;
-            }
-            value = null;
-            return false;
-        }
-
         private static object? DummyHandler(object request, IReadOnlyDictionary<string, object?> paramz, object? userData, string path) => null;
 
         [TestCase("")]
@@ -35,10 +24,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/{param:int}/cica")]
         public void AddRouteShouldThrowOnDuplicateRegistration(string route)
         {
-            RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, new Dictionary<string, TryConvert>
-            {
-                { "int", IntParser }
-            });
+            RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, DefaultConverters.Instance);
 
             Assert.DoesNotThrow(() => builder.AddRoute(route, DummyHandler));
             Assert.Throws<ArgumentException>(() => builder.AddRoute(route, DummyHandler));          
@@ -48,10 +34,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/cica/{param:int}", "/cica/{param2:int}")]
         public void AddRouteShouldThrowOnDuplicateRegistration(string a, string b)
         {
-            RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, new Dictionary<string, TryConvert>
-            {
-                { "int", IntParser }
-            });
+            RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, DefaultConverters.Instance);
 
             Assert.DoesNotThrow(() => builder.AddRoute(a, DummyHandler));
             Assert.Throws<ArgumentException>(() => builder.AddRoute(b, DummyHandler));
@@ -60,7 +43,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void AddRouteShouldThrowOnMissingConverter()
         {
-            RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, new Dictionary<string, TryConvert> {});
+            RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, new Dictionary<string, TryConvert>(0));
 
             Assert.Throws<ArgumentException>(() => builder.AddRoute("/{param:int}/cica", DummyHandler));
         }
@@ -116,10 +99,7 @@ namespace Solti.Utils.Router.Tests
         [TestCaseSource(nameof(Routes))]
         public void AddRouteShouldBuildTheRouterDelegate(string[] routes)
         {
-            RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, new Dictionary<string, TryConvert>
-            {
-                { "int", IntParser }
-            });
+            RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, DefaultConverters.Instance);
 
             routes.ForEach((route, _) => builder.AddRoute(route, DummyHandler));
             builder.Build();

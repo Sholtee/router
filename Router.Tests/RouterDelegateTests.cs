@@ -21,7 +21,7 @@ namespace Solti.Utils.Router.Tests
         {
             public string[] Routes { get; set; } = null!;
 
-            public Dictionary<string, Dictionary<string, object?>?> Inputs { get; set; } = null!; 
+            public Dictionary<string, Dictionary<string, object?>?> Cases { get; set; } = null!; 
         }
 
         private static bool ValidArgs(IReadOnlyDictionary<string, object?> actual, IReadOnlyDictionary<string, object?>? expected)
@@ -57,7 +57,7 @@ namespace Solti.Utils.Router.Tests
 
                 foreach (TestCaseDescriptor testCaseGroup in testCases)
                 {
-                    foreach (KeyValuePair<string, Dictionary<string, object?>?> testCase in testCaseGroup.Inputs)
+                    foreach (KeyValuePair<string, Dictionary<string, object?>?> testCase in testCaseGroup.Cases)
                     {
                         yield return new object?[] { testCaseGroup.Routes, testCase.Key, testCase.Value };
                     }
@@ -77,32 +77,12 @@ namespace Solti.Utils.Router.Tests
                 .Setup(h => h.Invoke(request, userData, input))
                 .Returns(true);
 
-            object? @out;
-
-            Mock<TryConvert> mockConverter = new(MockBehavior.Strict);
-            mockConverter
-                .Setup(c => c.Invoke(It.IsAny<string>(), null, out @out))
-                .Returns((string input, string? _, out object? val) =>
-                {
-                    if (int.TryParse(input, out int parsed))
-                    {
-                        val = parsed;
-                        return true;
-                    }
-
-                    val = null;
-                    return false;
-                });
-
             Mock<Handler<object, object?, object>> mockHandler = new(MockBehavior.Strict);
             mockHandler
                 .Setup(h => h.Invoke(request, It.Is<IReadOnlyDictionary<string, object?>>(actual => ValidArgs(actual, paramz)), userData, input))
                 .Returns(true);
 
-            RouterBuilder<object, object, object> bldr = new(mockDefaultHandler.Object, new Dictionary<string, TryConvert>
-            {
-                { "int",  mockConverter.Object }
-            });
+            RouterBuilder<object, object, object> bldr = new(mockDefaultHandler.Object, DefaultConverters.Instance);
             foreach (string route in routes)
             {
                 bldr.AddRoute(route, mockHandler.Object);

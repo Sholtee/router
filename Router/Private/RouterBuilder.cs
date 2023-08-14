@@ -315,7 +315,11 @@ namespace Solti.Utils.Router.Internals
                 {
                     Debug.Assert(child.Segment is not null, "Root cannot be a child");
 
-                    if (segment.Name.Equals(child.Segment.Name, StringComparison) || (segment.Converter is not null && segment.Converter == child.Segment.Converter))
+                    if
+                    (
+                        (segment.Converter is null && segment.Name.Equals(child.Segment.Name, StringComparison)) || 
+                        (segment.Converter is not null && segment.Converter == child.Segment.Converter)
+                    )
                     {
                         target = child;
                         found = true;
