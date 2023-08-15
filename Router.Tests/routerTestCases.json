@@ -9,6 +9,7 @@
 			"/": {},
 			"/cica": {},
 			"/cica/": {},
+			"/cica/x": null,
 			"/kutya": null
 		}
 	},
@@ -51,6 +52,7 @@
 				"param": 1986
 			},
 			"/1986x": null,
+			"/1986/x": null,
 			"/cica": null,
 			"/cica/1986": null
 		}
@@ -77,7 +79,8 @@
 			"/": null,
 			"/id": null,
 			"/id/1986": null,
-			"id/num-1986x": null
+			"id/num-1986x": null,
+			"id/num-1986/x": null
 		}
 	}
 ]
