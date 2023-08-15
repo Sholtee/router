@@ -34,7 +34,7 @@ namespace Solti.Utils.Router
         {
             NumberStyles flags = style switch
             {
-                "X" => NumberStyles.HexNumber,
+                "X" or "x" => NumberStyles.HexNumber,
                 null => NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowLeadingSign,
                 _ => throw new ArgumentException(Resources.INVALID_FORMAT_STYLE, nameof(style))
             };
@@ -52,8 +52,11 @@ namespace Solti.Utils.Router
         /// <summary>
         /// <see cref="String"/> converter
         /// </summary>
-        public static bool StrConverter(string input, string? _, out object? val)
+        public static bool StrConverter(string input, string? style, out object? val)
         {
+            if (style is not null)
+                throw new ArgumentException(Resources.INVALID_FORMAT_STYLE, nameof(style));
+
             val = input;
             return true;
         }
