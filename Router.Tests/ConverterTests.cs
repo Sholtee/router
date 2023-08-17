@@ -45,6 +45,6 @@ namespace Solti.Utils.Router.Tests
 
         [Test]
         public void StrConverterFactoryShouldThrowOnInvalidConfig() =>
-            Assert.Throws<ArgumentException>(() => DefaultConverters.IntConverterFactory("INVALID"), Resources.INVALID_FORMAT_STYLE);
+            Assert.Throws<ArgumentException>(() => DefaultConverters.StrConverterFactory("INVALID"), Resources.INVALID_FORMAT_STYLE);
     }
 }
