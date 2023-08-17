@@ -1,13 +1,13 @@
 {
   "bin": "\\BIN",
   "solution": "\\Router.sln",
-  "app": "\\Router\\Router.csproj",
+  "app": "\\SRC\\Router.csproj",
   "vendor": "\\Vendor",
-  "tests": "\\Router.Tests\\Router.Tests.csproj",
+  "tests": "\\TEST\\Router.Tests.csproj",
   "skipon": ["net7.0"],
   "artifacts": "\\Artifacts",
   "coveragefilter": "+[Solti.Utils.Router*]* -[Solti.Utils.Router.Tests*]* -[*]*.Properties.*",
-  "perftests": "\\Router.Perf\\Router.Perf.csproj",
+  "perftests": "\\PERF\\Router.Perf.csproj",
   "docsbranch": "gh-pages",
   "CI": "AppVeyor"
 }
