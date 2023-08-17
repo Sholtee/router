@@ -1,54 +1,59 @@
 [
 	// deepness = 1, 2
 	{
-		"routes": [
-			"/",
-			"/cica/"
-		],
+		"routes": {
+			"/": "cb_1",
+			"/cica/": "cb_2"
+		},
 		"cases": {
-			"/": {},
-			"/cica": {},
-			"/cica/": {},
+			"/": {"@callback": "cb_1"},
+			"/cica": {"@callback": "cb_2"},
+			"/cica/": {"@callback": "cb_2"},
 			"/cica/x": null,
 			"/kutya": null
 		}
 	},
 	// precedence test
 	{
-		"routes": [
-			"/1986",
-			"/{param:int}"
-		],
+		"routes": {
+			"/1986": "cb_1",
+			"/{param:int}": "cb_2"
+		},
 		"cases": {
-			"/1986": {},
+			"/1986": {"@callback": "cb_1"},
 			"/2023": {
+				"@callback": "cb_2",
 				"param": 2023
 			}
 		}
 	},
 	// precedence test II
 	{
-		"routes": [
-			"/19{param:str}",
-			"/{param:str}"
-		],
+		"routes": {
+			"/19{param:str}": "cb_1",
+			"/{param:str}": "cb_2"
+		},
 		"cases": {
 			"/1986": {
+				"@callback": "cb_1",
 				"param": "86"
 			},
 			"/2023": {
+				"@callback": "cb_2",
 				"param": "2023"
 			}
 		}
 	},
 	// deepness = 1 + param 
 	{
-		"routes": ["/{param:int}"],
+		"routes": {"/{param:int}": "cb_1"},
 		"cases": {
 			"/1986/": {
+				"@callback": "cb_1",
 				"param": 1986
 			},
 			"/1986": {
+				"@callback": "cb_1",
 				"param": 1986
 			},
 			"/1986x": null,
@@ -59,14 +64,16 @@
 	},
 	// deepness = 2 + prefix + param
 	{
-		"routes": [
-			"id/num-{param:int}"
-		],
+		"routes": {
+			"id/num-{param:int}": "cb_1"
+		},
 		"cases": {
 			"id/num-1986/": {
+				"@callback": "cb_1",
 				"param": 1986
 			},
 			"id/num-1986": {
+				"@callback": "cb_1",
 				"param": 1986
 			},
 			"/": null,
@@ -77,14 +84,16 @@
 		}
 	},
 	{
-		"routes": [
-			"id/num-{param:int:X}"
-		],
+		"routes": {
+			"id/num-{param:int:X}": "cb_1"
+		},
 		"cases": {
 			"id/num-7C2/": {
+				"@callback": "cb_1",
 				"param": 1986
 			},
 			"id/num-7C2": {
+				"@callback": "cb_1",
 				"param": 1986
 			},
 			"/": null,
@@ -96,13 +105,13 @@
 	},
 	// overlap
 	{
-		"routes": [
-			"a/b",
-			"a/b/c"
-		],
+		"routes": {
+			"a/b": "cb_1",
+			"a/b/c": "cb_2"
+		},
 		"cases": {
-			"a/b/": {},
-			"a/b/c": {},
+			"a/b/": {"@callback": "cb_1"},
+			"a/b/c": {"@callback": "cb_2"},
 			"a": null,
 			"a/b/c/d": null,
 			"a/b/d": null

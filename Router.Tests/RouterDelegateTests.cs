@@ -19,9 +19,9 @@ namespace Solti.Utils.Router.Tests
     {
         private sealed class TestCaseDescriptor
         {
-            public string[] Routes { get; set; } = null!;
+            public IReadOnlyDictionary<string, string> Routes { get; set; } = null!;
 
-            public Dictionary<string, Dictionary<string, object?>?> Cases { get; set; } = null!; 
+            public IReadOnlyDictionary<string, IReadOnlyDictionary<string, object?>?> Cases { get; set; } = null!; 
         }
 
         private static bool ValidArgs(IReadOnlyDictionary<string, object?> actual, IReadOnlyDictionary<string, object?>? expected)
@@ -57,7 +57,7 @@ namespace Solti.Utils.Router.Tests
 
                 foreach (TestCaseDescriptor testCaseGroup in testCases)
                 {
-                    foreach (KeyValuePair<string, Dictionary<string, object?>?> testCase in testCaseGroup.Cases)
+                    foreach (KeyValuePair<string, IReadOnlyDictionary<string, object?>?> testCase in testCaseGroup.Cases)
                     {
                         yield return new object?[] { testCaseGroup.Routes, testCase.Key, testCase.Value };
                     }
@@ -66,7 +66,7 @@ namespace Solti.Utils.Router.Tests
         }
 
         [TestCaseSource(nameof(TestCases))]
-        public void DelegateShouldRoute(string[] routes, string input, Dictionary<string, object?>? paramz)
+        public void DelegateShouldRoute(IReadOnlyDictionary<string, string> routes, string input, IReadOnlyDictionary<string, object?>? expectedParams)
         {
             object
                 request = new(),
@@ -79,21 +79,33 @@ namespace Solti.Utils.Router.Tests
 
             Mock<Handler<object, object?, object>> mockHandler = new(MockBehavior.Strict);
             mockHandler
-                .Setup(h => h.Invoke(request, It.Is<IReadOnlyDictionary<string, object?>>(actual => ValidArgs(actual, paramz)), userData, input))
+                .Setup(h => h.Invoke(request, It.IsAny<IReadOnlyDictionary<string, object?>>(), userData, input))
                 .Returns(true);
 
             RouterBuilder<object, object, object> bldr = new(mockDefaultHandler.Object, DefaultConverters.Instance);
-            foreach (string route in routes)
+            foreach (KeyValuePair<string, string> route in routes)
             {
-                bldr.AddRoute(route, mockHandler.Object);
+                bldr.AddRoute(route.Key, (request, actualParams, userData, path) =>
+                {
+                    Assert.That(actualParams, Is.Not.Null);
+                    return mockHandler.Object(request, new Dictionary<string, object?>(actualParams) { { "@callback", route.Value } }, userData, path);
+                });
             }
             Router<object, object?, object> router = bldr.Build();
             
             Assert.DoesNotThrow(() => router(request, userData, input));
-            if (paramz is null)
+            if (expectedParams is null)
+            {
                 mockDefaultHandler.Verify(h => h.Invoke(request, userData, input), Times.Once);
+                mockDefaultHandler.VerifyNoOtherCalls();
+                mockHandler.VerifyNoOtherCalls();
+            }
             else
-                mockHandler.Verify(h => h.Invoke(request, It.IsAny<IReadOnlyDictionary<string, object?>>(), userData, input));
+            {
+                mockHandler.Verify(h => h.Invoke(request, It.Is<IReadOnlyDictionary<string, object?>>(actualParams => ValidArgs(actualParams, expectedParams)), userData, input), Times.Once);
+                mockHandler.VerifyNoOtherCalls();
+                mockDefaultHandler.VerifyNoOtherCalls();
+            }
         }
     }
 }
