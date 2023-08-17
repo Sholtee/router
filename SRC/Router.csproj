@@ -9,6 +9,7 @@
 	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	<AssemblyName>Solti.Utils.Router</AssemblyName>
 	<RootNamespace>Solti.Utils.Router</RootNamespace>
+	<NoWarn>RS0036;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -53,6 +54,10 @@
 
   <ItemGroup>
 	<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.*">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.*">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
