@@ -60,8 +60,7 @@
 	// deepness = 2 + prefix + param
 	{
 		"routes": [
-			"id/num-{param:int}",
-			"id/num-{param:int:X}"
+			"id/num-{param:int}"
 		],
 		"cases": {
 			"id/num-1986/": {
@@ -70,6 +69,18 @@
 			"id/num-1986": {
 				"param": 1986
 			},
+			"/": null,
+			"/id": null,
+			"/id/1986": null,
+			"id/num-1986x": null,
+			"id/num-1986/x": null
+		}
+	},
+	{
+		"routes": [
+			"id/num-{param:int:X}"
+		],
+		"cases": {
 			"id/num-7C2/": {
 				"param": 1986
 			},
@@ -81,6 +92,20 @@
 			"/id/1986": null,
 			"id/num-1986x": null,
 			"id/num-1986/x": null
+		}
+	},
+	// overlap
+	{
+		"routes": [
+			"a/b",
+			"a/b/c"
+		],
+		"cases": {
+			"a/b/": {},
+			"a/b/c": {},
+			"a": null,
+			"a/b/c/d": null,
+			"a/b/d": null
 		}
 	}
 ]
