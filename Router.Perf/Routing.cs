@@ -28,9 +28,9 @@ namespace Solti.Utils.Router.Perf
         [GlobalSetup(Target = nameof(Route))]
         public void SetupRoute()
         {
-            RouterBuilder<object, object, object> bldr = new((_, _, _) => true, new Dictionary<string, TryConvert>
+            RouterBuilder<object, object, object> bldr = new((_, _, _) => true, new Dictionary<string, ConverterFactory>
             {
-                { "str", StringConverter }
+                { "str", _ => StringConverter }
             });
 
             int paramIndex = 0;
@@ -51,7 +51,7 @@ namespace Solti.Utils.Router.Perf
 
             Input = "/" + string.Join("/", Enumerable.Repeat("segemnt", SegmentCount));
 
-            static bool StringConverter(string input, string? userData, out object? val)
+            static bool StringConverter(string input, out object? val)
             {
                 val = input;
                 return true;

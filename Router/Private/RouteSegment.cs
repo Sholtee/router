@@ -10,6 +10,5 @@ namespace Solti.Utils.Router.Internals
     /// </summary>
     /// <param name="Name">The name of segment or variable</param>
     /// <param name="Converter">The converter function</param>
-    /// <param name="ConverterParam">User data to be passed to the <see cref="Converter"/> function</param>
-    internal sealed record RouteSegment(string Name, TryConvert? Converter, string? ConverterParam);
+    internal sealed record RouteSegment(string Name, TryConvert? Converter);
 }

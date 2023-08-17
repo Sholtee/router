@@ -19,7 +19,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("7C2", "x", 1986)]
         public void IntCoverterShouldParse(string input, string? style, int value)
         {
-            Assert.That(DefaultConverters.IntConverter(input, style, out object? val));
+            Assert.That(DefaultConverters.IntConverterFactory(style)(input, out object? val));
             Assert.That(val, Is.EqualTo(value));
         }
 
@@ -28,23 +28,23 @@ namespace Solti.Utils.Router.Tests
         [TestCase("INVALID", "x")]
         public void IntConverterShouldRejectInvalidValues(string input, string? style)
         {
-            Assert.False(DefaultConverters.IntConverter(input, style, out object? val));
+            Assert.False(DefaultConverters.IntConverterFactory(style)(input, out object? val));
             Assert.That(val, Is.Null);
         }
 
         [Test]
-        public void IntConverterShouldThrowOnInvalidConfig() =>
-            Assert.Throws<ArgumentException>(() => DefaultConverters.IntConverter("1986", "INVALID", out object? val), Resources.INVALID_FORMAT_STYLE);
+        public void IntConverterFactoryShouldThrowOnInvalidConfig() =>
+            Assert.Throws<ArgumentException>(() => DefaultConverters.IntConverterFactory("INVALID"), Resources.INVALID_FORMAT_STYLE);
 
-        [TestCase("1986", null)]
-        public void StrCoverterShouldParse(string input, string? style)
+        [Test]
+        public void StrCoverterShouldParse([Values("1986")] string input)
         {
-            Assert.That(DefaultConverters.StrConverter(input, style, out object? val));
+            Assert.That(DefaultConverters.StrConverterFactory(null)(input, out object? val));
             Assert.That(val, Is.EqualTo(input));
         }
 
         [Test]
-        public void StrConverterShouldThrowOnInvalidConfig() =>
-            Assert.Throws<ArgumentException>(() => DefaultConverters.StrConverter("1986", "INVALID", out object? val), Resources.INVALID_FORMAT_STYLE);
+        public void StrConverterFactoryShouldThrowOnInvalidConfig() =>
+            Assert.Throws<ArgumentException>(() => DefaultConverters.IntConverterFactory("INVALID"), Resources.INVALID_FORMAT_STYLE);
     }
 }

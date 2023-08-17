@@ -14,23 +14,23 @@ namespace Solti.Utils.Router
     /// <summary>
     /// Default converters.
     /// </summary>
-    public sealed class DefaultConverters: Dictionary<string, TryConvert>
+    public sealed class DefaultConverters: Dictionary<string, ConverterFactory>
     {
         private DefaultConverters()
         {
-            Add("int", IntConverter);
-            Add("str", StrConverter);
+            Add("int", IntConverterFactory);
+            Add("str", StrConverterFactory);
         }
 
         /// <summary>
         /// Singleton instance.
         /// </summary>
-        public static IReadOnlyDictionary<string, TryConvert> Instance { get; } = new DefaultConverters();
+        public static IReadOnlyDictionary<string, ConverterFactory> Instance { get; } = new DefaultConverters();
 
         /// <summary>
         /// <see cref="Int32"/> converter
         /// </summary>
-        public static bool IntConverter(string input, string? style, out object? val)
+        public static TryConvert IntConverterFactory(string? style)
         {
             NumberStyles flags = style switch
             {
@@ -39,26 +39,36 @@ namespace Solti.Utils.Router
                 _ => throw new ArgumentException(Resources.INVALID_FORMAT_STYLE, nameof(style))
             };
 
-            if (int.TryParse(input, flags, null, out int parsed))
-            {
-                val = parsed;
-                return true;
-            }
+            return IntConverter;
 
-            val = null;
-            return false;
+            bool IntConverter(string input, out object? val)
+            {
+                if (int.TryParse(input, flags, null, out int parsed))
+                {
+                    val = parsed;
+                    return true;
+                }
+
+                val = null;
+                return false;
+            }
         }
 
         /// <summary>
         /// <see cref="String"/> converter
         /// </summary>
-        public static bool StrConverter(string input, string? style, out object? val)
+        public static TryConvert StrConverterFactory(string? style)
         {
             if (style is not null)
                 throw new ArgumentException(Resources.INVALID_FORMAT_STYLE, nameof(style));
 
-            val = input;
-            return true;
+            return StrConverter;
+
+            static bool StrConverter(string input, out object? val)
+            {
+                val = input;
+                return true;
+            }
         }
     }
 }

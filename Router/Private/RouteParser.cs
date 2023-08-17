@@ -24,7 +24,7 @@ namespace Solti.Utils.Router.Internals
     {
         private static readonly Regex FTemplateMatcher = new("{(?<name>\\w+)?(?::(?<converter>\\w+)?)?(?::(?<param>\\w+)?)?}", RegexOptions.Compiled);
 
-        protected virtual TryConvert Wrap(string prefix, string suffix, TryConvert original) => (string input, string? userData, out object? value) =>
+        protected virtual TryConvert Wrap(string prefix, string suffix, TryConvert original) => (string input, out object? value) =>
         {
             if (input.Length <= prefix.Length + suffix.Length || !input.StartsWith(prefix, StringComparison) || !input.EndsWith(suffix, StringComparison))
             {
@@ -32,14 +32,14 @@ namespace Solti.Utils.Router.Internals
                 return false;
             }
 
-            return original(input.Substring(prefix.Length, input.Length - (prefix.Length + suffix.Length)), userData, out value);
+            return original(input.Substring(prefix.Length, input.Length - (prefix.Length + suffix.Length)), out value);
         };
 
-        public IReadOnlyDictionary<string, TryConvert> Converters { get; }
+        public IReadOnlyDictionary<string, ConverterFactory> Converters { get; }
 
         public StringComparison StringComparison { get; }
 
-        public RouteParser(IReadOnlyDictionary<string, TryConvert> converters, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        public RouteParser(IReadOnlyDictionary<string, ConverterFactory> converters, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
         {
             Converters = converters;
             StringComparison = stringComparison;
@@ -56,21 +56,24 @@ namespace Solti.Utils.Router.Internals
                 switch (match.Count)
                 {
                     case 0:
-                        return new RouteSegment(segment, null, null);
+                        return new RouteSegment(segment, null);
                     case 1:
-                        string? name = GetMatch("name");
+                        string? name = GetMatch(nameof(name));
                         if (IsNullOrEmpty(name))
                             throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(name)), nameof(input));
 
                         if (!paramz.Add(name))
                             throw new ArgumentException(Format(Culture, DUPLICATE_PARAMETER, name), nameof(input));
 
-                        string? converter = GetMatch("converter");
+                        string? converter = GetMatch(nameof(converter));
                         if (IsNullOrEmpty(converter))
                             throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(converter)), nameof(input));
 
-                        if (!Converters.TryGetValue(converter, out TryConvert converterFn))
+                        if (!Converters.TryGetValue(converter, out ConverterFactory converterFactory))
                             throw new ArgumentException(Format(Culture, CONVERTER_NOT_FOUND, converter), nameof(input));
+
+                        string? param = GetMatch(nameof(param));
+                        TryConvert converterFn = converterFactory(param);
 
                         if (match[0].ToString() != segment)
                         {
@@ -78,7 +81,7 @@ namespace Solti.Utils.Router.Internals
                             converterFn = Wrap(extra[0], extra[1], converterFn);
                         }
 
-                        return new RouteSegment(name, converterFn, GetMatch("param"));
+                        return new RouteSegment(name, converterFn);
                     default:
                         throw new ArgumentException(TOO_MANY_PARAM_DESCRIPTOR, nameof(input));
                 }

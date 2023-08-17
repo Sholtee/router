@@ -43,7 +43,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void AddRouteShouldThrowOnMissingConverter()
         {
-            RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, new Dictionary<string, TryConvert>(0));
+            RouterBuilder<object, object, object?> builder = new((_, _, _) => { Assert.Fail(); return null; }, new Dictionary<string, ConverterFactory>(0));
 
             Assert.Throws<ArgumentException>(() => builder.AddRoute("/{param:int}/cica", DummyHandler));
         }

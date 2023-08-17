@@ -201,7 +201,6 @@ namespace Solti.Utils.Router.Internals
                 (
                     Expression.Constant(junction.Segment.Converter),
                     Expression.Property(context.Segments, FCurrent),
-                    Expression.Constant(junction.Segment.ConverterParam, typeof(string)),
                     context.Converted
                 ),
                 Expression.Block
@@ -222,7 +221,7 @@ namespace Solti.Utils.Router.Internals
         }
         #endregion
 
-        public RouterBuilder(DefaultHandler<TRequest, TUserData?, TResponse> defaultHandler, IReadOnlyDictionary<string, TryConvert> converters, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        public RouterBuilder(DefaultHandler<TRequest, TUserData?, TResponse> defaultHandler, IReadOnlyDictionary<string, ConverterFactory> converters, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
         {
             DefaultHandler = defaultHandler;
             FRouteParser = new RouteParser(converters, StringComparison = stringComparison);
@@ -318,7 +317,7 @@ namespace Solti.Utils.Router.Internals
                     if
                     (
                         (segment.Converter is null && segment.Name.Equals(child.Segment.Name, StringComparison)) || 
-                        (segment.Converter is not null && segment.Converter == child.Segment.Converter)
+                        (segment.Converter is not null && segment.Converter.Method == child.Segment.Converter?.Method)
                     )
                     {
                         target = child;
