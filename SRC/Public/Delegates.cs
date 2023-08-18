@@ -26,7 +26,7 @@ namespace Solti.Utils.Router
     /// <param name="userData">User provided custom data.</param>
     /// <param name="path">Path led to here</param>
     /// <returns>The response object.</returns>
-    public delegate object DefaultRequestHandler(object? userData, string path);
+    public delegate object? DefaultRequestHandler(object? userData, string path);
 
     /// <summary>
     /// Handler for known routes.
