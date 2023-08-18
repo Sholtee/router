@@ -271,6 +271,75 @@ references:
   commentId: Overload:Solti.Utils.Router.Router.Invoke
   fullName: Solti.Utils.Router.Router.Invoke
   nameWithType: Router.Invoke
+- uid: Solti.Utils.Router.RouterBuilder
+  name: RouterBuilder
+  href: Solti.Utils.Router.RouterBuilder.html
+  commentId: T:Solti.Utils.Router.RouterBuilder
+  fullName: Solti.Utils.Router.RouterBuilder
+  nameWithType: RouterBuilder
+- uid: Solti.Utils.Router.RouterBuilder.#ctor(Solti.Utils.Router.DefaultRequestHandler,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory},System.StringComparison)
+  name: RouterBuilder(DefaultRequestHandler, IReadOnlyDictionary<String, ConverterFactory>, StringComparison)
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder__ctor_Solti_Utils_Router_DefaultRequestHandler_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__System_StringComparison_
+  commentId: M:Solti.Utils.Router.RouterBuilder.#ctor(Solti.Utils.Router.DefaultRequestHandler,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory},System.StringComparison)
+  name.vb: RouterBuilder(DefaultRequestHandler, IReadOnlyDictionary(Of String, ConverterFactory), StringComparison)
+  fullName: Solti.Utils.Router.RouterBuilder.RouterBuilder(Solti.Utils.Router.DefaultRequestHandler, System.Collections.Generic.IReadOnlyDictionary<System.String, Solti.Utils.Router.ConverterFactory>, System.StringComparison)
+  fullName.vb: Solti.Utils.Router.RouterBuilder.RouterBuilder(Solti.Utils.Router.DefaultRequestHandler, System.Collections.Generic.IReadOnlyDictionary(Of System.String, Solti.Utils.Router.ConverterFactory), System.StringComparison)
+  nameWithType: RouterBuilder.RouterBuilder(DefaultRequestHandler, IReadOnlyDictionary<String, ConverterFactory>, StringComparison)
+  nameWithType.vb: RouterBuilder.RouterBuilder(DefaultRequestHandler, IReadOnlyDictionary(Of String, ConverterFactory), StringComparison)
+- uid: Solti.Utils.Router.RouterBuilder.#ctor*
+  name: RouterBuilder
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder__ctor_
+  commentId: Overload:Solti.Utils.Router.RouterBuilder.#ctor
+  fullName: Solti.Utils.Router.RouterBuilder.RouterBuilder
+  nameWithType: RouterBuilder.RouterBuilder
+- uid: Solti.Utils.Router.RouterBuilder.AddRoute(System.String,Solti.Utils.Router.RequestHandler)
+  name: AddRoute(String, RequestHandler)
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_AddRoute_System_String_Solti_Utils_Router_RequestHandler_
+  commentId: M:Solti.Utils.Router.RouterBuilder.AddRoute(System.String,Solti.Utils.Router.RequestHandler)
+  fullName: Solti.Utils.Router.RouterBuilder.AddRoute(System.String, Solti.Utils.Router.RequestHandler)
+  nameWithType: RouterBuilder.AddRoute(String, RequestHandler)
+- uid: Solti.Utils.Router.RouterBuilder.AddRoute*
+  name: AddRoute
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_AddRoute_
+  commentId: Overload:Solti.Utils.Router.RouterBuilder.AddRoute
+  fullName: Solti.Utils.Router.RouterBuilder.AddRoute
+  nameWithType: RouterBuilder.AddRoute
+- uid: Solti.Utils.Router.RouterBuilder.Build
+  name: Build()
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_Build
+  commentId: M:Solti.Utils.Router.RouterBuilder.Build
+  fullName: Solti.Utils.Router.RouterBuilder.Build()
+  nameWithType: RouterBuilder.Build()
+- uid: Solti.Utils.Router.RouterBuilder.Build*
+  name: Build
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_Build_
+  commentId: Overload:Solti.Utils.Router.RouterBuilder.Build
+  fullName: Solti.Utils.Router.RouterBuilder.Build
+  nameWithType: RouterBuilder.Build
+- uid: Solti.Utils.Router.RouterBuilder.DefaultHandler
+  name: DefaultHandler
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_DefaultHandler
+  commentId: P:Solti.Utils.Router.RouterBuilder.DefaultHandler
+  fullName: Solti.Utils.Router.RouterBuilder.DefaultHandler
+  nameWithType: RouterBuilder.DefaultHandler
+- uid: Solti.Utils.Router.RouterBuilder.DefaultHandler*
+  name: DefaultHandler
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_DefaultHandler_
+  commentId: Overload:Solti.Utils.Router.RouterBuilder.DefaultHandler
+  fullName: Solti.Utils.Router.RouterBuilder.DefaultHandler
+  nameWithType: RouterBuilder.DefaultHandler
+- uid: Solti.Utils.Router.RouterBuilder.StringComparison
+  name: StringComparison
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_StringComparison
+  commentId: P:Solti.Utils.Router.RouterBuilder.StringComparison
+  fullName: Solti.Utils.Router.RouterBuilder.StringComparison
+  nameWithType: RouterBuilder.StringComparison
+- uid: Solti.Utils.Router.RouterBuilder.StringComparison*
+  name: StringComparison
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_StringComparison_
+  commentId: Overload:Solti.Utils.Router.RouterBuilder.StringComparison
+  fullName: Solti.Utils.Router.RouterBuilder.StringComparison
+  nameWithType: RouterBuilder.StringComparison
 - uid: Solti.Utils.Router.TryConvert
   name: TryConvert
   href: Solti.Utils.Router.TryConvert.html
