@@ -7,6 +7,16 @@
 			"/cica": null
 		}
 	},
+	// root only
+	{
+		"routes": {
+			"/": "cb_1"
+		},
+		"cases": {
+			"": {"@callback": "cb_1"},
+			"/": {"@callback": "cb_1"}
+		}
+	},
 	// deepness = 1, 2
 	{
 		"routes": {
