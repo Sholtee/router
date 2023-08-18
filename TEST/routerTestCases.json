@@ -1,4 +1,12 @@
 [
+	// empty
+	{
+		"routes": {},
+		"cases": {
+			"/": null,
+			"/cica": null
+		}
+	},
 	// deepness = 1, 2
 	{
 		"routes": {

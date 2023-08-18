@@ -254,6 +254,8 @@ namespace Solti.Utils.Router.Internals
                         context.Params,
                         context.Converted
                     },
+                    EnsureNotNull(context.Request),
+                    EnsureNotNull(context.Path),
                     Expression.Assign
                     (
                         context.Segments,
@@ -282,6 +284,15 @@ namespace Solti.Utils.Router.Internals
             Debug.WriteLine(routerExpr.GetDebugView());
 
             return routerExpr.Compile();
+
+            Expression EnsureNotNull(ParameterExpression param) => Expression.IfThen
+            (
+                Expression.Equal(param, Expression.Constant(null, param.Type)),
+                Expression.Throw
+                (
+                    Expression.Constant(new ArgumentNullException(param.Name))
+                )
+            );
         }
 
         public DefaultHandler<TRequest, TUserData?, TResponse> DefaultHandler { get; }

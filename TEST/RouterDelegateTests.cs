@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -17,11 +18,11 @@ namespace Solti.Utils.Router.Tests
     [TestFixture]
     public class RouterDelegateTests
     {
-        private sealed class TestCaseDescriptor
+        private sealed class RoutingTestCaseDescriptor
         {
             public IReadOnlyDictionary<string, string> Routes { get; set; } = null!;
 
-            public IReadOnlyDictionary<string, IReadOnlyDictionary<string, object?>?> Cases { get; set; } = null!; 
+            public IReadOnlyDictionary<string, IReadOnlyDictionary<string, object?>?> Cases { get; set; } = null!;
         }
 
         private static bool ValidArgs(IReadOnlyDictionary<string, object?> actual, IReadOnlyDictionary<string, object?>? expected)
@@ -41,11 +42,11 @@ namespace Solti.Utils.Router.Tests
             return true;
         }
 
-        public static IEnumerable<object?[]> TestCases
+        public static IEnumerable<object?[]> RoutingTestCases
         {
             get
             {
-                TestCaseDescriptor[] testCases = JsonSerializer.Deserialize<TestCaseDescriptor[]>
+                RoutingTestCaseDescriptor[] testCases = JsonSerializer.Deserialize<RoutingTestCaseDescriptor[]>
                 (
                     File.ReadAllText("routerTestCases.json"),
                     new JsonSerializerOptions
@@ -55,7 +56,7 @@ namespace Solti.Utils.Router.Tests
                     }
                 )!;
 
-                foreach (TestCaseDescriptor testCaseGroup in testCases)
+                foreach (RoutingTestCaseDescriptor testCaseGroup in testCases)
                 {
                     foreach (KeyValuePair<string, IReadOnlyDictionary<string, object?>?> testCase in testCaseGroup.Cases)
                     {
@@ -65,7 +66,7 @@ namespace Solti.Utils.Router.Tests
             }
         }
 
-        [TestCaseSource(nameof(TestCases))]
+        [TestCaseSource(nameof(RoutingTestCases))]
         public void DelegateShouldRoute(IReadOnlyDictionary<string, string> routes, string input, IReadOnlyDictionary<string, object?>? expectedParams)
         {
             object
@@ -92,7 +93,7 @@ namespace Solti.Utils.Router.Tests
                 });
             }
             Router<object, object?, object> router = bldr.Build();
-            
+
             Assert.DoesNotThrow(() => router(request, userData, input));
             if (expectedParams is null)
             {
@@ -106,6 +107,14 @@ namespace Solti.Utils.Router.Tests
                 mockHandler.VerifyNoOtherCalls();
                 mockDefaultHandler.VerifyNoOtherCalls();
             }
+        }
+
+        [TestCase("request", null)]
+        [TestCase(null, "path")]
+        public void DelegateShouldThrowOnNullParameter(object request, string path)
+        {
+            Router<object, object?, object> router = new RouterBuilder<object, object?, object>((_, _, _) => false, DefaultConverters.Instance).Build();
+            Assert.Throws<ArgumentNullException>(() => router(request, null, path));
         }
     }
 }
