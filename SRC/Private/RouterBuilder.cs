@@ -20,58 +20,54 @@ namespace Solti.Utils.Router.Internals
     /// <code>
     /// TResponse Route(TRequest request, TUserData? userData, string path)
     /// { 
-    ///     using(IEnumerator&lt;string&gt; segments = PathSplitter.Split(path).GetEnumerator())
-    ///     {
-    ///         Dictionary&lt;string, object?&gt; paramz = new();
-    ///         object converted;
+    ///     PathSplitter segments = PathSplitter.Split(path);
+    ///     Dictionary&lt;string, object?&gt; paramz = new();
+    ///     object converted;
     ///    
-    ///         if (segments.MoveNext())
+    ///     if (segments.MoveNext())
+    ///     {
+    ///         if (segments.Current == "cica")
     ///         {
-    ///             if (segments.Current == "cica")
+    ///             if (segments.MoveNext())
     ///             {
-    ///                 if (segments.MoveNext())
+    ///                 if (segments.Current == "mica")
     ///                 {
-    ///                     if (segments.Current == "mica")
+    ///                     if (segments.MoveNext())
     ///                     {
-    ///                         if (segments.MoveNext())
-    ///                         {
-    ///                             return DefaultHandler(request, userData, path);
-    ///                         }
-    /// 
-    ///                         return CicaMicaHandler(request, paramz, userData, path); // "/cica/mica" defined
+    ///                         return DefaultHandler(request, userData, path);
     ///                     }
-    ///                     
-    ///                     if (intParser(segments.Current, out converted))
-    ///                     {
-    ///                         paramz.Add("id", val);
-    ///                         
-    ///                         if (segments.MoveNext())
-    ///                         {
-    ///                             return DefaultHandler(request, userData, path);
-    ///                         }
     /// 
-    ///                         return CicaIdHandler(request, paramz, userData, path); // "/cica/{id:int}" defined
-    ///                     }
-    ///                     
-    ///                     return DefaultHandler(request, userData, path);  // neither "/cica/mica" nor "/cica/{id:int}"
+    ///                     return CicaMicaHandler(request, paramz, userData, path); // "/cica/mica" defined
     ///                 }
-    ///                 
-    ///                 return CicaHandler(request, paramz, userData, path); // "/cica" defined
+    ///                     
+    ///                 if (intParser(segments.Current, out converted))
+    ///                 {
+    ///                     paramz.Add("id", val);
+    ///                         
+    ///                     if (segments.MoveNext())
+    ///                     {
+    ///                         return DefaultHandler(request, userData, path);
+    ///                     }
+    /// 
+    ///                     return CicaIdHandler(request, paramz, userData, path); // "/cica/{id:int}" defined
+    ///                 }
+    ///                     
+    ///                 return DefaultHandler(request, userData, path);  // neither "/cica/mica" nor "/cica/{id:int}"
     ///             }
-    ///             
-    ///             return DefaultHandler(request, userData, path);  // not "/cica[/..]"
+    ///                 
+    ///             return CicaHandler(request, paramz, userData, path); // "/cica" defined
     ///         }
-    ///         
-    ///         return RootHandler(request, paramz, userData, path);  // "/" is defined
+    ///             
+    ///         return DefaultHandler(request, userData, path);  // not "/cica[/..]"
     ///     }
+    ///         
+    ///     return RootHandler(request, paramz, userData, path);  // "/" is defined
     /// }
     /// </code>
     /// </summary>
     internal sealed class RouterBuilder<TRequest, TUserData, TResponse>
     {
         #region Private
-        private delegate TResponse CoreFn(TRequest request, PathSplitter segment, TUserData? userData, string path);
-
         private sealed class Junction
         {
             public RouteSegment? Segment { get; init; }  // null at "/"
@@ -80,23 +76,36 @@ namespace Solti.Utils.Router.Internals
         }
 
         private sealed class BuildContext
-        {
-            public ParameterExpression Segments { get; } = Expression.Parameter(typeof(PathSplitter), nameof(Segments).ToLower());
-            public ParameterExpression Request { get; } = Expression.Parameter(typeof(TRequest), nameof(Request).ToLower());
-            public ParameterExpression Params { get; } = Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower());
+        {        
+            public ParameterExpression Request  { get; } = Expression.Parameter(typeof(TRequest), nameof(Request).ToLower());
             public ParameterExpression UserData { get; } = Expression.Parameter(typeof(TUserData?), nameof(UserData).ToLower());
-            public ParameterExpression Path { get; } = Expression.Parameter(typeof(string), nameof(Path).ToLower());
+            public ParameterExpression Path     { get; } = Expression.Parameter(typeof(string), nameof(Path).ToLower());
+
+            public ParameterExpression Segments  { get; } = Expression.Variable(typeof(PathSplitter), nameof(Segments).ToLower());
+            public ParameterExpression Params    { get; } = Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower());
             public ParameterExpression Converted { get; } = Expression.Variable(typeof(object), nameof(Converted).ToLower());
+
             public LabelTarget Exit { get; } = Expression.Label(typeof(TResponse), nameof(Exit));
         };
 
         private static readonly MethodInfo FMoveNext =
         (
-            (MethodCallExpression) 
+            (MethodCallExpression)
             (
-                (Expression<Action<PathSplitter>>) 
+                (Expression<Action<PathSplitter>>)
                 (
                     static enumerator => enumerator.MoveNext()
+                )
+            ).Body
+        ).Method;
+
+        private static readonly MethodInfo FSplit =
+        (
+            (MethodCallExpression) 
+            (
+                (Expression<Action>) 
+                (
+                    static () => PathSplitter.Split(null!)
                 )
             ).Body
         ).Method;
@@ -234,16 +243,22 @@ namespace Solti.Utils.Router.Internals
         {
             BuildContext context = new();
 
-            Expression<CoreFn> coreExpr = Expression.Lambda<CoreFn>
+            Expression<Router<TRequest, TUserData?, TResponse>> routerExpr = Expression.Lambda<Router<TRequest, TUserData?, TResponse>>
             (
                 body: Expression.Block
                 (
                     type: typeof(TResponse),
                     variables: new ParameterExpression[]
                     {
+                        context.Segments,
                         context.Params,
                         context.Converted
                     },
+                    Expression.Assign
+                    (
+                        context.Segments,
+                        Expression.Call(FSplit, context.Path)
+                    ),
                     Expression.Assign
                     (
                         context.Params,
@@ -259,35 +274,14 @@ namespace Solti.Utils.Router.Internals
                 parameters: new ParameterExpression[]
                 {
                     context.Request,
-                    context.Segments,
                     context.UserData,
                     context.Path
                 }
             );
 
-            Debug.WriteLine(coreExpr.GetDebugView());
+            Debug.WriteLine(routerExpr.GetDebugView());
 
-            CoreFn core = coreExpr.Compile();
-
-            return (TRequest request, TUserData? userData, string path) =>
-            {
-                //
-                // This delegate will be exposed so do proper input validation
-                //
-
-                PathSplitter segments = PathSplitter.Split
-                (
-                    path ?? throw new ArgumentNullException(nameof(path))
-                );
-
-                return core
-                (
-                    request ?? throw new ArgumentNullException(nameof(request)),
-                    segments,
-                    userData,
-                    path
-                );
-            };
+            return routerExpr.Compile();
         }
 
         public DefaultHandler<TRequest, TUserData?, TResponse> DefaultHandler { get; }
