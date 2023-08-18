@@ -10,7 +10,6 @@ using NUnit.Framework;
 
 namespace Solti.Utils.Router.Tests
 {
-    using Internals;
     using Primitives;
 
     [TestFixture]
@@ -27,7 +26,7 @@ namespace Solti.Utils.Router.Tests
             RouterBuilder builder = new((_, _) => { Assert.Fail(); return null; }, DefaultConverters.Instance);
 
             Assert.DoesNotThrow(() => builder.AddRoute(route, DummyHandler));
-            Assert.Throws<ArgumentException>(() => builder.AddRoute(route, DummyHandler));          
+            Assert.Throws<ArgumentException>(() => builder.AddRoute(route, DummyHandler));
         }
 
         [TestCase("/{param:int}/cica", "/{param2:int}/cica")]
@@ -48,6 +47,27 @@ namespace Solti.Utils.Router.Tests
             RouterBuilder builder = new((_, _) => { Assert.Fail(); return null; }, new Dictionary<string, ConverterFactory>(0));
 
             Assert.Throws<ArgumentException>(() => builder.AddRoute("/{param:int}/cica", DummyHandler));
+        }
+
+        [Test]
+        public void CtorShouldThrowOnNull() => Assert.Throws<ArgumentNullException>(() => new RouterBuilder(null!));
+
+        public static IEnumerable<object?[]> NullCases
+        {
+            get
+            {
+                yield return new object?[] { null, null };
+                yield return new object?[] { "path", null };
+                yield return new object?[] { null, (RequestHandler)((_, _, _) => false) };
+            }
+        }
+
+        [TestCaseSource(nameof(NullCases))]
+        public void AddRouteShouldThrowOnNull(string route, RequestHandler handler)
+        {
+            RouterBuilder builder = new((_, _) => { Assert.Fail(); return null; }, new Dictionary<string, ConverterFactory>(0));
+
+            Assert.Throws<ArgumentNullException>(() => builder.AddRoute(route, handler));
         }
 
         public static IEnumerable<string[]> Routes

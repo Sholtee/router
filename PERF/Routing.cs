@@ -10,8 +10,6 @@ using BenchmarkDotNet.Attributes;
 
 namespace Solti.Utils.Router.Perf
 {
-    using Internals;
-
     [MemoryDiagnoser]
     public class Routing
     {

@@ -13,8 +13,6 @@ using NUnit.Framework;
 
 namespace Solti.Utils.Router.Tests
 {
-    using Internals;
-
     [TestFixture]
     public class RouterDelegateTests
     {

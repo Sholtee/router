@@ -10,18 +10,19 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Solti.Utils.Router.Internals
+namespace Solti.Utils.Router
 {
+    using Internals;
     using Primitives;
     using Properties;
 
     /// <summary>
-    /// Builds the switch statement which does the actual routing.
+    /// Builds the <see cref="Router"/> delegate that does the actual routing.
     /// <code>
     /// object Route(object? userData, string path)
     /// { 
     ///     PathSplitter segments = PathSplitter.Split(path);
-    ///     Dictionary&lt;string, object?&gt; paramz = new();
+    ///     Dictionary&lt;string, object?&gt; paramz = new(MaxParameters);
     ///     object converted;
     ///    
     ///     if (segments.MoveNext())
@@ -65,7 +66,7 @@ namespace Solti.Utils.Router.Internals
     /// }
     /// </code>
     /// </summary>
-    internal sealed class RouterBuilder
+    public sealed class RouterBuilder
     {
         #region Private
         private sealed class Junction
@@ -229,14 +230,24 @@ namespace Solti.Utils.Router.Internals
         }
         #endregion
 
-        public RouterBuilder(DefaultRequestHandler defaultHandler, IReadOnlyDictionary<string, ConverterFactory> converters, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        /// <summary>
+        /// Creates a new <see cref="RouterBuilder"/> instance.
+        /// </summary>
+        /// <param name="defaultHandler">Delegate to handle unknown routes.</param>
+        /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be sued.</param>
+        /// <param name="stringComparison">Case rules to be used (strongly advised to use the value of <see cref="StringComparison.OrdinalIgnoreCase"/>)</param>
+        public RouterBuilder(DefaultRequestHandler defaultHandler, IReadOnlyDictionary<string, ConverterFactory>? converters = null, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
         {
-            DefaultHandler = defaultHandler;
-            FRouteParser = new RouteParser(converters, StringComparison = stringComparison);
+            DefaultHandler = defaultHandler ?? throw new ArgumentNullException(nameof(defaultHandler));
+            FRouteParser = new RouteParser
+            (
+                converters ?? converters ?? DefaultConverters.Instance,
+                StringComparison = stringComparison
+            );
         }
 
         /// <summary>
-        /// Builds the actual <see cref="Router{TRequest, TUserData?, TResponse}"/>.
+        /// Builds the actual <see cref="Router"/> delegate.
         /// </summary>
         public Router Build()
         {
@@ -276,7 +287,7 @@ namespace Solti.Utils.Router.Internals
                         )
                     ),
                     BuildJunction(FRoot, context),
-                    Expression.Label(context.Exit, Expression.Constant(default(object)))
+                    Expression.Label(context.Exit, Expression.Constant(null, typeof(object)))
                 ),
                 parameters: new ParameterExpression[]
                 {
@@ -290,18 +301,30 @@ namespace Solti.Utils.Router.Internals
             return routerExpr.Compile();
         }
 
+        /// <summary>
+        /// Delegate that handles the unknown routes.
+        /// </summary>
         public DefaultRequestHandler DefaultHandler { get; }
 
+        /// <summary>
+        /// Case rules
+        /// </summary>
         public StringComparison StringComparison { get; }
 
         /// <summary>
-        /// Registers a route.
+        /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered.</param>
         /// <param name="handler">Function accepting requests on the given route.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
         public void AddRoute(string route, RequestHandler handler)
         {
+            if (route is null)
+                throw new ArgumentNullException(nameof(route));
+
+            if (handler is null)
+                throw new ArgumentNullException(nameof(handler));
+
             Junction target = FRoot;
 
             int parameters = 0;
