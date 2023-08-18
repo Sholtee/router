@@ -1,8 +1,8 @@
 ﻿Solti.Utils.Router.ConverterFactory
 Solti.Utils.Router.DefaultConverters
-Solti.Utils.Router.DefaultHandler<TRequest, TUserData, TResponse>
-Solti.Utils.Router.Handler<TRequest, TUserData, TResponse>
-Solti.Utils.Router.Router<TRequest, TUserData, TResponse>
+Solti.Utils.Router.DefaultRequestHandler
+Solti.Utils.Router.RequestHandler
+Solti.Utils.Router.Router
 Solti.Utils.Router.TryConvert
 static Solti.Utils.Router.DefaultConverters.Instance.get -> System.Collections.Generic.IReadOnlyDictionary<string, Solti.Utils.Router.ConverterFactory>
 static Solti.Utils.Router.DefaultConverters.IntConverterFactory(string style) -> Solti.Utils.Router.TryConvert

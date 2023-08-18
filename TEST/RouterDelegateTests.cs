@@ -73,48 +73,47 @@ namespace Solti.Utils.Router.Tests
                 request = new(),
                 userData = new();
 
-            Mock<DefaultHandler<object, object?, object>> mockDefaultHandler = new(MockBehavior.Strict);
+            Mock<DefaultRequestHandler> mockDefaultHandler = new(MockBehavior.Strict);
             mockDefaultHandler
-                .Setup(h => h.Invoke(request, userData, input))
+                .Setup(h => h.Invoke(userData, input))
                 .Returns(true);
 
-            Mock<Handler<object, object?, object>> mockHandler = new(MockBehavior.Strict);
+            Mock<RequestHandler> mockHandler = new(MockBehavior.Strict);
             mockHandler
-                .Setup(h => h.Invoke(request, It.IsAny<IReadOnlyDictionary<string, object?>>(), userData, input))
+                .Setup(h => h.Invoke(It.IsAny<IReadOnlyDictionary<string, object?>>(), userData, input))
                 .Returns(true);
 
-            RouterBuilder<object, object, object> bldr = new(mockDefaultHandler.Object, DefaultConverters.Instance);
+            RouterBuilder bldr = new(mockDefaultHandler.Object, DefaultConverters.Instance);
             foreach (KeyValuePair<string, string> route in routes)
             {
-                bldr.AddRoute(route.Key, (request, actualParams, userData, path) =>
+                bldr.AddRoute(route.Key, (actualParams, userData, path) =>
                 {
                     Assert.That(actualParams, Is.Not.Null);
-                    return mockHandler.Object(request, new Dictionary<string, object?>(actualParams) { { "@callback", route.Value } }, userData, path);
+                    return mockHandler.Object(new Dictionary<string, object?>(actualParams) { { "@callback", route.Value } }, userData, path);
                 });
             }
-            Router<object, object?, object> router = bldr.Build();
+            Router router = bldr.Build();
 
-            Assert.DoesNotThrow(() => router(request, userData, input));
+            Assert.DoesNotThrow(() => router(userData, input));
             if (expectedParams is null)
             {
-                mockDefaultHandler.Verify(h => h.Invoke(request, userData, input), Times.Once);
+                mockDefaultHandler.Verify(h => h.Invoke(userData, input), Times.Once);
                 mockDefaultHandler.VerifyNoOtherCalls();
                 mockHandler.VerifyNoOtherCalls();
             }
             else
             {
-                mockHandler.Verify(h => h.Invoke(request, It.Is<IReadOnlyDictionary<string, object?>>(actualParams => ValidArgs(actualParams, expectedParams)), userData, input), Times.Once);
+                mockHandler.Verify(h => h.Invoke(It.Is<IReadOnlyDictionary<string, object?>>(actualParams => ValidArgs(actualParams, expectedParams)), userData, input), Times.Once);
                 mockHandler.VerifyNoOtherCalls();
                 mockDefaultHandler.VerifyNoOtherCalls();
             }
         }
 
-        [TestCase("request", null)]
-        [TestCase(null, "path")]
-        public void DelegateShouldThrowOnNullParameter(object request, string path)
+        [Test]
+        public void DelegateShouldThrowOnNullPath()
         {
-            Router<object, object?, object> router = new RouterBuilder<object, object?, object>((_, _, _) => false, DefaultConverters.Instance).Build();
-            Assert.Throws<ArgumentNullException>(() => router(request, null, path));
+            Router router = new RouterBuilder((_, _) => false, DefaultConverters.Instance).Build();
+            Assert.Throws<ArgumentNullException>(() => router(null, null!));
         }
     }
 }

@@ -23,12 +23,12 @@ namespace Solti.Utils.Router.Perf
 
         public string Input { get; set; } = null!;
 
-        public Router<object, object?, object> Router { get; set; } = null!;
+        public Router Router { get; set; } = null!;
 
         [GlobalSetup(Target = nameof(Route))]
         public void SetupRoute()
         {
-            RouterBuilder<object, object, object> bldr = new((_, _, _) => true, new Dictionary<string, ConverterFactory>
+            RouterBuilder bldr = new((_, _) => true, new Dictionary<string, ConverterFactory>
             {
                 { "str", _ => StringConverter }
             });
@@ -44,7 +44,7 @@ namespace Solti.Utils.Router.Perf
                         .Repeat("segemnt", SegmentCount)
                         .Select((segment, i) => HasParams && i % 2 == 0 ? $"{{param{paramIndex++}:str}}" : segment)
                 ),
-                (_, _, _, _) => true
+                (_, _, _) => true
             );
 
             Router = bldr.Build();
@@ -59,6 +59,6 @@ namespace Solti.Utils.Router.Perf
         }
 
         [Benchmark]
-        public void Route() => Router(this, null, Input);
+        public void Route() => Router(null, Input);
     }
 }

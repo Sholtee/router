@@ -18,7 +18,7 @@ namespace Solti.Utils.Router.Internals
     /// <summary>
     /// Builds the switch statement which does the actual routing.
     /// <code>
-    /// TResponse Route(TRequest request, TUserData? userData, string path)
+    /// object Route(object? userData, string path)
     /// { 
     ///     PathSplitter segments = PathSplitter.Split(path);
     ///     Dictionary&lt;string, object?&gt; paramz = new();
@@ -34,10 +34,10 @@ namespace Solti.Utils.Router.Internals
     ///                 {
     ///                     if (segments.MoveNext())
     ///                     {
-    ///                         return DefaultHandler(request, userData, path);
+    ///                         return DefaultHandler(userData, path);
     ///                     }
     /// 
-    ///                     return CicaMicaHandler(request, paramz, userData, path); // "/cica/mica" defined
+    ///                     return CicaMicaHandler(paramz, userData, path); // "/cica/mica" defined
     ///                 }
     ///                     
     ///                 if (intParser(segments.Current, out converted))
@@ -46,46 +46,45 @@ namespace Solti.Utils.Router.Internals
     ///                         
     ///                     if (segments.MoveNext())
     ///                     {
-    ///                         return DefaultHandler(request, userData, path);
+    ///                         return DefaultHandler(userData, path);
     ///                     }
     /// 
-    ///                     return CicaIdHandler(request, paramz, userData, path); // "/cica/{id:int}" defined
+    ///                     return CicaIdHandler(paramz, userData, path); // "/cica/{id:int}" defined
     ///                 }
     ///                     
-    ///                 return DefaultHandler(request, userData, path);  // neither "/cica/mica" nor "/cica/{id:int}"
+    ///                 return DefaultHandler(userData, path);  // neither "/cica/mica" nor "/cica/{id:int}"
     ///             }
     ///                 
-    ///             return CicaHandler(request, paramz, userData, path); // "/cica" defined
+    ///             return CicaHandler(paramz, userData, path); // "/cica" defined
     ///         }
     ///             
-    ///         return DefaultHandler(request, userData, path);  // not "/cica[/..]"
+    ///         return DefaultHandler(userData, path);  // not "/cica[/..]"
     ///     }
     ///         
-    ///     return RootHandler(request, paramz, userData, path);  // "/" is defined
+    ///     return RootHandler(paramz, userData, path);  // "/" is defined
     /// }
     /// </code>
     /// </summary>
-    internal sealed class RouterBuilder<TRequest, TUserData, TResponse>
+    internal sealed class RouterBuilder
     {
         #region Private
         private sealed class Junction
         {
             public RouteSegment? Segment { get; init; }  // null at "/"
-            public Handler<TRequest, TUserData?, TResponse>? Handler { get; set; }
+            public RequestHandler? Handler { get; set; }
             public IList<Junction> Children { get; } = new List<Junction>();
         }
 
         private sealed class BuildContext
         {        
-            public ParameterExpression Request  { get; } = Expression.Parameter(typeof(TRequest), nameof(Request).ToLower());
-            public ParameterExpression UserData { get; } = Expression.Parameter(typeof(TUserData?), nameof(UserData).ToLower());
+            public ParameterExpression UserData { get; } = Expression.Parameter(typeof(object), nameof(UserData).ToLower());
             public ParameterExpression Path     { get; } = Expression.Parameter(typeof(string), nameof(Path).ToLower());
 
             public ParameterExpression Segments  { get; } = Expression.Variable(typeof(PathSplitter), nameof(Segments).ToLower());
             public ParameterExpression Params    { get; } = Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower());
             public ParameterExpression Converted { get; } = Expression.Variable(typeof(object), nameof(Converted).ToLower());
 
-            public LabelTarget Exit { get; } = Expression.Label(typeof(TResponse), nameof(Exit));
+            public LabelTarget Exit { get; } = Expression.Label(typeof(object), nameof(Exit));
         };
 
         private static readonly MethodInfo FMoveNext =
@@ -157,7 +156,7 @@ namespace Solti.Utils.Router.Internals
                     Expression.Call(context.Segments, FMoveNext),
                     Expression.Block
                     (
-                        type: typeof(TResponse),
+                        type: typeof(object),
                         junction
                             .Children
                             .Select(junction => BuildJunction(junction, context))
@@ -166,7 +165,7 @@ namespace Solti.Utils.Router.Internals
                             (
                                 Return
                                 (
-                                    Expression.Invoke(Expression.Constant(DefaultHandler), context.Request, context.UserData, context.Path)
+                                    Expression.Invoke(Expression.Constant(DefaultHandler), context.UserData, context.Path)
                                 )
                             )
                     )
@@ -174,14 +173,14 @@ namespace Solti.Utils.Router.Internals
                 invokeHandler = Return
                 (
                     junction.Handler is not null
-                        ? Expression.Invoke(Expression.Constant(junction.Handler), context.Request, context.Params, context.UserData, context.Path)
-                        : Expression.Invoke(Expression.Constant(DefaultHandler), context.Request, context.UserData, context.Path)
+                        ? Expression.Invoke(Expression.Constant(junction.Handler), context.Params, context.UserData, context.Path)
+                        : Expression.Invoke(Expression.Constant(DefaultHandler), context.UserData, context.Path)
                 );
 
             if (junction.Segment is null)  // root node, no segment
                 return Expression.Block
                 (
-                    type: typeof(TResponse),
+                    type: typeof(object),
                     tryProcessNextJunction,
                     invokeHandler
                 );
@@ -198,7 +197,7 @@ namespace Solti.Utils.Router.Internals
                     ),
                     Expression.Block
                     (
-                        type: typeof(TResponse),
+                        type: typeof(object),
                         tryProcessNextJunction,
                         invokeHandler
                     )
@@ -214,7 +213,7 @@ namespace Solti.Utils.Router.Internals
                 ),
                 Expression.Block
                 (
-                    type: typeof(TResponse),
+                    type: typeof(object),
                     Expression.Call(context.Params, FAddParam, Expression.Constant(junction.Segment.Name), context.Converted),
                     tryProcessNextJunction,
                     invokeHandler
@@ -225,12 +224,12 @@ namespace Solti.Utils.Router.Internals
             (
                 context.Exit,
                 invocation,
-                typeof(TResponse)
+                typeof(object)
             );
         }
         #endregion
 
-        public RouterBuilder(DefaultHandler<TRequest, TUserData?, TResponse> defaultHandler, IReadOnlyDictionary<string, ConverterFactory> converters, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        public RouterBuilder(DefaultRequestHandler defaultHandler, IReadOnlyDictionary<string, ConverterFactory> converters, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
         {
             DefaultHandler = defaultHandler;
             FRouteParser = new RouteParser(converters, StringComparison = stringComparison);
@@ -239,23 +238,29 @@ namespace Solti.Utils.Router.Internals
         /// <summary>
         /// Builds the actual <see cref="Router{TRequest, TUserData?, TResponse}"/>.
         /// </summary>
-        public Router<TRequest, TUserData?, TResponse> Build()
+        public Router Build()
         {
             BuildContext context = new();
 
-            Expression<Router<TRequest, TUserData?, TResponse>> routerExpr = Expression.Lambda<Router<TRequest, TUserData?, TResponse>>
+            Expression<Router> routerExpr = Expression.Lambda<Router>
             (
                 body: Expression.Block
                 (
-                    type: typeof(TResponse),
+                    type: typeof(object),
                     variables: new ParameterExpression[]
                     {
                         context.Segments,
                         context.Params,
                         context.Converted
                     },
-                    EnsureNotNull(context.Request),
-                    EnsureNotNull(context.Path),
+                    Expression.IfThen
+                    (
+                        Expression.Equal(context.Path, Expression.Constant(null, context.Path.Type)),
+                        Expression.Throw
+                        (
+                            Expression.Constant(new ArgumentNullException(context.Path.Name))
+                        )
+                    ),
                     Expression.Assign
                     (
                         context.Segments,
@@ -271,11 +276,10 @@ namespace Solti.Utils.Router.Internals
                         )
                     ),
                     BuildJunction(FRoot, context),
-                    Expression.Label(context.Exit, Expression.Constant(default(TResponse)))
+                    Expression.Label(context.Exit, Expression.Constant(default(object)))
                 ),
                 parameters: new ParameterExpression[]
                 {
-                    context.Request,
                     context.UserData,
                     context.Path
                 }
@@ -284,18 +288,9 @@ namespace Solti.Utils.Router.Internals
             Debug.WriteLine(routerExpr.GetDebugView());
 
             return routerExpr.Compile();
-
-            Expression EnsureNotNull(ParameterExpression param) => Expression.IfThen
-            (
-                Expression.Equal(param, Expression.Constant(null, param.Type)),
-                Expression.Throw
-                (
-                    Expression.Constant(new ArgumentNullException(param.Name))
-                )
-            );
         }
 
-        public DefaultHandler<TRequest, TUserData?, TResponse> DefaultHandler { get; }
+        public DefaultRequestHandler DefaultHandler { get; }
 
         public StringComparison StringComparison { get; }
 
@@ -305,7 +300,7 @@ namespace Solti.Utils.Router.Internals
         /// <param name="route">Route to be registered.</param>
         /// <param name="handler">Function accepting requests on the given route.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(string route, Handler<TRequest, TUserData?, TResponse> handler)
+        public void AddRoute(string route, RequestHandler handler)
         {
             Junction target = FRoot;
 
