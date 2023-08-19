@@ -172,12 +172,11 @@ namespace Solti.Utils.Router
 
         private int FMaxParameters;
 
-        private Expression BuildJunction(Junction junction, BuildContext context, bool root)
+        private Expression BuildJunction(Junction junction, BuildContext context)
         {
             if (junction.Segment is null)  // root node, no segment
                 return Expression.Block
                 (
-                    type: typeof(object),
                     ProcessJunction()
                 );
 
@@ -227,7 +226,7 @@ namespace Solti.Utils.Router
                     (
                         junction
                             .Children
-                            .Select(junction => BuildJunction(junction, context, false))
+                            .Select(junction => BuildJunction(junction, context))
                             .Append
                             (
                                 Return
@@ -256,7 +255,7 @@ namespace Solti.Utils.Router
                     );
                 }
 
-                if (root)
+                if (junction.Segment is null)
                     yield return Return
                     (
                         Expression.Invoke(Expression.Constant(DefaultHandler), context.UserData)
@@ -329,7 +328,7 @@ namespace Solti.Utils.Router
                             Expression.Constant(FMaxParameters)
                         )
                     ),
-                    BuildJunction(FRoot, context, true),
+                    BuildJunction(FRoot, context),
                     Expression.Label(context.Exit, Expression.Constant(null, typeof(object)))
                 ),
                 parameters: new ParameterExpression[]
