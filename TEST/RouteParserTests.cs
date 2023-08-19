@@ -248,8 +248,7 @@ namespace Solti.Utils.Router.Tests
                 {
                     { "int", mockIntConverterFactory.Object },
                     { "str", mockStrConverterFactory.Object }
-                },
-                StringComparison.OrdinalIgnoreCase
+                }
             );
             mockParser
                 .Protected()

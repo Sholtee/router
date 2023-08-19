@@ -4,11 +4,10 @@ Solti.Utils.Router.DefaultRequestHandler
 Solti.Utils.Router.RequestHandler
 Solti.Utils.Router.Router
 Solti.Utils.Router.RouterBuilder
-Solti.Utils.Router.RouterBuilder.AddRoute(string! route, Solti.Utils.Router.RequestHandler! handler) -> void
+Solti.Utils.Router.RouterBuilder.AddRoute(string! route, Solti.Utils.Router.RequestHandler! handler, params string![]! methods) -> void
 Solti.Utils.Router.RouterBuilder.Build() -> Solti.Utils.Router.Router!
 Solti.Utils.Router.RouterBuilder.DefaultHandler.get -> Solti.Utils.Router.DefaultRequestHandler!
-Solti.Utils.Router.RouterBuilder.RouterBuilder(Solti.Utils.Router.DefaultRequestHandler! defaultHandler, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null, System.StringComparison stringComparison = System.StringComparison.OrdinalIgnoreCase) -> void
-Solti.Utils.Router.RouterBuilder.StringComparison.get -> System.StringComparison
+Solti.Utils.Router.RouterBuilder.RouterBuilder(Solti.Utils.Router.DefaultRequestHandler! defaultHandler, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> void
 Solti.Utils.Router.TryConvert
 static Solti.Utils.Router.DefaultConverters.Instance.get -> System.Collections.Generic.IReadOnlyDictionary<string, Solti.Utils.Router.ConverterFactory>
 static Solti.Utils.Router.DefaultConverters.IntConverterFactory(string style) -> Solti.Utils.Router.TryConvert

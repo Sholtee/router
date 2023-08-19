@@ -26,7 +26,7 @@ namespace Solti.Utils.Router.Internals
 
         protected virtual TryConvert Wrap(string prefix, string suffix, TryConvert original) => (string input, out object? value) =>
         {
-            if (input.Length <= prefix.Length + suffix.Length || !input.StartsWith(prefix, StringComparison) || !input.EndsWith(suffix, StringComparison))
+            if (input.Length <= prefix.Length + suffix.Length || !input.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) || !input.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
             {
                 value = null;
                 return false;
@@ -37,13 +37,7 @@ namespace Solti.Utils.Router.Internals
 
         public IReadOnlyDictionary<string, ConverterFactory> Converters { get; }
 
-        public StringComparison StringComparison { get; }
-
-        public RouteParser(IReadOnlyDictionary<string, ConverterFactory> converters, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
-        {
-            Converters = converters;
-            StringComparison = stringComparison;
-        }
+        public RouteParser(IReadOnlyDictionary<string, ConverterFactory> converters) => Converters = converters;
 
         public IEnumerable<RouteSegment> Parse(string input)
         {
@@ -62,14 +56,14 @@ namespace Solti.Utils.Router.Internals
                         if (IsNullOrEmpty(name))
                             throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(name)), nameof(input));
 
-                        if (!paramz.Add(name))
+                        if (!paramz.Add(name!))
                             throw new ArgumentException(Format(Culture, DUPLICATE_PARAMETER, name), nameof(input));
 
                         string? converter = GetMatch(nameof(converter));
                         if (IsNullOrEmpty(converter))
                             throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(converter)), nameof(input));
 
-                        if (!Converters.TryGetValue(converter, out ConverterFactory converterFactory))
+                        if (!Converters.TryGetValue(converter!, out ConverterFactory converterFactory))
                             throw new ArgumentException(Format(Culture, CONVERTER_NOT_FOUND, converter), nameof(input));
 
                         string? param = GetMatch(nameof(param));
@@ -77,7 +71,7 @@ namespace Solti.Utils.Router.Internals
 
                         if (match[0].ToString() != segment)
                         {
-                            string[] extra = segment.Split(match[0].ToString(), StringSplitOptions.None);
+                            string[] extra = segment.Split(new string[] { match[0].ToString() }, StringSplitOptions.None);
                             converterFn = Wrap(extra[0], extra[1], converterFn);
                         }
 

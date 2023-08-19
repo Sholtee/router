@@ -25,7 +25,7 @@ namespace Solti.Utils.Router.Tests
 
             listener.Prefixes.Add("http://localhost:8080/");
 
-            RouterBuilder routerBuilder = new((object? state, string _) =>
+            RouterBuilder routerBuilder = new((object? state) =>
             {
                 HttpListenerContext ctx = (HttpListenerContext) state!;
                 ctx.Response.StatusCode = (int) HttpStatusCode.NotFound;
@@ -33,7 +33,7 @@ namespace Solti.Utils.Router.Tests
                 return true;
             });
 
-            routerBuilder.AddRoute("{a:int}/add/{b:int}", (IReadOnlyDictionary<string, object?> paramz, object? state, string _) =>
+            routerBuilder.AddRoute("{a:int}/add/{b:int}", (IReadOnlyDictionary<string, object?> paramz, object? state) =>
             {
                 HttpListenerContext ctx = (HttpListenerContext) state!;
                 ctx.Response.StatusCode = (int) HttpStatusCode.OK;
@@ -58,7 +58,7 @@ namespace Solti.Utils.Router.Tests
                     try
                     {
                         HttpListenerContext state = listener.GetContext();
-                        router(state, state.Request.Url.AbsolutePath);
+                        router(state, state.Request.Url!.AbsolutePath);
                     }
                     catch (HttpListenerException e)
                     {
