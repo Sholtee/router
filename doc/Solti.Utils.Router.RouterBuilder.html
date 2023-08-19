@@ -58,12 +58,12 @@
   <h3 id="constructors">Constructors
   </h3>
   <a id="Solti_Utils_Router_RouterBuilder__ctor_" data-uid="Solti.Utils.Router.RouterBuilder.#ctor*"></a>
-  <h4 id="Solti_Utils_Router_RouterBuilder__ctor_Solti_Utils_Router_DefaultRequestHandler_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__System_StringComparison_" data-uid="Solti.Utils.Router.RouterBuilder.#ctor(Solti.Utils.Router.DefaultRequestHandler,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory},System.StringComparison)">RouterBuilder(DefaultRequestHandler, IReadOnlyDictionary&lt;String, ConverterFactory&gt;, StringComparison)</h4>
+  <h4 id="Solti_Utils_Router_RouterBuilder__ctor_Solti_Utils_Router_DefaultRequestHandler_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__" data-uid="Solti.Utils.Router.RouterBuilder.#ctor(Solti.Utils.Router.DefaultRequestHandler,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})">RouterBuilder(DefaultRequestHandler, IReadOnlyDictionary&lt;String, ConverterFactory&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RouterBuilder(DefaultRequestHandler defaultHandler, IReadOnlyDictionary&lt;string, ConverterFactory&gt; converters = null, StringComparison stringComparison)</code></pre>
+    <pre><code class="lang-csharp hljs">public RouterBuilder(DefaultRequestHandler defaultHandler, IReadOnlyDictionary&lt;string, ConverterFactory&gt; converters = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -83,11 +83,6 @@
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2">IReadOnlyDictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a>, <a class="xref" href="Solti.Utils.Router.ConverterFactory.html">ConverterFactory</a>&gt;</td>
         <td><span class="parametername">converters</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.stringcomparison">StringComparison</a></td>
-        <td><span class="parametername">stringComparison</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -117,38 +112,15 @@
       </tr>
     </tbody>
   </table>
-  <a id="Solti_Utils_Router_RouterBuilder_StringComparison_" data-uid="Solti.Utils.Router.RouterBuilder.StringComparison*"></a>
-  <h4 id="Solti_Utils_Router_RouterBuilder_StringComparison" data-uid="Solti.Utils.Router.RouterBuilder.StringComparison">StringComparison</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public StringComparison StringComparison { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.stringcomparison">StringComparison</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   <h3 id="methods">Methods
   </h3>
   <a id="Solti_Utils_Router_RouterBuilder_AddRoute_" data-uid="Solti.Utils.Router.RouterBuilder.AddRoute*"></a>
-  <h4 id="Solti_Utils_Router_RouterBuilder_AddRoute_System_String_Solti_Utils_Router_RequestHandler_" data-uid="Solti.Utils.Router.RouterBuilder.AddRoute(System.String,Solti.Utils.Router.RequestHandler)">AddRoute(String, RequestHandler)</h4>
+  <h4 id="Solti_Utils_Router_RouterBuilder_AddRoute_System_String_Solti_Utils_Router_RequestHandler_System_String___" data-uid="Solti.Utils.Router.RouterBuilder.AddRoute(System.String,Solti.Utils.Router.RequestHandler,System.String[])">AddRoute(String, RequestHandler, String[])</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void AddRoute(string route, RequestHandler handler)</code></pre>
+    <pre><code class="lang-csharp hljs">public void AddRoute(string route, RequestHandler handler, params string[] methods)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -168,6 +140,11 @@
       <tr>
         <td><a class="xref" href="Solti.Utils.Router.RequestHandler.html">RequestHandler</a></td>
         <td><span class="parametername">handler</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a>[]</td>
+        <td><span class="parametername">methods</span></td>
         <td></td>
       </tr>
     </tbody>
