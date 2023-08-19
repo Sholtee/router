@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -58,7 +59,7 @@ namespace Solti.Utils.Router.Tests
                     try
                     {
                         HttpListenerContext state = listener.GetContext();
-                        router(state, state.Request.Url!.AbsolutePath);
+                        router(state, state.Request.Url!.AbsolutePath, state.Request.HttpMethod);
                     }
                     catch (HttpListenerException e)
                     {
@@ -73,6 +74,9 @@ namespace Solti.Utils.Router.Tests
             using HttpClient client = new();
 
             HttpResponseMessage resp = await client.GetAsync("http://localhost:8080/");
+            Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+
+            resp = await client.PostAsync("http://localhost:8080/1/add/2", JsonContent.Create(new object()));
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
 
             resp = await client.GetAsync("http://localhost:8080/1/add/2");
