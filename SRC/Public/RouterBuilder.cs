@@ -177,7 +177,13 @@ namespace Solti.Utils.Router
             if (junction.Segment is null)  // root node, no segment
                 return Expression.Block
                 (
-                    ProcessJunction()
+                    ProcessJunction().Append
+                    (
+                        Return
+                        (
+                            Expression.Invoke(Expression.Constant(DefaultHandler), context.UserData)
+                        )
+                    )
                 );
 
             if (junction.Segment.Converter is null)
@@ -254,19 +260,6 @@ namespace Solti.Utils.Router
                         )
                     );
                 }
-
-                if (junction.Segment is null)
-                    yield return Return
-                    (
-                        Expression.Invoke(Expression.Constant(DefaultHandler), context.UserData)
-                    );
-            
-                Expression Return(InvocationExpression invocation) => Expression.Return
-                (
-                    context.Exit,
-                    invocation,
-                    typeof(object)
-                );
             }
 
             Expression IfEquals(Expression left, Expression right, Expression body) => Expression.IfThen
@@ -279,6 +272,13 @@ namespace Solti.Utils.Router
                     Expression.Constant(StringComparison.OrdinalIgnoreCase)
                 ),
                 body
+            );
+
+            Expression Return(InvocationExpression invocation) => Expression.Return
+            (
+                context.Exit,
+                invocation,
+                typeof(object)
             );
         }
         #endregion
