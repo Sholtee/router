@@ -9,7 +9,7 @@ using System.Globalization;
 
 namespace Solti.Utils.Router
 {
-    using Properties;
+    using static Properties.Resources;
 
     /// <summary>
     /// Default converters.
@@ -36,7 +36,7 @@ namespace Solti.Utils.Router
             {
                 "X" or "x" => NumberStyles.HexNumber,
                 null => NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowLeadingSign,
-                _ => throw new ArgumentException(Resources.INVALID_FORMAT_STYLE, nameof(style))
+                _ => throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style))
             };
 
             return IntConverter;
@@ -55,12 +55,36 @@ namespace Solti.Utils.Router
         }
 
         /// <summary>
+        /// <see cref="Guid"/> converter
+        /// </summary>
+        public static TryConvert GuidConverterFactory(string? style)
+        {
+            style ??= "N";
+            if (!new List<string> { "N", "D", "B", "P", "X" }.Contains(style))
+                throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style));
+
+            return GuidConverter;
+
+            bool GuidConverter(string input, out object? val)
+            {
+                if (Guid.TryParseExact(input, style, out Guid parsed))
+                {
+                    val = parsed;
+                    return true;
+                }
+
+                val = null;
+                return false;
+            }
+        }
+
+        /// <summary>
         /// <see cref="String"/> converter
         /// </summary>
         public static TryConvert StrConverterFactory(string? style)
         {
             if (style is not null)
-                throw new ArgumentException(Resources.INVALID_FORMAT_STYLE, nameof(style));
+                throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style));
 
             return StrConverter;
 
