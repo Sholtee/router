@@ -20,7 +20,7 @@ namespace Solti.Utils.Router.Tests
     [TestFixture]
     public class UseCases
     {
-        public HttpListener Listener { get; set; } = null!;
+        public HttpListener? Listener { get; set; }
 
         protected void Setup(Action<RouterBuilder> setupRoutes)
         {
@@ -62,7 +62,7 @@ namespace Solti.Utils.Router.Tests
 
                         void SendReponse((HttpStatusCode Status, object? Body) data)
                         {
-                            context.Response.StatusCode = (int)data.Status;
+                            context.Response.StatusCode = (int) data.Status;
                             context.Response.ContentType = "application/json";
 
                             using (StreamWriter streamWriter = new(context.Response.OutputStream))
@@ -85,7 +85,11 @@ namespace Solti.Utils.Router.Tests
         }
 
         [TearDown]
-        public void TearDown() => Listener?.Close();
+        public void TearDown()
+        {
+            Listener?.Close();
+            Listener = null;
+        }
 
         [Test]
         public async Task Calculator()
