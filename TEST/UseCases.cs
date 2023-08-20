@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -26,27 +27,13 @@ namespace Solti.Utils.Router.Tests
 
             listener.Prefixes.Add("http://localhost:8080/");
 
-            RouterBuilder routerBuilder = new((object? state) =>
-            {
-                HttpListenerContext ctx = (HttpListenerContext) state!;
-                ctx.Response.StatusCode = (int) HttpStatusCode.NotFound;
-                ctx.Response.Close();
-                return true;
-            });
+            RouterBuilder routerBuilder = new(static (object? state) => (HttpStatusCode.NotFound, (object) "Not Found"));
 
-            routerBuilder.AddRoute("{a:int}/add/{b:int}", (IReadOnlyDictionary<string, object?> paramz, object? state) =>
-            {
-                HttpListenerContext ctx = (HttpListenerContext) state!;
-                ctx.Response.StatusCode = (int) HttpStatusCode.OK;
-                ctx.Response.ContentType = "application/json";
-
-                using StreamWriter streamWriter = new(ctx.Response.OutputStream);
-                streamWriter.Write(JsonSerializer.Serialize((int) paramz["a"]! + (int) paramz["b"]!));
-                streamWriter.Close();
-
-                ctx.Response.Close();
-                return true;
-            });
+            routerBuilder.AddRoute("{a:int}/add/{b:int}", static (IReadOnlyDictionary<string, object?> paramz, object? state) => 
+            (
+                HttpStatusCode.OK,
+                (object) ((int) paramz["a"]! + (int) paramz["b"]!))
+            );
 
             Router router = routerBuilder.Build();
 
@@ -58,15 +45,46 @@ namespace Solti.Utils.Router.Tests
                 {
                     try
                     {
-                        HttpListenerContext state = listener.GetContext();
-                        router(state, state.Request.Url!.AbsolutePath, state.Request.HttpMethod);
+                        HttpListenerContext context = listener.GetContext();
+
+                        (HttpStatusCode Status, object? Body) data;
+
+                        try
+                        {
+                            data = ((HttpStatusCode Status, object? Body)) router
+                            (
+                                context.Request,
+                                context.Request.Url!.AbsolutePath,
+                                context.Request.HttpMethod
+                            )!;
+                        }
+                        catch (Exception e)
+                        {
+                            SendReponse((HttpStatusCode.InternalServerError, e.Message));
+                            continue;
+                        }
+
+                        SendReponse(data);
+
+                        void SendReponse((HttpStatusCode Status, object? Body) data)
+                        {
+                            context.Response.StatusCode = (int) data.Status;
+                            context.Response.ContentType = "application/json";
+
+                            using (StreamWriter streamWriter = new(context.Response.OutputStream))
+                            {
+                                streamWriter.Write(JsonSerializer.Serialize(data.Body));
+                            }
+
+                            context.Response.Close();
+                        }
                     }
                     catch (HttpListenerException e)
                     {
                         if (e.ErrorCode == 995) // listener.Stop() has been called
                             return;
 
-                        Debug.WriteLine(e);                      
+                        Debug.WriteLine(e);
                     }
                 }
             });
