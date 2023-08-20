@@ -121,7 +121,7 @@ namespace Solti.Utils.Router.Internals
         /// <summary>
         /// Splits the given path converting hex values if necessary.
         /// </summary>
-        /// <remarks>Due to performance considerations, this method intentionally doesn't return an <see cref="IEnumerable{string}"/>.</remarks>
+        /// <remarks>Due to performance considerations, this method intentionally doesn't return an <see cref="IEnumerable{String}"/>.</remarks>
         public static PathSplitter Split(string path) => new(path);
     }
 }

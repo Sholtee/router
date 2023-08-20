@@ -24,7 +24,6 @@ namespace Solti.Utils.Router
     /// Handler for unknown routes.
     /// </summary>
     /// <param name="userData">User provided custom data.</param>
-    /// <param name="path">Path led to here</param>
     /// <returns>The response object.</returns>
     public delegate object? DefaultRequestHandler(object? userData);
 
@@ -33,7 +32,6 @@ namespace Solti.Utils.Router
     /// </summary>
     /// <param name="paramz">The request parameters.</param>
     /// <param name="userData">User provided custom data.</param>
-    /// <param name="path">Path led to here</param>
     /// <returns>The response object.</returns>
     public delegate object? RequestHandler(IReadOnlyDictionary<string, object?> paramz, object? userData);
 
@@ -42,6 +40,7 @@ namespace Solti.Utils.Router
     /// </summary>
     /// <param name="userData">Custom user data to be passed to handlers.</param>
     /// <param name="path">Path where to route the request.</param>
+    /// <param name="method">Method(s) to be accepted. "GET" is the default.</param>
     /// <returns>The response object.</returns>
     public delegate object? Router(object? userData, string path, string method = "GET");
 }
