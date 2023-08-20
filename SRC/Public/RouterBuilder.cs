@@ -15,7 +15,6 @@ namespace Solti.Utils.Router
     using Internals;
     using Primitives;
     using Properties;
-    using System.Runtime.InteropServices;
 
     /// <summary>
     /// Builds the <see cref="Router"/> delegate that does the actual routing.
@@ -187,10 +186,13 @@ namespace Solti.Utils.Router
                 );
 
             if (junction.Segment.Converter is null)
-                return IfEquals
+                return Expression.IfThen
                 (
-                    Expression.Property(context.Segments, FCurrent),
-                    Expression.Constant(junction.Segment.Name),
+                    Equals
+                    (
+                        Expression.Property(context.Segments, FCurrent),
+                        Expression.Constant(junction.Segment.Name)
+                    ),
                     Expression.Block
                     (
                         ProcessJunction()
@@ -225,6 +227,14 @@ namespace Solti.Utils.Router
 
             IEnumerable<Expression> ProcessJunction()
             {
+                //
+                // if (segments.MoveNext())
+                // {
+                //     ...;
+                //     return DefaultHandler(...);
+                // }
+                //
+
                 yield return Expression.IfThen
                 (
                     Expression.Call(context.Segments, FMoveNext),
@@ -243,17 +253,26 @@ namespace Solti.Utils.Router
                     )
                 );
 
-                foreach (KeyValuePair<string, RequestHandler> handler in junction.Handlers)
+                //
+                // if (method == "POST" || method == "GET")
+                //    return AbcHandler(...);
+                //
+                // if (method == "OPTIONS")
+                //    return XyzHandler(...);
+                //
+
+                foreach (IGrouping<RequestHandler, KeyValuePair<string, RequestHandler>> handlerGroup in junction.Handlers.GroupBy(static handler => handler.Value))
                 {
-                    yield return IfEquals
+                    yield return Expression.IfThen
                     (
-                        context.Method,
-                        Expression.Constant(handler.Key),
+                        handlerGroup
+                            .Select(handler => Equals(context.Method, Expression.Constant(handler.Key)))
+                            .Aggregate(static (accu, curr) => Expression.Or(accu, curr)),
                         Return
                         (
                             Expression.Invoke
                             (
-                                Expression.Constant(handler.Value),
+                                Expression.Constant(handlerGroup.Key),
                                 context.Params,
                                 context.UserData
                             )
@@ -262,16 +281,12 @@ namespace Solti.Utils.Router
                 }
             }
 
-            Expression IfEquals(Expression left, Expression right, Expression body) => Expression.IfThen
+            static Expression Equals(Expression left, Expression right) => Expression.Call
             (
-                Expression.Call
-                (
-                    left,
-                    FEquals,
-                    right,
-                    Expression.Constant(StringComparison.OrdinalIgnoreCase)
-                ),
-                body
+                left,
+                FEquals,
+                right,
+                Expression.Constant(StringComparison.OrdinalIgnoreCase)
             );
 
             Expression Return(InvocationExpression invocation) => Expression.Return

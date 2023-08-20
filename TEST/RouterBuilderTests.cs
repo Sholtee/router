@@ -21,7 +21,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/")]
         [TestCase("/cica")]
         [TestCase("/{param:int}/cica")]
-        public void AddRouteShouldThrowOnDuplicateRegistration(string route)
+        public void AddRouteShouldThrowOnDuplicateRegistrationWhenMethodsAreSame(string route)
         {
             RouterBuilder builder = new(_ => { Assert.Fail(); return null; }, DefaultConverters.Instance);
 
@@ -33,12 +33,26 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/cica/{param:int}", "/cica/{param2:int}")]
         [TestCase("/{param:int:x}/cica", "/{param2:int}/cica")]
         [TestCase("/cica/{param:int:X}", "/cica/{param2:int}")]
-        public void AddRouteShouldThrowOnDuplicateRegistration(string a, string b)
+        public void AddRouteShouldThrowOnDuplicateRegistrationWhenMethodsAreSame(string a, string b)
         {
             RouterBuilder builder = new(_ => { Assert.Fail(); return null; }, DefaultConverters.Instance);
 
             Assert.DoesNotThrow(() => builder.AddRoute(a, DummyHandler));
             Assert.Throws<ArgumentException>(() => builder.AddRoute(b, DummyHandler));
+        }
+
+        [TestCase("/{param:int}/cica", "/{param:int}/cica")]
+        [TestCase("/{param:int}/cica", "/{param2:int}/cica")]
+        [TestCase("/cica/{param:int}", "/cica/{param2:int}")]
+        [TestCase("/{param:int:x}/cica", "/{param2:int}/cica")]
+        [TestCase("/cica/{param:int:X}", "/cica/{param2:int}")]
+        public void AddRouteShouldNotThrowOnDuplicateRegistrationWhenMethodsAreDifferent(string a, string b)
+        {
+            RouterBuilder builder = new(_ => { Assert.Fail(); return null; }, DefaultConverters.Instance);
+
+            Assert.DoesNotThrow(() => builder.AddRoute(a, DummyHandler, "GET"));
+            Assert.DoesNotThrow(() => builder.AddRoute(b, DummyHandler, "POST"));
+            Assert.DoesNotThrow(() => builder.Build());
         }
 
         [Test]
@@ -125,7 +139,7 @@ namespace Solti.Utils.Router.Tests
             RouterBuilder builder = new(_ => { Assert.Fail(); return null; }, DefaultConverters.Instance);
 
             routes.ForEach((route, _) => builder.AddRoute(route, DummyHandler));
-            builder.Build();
+            Assert.DoesNotThrow(() => builder.Build());
         }
     }
 }
