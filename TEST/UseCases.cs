@@ -20,32 +20,26 @@ namespace Solti.Utils.Router.Tests
     [TestFixture]
     public class UseCases
     {
-        [Test]
-        public async Task Calculator()
+        public HttpListener Listener { get; set; } = null!;
+
+        protected void Setup(Action<RouterBuilder> setupRoutes)
         {
-            using HttpListener listener = new();
-
-            listener.Prefixes.Add("http://localhost:8080/");
-
             RouterBuilder routerBuilder = new(static (object? state) => (HttpStatusCode.NotFound, (object) "Not Found"));
-
-            routerBuilder.AddRoute("{a:int}/add/{b:int}", static (IReadOnlyDictionary<string, object?> paramz, object? state) => 
-            (
-                HttpStatusCode.OK,
-                (object) ((int) paramz["a"]! + (int) paramz["b"]!))
-            );
+            setupRoutes(routerBuilder);
 
             Router router = routerBuilder.Build();
 
-            listener.Start();
+            Listener = new HttpListener();
+            Listener.Prefixes.Add("http://localhost:8080/");
+            Listener.Start();
 
-            _ = Task.Factory.StartNew(() =>
+            Task.Factory.StartNew(() =>
             {
-                while (listener.IsListening)
+                while (Listener.IsListening)
                 {
                     try
                     {
-                        HttpListenerContext context = listener.GetContext();
+                        HttpListenerContext context = Listener.GetContext();
 
                         (HttpStatusCode Status, object? Body) data;
 
@@ -68,7 +62,7 @@ namespace Solti.Utils.Router.Tests
 
                         void SendReponse((HttpStatusCode Status, object? Body) data)
                         {
-                            context.Response.StatusCode = (int) data.Status;
+                            context.Response.StatusCode = (int)data.Status;
                             context.Response.ContentType = "application/json";
 
                             using (StreamWriter streamWriter = new(context.Response.OutputStream))
@@ -87,7 +81,27 @@ namespace Solti.Utils.Router.Tests
                         Debug.WriteLine(e);
                     }
                 }
-            });
+            }, TaskCreationOptions.LongRunning);
+        }
+
+        [TearDown]
+        public void TearDown() => Listener?.Close();
+
+        [Test]
+        public async Task Calculator()
+        {
+            Setup
+            (
+                static routes => routes.AddRoute
+                (
+                    "{a:int}/add/{b:int}",
+                    static (IReadOnlyDictionary<string, object?> paramz, object? state) => 
+                    (
+                        HttpStatusCode.OK,
+                        (object) ((int) paramz["a"]! + (int) paramz["b"]!)
+                    )
+                )
+            );
 
             using HttpClient client = new();
 
@@ -102,8 +116,6 @@ namespace Solti.Utils.Router.Tests
 
             using Stream stm = await resp.Content.ReadAsStreamAsync();
             Assert.That(await JsonSerializer.DeserializeAsync<int>(stm), Is.EqualTo(3));
-
-            listener.Stop();
         }
     }
 }
