@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+	<Authors>Denes Solti</Authors>
+	<Version>1.0.0-preview1</Version>
 	<Configurations>Debug;Release</Configurations>
 	<OutputPath>..\BIN\$(Configuration)</OutputPath>
     <Nullable>enable</Nullable>
@@ -63,4 +65,16 @@
 	</PackageReference>
 	<PackageReference Include="Solti.Utils.Primitives" Version="8.*" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <DocumentationFile>$(OutputPath)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <Product>Compass</Product>
+    <Description>Simple HTTP request router</Description>
+    <PackageId>Compass.NET</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>Router;Request-Routing;Request-Router;</PackageTags>
+    <PackageReleaseNotes>See https://github.com/Sholtee/router/blob/master/history.md </PackageReleaseNotes>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.MD</PackageReadmeFile>
+  </PropertyGroup>
 </Project>
