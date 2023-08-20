@@ -67,6 +67,18 @@ references:
   commentId: T:Solti.Utils.Router.DefaultConverters
   fullName: Solti.Utils.Router.DefaultConverters
   nameWithType: DefaultConverters
+- uid: Solti.Utils.Router.DefaultConverters.GuidConverterFactory(System.String)
+  name: GuidConverterFactory(String)
+  href: Solti.Utils.Router.DefaultConverters.html#Solti_Utils_Router_DefaultConverters_GuidConverterFactory_System_String_
+  commentId: M:Solti.Utils.Router.DefaultConverters.GuidConverterFactory(System.String)
+  fullName: Solti.Utils.Router.DefaultConverters.GuidConverterFactory(System.String)
+  nameWithType: DefaultConverters.GuidConverterFactory(String)
+- uid: Solti.Utils.Router.DefaultConverters.GuidConverterFactory*
+  name: GuidConverterFactory
+  href: Solti.Utils.Router.DefaultConverters.html#Solti_Utils_Router_DefaultConverters_GuidConverterFactory_
+  commentId: Overload:Solti.Utils.Router.DefaultConverters.GuidConverterFactory
+  fullName: Solti.Utils.Router.DefaultConverters.GuidConverterFactory
+  nameWithType: DefaultConverters.GuidConverterFactory
 - uid: Solti.Utils.Router.DefaultConverters.Instance
   name: Instance
   href: Solti.Utils.Router.DefaultConverters.html#Solti_Utils_Router_DefaultConverters_Instance

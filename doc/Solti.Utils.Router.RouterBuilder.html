@@ -42,7 +42,73 @@
   
   <h1 id="Solti_Utils_Router_RouterBuilder" data-uid="Solti.Utils.Router.RouterBuilder" class="text-break">Class RouterBuilder
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Builds the <a class="xref" href="Solti.Utils.Router.Router.html">Router</a> delegate that does the actual routing.</p>
+<pre><code>object Route(object? userData, string path, string method)
+{ 
+    PathSplitter segments = PathSplitter.Split(path);
+    Dictionary&lt;string, object?> paramz = new(MaxParameters);
+    object converted;
+
+    if (segments.MoveNext())
+    {
+        if (segments.Current == &quot;cica&quot;)
+        {
+            if (segments.MoveNext())
+            {
+                if (segments.Current == &quot;mica&quot;)
+                {
+                    if (segments.MoveNext())
+                    {
+                        return DefaultHandler(userData, path);
+                    }
+
+                    if (method == &quot;GET&quot;)
+                    {
+                        return CicaMicaHandler(paramz, userData, path); // GET &quot;/cica/mica&quot; defined
+                    }
+
+                    return DefaultHandler(userData, path);  // Unknown method
+                }
+
+                if (intParser(segments.Current, out converted))
+                {
+                    paramz.Add(&quot;id&quot;, val);
+
+                    if (segments.MoveNext())
+                    {
+                        return DefaultHandler(userData, path);
+                    }
+
+                    if (method == &quot;GET&quot; || method == &quot;POST&quot; )
+                    {
+                        return CicaIdHandler(paramz, userData, path); // GET | POST &quot;/cica/{id:int}&quot; defined
+                    }
+
+                    return DefaultHandler(userData, path);
+                }
+
+                return DefaultHandler(userData, path);  // neither &quot;/cica/mica&quot; nor &quot;/cica/{id:int}&quot;
+            }
+
+            if (method == &quot;GET&quot;)
+            {
+                return CicaHandler(paramz, userData, path); // GET &quot;/cica&quot; defined
+            }
+
+            return DefaultHandler(userData, path);
+        }
+
+        return DefaultHandler(userData, path);  // not &quot;/cica[/..]&quot;
+    }
+
+    if (method == &quot;GET&quot;)
+    {
+        return RootHandler(paramz, userData, path);  // GET &quot;/&quot; is defined
+    }
+
+    return DefaultHandler(userData, path);
+}</code></pre>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -59,7 +125,8 @@
   </h3>
   <a id="Solti_Utils_Router_RouterBuilder__ctor_" data-uid="Solti.Utils.Router.RouterBuilder.#ctor*"></a>
   <h4 id="Solti_Utils_Router_RouterBuilder__ctor_Solti_Utils_Router_DefaultRequestHandler_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__" data-uid="Solti.Utils.Router.RouterBuilder.#ctor(Solti.Utils.Router.DefaultRequestHandler,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})">RouterBuilder(DefaultRequestHandler, IReadOnlyDictionary&lt;String, ConverterFactory&gt;)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="Solti.Utils.Router.RouterBuilder.html">RouterBuilder</a> instance.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -78,12 +145,14 @@
       <tr>
         <td><a class="xref" href="Solti.Utils.Router.DefaultRequestHandler.html">DefaultRequestHandler</a></td>
         <td><span class="parametername">defaultHandler</span></td>
-        <td></td>
+        <td><p>Delegate to handle unknown routes.</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2">IReadOnlyDictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a>, <a class="xref" href="Solti.Utils.Router.ConverterFactory.html">ConverterFactory</a>&gt;</td>
         <td><span class="parametername">converters</span></td>
-        <td></td>
+        <td><p>Converters to be used during parameter resolution. If null, <a class="xref" href="Solti.Utils.Router.DefaultConverters.html">DefaultConverters</a> will be sued.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -91,7 +160,8 @@
   </h3>
   <a id="Solti_Utils_Router_RouterBuilder_DefaultHandler_" data-uid="Solti.Utils.Router.RouterBuilder.DefaultHandler*"></a>
   <h4 id="Solti_Utils_Router_RouterBuilder_DefaultHandler" data-uid="Solti.Utils.Router.RouterBuilder.DefaultHandler">DefaultHandler</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Delegate that handles the unknown routes.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -116,7 +186,8 @@
   </h3>
   <a id="Solti_Utils_Router_RouterBuilder_AddRoute_" data-uid="Solti.Utils.Router.RouterBuilder.AddRoute*"></a>
   <h4 id="Solti_Utils_Router_RouterBuilder_AddRoute_System_String_Solti_Utils_Router_RequestHandler_System_String___" data-uid="Solti.Utils.Router.RouterBuilder.AddRoute(System.String,Solti.Utils.Router.RequestHandler,System.String[])">AddRoute(String, RequestHandler, String[])</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Registers a new route.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -135,23 +206,43 @@
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
         <td><span class="parametername">route</span></td>
-        <td></td>
+        <td><p>Route to be registered.</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="Solti.Utils.Router.RequestHandler.html">RequestHandler</a></td>
         <td><span class="parametername">handler</span></td>
-        <td></td>
+        <td><p>Function accepting requests on the given route.</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a>[]</td>
         <td><span class="parametername">methods</span></td>
-        <td></td>
+        <td><p>Accepted HTTP methods for this route. If omitted &quot;GET&quot; will be used.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></td>
+        <td><p>If the route already registered.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <a id="Solti_Utils_Router_RouterBuilder_Build_" data-uid="Solti.Utils.Router.RouterBuilder.Build*"></a>
   <h4 id="Solti_Utils_Router_RouterBuilder_Build" data-uid="Solti.Utils.Router.RouterBuilder.Build">Build()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Builds the actual <a class="xref" href="Solti.Utils.Router.Router.html">Router</a> delegate.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
