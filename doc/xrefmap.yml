@@ -319,6 +319,21 @@ references:
   commentId: Overload:Solti.Utils.Router.RouterBuilder.AddRoute
   fullName: Solti.Utils.Router.RouterBuilder.AddRoute
   nameWithType: RouterBuilder.AddRoute
+- uid: Solti.Utils.Router.RouterBuilder.AddRouteExpr(System.String,System.Linq.Expressions.Expression{Solti.Utils.Router.RequestHandler},System.String[])
+  name: AddRouteExpr(String, Expression<RequestHandler>, String[])
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_AddRouteExpr_System_String_System_Linq_Expressions_Expression_Solti_Utils_Router_RequestHandler__System_String___
+  commentId: M:Solti.Utils.Router.RouterBuilder.AddRouteExpr(System.String,System.Linq.Expressions.Expression{Solti.Utils.Router.RequestHandler},System.String[])
+  name.vb: AddRouteExpr(String, Expression(Of RequestHandler), String())
+  fullName: Solti.Utils.Router.RouterBuilder.AddRouteExpr(System.String, System.Linq.Expressions.Expression<Solti.Utils.Router.RequestHandler>, System.String[])
+  fullName.vb: Solti.Utils.Router.RouterBuilder.AddRouteExpr(System.String, System.Linq.Expressions.Expression(Of Solti.Utils.Router.RequestHandler), System.String())
+  nameWithType: RouterBuilder.AddRouteExpr(String, Expression<RequestHandler>, String[])
+  nameWithType.vb: RouterBuilder.AddRouteExpr(String, Expression(Of RequestHandler), String())
+- uid: Solti.Utils.Router.RouterBuilder.AddRouteExpr*
+  name: AddRouteExpr
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_AddRouteExpr_
+  commentId: Overload:Solti.Utils.Router.RouterBuilder.AddRouteExpr
+  fullName: Solti.Utils.Router.RouterBuilder.AddRouteExpr
+  nameWithType: RouterBuilder.AddRouteExpr
 - uid: Solti.Utils.Router.RouterBuilder.Build
   name: Build()
   href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_Build
