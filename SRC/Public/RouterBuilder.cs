@@ -86,7 +86,7 @@ namespace Solti.Utils.Router
     /// }
     /// </code>
     /// </summary>
-    public sealed partial class RouterBuilder
+    public sealed class RouterBuilder
     {
         #region Private
         private sealed class Junction
