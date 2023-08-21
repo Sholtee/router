@@ -130,7 +130,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RouterBuilder(DefaultRequestHandler defaultHandler, IReadOnlyDictionary&lt;string, ConverterFactory&gt; converters = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public RouterBuilder(DefaultRequestHandler handler, IReadOnlyDictionary&lt;string, ConverterFactory&gt; converters = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -144,7 +144,40 @@
     <tbody>
       <tr>
         <td><a class="xref" href="Solti.Utils.Router.DefaultRequestHandler.html">DefaultRequestHandler</a></td>
-        <td><span class="parametername">defaultHandler</span></td>
+        <td><span class="parametername">handler</span></td>
+        <td><p>Delegate to handle unknown routes.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2">IReadOnlyDictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a>, <a class="xref" href="Solti.Utils.Router.ConverterFactory.html">ConverterFactory</a>&gt;</td>
+        <td><span class="parametername">converters</span></td>
+        <td><p>Converters to be used during parameter resolution. If null, <a class="xref" href="Solti.Utils.Router.DefaultConverters.html">DefaultConverters</a> will be sued.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_RouterBuilder__ctor_" data-uid="Solti.Utils.Router.RouterBuilder.#ctor*"></a>
+  <h4 id="Solti_Utils_Router_RouterBuilder__ctor_System_Linq_Expressions_Expression_Solti_Utils_Router_DefaultRequestHandler__System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__" data-uid="Solti.Utils.Router.RouterBuilder.#ctor(System.Linq.Expressions.Expression{Solti.Utils.Router.DefaultRequestHandler},System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})">RouterBuilder(Expression&lt;DefaultRequestHandler&gt;, IReadOnlyDictionary&lt;String, ConverterFactory&gt;)</h4>
+  <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="Solti.Utils.Router.RouterBuilder.html">RouterBuilder</a> instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RouterBuilder(Expression&lt;DefaultRequestHandler&gt; handlerExpr, IReadOnlyDictionary&lt;string, ConverterFactory&gt; converters = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.linq.expressions.expression-1">Expression</a>&lt;<a class="xref" href="Solti.Utils.Router.DefaultRequestHandler.html">DefaultRequestHandler</a>&gt;</td>
+        <td><span class="parametername">handlerExpr</span></td>
         <td><p>Delegate to handle unknown routes.</p>
 </td>
       </tr>
@@ -165,7 +198,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public DefaultRequestHandler DefaultHandler { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public Expression&lt;DefaultRequestHandler&gt; DefaultHandler { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -177,7 +210,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Solti.Utils.Router.DefaultRequestHandler.html">DefaultRequestHandler</a></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.linq.expressions.expression-1">Expression</a>&lt;<a class="xref" href="Solti.Utils.Router.DefaultRequestHandler.html">DefaultRequestHandler</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -239,14 +272,14 @@
       </tr>
     </tbody>
   </table>
-  <a id="Solti_Utils_Router_RouterBuilder_AddRouteExpr_" data-uid="Solti.Utils.Router.RouterBuilder.AddRouteExpr*"></a>
-  <h4 id="Solti_Utils_Router_RouterBuilder_AddRouteExpr_System_String_System_Linq_Expressions_Expression_Solti_Utils_Router_RequestHandler__System_String___" data-uid="Solti.Utils.Router.RouterBuilder.AddRouteExpr(System.String,System.Linq.Expressions.Expression{Solti.Utils.Router.RequestHandler},System.String[])">AddRouteExpr(String, Expression&lt;RequestHandler&gt;, String[])</h4>
+  <a id="Solti_Utils_Router_RouterBuilder_AddRoute_" data-uid="Solti.Utils.Router.RouterBuilder.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_RouterBuilder_AddRoute_System_String_System_Linq_Expressions_Expression_Solti_Utils_Router_RequestHandler__System_String___" data-uid="Solti.Utils.Router.RouterBuilder.AddRoute(System.String,System.Linq.Expressions.Expression{Solti.Utils.Router.RequestHandler},System.String[])">AddRoute(String, Expression&lt;RequestHandler&gt;, String[])</h4>
   <div class="markdown level1 summary"><p>Registers a new route.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void AddRouteExpr(string route, Expression&lt;RequestHandler&gt; handlerExpr, params string[] methods)</code></pre>
+    <pre><code class="lang-csharp hljs">public void AddRoute(string route, Expression&lt;RequestHandler&gt; handlerExpr, params string[] methods)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
