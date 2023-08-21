@@ -86,14 +86,17 @@ namespace Solti.Utils.Router
     /// }
     /// </code>
     /// </summary>
-    public sealed class RouterBuilder
+    public sealed partial class RouterBuilder
     {
         #region Private
         private sealed class Junction
         {
             public RouteSegment? Segment { get; init; }  // null at "/"
             // order doesn't matter
-            public IDictionary<string, RequestHandler> Handlers { get; } = new Dictionary<string, RequestHandler>(StringComparer.OrdinalIgnoreCase);
+            public IDictionary<string, Expression<RequestHandler>> Handlers { get; } = new Dictionary<string, Expression<RequestHandler>>
+            (
+                StringComparer.OrdinalIgnoreCase
+            );
             public IList<Junction> Children { get; } = new List<Junction>();
         }
 
@@ -261,7 +264,7 @@ namespace Solti.Utils.Router
                 //    return XyzHandler(...);
                 //
 
-                foreach (IGrouping<RequestHandler, KeyValuePair<string, RequestHandler>> handlerGroup in junction.Handlers.GroupBy(static handler => handler.Value))
+                foreach (IGrouping<Expression<RequestHandler>, KeyValuePair<string, Expression<RequestHandler>>> handlerGroup in junction.Handlers.GroupBy(static handler => handler.Value))
                 {
                     yield return Expression.IfThen
                     (
@@ -270,9 +273,9 @@ namespace Solti.Utils.Router
                             .Aggregate(static (accu, curr) => Expression.Or(accu, curr)),
                         Return
                         (
-                            Expression.Invoke
+                            UnfoldLambdaExpressionVisitor.Unfold
                             (
-                                Expression.Constant(handlerGroup.Key),
+                                handlerGroup.Key,
                                 context.Params,
                                 context.UserData
                             )
@@ -289,7 +292,7 @@ namespace Solti.Utils.Router
                 Expression.Constant(StringComparison.OrdinalIgnoreCase)
             );
 
-            Expression Return(InvocationExpression invocation) => Expression.Return
+            Expression Return(Expression invocation) => Expression.Return
             (
                 context.Exit,
                 invocation,
@@ -380,16 +383,16 @@ namespace Solti.Utils.Router
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered.</param>
-        /// <param name="handler">Function accepting requests on the given route.</param>
+        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(string route, RequestHandler handler, params string[] methods)
+        public void AddRouteExpr(string route, Expression<RequestHandler> handlerExpr, params string[] methods)
         {
             if (route is null)
                 throw new ArgumentNullException(nameof(route));
 
-            if (handler is null)
-                throw new ArgumentNullException(nameof(handler));
+            if (handlerExpr is null)
+                throw new ArgumentNullException(nameof(handlerExpr));
 
             if (methods is null)
                 throw new ArgumentNullException(nameof(methods));
@@ -434,11 +437,26 @@ namespace Solti.Utils.Router
 
             foreach (string method in methods)
             {
-                if (!target.Handlers.TryAdd(method, handler))
+                if (!target.Handlers.TryAdd(method, handlerExpr))
                     throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
             }
 
             FMaxParameters = Math.Max(FMaxParameters, parameters);
+        }
+
+        /// <summary>
+        /// Registers a new route.
+        /// </summary>
+        /// <param name="route">Route to be registered.</param>
+        /// <param name="handler">Function accepting requests on the given route.</param>
+        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
+        /// <exception cref="ArgumentException">If the route already registered.</exception>
+        public void AddRoute(string route, RequestHandler handler, params string[] methods)
+        {
+            if (handler is null)
+                throw new ArgumentNullException(nameof(handler));
+
+            AddRouteExpr(route, (paramz, state) => handler(paramz, state), methods);
         }
     }
 }

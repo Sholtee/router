@@ -5,6 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 using NUnit.Framework;
 
@@ -72,8 +73,8 @@ namespace Solti.Utils.Router.Tests
             {
                 yield return new object?[] { null, null, null };
                 yield return new object?[] { "path", null, new string[] { "GET" } };
-                yield return new object?[] { null, (RequestHandler)((_, _) => false), new string[] { "GET" } };
-                yield return new object?[] { "path", (RequestHandler)((_, _) => false), null };
+                yield return new object?[] { null, (RequestHandler) ((_, _) => false), new string[] { "GET" } };
+                yield return new object?[] { "path", (RequestHandler) ((_, _) => false), null };
             }
         }
 
@@ -83,6 +84,25 @@ namespace Solti.Utils.Router.Tests
             RouterBuilder builder = new(_ => { Assert.Fail(); return null; }, new Dictionary<string, ConverterFactory>(0));
 
             Assert.Throws<ArgumentNullException>(() => builder.AddRoute(route, handler, methods));
+        }
+
+        public static IEnumerable<object?[]> NullCasesExpr
+        {
+            get
+            {
+                yield return new object?[] { null, null, null };
+                yield return new object?[] { "path", null, new string[] { "GET" } };
+                yield return new object?[] { null, (Expression<RequestHandler>) ((_, _) => false), new string[] { "GET" } };
+                yield return new object?[] { "path", (Expression<RequestHandler>) ((_, _) => false), null };
+            }
+        }
+
+        [TestCaseSource(nameof(NullCasesExpr))]
+        public void AddRouteExprShouldThrowOnNull(string route, Expression<RequestHandler> handler, string[] methods)
+        {
+            RouterBuilder builder = new(_ => { Assert.Fail(); return null; }, new Dictionary<string, ConverterFactory>(0));
+
+            Assert.Throws<ArgumentNullException>(() => builder.AddRouteExpr(route, handler, methods));
         }
 
         public static IEnumerable<string[]> Routes
