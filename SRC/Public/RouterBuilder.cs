@@ -464,12 +464,13 @@ namespace Solti.Utils.Router
         /// <param name="handler">Function accepting requests on the given route.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(string route, RequestHandler handler, params string[] methods)
-        {
-            if (handler is null)
-                throw new ArgumentNullException(nameof(handler));
-
-            AddRoute(route, handlerExpr: (paramz, state) => handler(paramz, state), methods);
-        }
+        public void AddRoute(string route, RequestHandler handler, params string[] methods) => AddRoute
+        (
+            route,
+            handlerExpr: handler is not null
+                ? (paramz, state) => handler(paramz, state)
+                : throw new ArgumentNullException(nameof(handler)),
+            methods
+        );
     }
 }
