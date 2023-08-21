@@ -84,7 +84,7 @@ namespace Solti.Utils.Router.Tests
             RouterBuilder bldr = new(mockDefaultHandler.Object, DefaultConverters.Instance);
             foreach (KeyValuePair<string, string> route in routes)
             {
-                bldr.AddRoute(route.Key, (actualParams, userData) =>
+                bldr.AddRoute(route.Key, handler: (actualParams, userData) =>
                 {
                     Assert.That(actualParams, Is.Not.Null);
                     return mockHandler.Object(new Dictionary<string, object?>(actualParams) { { "@callback", route.Value } }, userData);
@@ -110,14 +110,14 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void DelegateShouldThrowOnNullPath()
         {
-            Router router = new RouterBuilder(_ => false, DefaultConverters.Instance).Build();
+            Router router = new RouterBuilder(handler: _ => false, DefaultConverters.Instance).Build();
             Assert.Throws<ArgumentNullException>(() => router(null, null!));
         }
 
         [Test]
         public void DelegateShouldThrowOnNullMethod()
         {
-            Router router = new RouterBuilder(_ => false, DefaultConverters.Instance).Build();
+            Router router = new RouterBuilder(handler: _ => false, DefaultConverters.Instance).Build();
             Assert.Throws<ArgumentNullException>(() => router(null, "path", null!));
         }
     }

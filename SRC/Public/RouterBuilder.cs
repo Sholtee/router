@@ -183,7 +183,7 @@ namespace Solti.Utils.Router
                     (
                         Return
                         (
-                            Expression.Invoke(Expression.Constant(DefaultHandler), context.UserData)
+                            UnfoldedLambda.Create(DefaultHandler, context.UserData)
                         )
                     )
                 );
@@ -250,7 +250,7 @@ namespace Solti.Utils.Router
                             (
                                 Return
                                 (
-                                    Expression.Invoke(Expression.Constant(DefaultHandler), context.UserData)
+                                    UnfoldedLambda.Create(DefaultHandler, context.UserData)
                                 )
                             )
                     )
@@ -304,13 +304,26 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Creates a new <see cref="RouterBuilder"/> instance.
         /// </summary>
-        /// <param name="defaultHandler">Delegate to handle unknown routes.</param>
+        /// <param name="handlerExpr">Delegate to handle unknown routes.</param>
         /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be sued.</param>
-        public RouterBuilder(DefaultRequestHandler defaultHandler, IReadOnlyDictionary<string, ConverterFactory>? converters = null)
+        public RouterBuilder(Expression<DefaultRequestHandler> handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null)
         {
-            DefaultHandler = defaultHandler ?? throw new ArgumentNullException(nameof(defaultHandler));
+            DefaultHandler = handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr));
             FRouteParser = new RouteParser(converters ?? converters ?? DefaultConverters.Instance);
         }
+
+        /// <summary>
+        /// Creates a new <see cref="RouterBuilder"/> instance.
+        /// </summary>
+        /// <param name="handler">Delegate to handle unknown routes.</param>
+        /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be sued.</param>
+        public RouterBuilder(DefaultRequestHandler handler, IReadOnlyDictionary<string, ConverterFactory>? converters = null): this
+        (
+            handlerExpr: handler is not null 
+                ? state => handler(state)
+                : throw new ArgumentNullException(nameof(handler)),
+            converters
+        ) {}
 
         /// <summary>
         /// Builds the actual <see cref="Router"/> delegate.
@@ -377,7 +390,7 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Delegate that handles the unknown routes.
         /// </summary>
-        public DefaultRequestHandler DefaultHandler { get; }
+        public Expression<DefaultRequestHandler> DefaultHandler { get; }
 
         /// <summary>
         /// Registers a new route.
@@ -386,7 +399,7 @@ namespace Solti.Utils.Router
         /// <param name="handlerExpr">Function accepting requests on the given route.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRouteExpr(string route, Expression<RequestHandler> handlerExpr, params string[] methods)
+        public void AddRoute(string route, Expression<RequestHandler> handlerExpr, params string[] methods)
         {
             if (route is null)
                 throw new ArgumentNullException(nameof(route));
@@ -456,7 +469,7 @@ namespace Solti.Utils.Router
             if (handler is null)
                 throw new ArgumentNullException(nameof(handler));
 
-            AddRouteExpr(route, (paramz, state) => handler(paramz, state), methods);
+            AddRoute(route, handlerExpr: (paramz, state) => handler(paramz, state), methods);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Solti.Utils.Router.Perf
         [GlobalSetup(Target = nameof(Route))]
         public void SetupRoute()
         {
-            RouterBuilder bldr = new(_ => true, new Dictionary<string, ConverterFactory>
+            RouterBuilder bldr = new(handler: _ => true, new Dictionary<string, ConverterFactory>
             {
                 { "str", _ => StringConverter }
             });
@@ -42,7 +42,7 @@ namespace Solti.Utils.Router.Perf
                         .Repeat("segemnt", SegmentCount)
                         .Select((segment, i) => HasParams && i % 2 == 0 ? $"{{param{paramIndex++}:str}}" : segment)
                 ),
-                (_, _) => true
+                handler: (_, _) => true
             );
 
             Router = bldr.Build();

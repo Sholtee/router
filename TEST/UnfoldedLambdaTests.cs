@@ -4,6 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 
 using NUnit.Framework;
@@ -47,6 +48,7 @@ namespace Solti.Utils.Router.Tests
 
             Assert.That(unfolded, Is.Not.Null);
             Assert.That(unfolded.Expression, Is.EqualTo(exprInner)); // not touched
+            Assert.That(unfolded.Arguments.Single(), Is.EqualTo(newParam));
         }
     }
 }

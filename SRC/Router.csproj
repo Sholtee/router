@@ -11,7 +11,7 @@
 	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	<AssemblyName>Solti.Utils.Router</AssemblyName>
 	<RootNamespace>Solti.Utils.Router</RootNamespace>
-	<NoWarn>RS0036;</NoWarn>
+	<NoWarn>RS0036;RS0026;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

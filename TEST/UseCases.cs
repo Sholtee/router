@@ -24,7 +24,7 @@ namespace Solti.Utils.Router.Tests
 
         protected void Setup(Action<RouterBuilder> setupRoutes)
         {
-            RouterBuilder routerBuilder = new(static (object? state) => (HttpStatusCode.NotFound, (object) "Not Found"));
+            RouterBuilder routerBuilder = new(handler: static (object? state) => (HttpStatusCode.NotFound, (object) "Not Found"));
             setupRoutes(routerBuilder);
 
             Router router = routerBuilder.Build();
@@ -99,7 +99,7 @@ namespace Solti.Utils.Router.Tests
                 static routes => routes.AddRoute
                 (
                     "{a:int}/add/{b:int}",
-                    static (IReadOnlyDictionary<string, object?> paramz, object? state) => 
+                    handler: static (IReadOnlyDictionary<string, object?> paramz, object? state) => 
                     (
                         HttpStatusCode.OK,
                         (object) ((int) paramz["a"]! + (int) paramz["b"]!)
