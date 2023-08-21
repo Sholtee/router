@@ -273,7 +273,7 @@ namespace Solti.Utils.Router
                             .Aggregate(static (accu, curr) => Expression.Or(accu, curr)),
                         Return
                         (
-                            UnfoldLambdaExpressionVisitor.Unfold
+                            UnfoldedLambda.Create
                             (
                                 handlerGroup.Key,
                                 context.Params,
