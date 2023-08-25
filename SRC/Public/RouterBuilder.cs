@@ -135,6 +135,17 @@ namespace Solti.Utils.Router
             ).Body
         ).Method;
 
+        private static readonly ConstructorInfo FCreateDict =
+        (
+            (NewExpression)
+            (
+                (Expression<Func<Dictionary<string, object?>>>)
+                (
+                    static () => new Dictionary<string, object?>(0)
+                )
+            ).Body
+        ).Constructor;
+
         private static readonly MethodInfo FAddParam =
         (
             (MethodCallExpression)
@@ -355,7 +366,7 @@ namespace Solti.Utils.Router
                         context.Params,
                         Expression.New
                         (
-                            typeof(Dictionary<string, object?>).GetConstructor(new Type[] { typeof(int) }), // ctor(capacity)
+                            FCreateDict,
                             Expression.Constant(FMaxParameters)
                         )
                     ),
