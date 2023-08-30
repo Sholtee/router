@@ -133,12 +133,12 @@ references:
   commentId: Overload:Solti.Utils.Router.DefaultRequestHandler.#ctor
   fullName: Solti.Utils.Router.DefaultRequestHandler.DefaultRequestHandler
   nameWithType: DefaultRequestHandler.DefaultRequestHandler
-- uid: Solti.Utils.Router.DefaultRequestHandler.BeginInvoke(System.Object,System.AsyncCallback,System.Object)
-  name: BeginInvoke(Object, AsyncCallback, Object)
-  href: Solti.Utils.Router.DefaultRequestHandler.html#Solti_Utils_Router_DefaultRequestHandler_BeginInvoke_System_Object_System_AsyncCallback_System_Object_
-  commentId: M:Solti.Utils.Router.DefaultRequestHandler.BeginInvoke(System.Object,System.AsyncCallback,System.Object)
-  fullName: Solti.Utils.Router.DefaultRequestHandler.BeginInvoke(System.Object, System.AsyncCallback, System.Object)
-  nameWithType: DefaultRequestHandler.BeginInvoke(Object, AsyncCallback, Object)
+- uid: Solti.Utils.Router.DefaultRequestHandler.BeginInvoke(System.Object,System.Net.HttpStatusCode,System.AsyncCallback,System.Object)
+  name: BeginInvoke(Object, HttpStatusCode, AsyncCallback, Object)
+  href: Solti.Utils.Router.DefaultRequestHandler.html#Solti_Utils_Router_DefaultRequestHandler_BeginInvoke_System_Object_System_Net_HttpStatusCode_System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Router.DefaultRequestHandler.BeginInvoke(System.Object,System.Net.HttpStatusCode,System.AsyncCallback,System.Object)
+  fullName: Solti.Utils.Router.DefaultRequestHandler.BeginInvoke(System.Object, System.Net.HttpStatusCode, System.AsyncCallback, System.Object)
+  nameWithType: DefaultRequestHandler.BeginInvoke(Object, HttpStatusCode, AsyncCallback, Object)
 - uid: Solti.Utils.Router.DefaultRequestHandler.BeginInvoke*
   name: BeginInvoke
   href: Solti.Utils.Router.DefaultRequestHandler.html#Solti_Utils_Router_DefaultRequestHandler_BeginInvoke_
@@ -157,12 +157,12 @@ references:
   commentId: Overload:Solti.Utils.Router.DefaultRequestHandler.EndInvoke
   fullName: Solti.Utils.Router.DefaultRequestHandler.EndInvoke
   nameWithType: DefaultRequestHandler.EndInvoke
-- uid: Solti.Utils.Router.DefaultRequestHandler.Invoke(System.Object)
-  name: Invoke(Object)
-  href: Solti.Utils.Router.DefaultRequestHandler.html#Solti_Utils_Router_DefaultRequestHandler_Invoke_System_Object_
-  commentId: M:Solti.Utils.Router.DefaultRequestHandler.Invoke(System.Object)
-  fullName: Solti.Utils.Router.DefaultRequestHandler.Invoke(System.Object)
-  nameWithType: DefaultRequestHandler.Invoke(Object)
+- uid: Solti.Utils.Router.DefaultRequestHandler.Invoke(System.Object,System.Net.HttpStatusCode)
+  name: Invoke(Object, HttpStatusCode)
+  href: Solti.Utils.Router.DefaultRequestHandler.html#Solti_Utils_Router_DefaultRequestHandler_Invoke_System_Object_System_Net_HttpStatusCode_
+  commentId: M:Solti.Utils.Router.DefaultRequestHandler.Invoke(System.Object,System.Net.HttpStatusCode)
+  fullName: Solti.Utils.Router.DefaultRequestHandler.Invoke(System.Object, System.Net.HttpStatusCode)
+  nameWithType: DefaultRequestHandler.Invoke(Object, HttpStatusCode)
 - uid: Solti.Utils.Router.DefaultRequestHandler.Invoke*
   name: Invoke
   href: Solti.Utils.Router.DefaultRequestHandler.html#Solti_Utils_Router_DefaultRequestHandler_Invoke_

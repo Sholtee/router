@@ -59,15 +59,15 @@
                 {
                     if (segments.MoveNext())
                     {
-                        return DefaultHandler(userData, path);
+                        return DefaultHandler(userData, HttpStatusCode.NotFound);
                     }
 
                     if (method == &quot;GET&quot;)
                     {
-                        return CicaMicaHandler(paramz, userData, path); // GET &quot;/cica/mica&quot; defined
+                        return CicaMicaHandler(paramz, userData); // GET &quot;/cica/mica&quot; defined
                     }
 
-                    return DefaultHandler(userData, path);  // Unknown method
+                    return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);  // Unknown method
                 }
 
                 if (intParser(segments.Current, out converted))
@@ -76,37 +76,37 @@
 
                     if (segments.MoveNext())
                     {
-                        return DefaultHandler(userData, path);
+                        return DefaultHandler(userData, HttpStatusCode.NotFound);
                     }
 
                     if (method == &quot;GET&quot; || method == &quot;POST&quot; )
                     {
-                        return CicaIdHandler(paramz, userData, path); // GET | POST &quot;/cica/{id:int}&quot; defined
+                        return CicaIdHandler(paramz, userData); // GET | POST &quot;/cica/{id:int}&quot; defined
                     }
 
-                    return DefaultHandler(userData, path);
+                    return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
                 }
 
-                return DefaultHandler(userData, path);  // neither &quot;/cica/mica&quot; nor &quot;/cica/{id:int}&quot;
+                return DefaultHandler(userData, HttpStatusCode.NotFound);  // neither &quot;/cica/mica&quot; nor &quot;/cica/{id:int}&quot;
             }
 
             if (method == &quot;GET&quot;)
             {
-                return CicaHandler(paramz, userData, path); // GET &quot;/cica&quot; defined
+                return CicaHandler(paramz, userData); // GET &quot;/cica&quot; defined
             }
 
-            return DefaultHandler(userData, path);
+            return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
         }
 
-        return DefaultHandler(userData, path);  // not &quot;/cica[/..]&quot;
+        return DefaultHandler(userData, HttpStatusCode.NotFound);  // not &quot;/cica[/..]&quot;
     }
 
     if (method == &quot;GET&quot;)
     {
-        return RootHandler(paramz, userData, path);  // GET &quot;/&quot; is defined
+        return RootHandler(paramz, userData);  // GET &quot;/&quot; is defined
     }
 
-    return DefaultHandler(userData, path);
+    return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
 }</code></pre>
 </div>
   <div class="markdown level0 conceptual"></div>
