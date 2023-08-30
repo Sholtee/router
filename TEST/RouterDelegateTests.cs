@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text.Json;
 
 using Moq;
@@ -73,7 +74,7 @@ namespace Solti.Utils.Router.Tests
 
             Mock<DefaultRequestHandler> mockDefaultHandler = new(MockBehavior.Strict);
             mockDefaultHandler
-                .Setup(h => h.Invoke(userData))
+                .Setup(h => h.Invoke(userData, HttpStatusCode.NotFound))
                 .Returns(true);
 
             Mock<RequestHandler> mockHandler = new(MockBehavior.Strict);
@@ -95,7 +96,7 @@ namespace Solti.Utils.Router.Tests
             Assert.DoesNotThrow(() => router(userData, input));
             if (expectedParams is null)
             {
-                mockDefaultHandler.Verify(h => h.Invoke(userData), Times.Once);
+                mockDefaultHandler.Verify(h => h.Invoke(userData, HttpStatusCode.NotFound), Times.Once);
                 mockDefaultHandler.VerifyNoOtherCalls();
                 mockHandler.VerifyNoOtherCalls();
             }
@@ -110,14 +111,14 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void DelegateShouldThrowOnNullPath()
         {
-            Router router = new RouterBuilder(handler: _ => false, DefaultConverters.Instance).Build();
+            Router router = new RouterBuilder(handler: (_, _) => false, DefaultConverters.Instance).Build();
             Assert.Throws<ArgumentNullException>(() => router(null, null!));
         }
 
         [Test]
         public void DelegateShouldThrowOnNullMethod()
         {
-            Router router = new RouterBuilder(handler: _ => false, DefaultConverters.Instance).Build();
+            Router router = new RouterBuilder(handler: (_, _) => false, DefaultConverters.Instance).Build();
             Assert.Throws<ArgumentNullException>(() => router(null, "path", null!));
         }
     }

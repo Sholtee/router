@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Reflection;
 
 namespace Solti.Utils.Router
@@ -35,15 +36,15 @@ namespace Solti.Utils.Router
     ///                 {
     ///                     if (segments.MoveNext())
     ///                     {
-    ///                         return DefaultHandler(userData, path);
+    ///                         return DefaultHandler(userData, HttpStatusCode.NotFound);
     ///                     }
     /// 
     ///                     if (method == "GET")
     ///                     {
-    ///                         return CicaMicaHandler(paramz, userData, path); // GET "/cica/mica" defined
+    ///                         return CicaMicaHandler(paramz, userData); // GET "/cica/mica" defined
     ///                     }
     ///                     
-    ///                     return DefaultHandler(userData, path);  // Unknown method
+    ///                     return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);  // Unknown method
     ///                 }
     ///                     
     ///                 if (intParser(segments.Current, out converted))
@@ -52,37 +53,37 @@ namespace Solti.Utils.Router
     ///                         
     ///                     if (segments.MoveNext())
     ///                     {
-    ///                         return DefaultHandler(userData, path);
+    ///                         return DefaultHandler(userData, HttpStatusCode.NotFound);
     ///                     }
     /// 
     ///                     if (method == "GET" || method == "POST" )
     ///                     {
-    ///                         return CicaIdHandler(paramz, userData, path); // GET | POST "/cica/{id:int}" defined
+    ///                         return CicaIdHandler(paramz, userData); // GET | POST "/cica/{id:int}" defined
     ///                     }
     ///                     
-    ///                     return DefaultHandler(userData, path);
+    ///                     return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
     ///                 }
     ///                     
-    ///                 return DefaultHandler(userData, path);  // neither "/cica/mica" nor "/cica/{id:int}"
+    ///                 return DefaultHandler(userData, HttpStatusCode.NotFound);  // neither "/cica/mica" nor "/cica/{id:int}"
     ///             }
     ///             
     ///             if (method == "GET")
     ///             {
-    ///                 return CicaHandler(paramz, userData, path); // GET "/cica" defined
+    ///                 return CicaHandler(paramz, userData); // GET "/cica" defined
     ///             }
     ///             
-    ///             return DefaultHandler(userData, path);
+    ///             return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
     ///         }
     ///             
-    ///         return DefaultHandler(userData, path);  // not "/cica[/..]"
+    ///         return DefaultHandler(userData, HttpStatusCode.NotFound);  // not "/cica[/..]"
     ///     }
     ///         
     ///     if (method == "GET")
     ///     {
-    ///         return RootHandler(paramz, userData, path);  // GET "/" is defined
+    ///         return RootHandler(paramz, userData);  // GET "/" is defined
     ///     }
     ///     
-    ///     return DefaultHandler(userData, path);
+    ///     return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
     /// }
     /// </code>
     /// </summary>
@@ -190,13 +191,7 @@ namespace Solti.Utils.Router
             if (junction.Segment is null)  // root node, no segment
                 return Expression.Block
                 (
-                    ProcessJunction().Append
-                    (
-                        Return
-                        (
-                            UnfoldedLambda.Create(DefaultHandler, context.UserData)
-                        )
-                    )
+                    ProcessJunction()
                 );
 
             if (junction.Segment.Converter is null)
@@ -245,7 +240,7 @@ namespace Solti.Utils.Router
                 // if (segments.MoveNext())
                 // {
                 //     ...;
-                //     return DefaultHandler(...);
+                //     return DefaultHandler(state, HttpStatusCode.NotFound);
                 // }
                 //
 
@@ -256,12 +251,14 @@ namespace Solti.Utils.Router
                     (
                         junction
                             .Children
-                            .Select(junction => BuildJunction(junction, context))
+                            .Select(child => BuildJunction(child, context))
                             .Append
                             (
                                 Return
                                 (
-                                    UnfoldedLambda.Create(DefaultHandler, context.UserData)
+                                    DefaultHandler,
+                                    context.UserData,
+                                    Expression.Constant(HttpStatusCode.NotFound)
                                 )
                             )
                     )
@@ -284,15 +281,28 @@ namespace Solti.Utils.Router
                             .Aggregate(static (accu, curr) => Expression.Or(accu, curr)),
                         Return
                         (
-                            UnfoldedLambda.Create
-                            (
-                                handlerGroup.Key,
-                                context.Params,
-                                context.UserData
-                            )
+                            handlerGroup.Key,
+                            context.Params,
+                            context.UserData
                         )
                     );
                 }
+
+                //
+                // return DEfaultHandler(state, HttpStatusCode.[xXx]);
+                //
+
+                yield return Return
+                (
+                    DefaultHandler,
+                    context.UserData,
+                    Expression.Constant
+                    (
+                        junction.Handlers.Count is 0 
+                            ? HttpStatusCode.NotFound 
+                            : HttpStatusCode.MethodNotAllowed
+                    )
+                );
             }
 
             static Expression Equals(Expression left, Expression right) => Expression.Call
@@ -303,10 +313,14 @@ namespace Solti.Utils.Router
                 Expression.Constant(StringComparison.OrdinalIgnoreCase)
             );
 
-            Expression Return(Expression invocation) => Expression.Return
+            Expression Return(LambdaExpression lambda, params Expression[] paramz) => Expression.Return
             (
                 context.Exit,
-                invocation,
+                UnfoldedLambda.Create
+                (
+                    lambda,
+                    paramz
+                ),
                 typeof(object)
             );
         }
@@ -331,7 +345,7 @@ namespace Solti.Utils.Router
         public RouterBuilder(DefaultRequestHandler handler, IReadOnlyDictionary<string, ConverterFactory>? converters = null): this
         (
             handlerExpr: handler is not null 
-                ? state => handler(state)
+                ? (state, reason) => handler(state, reason)
                 : throw new ArgumentNullException(nameof(handler)),
             converters
         ) {}

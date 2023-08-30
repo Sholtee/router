@@ -24,7 +24,7 @@ namespace Solti.Utils.Router.Tests
 
         protected void Setup(Action<RouterBuilder> setupRoutes)
         {
-            RouterBuilder routerBuilder = new(handler: static (object? state) => (HttpStatusCode.NotFound, (object) "Not Found"));
+            RouterBuilder routerBuilder = new(handler: static (object? state, HttpStatusCode reason) => (reason, (object) reason.ToString()));
             setupRoutes(routerBuilder);
 
             Router router = routerBuilder.Build();
@@ -113,7 +113,7 @@ namespace Solti.Utils.Router.Tests
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
 
             resp = await client.PostAsync("http://localhost:8080/1/add/2", JsonContent.Create(new object()));
-            Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.MethodNotAllowed));
 
             resp = await client.GetAsync("http://localhost:8080/1/add/2");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.OK));

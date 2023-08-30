@@ -4,6 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System.Collections.Generic;
+using System.Net;
 
 namespace Solti.Utils.Router
 {
@@ -24,8 +25,9 @@ namespace Solti.Utils.Router
     /// Handler for unknown routes.
     /// </summary>
     /// <param name="userData">User provided custom data.</param>
+    /// <param name="reason">Reason that caused the routing here for instance <see cref="HttpStatusCode.NotFound"/> or <see cref="HttpStatusCode.MethodNotAllowed"/></param>
     /// <returns>The response object.</returns>
-    public delegate object? DefaultRequestHandler(object? userData);
+    public delegate object? DefaultRequestHandler(object? userData, HttpStatusCode reason);
 
     /// <summary>
     /// Handler for known routes.

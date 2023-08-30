@@ -26,7 +26,7 @@ namespace Solti.Utils.Router.Perf
         [GlobalSetup(Target = nameof(Route))]
         public void SetupRoute()
         {
-            RouterBuilder bldr = new(handler: _ => true, new Dictionary<string, ConverterFactory>
+            RouterBuilder bldr = new(handler: (_, _) => true, new Dictionary<string, ConverterFactory>
             {
                 { "str", _ => StringConverter }
             });
