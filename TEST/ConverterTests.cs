@@ -24,13 +24,27 @@ namespace Solti.Utils.Router.Tests
             Assert.That(val, Is.EqualTo(value));
         }
 
+        [TestCase("1986", null, 1986)]
+        [TestCase("7C2", "X", 1986)]
+        [TestCase("7c2", "x", 1986)]
+        public void IntCoverterShouldStringify(string value, string? style, int input)
+        {
+            Assert.That(new IntConverter(style).ConvertToString(input, out string? val));
+            Assert.That(val, Is.EqualTo(value));
+        }
+
         [TestCase("INVALID", null)]
         [TestCase("INVALID", "X")]
         [TestCase("INVALID", "x")]
         public void IntConverterShouldRejectInvalidValues(string input, string? style)
         {
-            Assert.False(new IntConverter(style).ConvertToValue(input, out object? val));
+            IConverter converter = new IntConverter(style);
+
+            Assert.False(converter.ConvertToValue(input, out object? val));
             Assert.That(val, Is.Null);
+
+            Assert.False(converter.ConvertToString(input, out string? str));
+            Assert.That(str, Is.Null);
         }
 
         [Test]
@@ -42,6 +56,20 @@ namespace Solti.Utils.Router.Tests
         {
             Assert.That(new StrConverter(null).ConvertToValue(input, out object? val));
             Assert.That(val, Is.EqualTo(input));
+        }
+
+        [Test]
+        public void StrCoverterShouldStringify([Values("1986")] string input)
+        {
+            Assert.That(new StrConverter(null).ConvertToString(input, out string? val));
+            Assert.That(val, Is.EqualTo(input));
+        }
+
+        [Test]
+        public void StrCoverterShouldRejectInvalidValue()
+        {
+            Assert.False(new StrConverter(null).ConvertToString(1, out string? val));
+            Assert.That(val, Is.Null);
         }
 
         [Test]
@@ -59,13 +87,27 @@ namespace Solti.Utils.Router.Tests
             Assert.That(val, Is.EqualTo(TestGuid));
         }
 
+        [TestCase("d6b6d5b5-826e-4362-a19a-219997e6d693", "D")]
+        [TestCase("d6b6d5b5826e4362a19a219997e6d693", "N")]
+        [TestCase("d6b6d5b5826e4362a19a219997e6d693", null)]
+        public void GuidCoverterShouldStringify(string expected, string? style)
+        {
+            Assert.That(new GuidConverter(style).ConvertToString(TestGuid, out string? val));
+            Assert.That(val, Is.EqualTo(expected));
+        }
+
         [TestCase("INVALID", null)]
         [TestCase("INVALID", "N")]
         [TestCase("INVALID", "D")]
         public void GuidConverterShouldRejectInvalidValues(string input, string? style)
         {
-            Assert.False(new GuidConverter(style).ConvertToValue(input, out object? val));
+            IConverter converter = new GuidConverter(style);
+
+            Assert.False(converter.ConvertToValue(input, out object? val));
             Assert.That(val, Is.Null);
+
+            Assert.False(converter.ConvertToString(input, out string? str));
+            Assert.That(str, Is.Null);
         }
 
         [Test]
@@ -86,11 +128,24 @@ namespace Solti.Utils.Router.Tests
             Assert.That(val, Is.EqualTo(value));
         }
 
+        [TestCase("Value", MyEnum.Value)]
+        [TestCase("Default", MyEnum.Default)]
+        public void EnumCoverterShouldStringify(string expected, MyEnum input)
+        {
+            Assert.That(new EnumConverter(typeof(MyEnum).FullName).ConvertToString(input, out string? val));
+            Assert.That(val, Is.EqualTo(expected));
+        }
+
         [Test]
         public void EnumConverterShouldRejectInvalidValues()
         {
-            Assert.False(new EnumConverter(typeof(MyEnum).FullName).ConvertToValue("INVALID", out object? val));
+            IConverter converter = new EnumConverter(typeof(MyEnum).FullName);
+
+            Assert.False(converter.ConvertToValue("INVALID", out object? val));
             Assert.That(val, Is.Null);
+
+            Assert.False(converter.ConvertToString("INVALID", out string? str));
+            Assert.That(str, Is.Null);
         }
 
         [Test]

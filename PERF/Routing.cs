@@ -3,7 +3,6 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
-using System.Collections.Generic;
 using System.Linq;
 
 using BenchmarkDotNet.Attributes;
@@ -26,10 +25,7 @@ namespace Solti.Utils.Router.Perf
         [GlobalSetup(Target = nameof(Route))]
         public void SetupRoute()
         {
-            RouterBuilder bldr = new(handler: (_, _) => true, new Dictionary<string, ConverterFactory>
-            {
-                { "str", _ => StringConverter }
-            });
+            RouterBuilder bldr = new(handler: (_, _) => true);
 
             int paramIndex = 0;
 
@@ -48,12 +44,6 @@ namespace Solti.Utils.Router.Perf
             Router = bldr.Build();
 
             Input = "/" + string.Join("/", Enumerable.Repeat("segemnt", SegmentCount));
-
-            static bool StringConverter(string input, out object? val)
-            {
-                val = input;
-                return true;
-            }
         }
 
         [Benchmark]

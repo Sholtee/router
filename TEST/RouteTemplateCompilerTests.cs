@@ -22,6 +22,9 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/cica/{param:int}", 1986, "/cica/1986")]
         [TestCase("/{param:int}/cica", 1986, "/1986/cica")]
         [TestCase("/cica/{param:int}/kutya", 1986, "/cica/1986/kutya")]
+        [TestCase("/cica/pre-{param:int}/kutya", 1986, "/cica/pre-1986/kutya")]
+        [TestCase("/cica/{param:int}-su/kutya", 1986, "/cica/1986-su/kutya")]
+        [TestCase("/cica/pre-{param:int}-su/kutya", 1986, "/cica/pre-1986-su/kutya")]
         public void CompilerShouldSubstitute(string template, object val, string expected)
         {
             RouteTemplateCompiler compile = RouteTemplate.CreateCompiler(template);
