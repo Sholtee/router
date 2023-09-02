@@ -9,10 +9,11 @@ namespace Solti.Utils.Router
     /// <summary>
     /// Represents an abstract value converter.
     /// </summary>
+    /// <remarks>The implementation has to be thread safe.</remarks>
     public interface IConverter
     {
         /// <summary>
-        /// The unique identifier of the converter. The value of <see cref="Style"/> should not affect the value of <see cref="Id"/>.
+        /// The unique identifier of this converter.
         /// </summary>
         string Id { get; }
 
