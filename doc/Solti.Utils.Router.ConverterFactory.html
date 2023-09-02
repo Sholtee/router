@@ -42,7 +42,7 @@
   
   <h1 id="Solti_Utils_Router_ConverterFactory" data-uid="Solti.Utils.Router.ConverterFactory" class="text-break">Class ConverterFactory
   </h1>
-  <div class="markdown level0 summary"><p>Creates <a class="xref" href="Solti.Utils.Router.TryConvert.html">TryConvert</a> instances.</p>
+  <div class="markdown level0 summary"><p>Creates <a class="xref" href="Solti.Utils.Router.IConverter.html">IConverter</a> instances.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -96,7 +96,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public virtual IAsyncResult BeginInvoke(string userData, AsyncCallback callback, object object)</code></pre>
+    <pre><code class="lang-csharp hljs">public virtual IAsyncResult BeginInvoke(string style, AsyncCallback callback, object object)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -110,7 +110,7 @@
     <tbody>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td><span class="parametername">userData</span></td>
+        <td><span class="parametername">style</span></td>
         <td></td>
       </tr>
       <tr>
@@ -146,7 +146,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public virtual TryConvert EndInvoke(IAsyncResult result)</code></pre>
+    <pre><code class="lang-csharp hljs">public virtual IConverter EndInvoke(IAsyncResult result)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -175,7 +175,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Solti.Utils.Router.TryConvert.html">TryConvert</a></td>
+        <td><a class="xref" href="Solti.Utils.Router.IConverter.html">IConverter</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -186,7 +186,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public virtual TryConvert Invoke(string userData)</code></pre>
+    <pre><code class="lang-csharp hljs">public virtual IConverter Invoke(string style)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -200,7 +200,7 @@
     <tbody>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td><span class="parametername">userData</span></td>
+        <td><span class="parametername">style</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -215,7 +215,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Solti.Utils.Router.TryConvert.html">TryConvert</a></td>
+        <td><a class="xref" href="Solti.Utils.Router.IConverter.html">IConverter</a></td>
         <td></td>
       </tr>
     </tbody>

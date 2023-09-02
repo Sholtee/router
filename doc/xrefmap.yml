@@ -67,18 +67,6 @@ references:
   commentId: T:Solti.Utils.Router.DefaultConverters
   fullName: Solti.Utils.Router.DefaultConverters
   nameWithType: DefaultConverters
-- uid: Solti.Utils.Router.DefaultConverters.GuidConverterFactory(System.String)
-  name: GuidConverterFactory(String)
-  href: Solti.Utils.Router.DefaultConverters.html#Solti_Utils_Router_DefaultConverters_GuidConverterFactory_System_String_
-  commentId: M:Solti.Utils.Router.DefaultConverters.GuidConverterFactory(System.String)
-  fullName: Solti.Utils.Router.DefaultConverters.GuidConverterFactory(System.String)
-  nameWithType: DefaultConverters.GuidConverterFactory(String)
-- uid: Solti.Utils.Router.DefaultConverters.GuidConverterFactory*
-  name: GuidConverterFactory
-  href: Solti.Utils.Router.DefaultConverters.html#Solti_Utils_Router_DefaultConverters_GuidConverterFactory_
-  commentId: Overload:Solti.Utils.Router.DefaultConverters.GuidConverterFactory
-  fullName: Solti.Utils.Router.DefaultConverters.GuidConverterFactory
-  nameWithType: DefaultConverters.GuidConverterFactory
 - uid: Solti.Utils.Router.DefaultConverters.Instance
   name: Instance
   href: Solti.Utils.Router.DefaultConverters.html#Solti_Utils_Router_DefaultConverters_Instance
@@ -91,30 +79,6 @@ references:
   commentId: Overload:Solti.Utils.Router.DefaultConverters.Instance
   fullName: Solti.Utils.Router.DefaultConverters.Instance
   nameWithType: DefaultConverters.Instance
-- uid: Solti.Utils.Router.DefaultConverters.IntConverterFactory(System.String)
-  name: IntConverterFactory(String)
-  href: Solti.Utils.Router.DefaultConverters.html#Solti_Utils_Router_DefaultConverters_IntConverterFactory_System_String_
-  commentId: M:Solti.Utils.Router.DefaultConverters.IntConverterFactory(System.String)
-  fullName: Solti.Utils.Router.DefaultConverters.IntConverterFactory(System.String)
-  nameWithType: DefaultConverters.IntConverterFactory(String)
-- uid: Solti.Utils.Router.DefaultConverters.IntConverterFactory*
-  name: IntConverterFactory
-  href: Solti.Utils.Router.DefaultConverters.html#Solti_Utils_Router_DefaultConverters_IntConverterFactory_
-  commentId: Overload:Solti.Utils.Router.DefaultConverters.IntConverterFactory
-  fullName: Solti.Utils.Router.DefaultConverters.IntConverterFactory
-  nameWithType: DefaultConverters.IntConverterFactory
-- uid: Solti.Utils.Router.DefaultConverters.StrConverterFactory(System.String)
-  name: StrConverterFactory(String)
-  href: Solti.Utils.Router.DefaultConverters.html#Solti_Utils_Router_DefaultConverters_StrConverterFactory_System_String_
-  commentId: M:Solti.Utils.Router.DefaultConverters.StrConverterFactory(System.String)
-  fullName: Solti.Utils.Router.DefaultConverters.StrConverterFactory(System.String)
-  nameWithType: DefaultConverters.StrConverterFactory(String)
-- uid: Solti.Utils.Router.DefaultConverters.StrConverterFactory*
-  name: StrConverterFactory
-  href: Solti.Utils.Router.DefaultConverters.html#Solti_Utils_Router_DefaultConverters_StrConverterFactory_
-  commentId: Overload:Solti.Utils.Router.DefaultConverters.StrConverterFactory
-  fullName: Solti.Utils.Router.DefaultConverters.StrConverterFactory
-  nameWithType: DefaultConverters.StrConverterFactory
 - uid: Solti.Utils.Router.DefaultRequestHandler
   name: DefaultRequestHandler
   href: Solti.Utils.Router.DefaultRequestHandler.html
@@ -169,6 +133,66 @@ references:
   commentId: Overload:Solti.Utils.Router.DefaultRequestHandler.Invoke
   fullName: Solti.Utils.Router.DefaultRequestHandler.Invoke
   nameWithType: DefaultRequestHandler.Invoke
+- uid: Solti.Utils.Router.IConverter
+  name: IConverter
+  href: Solti.Utils.Router.IConverter.html
+  commentId: T:Solti.Utils.Router.IConverter
+  fullName: Solti.Utils.Router.IConverter
+  nameWithType: IConverter
+- uid: Solti.Utils.Router.IConverter.ConvertToString(System.Object,System.String@)
+  name: ConvertToString(Object, out String)
+  href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_ConvertToString_System_Object_System_String__
+  commentId: M:Solti.Utils.Router.IConverter.ConvertToString(System.Object,System.String@)
+  name.vb: ConvertToString(Object, ByRef String)
+  fullName: Solti.Utils.Router.IConverter.ConvertToString(System.Object, out System.String)
+  fullName.vb: Solti.Utils.Router.IConverter.ConvertToString(System.Object, ByRef System.String)
+  nameWithType: IConverter.ConvertToString(Object, out String)
+  nameWithType.vb: IConverter.ConvertToString(Object, ByRef String)
+- uid: Solti.Utils.Router.IConverter.ConvertToString*
+  name: ConvertToString
+  href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_ConvertToString_
+  commentId: Overload:Solti.Utils.Router.IConverter.ConvertToString
+  fullName: Solti.Utils.Router.IConverter.ConvertToString
+  nameWithType: IConverter.ConvertToString
+- uid: Solti.Utils.Router.IConverter.ConvertToValue(System.String,System.Object@)
+  name: ConvertToValue(String, out Object)
+  href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_ConvertToValue_System_String_System_Object__
+  commentId: M:Solti.Utils.Router.IConverter.ConvertToValue(System.String,System.Object@)
+  name.vb: ConvertToValue(String, ByRef Object)
+  fullName: Solti.Utils.Router.IConverter.ConvertToValue(System.String, out System.Object)
+  fullName.vb: Solti.Utils.Router.IConverter.ConvertToValue(System.String, ByRef System.Object)
+  nameWithType: IConverter.ConvertToValue(String, out Object)
+  nameWithType.vb: IConverter.ConvertToValue(String, ByRef Object)
+- uid: Solti.Utils.Router.IConverter.ConvertToValue*
+  name: ConvertToValue
+  href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_ConvertToValue_
+  commentId: Overload:Solti.Utils.Router.IConverter.ConvertToValue
+  fullName: Solti.Utils.Router.IConverter.ConvertToValue
+  nameWithType: IConverter.ConvertToValue
+- uid: Solti.Utils.Router.IConverter.Id
+  name: Id
+  href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_Id
+  commentId: P:Solti.Utils.Router.IConverter.Id
+  fullName: Solti.Utils.Router.IConverter.Id
+  nameWithType: IConverter.Id
+- uid: Solti.Utils.Router.IConverter.Id*
+  name: Id
+  href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_Id_
+  commentId: Overload:Solti.Utils.Router.IConverter.Id
+  fullName: Solti.Utils.Router.IConverter.Id
+  nameWithType: IConverter.Id
+- uid: Solti.Utils.Router.IConverter.Style
+  name: Style
+  href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_Style
+  commentId: P:Solti.Utils.Router.IConverter.Style
+  fullName: Solti.Utils.Router.IConverter.Style
+  nameWithType: IConverter.Style
+- uid: Solti.Utils.Router.IConverter.Style*
+  name: Style
+  href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_Style_
+  commentId: Overload:Solti.Utils.Router.IConverter.Style
+  fullName: Solti.Utils.Router.IConverter.Style
+  nameWithType: IConverter.Style
 - uid: Solti.Utils.Router.RequestHandler
   name: RequestHandler
   href: Solti.Utils.Router.RequestHandler.html
@@ -361,66 +385,3 @@ references:
   commentId: Overload:Solti.Utils.Router.RouterBuilder.DefaultHandler
   fullName: Solti.Utils.Router.RouterBuilder.DefaultHandler
   nameWithType: RouterBuilder.DefaultHandler
-- uid: Solti.Utils.Router.TryConvert
-  name: TryConvert
-  href: Solti.Utils.Router.TryConvert.html
-  commentId: T:Solti.Utils.Router.TryConvert
-  fullName: Solti.Utils.Router.TryConvert
-  nameWithType: TryConvert
-- uid: Solti.Utils.Router.TryConvert.#ctor(System.Object,System.IntPtr)
-  name: TryConvert(Object, IntPtr)
-  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert__ctor_System_Object_System_IntPtr_
-  commentId: M:Solti.Utils.Router.TryConvert.#ctor(System.Object,System.IntPtr)
-  fullName: Solti.Utils.Router.TryConvert.TryConvert(System.Object, System.IntPtr)
-  nameWithType: TryConvert.TryConvert(Object, IntPtr)
-- uid: Solti.Utils.Router.TryConvert.#ctor*
-  name: TryConvert
-  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert__ctor_
-  commentId: Overload:Solti.Utils.Router.TryConvert.#ctor
-  fullName: Solti.Utils.Router.TryConvert.TryConvert
-  nameWithType: TryConvert.TryConvert
-- uid: Solti.Utils.Router.TryConvert.BeginInvoke(System.String,System.Object@,System.AsyncCallback,System.Object)
-  name: BeginInvoke(String, out Object, AsyncCallback, Object)
-  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert_BeginInvoke_System_String_System_Object__System_AsyncCallback_System_Object_
-  commentId: M:Solti.Utils.Router.TryConvert.BeginInvoke(System.String,System.Object@,System.AsyncCallback,System.Object)
-  name.vb: BeginInvoke(String, ByRef Object, AsyncCallback, Object)
-  fullName: Solti.Utils.Router.TryConvert.BeginInvoke(System.String, out System.Object, System.AsyncCallback, System.Object)
-  fullName.vb: Solti.Utils.Router.TryConvert.BeginInvoke(System.String, ByRef System.Object, System.AsyncCallback, System.Object)
-  nameWithType: TryConvert.BeginInvoke(String, out Object, AsyncCallback, Object)
-  nameWithType.vb: TryConvert.BeginInvoke(String, ByRef Object, AsyncCallback, Object)
-- uid: Solti.Utils.Router.TryConvert.BeginInvoke*
-  name: BeginInvoke
-  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert_BeginInvoke_
-  commentId: Overload:Solti.Utils.Router.TryConvert.BeginInvoke
-  fullName: Solti.Utils.Router.TryConvert.BeginInvoke
-  nameWithType: TryConvert.BeginInvoke
-- uid: Solti.Utils.Router.TryConvert.EndInvoke(System.Object@,System.IAsyncResult)
-  name: EndInvoke(out Object, IAsyncResult)
-  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert_EndInvoke_System_Object__System_IAsyncResult_
-  commentId: M:Solti.Utils.Router.TryConvert.EndInvoke(System.Object@,System.IAsyncResult)
-  name.vb: EndInvoke(ByRef Object, IAsyncResult)
-  fullName: Solti.Utils.Router.TryConvert.EndInvoke(out System.Object, System.IAsyncResult)
-  fullName.vb: Solti.Utils.Router.TryConvert.EndInvoke(ByRef System.Object, System.IAsyncResult)
-  nameWithType: TryConvert.EndInvoke(out Object, IAsyncResult)
-  nameWithType.vb: TryConvert.EndInvoke(ByRef Object, IAsyncResult)
-- uid: Solti.Utils.Router.TryConvert.EndInvoke*
-  name: EndInvoke
-  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert_EndInvoke_
-  commentId: Overload:Solti.Utils.Router.TryConvert.EndInvoke
-  fullName: Solti.Utils.Router.TryConvert.EndInvoke
-  nameWithType: TryConvert.EndInvoke
-- uid: Solti.Utils.Router.TryConvert.Invoke(System.String,System.Object@)
-  name: Invoke(String, out Object)
-  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert_Invoke_System_String_System_Object__
-  commentId: M:Solti.Utils.Router.TryConvert.Invoke(System.String,System.Object@)
-  name.vb: Invoke(String, ByRef Object)
-  fullName: Solti.Utils.Router.TryConvert.Invoke(System.String, out System.Object)
-  fullName.vb: Solti.Utils.Router.TryConvert.Invoke(System.String, ByRef System.Object)
-  nameWithType: TryConvert.Invoke(String, out Object)
-  nameWithType.vb: TryConvert.Invoke(String, ByRef Object)
-- uid: Solti.Utils.Router.TryConvert.Invoke*
-  name: Invoke
-  href: Solti.Utils.Router.TryConvert.html#Solti_Utils_Router_TryConvert_Invoke_
-  commentId: Overload:Solti.Utils.Router.TryConvert.Invoke
-  fullName: Solti.Utils.Router.TryConvert.Invoke
-  nameWithType: TryConvert.Invoke
