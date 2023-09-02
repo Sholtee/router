@@ -385,3 +385,84 @@ references:
   commentId: Overload:Solti.Utils.Router.RouterBuilder.DefaultHandler
   fullName: Solti.Utils.Router.RouterBuilder.DefaultHandler
   nameWithType: RouterBuilder.DefaultHandler
+- uid: Solti.Utils.Router.RouteTemplate
+  name: RouteTemplate
+  href: Solti.Utils.Router.RouteTemplate.html
+  commentId: T:Solti.Utils.Router.RouteTemplate
+  fullName: Solti.Utils.Router.RouteTemplate
+  nameWithType: RouteTemplate
+- uid: Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})
+  name: CreateCompiler(String, IReadOnlyDictionary<String, ConverterFactory>)
+  href: Solti.Utils.Router.RouteTemplate.html#Solti_Utils_Router_RouteTemplate_CreateCompiler_System_String_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__
+  commentId: M:Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})
+  name.vb: CreateCompiler(String, IReadOnlyDictionary(Of String, ConverterFactory))
+  fullName: Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String, System.Collections.Generic.IReadOnlyDictionary<System.String, Solti.Utils.Router.ConverterFactory>)
+  fullName.vb: Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String, System.Collections.Generic.IReadOnlyDictionary(Of System.String, Solti.Utils.Router.ConverterFactory))
+  nameWithType: RouteTemplate.CreateCompiler(String, IReadOnlyDictionary<String, ConverterFactory>)
+  nameWithType.vb: RouteTemplate.CreateCompiler(String, IReadOnlyDictionary(Of String, ConverterFactory))
+- uid: Solti.Utils.Router.RouteTemplate.CreateCompiler*
+  name: CreateCompiler
+  href: Solti.Utils.Router.RouteTemplate.html#Solti_Utils_Router_RouteTemplate_CreateCompiler_
+  commentId: Overload:Solti.Utils.Router.RouteTemplate.CreateCompiler
+  fullName: Solti.Utils.Router.RouteTemplate.CreateCompiler
+  nameWithType: RouteTemplate.CreateCompiler
+- uid: Solti.Utils.Router.RouteTemplateCompiler
+  name: RouteTemplateCompiler
+  href: Solti.Utils.Router.RouteTemplateCompiler.html
+  commentId: T:Solti.Utils.Router.RouteTemplateCompiler
+  fullName: Solti.Utils.Router.RouteTemplateCompiler
+  nameWithType: RouteTemplateCompiler
+- uid: Solti.Utils.Router.RouteTemplateCompiler.#ctor(System.Object,System.IntPtr)
+  name: RouteTemplateCompiler(Object, IntPtr)
+  href: Solti.Utils.Router.RouteTemplateCompiler.html#Solti_Utils_Router_RouteTemplateCompiler__ctor_System_Object_System_IntPtr_
+  commentId: M:Solti.Utils.Router.RouteTemplateCompiler.#ctor(System.Object,System.IntPtr)
+  fullName: Solti.Utils.Router.RouteTemplateCompiler.RouteTemplateCompiler(System.Object, System.IntPtr)
+  nameWithType: RouteTemplateCompiler.RouteTemplateCompiler(Object, IntPtr)
+- uid: Solti.Utils.Router.RouteTemplateCompiler.#ctor*
+  name: RouteTemplateCompiler
+  href: Solti.Utils.Router.RouteTemplateCompiler.html#Solti_Utils_Router_RouteTemplateCompiler__ctor_
+  commentId: Overload:Solti.Utils.Router.RouteTemplateCompiler.#ctor
+  fullName: Solti.Utils.Router.RouteTemplateCompiler.RouteTemplateCompiler
+  nameWithType: RouteTemplateCompiler.RouteTemplateCompiler
+- uid: Solti.Utils.Router.RouteTemplateCompiler.BeginInvoke(System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},System.AsyncCallback,System.Object)
+  name: BeginInvoke(IReadOnlyDictionary<String, Object>, AsyncCallback, Object)
+  href: Solti.Utils.Router.RouteTemplateCompiler.html#Solti_Utils_Router_RouteTemplateCompiler_BeginInvoke_System_Collections_Generic_IReadOnlyDictionary_System_String_System_Object__System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Router.RouteTemplateCompiler.BeginInvoke(System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},System.AsyncCallback,System.Object)
+  name.vb: BeginInvoke(IReadOnlyDictionary(Of String, Object), AsyncCallback, Object)
+  fullName: Solti.Utils.Router.RouteTemplateCompiler.BeginInvoke(System.Collections.Generic.IReadOnlyDictionary<System.String, System.Object>, System.AsyncCallback, System.Object)
+  fullName.vb: Solti.Utils.Router.RouteTemplateCompiler.BeginInvoke(System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.Object), System.AsyncCallback, System.Object)
+  nameWithType: RouteTemplateCompiler.BeginInvoke(IReadOnlyDictionary<String, Object>, AsyncCallback, Object)
+  nameWithType.vb: RouteTemplateCompiler.BeginInvoke(IReadOnlyDictionary(Of String, Object), AsyncCallback, Object)
+- uid: Solti.Utils.Router.RouteTemplateCompiler.BeginInvoke*
+  name: BeginInvoke
+  href: Solti.Utils.Router.RouteTemplateCompiler.html#Solti_Utils_Router_RouteTemplateCompiler_BeginInvoke_
+  commentId: Overload:Solti.Utils.Router.RouteTemplateCompiler.BeginInvoke
+  fullName: Solti.Utils.Router.RouteTemplateCompiler.BeginInvoke
+  nameWithType: RouteTemplateCompiler.BeginInvoke
+- uid: Solti.Utils.Router.RouteTemplateCompiler.EndInvoke(System.IAsyncResult)
+  name: EndInvoke(IAsyncResult)
+  href: Solti.Utils.Router.RouteTemplateCompiler.html#Solti_Utils_Router_RouteTemplateCompiler_EndInvoke_System_IAsyncResult_
+  commentId: M:Solti.Utils.Router.RouteTemplateCompiler.EndInvoke(System.IAsyncResult)
+  fullName: Solti.Utils.Router.RouteTemplateCompiler.EndInvoke(System.IAsyncResult)
+  nameWithType: RouteTemplateCompiler.EndInvoke(IAsyncResult)
+- uid: Solti.Utils.Router.RouteTemplateCompiler.EndInvoke*
+  name: EndInvoke
+  href: Solti.Utils.Router.RouteTemplateCompiler.html#Solti_Utils_Router_RouteTemplateCompiler_EndInvoke_
+  commentId: Overload:Solti.Utils.Router.RouteTemplateCompiler.EndInvoke
+  fullName: Solti.Utils.Router.RouteTemplateCompiler.EndInvoke
+  nameWithType: RouteTemplateCompiler.EndInvoke
+- uid: Solti.Utils.Router.RouteTemplateCompiler.Invoke(System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})
+  name: Invoke(IReadOnlyDictionary<String, Object>)
+  href: Solti.Utils.Router.RouteTemplateCompiler.html#Solti_Utils_Router_RouteTemplateCompiler_Invoke_System_Collections_Generic_IReadOnlyDictionary_System_String_System_Object__
+  commentId: M:Solti.Utils.Router.RouteTemplateCompiler.Invoke(System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})
+  name.vb: Invoke(IReadOnlyDictionary(Of String, Object))
+  fullName: Solti.Utils.Router.RouteTemplateCompiler.Invoke(System.Collections.Generic.IReadOnlyDictionary<System.String, System.Object>)
+  fullName.vb: Solti.Utils.Router.RouteTemplateCompiler.Invoke(System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.Object))
+  nameWithType: RouteTemplateCompiler.Invoke(IReadOnlyDictionary<String, Object>)
+  nameWithType.vb: RouteTemplateCompiler.Invoke(IReadOnlyDictionary(Of String, Object))
+- uid: Solti.Utils.Router.RouteTemplateCompiler.Invoke*
+  name: Invoke
+  href: Solti.Utils.Router.RouteTemplateCompiler.html#Solti_Utils_Router_RouteTemplateCompiler_Invoke_
+  commentId: Overload:Solti.Utils.Router.RouteTemplateCompiler.Invoke
+  fullName: Solti.Utils.Router.RouteTemplateCompiler.Invoke
+  nameWithType: RouteTemplateCompiler.Invoke
