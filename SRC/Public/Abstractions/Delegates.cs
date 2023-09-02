@@ -15,6 +15,12 @@ namespace Solti.Utils.Router
     public delegate IConverter ConverterFactory(string? style);
 
     /// <summary>
+    /// Represents a template compiler function that is responsible for interpolating parameters in the encapsulated route template.
+    /// </summary>
+    /// <param name="paramz">Dictionary contaning the parameter values.</param>
+    public delegate string RouteTemplateCompiler(IReadOnlyDictionary<string, object?> paramz);
+
+    /// <summary>
     /// Handler for unknown routes.
     /// </summary>
     /// <param name="userData">User provided custom data.</param>

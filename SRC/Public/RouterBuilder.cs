@@ -346,7 +346,7 @@ namespace Solti.Utils.Router
         public RouterBuilder(Expression<DefaultRequestHandler> handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null)
         {
             DefaultHandler = handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr));
-            FRouteParser = new RouteParser(converters ?? DefaultConverters.Instance);
+            FRouteParser = new RouteParser(converters);
         }
 
         /// <summary>

@@ -15,4 +15,7 @@ Solti.Utils.Router.RouterBuilder.Build() -> Solti.Utils.Router.Router!
 Solti.Utils.Router.RouterBuilder.DefaultHandler.get -> System.Linq.Expressions.Expression<Solti.Utils.Router.DefaultRequestHandler!>!
 Solti.Utils.Router.RouterBuilder.RouterBuilder(Solti.Utils.Router.DefaultRequestHandler! handler, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> void
 Solti.Utils.Router.RouterBuilder.RouterBuilder(System.Linq.Expressions.Expression<Solti.Utils.Router.DefaultRequestHandler!>! handlerExpr, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> void
+Solti.Utils.Router.RouteTemplate
+Solti.Utils.Router.RouteTemplateCompiler
 static Solti.Utils.Router.DefaultConverters.Instance.get -> Solti.Utils.Router.DefaultConverters!
+static Solti.Utils.Router.RouteTemplate.CreateCompiler(string! template, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> Solti.Utils.Router.RouteTemplateCompiler!

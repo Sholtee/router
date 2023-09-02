@@ -129,6 +129,9 @@
   <data name="EMPTY_CHUNK" xml:space="preserve">
     <value>The chunk is empty.</value>
   </data>
+  <data name="INAPPROPRIATE_PARAMETERS" xml:space="preserve">
+    <value>Inappropriate parameters.</value>
+  </data>
   <data name="INVALID_FORMAT_STYLE" xml:space="preserve">
     <value>Invalid format style: "{0}"</value>
   </data>

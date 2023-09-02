@@ -26,7 +26,7 @@ namespace Solti.Utils.Router.Internals
 
         public IReadOnlyDictionary<string, ConverterFactory> Converters { get; }
 
-        public RouteParser(IReadOnlyDictionary<string, ConverterFactory> converters) => Converters = converters;
+        public RouteParser(IReadOnlyDictionary<string, ConverterFactory>? converters) => Converters = converters ?? DefaultConverters.Instance;
 
         public IEnumerable<RouteSegment> Parse(string input)
         {
@@ -61,7 +61,7 @@ namespace Solti.Utils.Router.Internals
                         if (match[0].ToString() != segment)
                         {
                             string[] extra = segment.Split(match[0].ToString(), StringSplitOptions.None);
-                            converterInst = new ConverterWrapper(converterInst, extra[0], extra[1]);
+                            converterInst = new ConverterWrapper(converterInst, prefix: extra[0], suffix: extra[1]);
                         }
 
                         return new RouteSegment(name, converterInst);

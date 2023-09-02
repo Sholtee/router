@@ -97,6 +97,15 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inappropriate parameters..
+        /// </summary>
+        internal static string INAPPROPRIATE_PARAMETERS {
+            get {
+                return ResourceManager.GetString("INAPPROPRIATE_PARAMETERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid format style: &quot;{0}&quot;.
         /// </summary>
         internal static string INVALID_FORMAT_STYLE {
