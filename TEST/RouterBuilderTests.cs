@@ -32,8 +32,6 @@ namespace Solti.Utils.Router.Tests
 
         [TestCase("/{param:int}/cica", "/{param2:int}/cica")]
         [TestCase("/cica/{param:int}", "/cica/{param2:int}")]
-        [TestCase("/{param:int:x}/cica", "/{param2:int}/cica")]
-        [TestCase("/cica/{param:int:X}", "/cica/{param2:int}")]
         public void AddRouteShouldThrowOnDuplicateRegistrationWhenMethodsAreSame(string a, string b)
         {
             RouterBuilder builder = new(handler: (_, _) => { Assert.Fail(); return null; }, DefaultConverters.Instance);

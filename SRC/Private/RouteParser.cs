@@ -20,20 +20,9 @@ namespace Solti.Utils.Router.Internals
     /// <remarks>
     /// Route template looks like: <code>"[/]segment1/[prefix]{paramName:converter[:userData]}[suffix]/segment3[/]"</code>
     /// </remarks>
-    internal class RouteParser
+    internal sealed class RouteParser
     {
         private static readonly Regex FTemplateMatcher = new("{(?<name>\\w+)?(?::(?<converter>\\w+)?)?(?::(?<param>\\w+)?)?}", RegexOptions.Compiled);
-
-        protected virtual TryConvert Wrap(string prefix, string suffix, TryConvert original) => (string input, out object? value) =>
-        {
-            if (input.Length <= prefix.Length + suffix.Length || !input.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) || !input.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
-            {
-                value = null;
-                return false;
-            }
-
-            return original(input.Substring(prefix.Length, input.Length - (prefix.Length + suffix.Length)), out value);
-        };
 
         public IReadOnlyDictionary<string, ConverterFactory> Converters { get; }
 
@@ -67,15 +56,15 @@ namespace Solti.Utils.Router.Internals
                             throw new ArgumentException(Format(Culture, CONVERTER_NOT_FOUND, converter), nameof(input));
 
                         string? param = GetMatch(nameof(param));
-                        TryConvert converterFn = converterFactory(param);
+                        IConverter converterInst = converterFactory(param);
 
                         if (match[0].ToString() != segment)
                         {
                             string[] extra = segment.Split(match[0].ToString(), StringSplitOptions.None);
-                            converterFn = Wrap(extra[0], extra[1], converterFn);
+                            converterInst = new ConverterWrapper(converterInst, extra[0], extra[1]);
                         }
 
-                        return new RouteSegment(name, converterFn);
+                        return new RouteSegment(name, converterInst);
                     default:
                         throw new ArgumentException(TOO_MANY_PARAM_DESCRIPTOR, nameof(input));
                 }

@@ -169,6 +169,17 @@ namespace Solti.Utils.Router
             ).Body
         ).Method;
 
+        private static readonly MethodInfo FConvert =
+        (
+            (MethodCallExpression)
+            (
+                (Expression<Action<IConverter, object?>>)
+                (
+                    static (c, output) => c.ConvertToValue(null!, out output)
+                )
+            ).Body
+        ).Method;
+
         private static readonly PropertyInfo FCurrent = (PropertyInfo) 
         (
             (MemberExpression) 
@@ -210,9 +221,10 @@ namespace Solti.Utils.Router
 
             return Expression.IfThen
             (
-                Expression.Invoke
+                Expression.Call
                 (
                     Expression.Constant(junction.Segment.Converter),
+                    FConvert,
                     Expression.Property(context.Segments, FCurrent),
                     context.Converted
                 ),
@@ -334,7 +346,7 @@ namespace Solti.Utils.Router
         public RouterBuilder(Expression<DefaultRequestHandler> handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null)
         {
             DefaultHandler = handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr));
-            FRouteParser = new RouteParser(converters ?? converters ?? DefaultConverters.Instance);
+            FRouteParser = new RouteParser(converters ?? DefaultConverters.Instance);
         }
 
         /// <summary>
@@ -450,7 +462,7 @@ namespace Solti.Utils.Router
                     if
                     (
                         (segment.Converter is null && segment.Name.Equals(child.Segment!.Name, StringComparison.OrdinalIgnoreCase)) || 
-                        (segment.Converter is not null && segment.Converter.Method == child.Segment!.Converter?.Method)
+                        (segment.Converter is not null && segment.Converter.Id == child.Segment!.Converter?.Id)
                     )
                     {
                         target = child;

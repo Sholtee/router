@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Moq;
-using Moq.Protected;
 using NUnit.Framework;
 
 namespace Solti.Utils.Router.Tests
@@ -19,25 +18,7 @@ namespace Solti.Utils.Router.Tests
     [TestFixture]
     internal class RouteParserTests
     {
-        private static bool WrappedParser(string input, out object? value)
-        {
-            value = null;
-            return false;
-        }
-
-        private static bool IntParser(string input, out object? value)
-        {
-            value = null;
-            return false;
-        }
-
-        private static bool StrParser(string input, out object? value)
-        {
-            value = null;
-            return false;
-        }
-
-        public static IEnumerable<(string Route, IEnumerable<RouteSegment> Parsed, Action<Mock<ConverterFactory>, Mock<ConverterFactory>, Mock<RouteParser>> Assert)> Cases
+        public static IEnumerable<(string Route, IEnumerable<RouteSegment> Parsed, Action<Mock<ConverterFactory>, Mock<ConverterFactory>> Assert)> Cases
         {
             get
             {
@@ -45,7 +26,7 @@ namespace Solti.Utils.Router.Tests
                 (
                     "/",
                     new RouteSegment[0] { }, 
-                    (mockIntConverterFactory, mockStrConverterFactory, _) =>
+                    (mockIntConverterFactory, mockStrConverterFactory) =>
                     {
                         mockIntConverterFactory.VerifyNoOtherCalls();
                         mockStrConverterFactory.VerifyNoOtherCalls();
@@ -58,7 +39,7 @@ namespace Solti.Utils.Router.Tests
                     {
                         new RouteSegment("cica", null)
                     },
-                    (mockIntConverterFactory, mockStrConverterFactory, _) =>
+                    (mockIntConverterFactory, mockStrConverterFactory) =>
                     {
                         mockIntConverterFactory.VerifyNoOtherCalls();
                         mockStrConverterFactory.VerifyNoOtherCalls();
@@ -70,9 +51,9 @@ namespace Solti.Utils.Router.Tests
                     new RouteSegment[]
                     {
                         new RouteSegment("cica", null),
-                        new RouteSegment("param", IntParser)
+                        new RouteSegment("param", new IntConverter(null))
                     },
-                    (mockIntConverterFactory, mockStrConverterFactory, _) =>
+                    (mockIntConverterFactory, mockStrConverterFactory) =>
                     {
                         mockIntConverterFactory.Verify(x => x.Invoke(null), Times.Once);
                         mockIntConverterFactory.VerifyNoOtherCalls();
@@ -85,10 +66,10 @@ namespace Solti.Utils.Router.Tests
                     new RouteSegment[]
                     {
                         new RouteSegment("cica", null),
-                        new RouteSegment("param", IntParser),
+                        new RouteSegment("param", new IntConverter(null)),
                         new RouteSegment("kutya", null)
                     },
-                    (mockIntConverterFactory, mockStrConverterFactory, _) =>
+                    (mockIntConverterFactory, mockStrConverterFactory) =>
                     {
                         mockIntConverterFactory.Verify(x => x.Invoke(null), Times.Once);
                         mockIntConverterFactory.VerifyNoOtherCalls();
@@ -101,9 +82,9 @@ namespace Solti.Utils.Router.Tests
                     new RouteSegment[] 
                     {
                         new RouteSegment("cica", null),
-                        new RouteSegment("param", IntParser)
+                        new RouteSegment("param", new IntConverter(null))
                     },
-                    (mockIntConverterFactory, mockStrConverterFactory, _) =>
+                    (mockIntConverterFactory, mockStrConverterFactory) =>
                     {
                         mockIntConverterFactory.Verify(x => x.Invoke(null), Times.Once);
                         mockIntConverterFactory.VerifyNoOtherCalls();
@@ -116,14 +97,13 @@ namespace Solti.Utils.Router.Tests
                     new RouteSegment[]
                     {
                         new RouteSegment("cica", null),
-                        new RouteSegment("param", WrappedParser)
+                        new RouteSegment("param", new ConverterWrapper(new IntConverter(null), "pre-", ""))
                     },
-                    (mockIntConverterFactory, mockStrConverterFactory, mockParser) =>
+                    (mockIntConverterFactory, mockStrConverterFactory) =>
                     {
                         mockIntConverterFactory.Verify(x => x.Invoke(null), Times.Once);
                         mockIntConverterFactory.VerifyNoOtherCalls();
                         mockStrConverterFactory.VerifyNoOtherCalls();
-                        mockParser.Protected().Verify<TryConvert>("Wrap", Times.Once(), "pre-", "", (TryConvert) IntParser);
                     }
                 );
                 yield return
@@ -132,14 +112,13 @@ namespace Solti.Utils.Router.Tests
                     new RouteSegment[]
                     {
                         new RouteSegment("cica", null),
-                        new RouteSegment("param", WrappedParser)
+                        new RouteSegment("param", new ConverterWrapper(new IntConverter(null), "", "-su"))
                     },
-                    (mockIntConverterFactory, mockStrConverterFactory, mockParser) =>
+                    (mockIntConverterFactory, mockStrConverterFactory) =>
                     {
                         mockIntConverterFactory.Verify(x => x.Invoke(null), Times.Once);
                         mockIntConverterFactory.VerifyNoOtherCalls();
                         mockStrConverterFactory.VerifyNoOtherCalls();
-                        mockParser.Protected().Verify<TryConvert>("Wrap", Times.Once(), "", "-su", (TryConvert) IntParser);
                     }
                 );
                 yield return
@@ -148,14 +127,13 @@ namespace Solti.Utils.Router.Tests
                     new RouteSegment[]
                     {
                         new RouteSegment("cica", null),
-                        new RouteSegment("param", WrappedParser)
+                        new RouteSegment("param", new ConverterWrapper(new IntConverter(null), "pre-", "-su"))
                     },
-                    (mockIntConverterFactory, mockStrConverterFactory, mockParser) =>
+                    (mockIntConverterFactory, mockStrConverterFactory) =>
                     {
                         mockIntConverterFactory.Verify(x => x.Invoke(null), Times.Once);
                         mockIntConverterFactory.VerifyNoOtherCalls();
                         mockStrConverterFactory.VerifyNoOtherCalls();
-                        mockParser.Protected().Verify<TryConvert>("Wrap", Times.Once(), "pre-", "-su", (TryConvert) IntParser);
                     }
                 );
                 yield return
@@ -164,15 +142,14 @@ namespace Solti.Utils.Router.Tests
                     new RouteSegment[]
                     {
                         new RouteSegment("cica", null),
-                        new RouteSegment("param", WrappedParser),
+                        new RouteSegment("param", new ConverterWrapper(new IntConverter(null), "pre-", "-su")),
                         new RouteSegment("kutya", null)
                     },
-                    (mockIntConverterFactory, mockStrConverterFactory, mockParser) =>
+                    (mockIntConverterFactory, mockStrConverterFactory) =>
                     {
                         mockIntConverterFactory.Verify(x => x.Invoke(null), Times.Once);
                         mockIntConverterFactory.VerifyNoOtherCalls();
                         mockStrConverterFactory.VerifyNoOtherCalls();
-                        mockParser.Protected().Verify<TryConvert>("Wrap", Times.Once(), "pre-", "-su", (TryConvert) IntParser);
                     }
                 );
                 yield return
@@ -181,9 +158,9 @@ namespace Solti.Utils.Router.Tests
                     new RouteSegment[]
                     {
                         new RouteSegment("cica", null),
-                        new RouteSegment("param", IntParser)
+                        new RouteSegment("param", new IntConverter("x"))
                     },
-                    (mockIntConverterFactory, mockStrConverterFactory, _) =>
+                    (mockIntConverterFactory, mockStrConverterFactory) =>
                     {
                         mockIntConverterFactory.Verify(x => x.Invoke("x"), Times.Once);
                         mockIntConverterFactory.VerifyNoOtherCalls();
@@ -196,11 +173,11 @@ namespace Solti.Utils.Router.Tests
                     new RouteSegment[]
                     {
                         new RouteSegment("cica", null),
-                        new RouteSegment("param", IntParser),
+                        new RouteSegment("param", new IntConverter(null)),
                         new RouteSegment("mica", null),
-                        new RouteSegment("param2", StrParser)
+                        new RouteSegment("param2", new StrConverter(null))
                     },
-                    (mockIntConverterFactory, mockStrConverterFactory, _) =>
+                    (mockIntConverterFactory, mockStrConverterFactory) =>
                     {
                         mockIntConverterFactory.Verify(x => x.Invoke(null), Times.Once);
                         mockIntConverterFactory.VerifyNoOtherCalls();
@@ -214,10 +191,10 @@ namespace Solti.Utils.Router.Tests
                     new RouteSegment[]
                     {
                         new RouteSegment("cica", null),
-                        new RouteSegment("param", IntParser),
-                        new RouteSegment("param2", StrParser)
+                        new RouteSegment("param", new IntConverter(null)),
+                        new RouteSegment("param2", new StrConverter(null))
                     },
-                    (mockIntConverterFactory, mockStrConverterFactory, _) =>
+                    (mockIntConverterFactory, mockStrConverterFactory) =>
                     {
                         mockIntConverterFactory.Verify(x => x.Invoke(null), Times.Once);
                         mockIntConverterFactory.VerifyNoOtherCalls();
@@ -229,34 +206,32 @@ namespace Solti.Utils.Router.Tests
         }
 
         [TestCaseSource(nameof(Cases))]
-        public void ParseShouldBreakDownTheInputToProperSegments((string Route, IEnumerable<RouteSegment> Parsed, Action<Mock<ConverterFactory>, Mock<ConverterFactory>, Mock<RouteParser>> Assert) @case)
+        public void ParseShouldBreakDownTheInputToProperSegments((string Route, IEnumerable<RouteSegment> Parsed, Action<Mock<ConverterFactory>, Mock<ConverterFactory>> Assert) @case)
         {
             Mock<ConverterFactory> mockIntConverterFactory = new(MockBehavior.Strict);
             mockIntConverterFactory
                 .Setup(x => x.Invoke(It.IsAny<string?>()))
-                .Returns(IntParser);
+                .Returns<string>(style => new IntConverter(style));
 
             Mock<ConverterFactory> mockStrConverterFactory = new(MockBehavior.Strict);
             mockStrConverterFactory
                 .Setup(x => x.Invoke(It.IsAny<string?>()))
-                .Returns(StrParser);
+                .Returns<string>(style => new StrConverter(style));
 
-            Mock<RouteParser> mockParser = new
+            Assert.That
             (
-                MockBehavior.Strict,
-                new Dictionary<string, ConverterFactory> 
-                {
-                    { "int", mockIntConverterFactory.Object },
-                    { "str", mockStrConverterFactory.Object }
-                }
+                new RouteParser
+                (
+                    new Dictionary<string, ConverterFactory>
+                    {
+                        { "int", mockIntConverterFactory.Object },
+                        { "str", mockStrConverterFactory.Object }
+                    }
+                )
+                .Parse(@case.Route)
+                .SequenceEqual(@case.Parsed)
             );
-            mockParser
-                .Protected()
-                .Setup<TryConvert>("Wrap", ItExpr.IsAny<string>(), ItExpr.IsAny<string>(), ItExpr.IsAny<TryConvert>())
-                .Returns(WrappedParser);
-
-            Assert.That(mockParser.Object.Parse(@case.Route).SequenceEqual(@case.Parsed));
-            @case.Assert(mockIntConverterFactory, mockStrConverterFactory, mockParser);
+            @case.Assert(mockIntConverterFactory, mockStrConverterFactory);
         }
 
         [Test]
@@ -298,25 +273,29 @@ namespace Solti.Utils.Router.Tests
         {
             object? ret;
 
-            Mock<TryConvert> intParser = new(MockBehavior.Strict);
-            intParser
-                .Setup(x => x.Invoke("16", out ret))
+            Mock<IConverter> intConverter = new(MockBehavior.Strict);
+            intConverter
+                .Setup(x => x.ConvertToValue("16", out ret))
                 .Returns(true);
+            intConverter
+                .SetupGet(x => x.Id)
+                .Returns("IntConverter");
 
-            Mock<ConverterFactory> intParserFactory = new(MockBehavior.Strict);
-            intParserFactory
+            Mock<ConverterFactory> intConverterFactory = new(MockBehavior.Strict);
+            intConverterFactory
                 .Setup(x => x.Invoke(userData))
-                .Returns(intParser.Object);
+                .Returns(intConverter.Object);
 
             RouteParser parser = new(new Dictionary<string, ConverterFactory>
             {
-                { "int", intParserFactory.Object }
+                { "int", intConverterFactory.Object }
             });
 
-            Assert.That(parser.Parse(input).Single().Converter!.Invoke(test, out ret), Is.EqualTo(shouldCallOriginal));
+            IConverter wrapper = parser.Parse(input).Single().Converter!;
 
-            if (shouldCallOriginal)
-                intParser.Verify(x => x.Invoke("16", out ret), Times.Once);
+            Assert.That(wrapper, Is.InstanceOf<ConverterWrapper>());
+            Assert.That(wrapper!.ConvertToValue(test, out ret), Is.EqualTo(shouldCallOriginal));
+            intConverter.Verify(x => x.ConvertToValue("16", out ret), shouldCallOriginal ? Times.Once : Times.Never);
         }
     }
 }
