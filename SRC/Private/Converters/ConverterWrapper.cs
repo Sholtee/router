@@ -23,7 +23,14 @@ namespace Solti.Utils.Router.Internals
         }
 
         public override bool ConvertToString(object? input, out string? value)
-            => throw new NotImplementedException();
+        {
+            if (Wrapped.ConvertToString(input, out value))
+            {
+                value = Prefix + value + Suffix;
+                return true;
+            }
+            return false;
+        }
 
         public override bool ConvertToValue(string input, out object? value)
         {
