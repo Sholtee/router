@@ -91,6 +91,12 @@ namespace Solti.Utils.Router.Tests
             Listener = null;
         }
 
+        private enum ArithmeticalOperation
+        {
+            Add = 1,
+            Subtract = -1
+        }
+
         [Test]
         public async Task Calculator()
         {
@@ -98,11 +104,11 @@ namespace Solti.Utils.Router.Tests
             (
                 static routes => routes.AddRoute
                 (
-                    "{a:int}/add/{b:int}",
+                    "{a:int}/{op:enum:Solti.Utils.Router.Tests.UseCases%2BArithmeticalOperation}/{b:int}",
                     handler: static (IReadOnlyDictionary<string, object?> paramz, object? state) => 
                     (
                         HttpStatusCode.OK,
-                        (object) ((int) paramz["a"]! + (int) paramz["b"]!)
+                        (object) ((int) paramz["a"]! + (int) paramz["op"]! * (int) paramz["b"]!)
                     )
                 )
             );

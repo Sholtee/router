@@ -56,7 +56,7 @@ This library comes with an extremely simple API set (consits of a few methods on
 For a more comprehensive example check out the [use cases](https://github.com/Sholtee/router/blob/main/TEST/UseCases.cs ) fixture
 
 ## Converters
-Converters are used to parse the variable value coming from the request path. Default converters (`int`, `guid`, `str`) can be accessed via the `DefaultConverters.Instance` property.
+Converters are used to parse variable value coming from the request path. Default converters (`int`, `guid`, `str` and `enum`) can be accessed via the `DefaultConverters.Instance` property.
 ```csharp
 using Solti.Utils.Router;
 
@@ -65,11 +65,14 @@ RouterBuilder routerBuilder = new
 	defaultHandler: (object? state) => {...},
 	converters: new Dictionary<string, ConverterFactory>(DefaultConverters.Instance)
 	{
-		{"mytype", (string? style) => MyTypeConverter}
+		{"mytype", (string? style) => new MyConverter(style)}
 	}
 );
 
-bool MyTypeConverter(string input, out object? val) {...}
+class MyTypeConverter: IConverter 
+{
+    ...
+}
 ```
 
 ## Resources

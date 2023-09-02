@@ -22,7 +22,7 @@ namespace Solti.Utils.Router.Internals
     /// </remarks>
     internal sealed class RouteParser
     {
-        private static readonly Regex FTemplateMatcher = new("{(?<name>\\w+)?(?::(?<converter>\\w+)?)?(?::(?<param>\\w+)?)?}", RegexOptions.Compiled);
+        private static readonly Regex FTemplateMatcher = new("{(?<name>\\w+)?(?::(?<converter>\\w+)?)?(?::(?<param>[\\w+.-]+)?)?}", RegexOptions.Compiled);
 
         public IReadOnlyDictionary<string, ConverterFactory> Converters { get; }
 
