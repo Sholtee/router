@@ -66,7 +66,7 @@ namespace Solti.Utils.Router
 
             StringBuilder sb = new();
 
-            foreach (RouteSegment segment in new RouteParser(converters).Parse(template))
+            foreach (RouteSegment segment in new RouteParser(converters).Parse(template ?? throw new ArgumentNullException(nameof(template))))
             {
                 sb.Append('/');
 
