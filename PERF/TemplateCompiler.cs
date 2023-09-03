@@ -1,8 +1,9 @@
 ﻿/********************************************************************************
-* Routing.cs                                                                    *
+* TemplateCompiler.cs                                                           *
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System.Collections.Generic;
 using System.Linq;
 
 using BenchmarkDotNet.Attributes;
@@ -10,7 +11,7 @@ using BenchmarkDotNet.Attributes;
 namespace Solti.Utils.Router.Perf
 {
     [MemoryDiagnoser]
-    public class Routing
+    public class TemplateCompiler
     {
         [Params(1, 2, 5, 10)]
         public int SegmentCount { get; set; }
@@ -18,18 +19,16 @@ namespace Solti.Utils.Router.Perf
         [Params(true, false)]
         public bool HasParams { get; set; }
 
-        public string Input { get; set; } = null!;
+        public RouteTemplateCompiler Compiler { get; set; } = null!;
 
-        public Router Router { get; set; } = null!;
+        public Dictionary<string, object?> Params { get; set; } = null!;
 
-        [GlobalSetup(Target = nameof(Route))]
-        public void SetupRoute()
+        [GlobalSetup(Target = nameof(Compile))]
+        public void SetupTemplate()
         {
-            RouterBuilder bldr = new(handler: (_, _) => true);
-
             int paramIndex = 0;
 
-            bldr.AddRoute
+            Compiler = RouteTemplate.CreateCompiler
             (
                 "/" + string.Join
                 (
@@ -37,16 +36,15 @@ namespace Solti.Utils.Router.Perf
                     Enumerable
                         .Repeat("segment", SegmentCount)
                         .Select((segment, i) => HasParams && i % 2 == 0 ? $"{{param{paramIndex++}:str}}" : segment)
-                ),
-                handler: (_, _) => true
+                )
             );
 
-            Router = bldr.Build();
-
-            Input = "/" + string.Join("/", Enumerable.Repeat("segment", SegmentCount));
+            Params = Enumerable
+                .Repeat("paramValue", paramIndex)
+                .ToDictionary(_ => $"param{--paramIndex}", val => (object?) val);
         }
 
         [Benchmark]
-        public void Route() => Router(null, Input);
+        public void Compile() => Compiler(Params);
     }
 }
