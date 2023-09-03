@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
 	<Authors>Denes Solti</Authors>
-	<Version>1.0.0-preview2</Version>
+	<Version>1.0.0-preview3</Version>
 	<Configurations>Debug;Release</Configurations>
 	<OutputPath>..\BIN\$(Configuration)</OutputPath>
     <Nullable>enable</Nullable>
