@@ -50,7 +50,7 @@ namespace Solti.Utils.Router
             (
                 (Expression<Action>)
                 (
-                    static () => string.Concat(null!, null!)
+                    static () => string.Concat(new string[0])
                 )
             ).Body
         ).Method;
@@ -61,9 +61,10 @@ namespace Solti.Utils.Router
         public static RouteTemplateCompiler CreateCompiler(string template, IReadOnlyDictionary<string, ConverterFactory>? converters = null)
         {
             ParameterExpression paramz = Expression.Parameter(typeof(IReadOnlyDictionary<string, object?>), nameof(paramz));
-            StringBuilder sb = new();
 
-            Expression? ret = null;
+            List<Expression> arrayInitializers = new();
+
+            StringBuilder sb = new();
 
             foreach (RouteSegment segment in new RouteParser(converters).Parse(template))
             {
@@ -75,78 +76,84 @@ namespace Solti.Utils.Router
                 }
                 else
                 {
+                    arrayInitializers.Add
+                    (
+                        Expression.Constant(sb.ToString())
+                    );
+                    sb.Clear();
+
                     ParameterExpression
                         objValue = Expression.Parameter(typeof(object), nameof(objValue)),
                         strValue = Expression.Parameter(typeof(string), nameof(strValue));
 
-                    Expression interpolation = Expression.Block
+                    arrayInitializers.Add
                     (
-                        type: typeof(string),
-                        variables: new ParameterExpression[]
-                        {
-                            objValue,
-                            strValue
-                        },
-                        Expression.IfThen
+                        Expression.Block
                         (
-                            Expression.Or
+                            type: typeof(string),
+                            variables: new ParameterExpression[]
+                            {
+                                objValue,
+                                strValue
+                            },
+                            Expression.IfThen
                             (
-                                Expression.Not
+                                Expression.Or
                                 (
-                                    Expression.Call
+                                    Expression.Not
                                     (
-                                        paramz,
-                                        FTryGetValue,
-                                        Expression.Constant(segment.Name),
-                                        objValue
+                                        Expression.Call
+                                        (
+                                            paramz,
+                                            FTryGetValue,
+                                            Expression.Constant(segment.Name),
+                                            objValue
+                                        )
+                                    ),
+                                    Expression.Not
+                                    (
+                                        Expression.Call
+                                        (
+                                            Expression.Constant(segment.Converter),
+                                            FTryConvertToString,
+                                            objValue,
+                                            strValue
+                                        )
                                     )
                                 ),
-                                Expression.Not
+                                ifTrue: Expression.Throw
                                 (
-                                    Expression.Call
-                                    (
-                                        Expression.Constant(segment.Converter),
-                                        FTryConvertToString,
-                                        objValue,
-                                        strValue
-                                    )
+                                    Expression.Constant(new ArgumentException(Resources.INAPPROPRIATE_PARAMETERS, nameof(paramz)))
                                 )
                             ),
-                            ifTrue: Expression.Throw
-                            (
-                                Expression.Constant(new ArgumentException(Resources.INAPPROPRIATE_PARAMETERS, nameof(paramz)))
-                            )
-                        ),
-                        strValue
+                            strValue
+                        )
                     );
-
-                    AppendConst();
-
-                    ret = Expression.Call(null, FConcat, ret, interpolation);
                 }
             }
 
-            if (sb.Length is 0 && ret is null)
+            if (sb.Length is 0 && arrayInitializers.Count is 0)
                 sb.Append('/');    
 
             if (sb.Length > 0)
-                AppendConst();
+                arrayInitializers.Add
+                (
+                    Expression.Constant(sb.ToString())
+                );
 
-            Expression<RouteTemplateCompiler> compilerExpr = Expression.Lambda<RouteTemplateCompiler>(ret, paramz);
+            Expression<RouteTemplateCompiler> compilerExpr = Expression.Lambda<RouteTemplateCompiler>
+            (
+                Expression.Call
+                (
+                    FConcat,
+                    Expression.NewArrayInit(typeof(string), arrayInitializers)
+                ),
+                paramz
+            );
 
             Debug.WriteLine(compilerExpr.GetDebugView());
 
             return compilerExpr.Compile();
-
-            void AppendConst()
-            {
-                Debug.Assert(sb.Length > 0, "There is nothing to append to");
-
-                ConstantExpression pre = Expression.Constant(sb.ToString());
-                ret = ret is null ? pre : Expression.Call(null, FConcat, ret, pre);
-
-                sb.Clear();
-            }
         }
     }
 }
