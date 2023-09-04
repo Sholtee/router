@@ -16,18 +16,22 @@ namespace Solti.Utils.Router.Internals
     {
         private readonly string FPath;
 
+        private readonly SplitOptions FOptions;
+
         private readonly char[]
             FResultBuffer,
-            FHexBufffer = new char[2];
+            FHexBufffer;
 
         private int
             FPosition,
             FIndex;
 
-        private PathSplitter(string path)
+        private PathSplitter(string path, SplitOptions options)
         {
             FPath = path;
             FResultBuffer = new char[path.Length];
+            FHexBufffer = options.HasFlag(SplitOptions.ConvertHexValues) ? new char[2] : null!;
+            FOptions = options;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -69,7 +73,7 @@ namespace Solti.Utils.Router.Internals
 
                         FIndex++;
                         return true;
-                    case '%':
+                    case '%' when FOptions.HasFlag(SplitOptions.ConvertHexValues):
                         //
                         // Validate the HEX value.
                         //
@@ -81,14 +85,14 @@ namespace Solti.Utils.Router.Internals
 
                             if (byte.TryParse(FHexBufffer, NumberStyles.HexNumber, null, out byte chr))
                             {
-                                c = (char)chr;
+                                c = (char) chr;
                                 FIndex += 2;
                                 break;
                             }
                         }
 
                         throw InvalidPath(INVALID_HEX);
-                    case '+':
+                    case '+' when FOptions.HasFlag(SplitOptions.ConvertSpaces):
                         c = ' ';
                         break;
                 }
@@ -122,6 +126,6 @@ namespace Solti.Utils.Router.Internals
         /// Splits the given path converting hex values if necessary.
         /// </summary>
         /// <remarks>Due to performance considerations, this method intentionally doesn't return an <see cref="IEnumerable{String}"/>.</remarks>
-        public static PathSplitter Split(string path) => new(path);
+        public static PathSplitter Split(string path, SplitOptions options = SplitOptions.Default) => new(path, options);
     }
 }

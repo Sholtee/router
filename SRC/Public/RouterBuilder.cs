@@ -131,7 +131,7 @@ namespace Solti.Utils.Router
             (
                 (Expression<Action>) 
                 (
-                    static () => PathSplitter.Split(null!)
+                    static () => PathSplitter.Split(null!, SplitOptions.Default)
                 )
             ).Body
         ).Method;
@@ -385,7 +385,7 @@ namespace Solti.Utils.Router
                     Expression.Assign
                     (
                         context.Segments,
-                        Expression.Call(FSplit, context.Path)
+                        Expression.Call(FSplit, context.Path, Expression.Constant(SplitOptions.Default))
                     ),
                     Expression.Assign
                     (

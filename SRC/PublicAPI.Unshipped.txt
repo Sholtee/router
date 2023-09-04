@@ -17,5 +17,10 @@ Solti.Utils.Router.RouterBuilder.RouterBuilder(Solti.Utils.Router.DefaultRequest
 Solti.Utils.Router.RouterBuilder.RouterBuilder(System.Linq.Expressions.Expression<Solti.Utils.Router.DefaultRequestHandler!>! handlerExpr, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> void
 Solti.Utils.Router.RouteTemplate
 Solti.Utils.Router.RouteTemplateCompiler
+Solti.Utils.Router.SplitOptions
+Solti.Utils.Router.SplitOptions.ConvertHexValues = 1 -> Solti.Utils.Router.SplitOptions
+Solti.Utils.Router.SplitOptions.ConvertSpaces = 2 -> Solti.Utils.Router.SplitOptions
+Solti.Utils.Router.SplitOptions.Default = Solti.Utils.Router.SplitOptions.ConvertHexValues | Solti.Utils.Router.SplitOptions.ConvertSpaces -> Solti.Utils.Router.SplitOptions
+Solti.Utils.Router.SplitOptions.None = 0 -> Solti.Utils.Router.SplitOptions
 static Solti.Utils.Router.DefaultConverters.Instance.get -> Solti.Utils.Router.DefaultConverters!
 static Solti.Utils.Router.RouteTemplate.CreateCompiler(string! template, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> Solti.Utils.Router.RouteTemplateCompiler!
