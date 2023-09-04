@@ -81,4 +81,4 @@ class MyTypeConverter: IConverter
 - [Version History](https://github.com/Sholtee/router/blob/master/history.md )
 
 ## Supported frameworks
-This project currently targets *.NET Standard* 2.1 only.
+This project currently targets *.NET Standard* 2.0 and 2.1.
