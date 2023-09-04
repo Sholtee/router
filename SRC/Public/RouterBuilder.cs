@@ -495,7 +495,6 @@ namespace Solti.Utils.Router
                 }
 #else
                 if (!target.Handlers.TryAdd(method, handlerExpr))
-                    
 #endif
                     throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
             }
