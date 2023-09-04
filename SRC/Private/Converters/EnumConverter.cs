@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Solti.Utils.Router.Internals
 {
-#if NETSTANDARD2_0
+#if !NETSTANDARD2_1_OR_GREATER
     using System.Diagnostics;
     using System.Linq.Expressions;
     using System.Reflection;
@@ -20,7 +20,7 @@ namespace Solti.Utils.Router.Internals
 
     internal sealed class EnumConverter : ConverterBase
     {
-#if NETSTANDARD2_0
+#if !NETSTANDARD2_1_OR_GREATER
         private static readonly MethodInfo FTryParseGen =
         (
             (MethodCallExpression)
@@ -58,7 +58,7 @@ namespace Solti.Utils.Router.Internals
                 throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style));
 
             EnumType = hits[0];
-#if NETSTANDARD2_0
+#if !NETSTANDARD2_1_OR_GREATER
             ParameterExpression
                 input  = Expression.Parameter(typeof(string), nameof(input)),
                 output = Expression.Parameter(typeof(object).MakeByRefType(), nameof(output)),
@@ -110,7 +110,7 @@ namespace Solti.Utils.Router.Internals
         }
 
         public override bool ConvertToValue(string input, out object? value) =>
-#if NETSTANDARD2_0
+#if !NETSTANDARD2_1_OR_GREATER
             FTryParse(input, out value);
 #else
             Enum.TryParse(EnumType, input, ignoreCase: true, out value);

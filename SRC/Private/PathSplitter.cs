@@ -83,7 +83,20 @@ namespace Solti.Utils.Router.Internals
                             FHexBufffer[0] = FPath[FIndex + 1];
                             FHexBufffer[1] = FPath[FIndex + 2];
 
-                            if (byte.TryParse(FHexBufffer, NumberStyles.HexNumber, null, out byte chr))
+                            if 
+                            (
+                                byte.TryParse
+                                (
+#if !NETSTANDARD2_1_OR_GREATER
+                                    new string(FHexBufffer),
+#else
+                                    FHexBufffer,
+#endif
+                                    NumberStyles.HexNumber,
+                                    null,
+                                    out byte chr
+                                )
+                            )
                             {
                                 c = (char) chr;
                                 FIndex += 2;

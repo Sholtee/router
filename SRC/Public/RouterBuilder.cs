@@ -487,7 +487,16 @@ namespace Solti.Utils.Router
 
             foreach (string method in methods)
             {
+#if !NETSTANDARD2_1_OR_GREATER
+                if (!target.Handlers.ContainsKey(method))
+                {
+                    target.Handlers.Add(method, handlerExpr);
+                    continue;
+                }
+#else
                 if (!target.Handlers.TryAdd(method, handlerExpr))
+                    
+#endif
                     throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
             }
 

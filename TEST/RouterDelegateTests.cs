@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 
@@ -88,7 +89,16 @@ namespace Solti.Utils.Router.Tests
                 bldr.AddRoute(route.Key, handler: (actualParams, userData) =>
                 {
                     Assert.That(actualParams, Is.Not.Null);
-                    return mockHandler.Object(new Dictionary<string, object?>(actualParams) { { "@callback", route.Value } }, userData);
+
+                    return mockHandler.Object
+                    (
+#if NETFRAMEWORK
+                        actualParams.Append(new KeyValuePair<string, object?>("@callback", route.Value)).ToDictionary(k => k.Key, k => k.Value),
+#else
+                        new Dictionary<string, object?>(actualParams) { { "@callback", route.Value } },
+#endif
+                        userData
+                    );
                 });
             }
             Router router = bldr.Build();
