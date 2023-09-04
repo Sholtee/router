@@ -466,3 +466,39 @@ references:
   commentId: Overload:Solti.Utils.Router.RouteTemplateCompiler.Invoke
   fullName: Solti.Utils.Router.RouteTemplateCompiler.Invoke
   nameWithType: RouteTemplateCompiler.Invoke
+- uid: Solti.Utils.Router.SplitOptions
+  name: SplitOptions
+  href: Solti.Utils.Router.SplitOptions.html
+  commentId: T:Solti.Utils.Router.SplitOptions
+  fullName: Solti.Utils.Router.SplitOptions
+  nameWithType: SplitOptions
+- uid: Solti.Utils.Router.SplitOptions.ConvertHexValues
+  name: ConvertHexValues
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_ConvertHexValues
+  commentId: F:Solti.Utils.Router.SplitOptions.ConvertHexValues
+  fullName: Solti.Utils.Router.SplitOptions.ConvertHexValues
+  nameWithType: SplitOptions.ConvertHexValues
+- uid: Solti.Utils.Router.SplitOptions.ConvertSpaces
+  name: ConvertSpaces
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_ConvertSpaces
+  commentId: F:Solti.Utils.Router.SplitOptions.ConvertSpaces
+  fullName: Solti.Utils.Router.SplitOptions.ConvertSpaces
+  nameWithType: SplitOptions.ConvertSpaces
+- uid: Solti.Utils.Router.SplitOptions.Default
+  name: Default
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_Default
+  commentId: F:Solti.Utils.Router.SplitOptions.Default
+  fullName: Solti.Utils.Router.SplitOptions.Default
+  nameWithType: SplitOptions.Default
+- uid: Solti.Utils.Router.SplitOptions.None
+  name: None
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_None
+  commentId: F:Solti.Utils.Router.SplitOptions.None
+  fullName: Solti.Utils.Router.SplitOptions.None
+  nameWithType: SplitOptions.None
+- uid: Solti.Utils.Router.SplitOptions.value__
+  name: value__
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_value__
+  commentId: F:Solti.Utils.Router.SplitOptions.value__
+  fullName: Solti.Utils.Router.SplitOptions.value__
+  nameWithType: SplitOptions.value__
