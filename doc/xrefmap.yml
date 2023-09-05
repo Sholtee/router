@@ -271,12 +271,12 @@ references:
   commentId: Overload:Solti.Utils.Router.Router.#ctor
   fullName: Solti.Utils.Router.Router.Router
   nameWithType: Router.Router
-- uid: Solti.Utils.Router.Router.BeginInvoke(System.Object,System.String,System.String,System.AsyncCallback,System.Object)
-  name: BeginInvoke(Object, String, String, AsyncCallback, Object)
-  href: Solti.Utils.Router.Router.html#Solti_Utils_Router_Router_BeginInvoke_System_Object_System_String_System_String_System_AsyncCallback_System_Object_
-  commentId: M:Solti.Utils.Router.Router.BeginInvoke(System.Object,System.String,System.String,System.AsyncCallback,System.Object)
-  fullName: Solti.Utils.Router.Router.BeginInvoke(System.Object, System.String, System.String, System.AsyncCallback, System.Object)
-  nameWithType: Router.BeginInvoke(Object, String, String, AsyncCallback, Object)
+- uid: Solti.Utils.Router.Router.BeginInvoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
+  name: BeginInvoke(Object, String, String, SplitOptions, AsyncCallback, Object)
+  href: Solti.Utils.Router.Router.html#Solti_Utils_Router_Router_BeginInvoke_System_Object_System_String_System_String_Solti_Utils_Router_SplitOptions_System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Router.Router.BeginInvoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
+  fullName: Solti.Utils.Router.Router.BeginInvoke(System.Object, System.String, System.String, Solti.Utils.Router.SplitOptions, System.AsyncCallback, System.Object)
+  nameWithType: Router.BeginInvoke(Object, String, String, SplitOptions, AsyncCallback, Object)
 - uid: Solti.Utils.Router.Router.BeginInvoke*
   name: BeginInvoke
   href: Solti.Utils.Router.Router.html#Solti_Utils_Router_Router_BeginInvoke_
@@ -295,12 +295,12 @@ references:
   commentId: Overload:Solti.Utils.Router.Router.EndInvoke
   fullName: Solti.Utils.Router.Router.EndInvoke
   nameWithType: Router.EndInvoke
-- uid: Solti.Utils.Router.Router.Invoke(System.Object,System.String,System.String)
-  name: Invoke(Object, String, String)
-  href: Solti.Utils.Router.Router.html#Solti_Utils_Router_Router_Invoke_System_Object_System_String_System_String_
-  commentId: M:Solti.Utils.Router.Router.Invoke(System.Object,System.String,System.String)
-  fullName: Solti.Utils.Router.Router.Invoke(System.Object, System.String, System.String)
-  nameWithType: Router.Invoke(Object, String, String)
+- uid: Solti.Utils.Router.Router.Invoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions)
+  name: Invoke(Object, String, String, SplitOptions)
+  href: Solti.Utils.Router.Router.html#Solti_Utils_Router_Router_Invoke_System_Object_System_String_System_String_Solti_Utils_Router_SplitOptions_
+  commentId: M:Solti.Utils.Router.Router.Invoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions)
+  fullName: Solti.Utils.Router.Router.Invoke(System.Object, System.String, System.String, Solti.Utils.Router.SplitOptions)
+  nameWithType: Router.Invoke(Object, String, String, SplitOptions)
 - uid: Solti.Utils.Router.Router.Invoke*
   name: Invoke
   href: Solti.Utils.Router.Router.html#Solti_Utils_Router_Router_Invoke_
