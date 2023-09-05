@@ -434,7 +434,7 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Registers a new route.
         /// </summary>
-        /// <param name="route">Route to be registered.</param>
+        /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
         /// <param name="handlerExpr">Function accepting requests on the given route.</param>
         /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
@@ -510,7 +510,7 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Registers a new route.
         /// </summary>
-        /// <param name="route">Route to be registered.</param>
+        /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
         /// <param name="handlerExpr">Function accepting requests on the given route.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
@@ -520,7 +520,7 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Registers a new route.
         /// </summary>
-        /// <param name="route">Route to be registered.</param>
+        /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
         /// <param name="handler">Function accepting requests on the given route.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
@@ -530,7 +530,7 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Registers a new route.
         /// </summary>
-        /// <param name="route">Route to be registered.</param>
+        /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
         /// <param name="handler">Function accepting requests on the given route.</param>
         /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
