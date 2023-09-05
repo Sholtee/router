@@ -59,13 +59,13 @@
   <h3 id="methods">Methods
   </h3>
   <a id="Solti_Utils_Router_RouteTemplate_CreateCompiler_" data-uid="Solti.Utils.Router.RouteTemplate.CreateCompiler*"></a>
-  <h4 id="Solti_Utils_Router_RouteTemplate_CreateCompiler_System_String_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__" data-uid="Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})">CreateCompiler(String, IReadOnlyDictionary&lt;String, ConverterFactory&gt;)</h4>
+  <h4 id="Solti_Utils_Router_RouteTemplate_CreateCompiler_System_String_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__Solti_Utils_Router_SplitOptions_" data-uid="Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory},Solti.Utils.Router.SplitOptions)">CreateCompiler(String, IReadOnlyDictionary&lt;String, ConverterFactory&gt;, SplitOptions)</h4>
   <div class="markdown level1 summary"><p>Creates the template compiler function that interpolates parameters in the encapsulated route template.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static RouteTemplateCompiler CreateCompiler(string template, IReadOnlyDictionary&lt;string, ConverterFactory&gt; converters = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public static RouteTemplateCompiler CreateCompiler(string template, IReadOnlyDictionary&lt;string, ConverterFactory&gt; converters = null, SplitOptions splitOptions)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -87,6 +87,11 @@
         <td><span class="parametername">converters</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.SplitOptions.html">SplitOptions</a></td>
+        <td><span class="parametername">splitOptions</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -104,9 +109,6 @@
       </tr>
     </tbody>
   </table>
-  <h5 id="Solti_Utils_Router_RouteTemplate_CreateCompiler_System_String_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory___remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p><code data-dev-comment-type="paramref" class="paramref">template</code> must NOT include the base URL.</p>
-</div>
 </article>
           </div>
           

@@ -337,6 +337,15 @@ references:
   commentId: Overload:Solti.Utils.Router.RouterBuilder.#ctor
   fullName: Solti.Utils.Router.RouterBuilder.RouterBuilder
   nameWithType: RouterBuilder.RouterBuilder
+- uid: Solti.Utils.Router.RouterBuilder.AddRoute(System.String,Solti.Utils.Router.RequestHandler,Solti.Utils.Router.SplitOptions,System.String[])
+  name: AddRoute(String, RequestHandler, SplitOptions, String[])
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_AddRoute_System_String_Solti_Utils_Router_RequestHandler_Solti_Utils_Router_SplitOptions_System_String___
+  commentId: M:Solti.Utils.Router.RouterBuilder.AddRoute(System.String,Solti.Utils.Router.RequestHandler,Solti.Utils.Router.SplitOptions,System.String[])
+  name.vb: AddRoute(String, RequestHandler, SplitOptions, String())
+  fullName: Solti.Utils.Router.RouterBuilder.AddRoute(System.String, Solti.Utils.Router.RequestHandler, Solti.Utils.Router.SplitOptions, System.String[])
+  fullName.vb: Solti.Utils.Router.RouterBuilder.AddRoute(System.String, Solti.Utils.Router.RequestHandler, Solti.Utils.Router.SplitOptions, System.String())
+  nameWithType: RouterBuilder.AddRoute(String, RequestHandler, SplitOptions, String[])
+  nameWithType.vb: RouterBuilder.AddRoute(String, RequestHandler, SplitOptions, String())
 - uid: Solti.Utils.Router.RouterBuilder.AddRoute(System.String,Solti.Utils.Router.RequestHandler,System.String[])
   name: AddRoute(String, RequestHandler, String[])
   href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_AddRoute_System_String_Solti_Utils_Router_RequestHandler_System_String___
@@ -346,6 +355,15 @@ references:
   fullName.vb: Solti.Utils.Router.RouterBuilder.AddRoute(System.String, Solti.Utils.Router.RequestHandler, System.String())
   nameWithType: RouterBuilder.AddRoute(String, RequestHandler, String[])
   nameWithType.vb: RouterBuilder.AddRoute(String, RequestHandler, String())
+- uid: Solti.Utils.Router.RouterBuilder.AddRoute(System.String,System.Linq.Expressions.Expression{Solti.Utils.Router.RequestHandler},Solti.Utils.Router.SplitOptions,System.String[])
+  name: AddRoute(String, Expression<RequestHandler>, SplitOptions, String[])
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_AddRoute_System_String_System_Linq_Expressions_Expression_Solti_Utils_Router_RequestHandler__Solti_Utils_Router_SplitOptions_System_String___
+  commentId: M:Solti.Utils.Router.RouterBuilder.AddRoute(System.String,System.Linq.Expressions.Expression{Solti.Utils.Router.RequestHandler},Solti.Utils.Router.SplitOptions,System.String[])
+  name.vb: AddRoute(String, Expression(Of RequestHandler), SplitOptions, String())
+  fullName: Solti.Utils.Router.RouterBuilder.AddRoute(System.String, System.Linq.Expressions.Expression<Solti.Utils.Router.RequestHandler>, Solti.Utils.Router.SplitOptions, System.String[])
+  fullName.vb: Solti.Utils.Router.RouterBuilder.AddRoute(System.String, System.Linq.Expressions.Expression(Of Solti.Utils.Router.RequestHandler), Solti.Utils.Router.SplitOptions, System.String())
+  nameWithType: RouterBuilder.AddRoute(String, Expression<RequestHandler>, SplitOptions, String[])
+  nameWithType.vb: RouterBuilder.AddRoute(String, Expression(Of RequestHandler), SplitOptions, String())
 - uid: Solti.Utils.Router.RouterBuilder.AddRoute(System.String,System.Linq.Expressions.Expression{Solti.Utils.Router.RequestHandler},System.String[])
   name: AddRoute(String, Expression<RequestHandler>, String[])
   href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_AddRoute_System_String_System_Linq_Expressions_Expression_Solti_Utils_Router_RequestHandler__System_String___
@@ -391,15 +409,15 @@ references:
   commentId: T:Solti.Utils.Router.RouteTemplate
   fullName: Solti.Utils.Router.RouteTemplate
   nameWithType: RouteTemplate
-- uid: Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})
-  name: CreateCompiler(String, IReadOnlyDictionary<String, ConverterFactory>)
-  href: Solti.Utils.Router.RouteTemplate.html#Solti_Utils_Router_RouteTemplate_CreateCompiler_System_String_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__
-  commentId: M:Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})
-  name.vb: CreateCompiler(String, IReadOnlyDictionary(Of String, ConverterFactory))
-  fullName: Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String, System.Collections.Generic.IReadOnlyDictionary<System.String, Solti.Utils.Router.ConverterFactory>)
-  fullName.vb: Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String, System.Collections.Generic.IReadOnlyDictionary(Of System.String, Solti.Utils.Router.ConverterFactory))
-  nameWithType: RouteTemplate.CreateCompiler(String, IReadOnlyDictionary<String, ConverterFactory>)
-  nameWithType.vb: RouteTemplate.CreateCompiler(String, IReadOnlyDictionary(Of String, ConverterFactory))
+- uid: Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory},Solti.Utils.Router.SplitOptions)
+  name: CreateCompiler(String, IReadOnlyDictionary<String, ConverterFactory>, SplitOptions)
+  href: Solti.Utils.Router.RouteTemplate.html#Solti_Utils_Router_RouteTemplate_CreateCompiler_System_String_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__Solti_Utils_Router_SplitOptions_
+  commentId: M:Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory},Solti.Utils.Router.SplitOptions)
+  name.vb: CreateCompiler(String, IReadOnlyDictionary(Of String, ConverterFactory), SplitOptions)
+  fullName: Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String, System.Collections.Generic.IReadOnlyDictionary<System.String, Solti.Utils.Router.ConverterFactory>, Solti.Utils.Router.SplitOptions)
+  fullName.vb: Solti.Utils.Router.RouteTemplate.CreateCompiler(System.String, System.Collections.Generic.IReadOnlyDictionary(Of System.String, Solti.Utils.Router.ConverterFactory), Solti.Utils.Router.SplitOptions)
+  nameWithType: RouteTemplate.CreateCompiler(String, IReadOnlyDictionary<String, ConverterFactory>, SplitOptions)
+  nameWithType.vb: RouteTemplate.CreateCompiler(String, IReadOnlyDictionary(Of String, ConverterFactory), SplitOptions)
 - uid: Solti.Utils.Router.RouteTemplate.CreateCompiler*
   name: CreateCompiler
   href: Solti.Utils.Router.RouteTemplate.html#Solti_Utils_Router_RouteTemplate_CreateCompiler_
