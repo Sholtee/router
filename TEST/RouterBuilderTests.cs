@@ -158,7 +158,7 @@ namespace Solti.Utils.Router.Tests
         }
 
         [TestCaseSource(nameof(Routes))]
-        public void AddRouteShouldBuildTheRouterDelegate(string[] routes)
+        public void BuildShouldAssembleTheRouterDelegate(string[] routes)
         {
             RouterBuilder builder = new(handler: (_, _) => { Assert.Fail(); return null; }, DefaultConverters.Instance);
 

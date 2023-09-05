@@ -40,8 +40,9 @@ namespace Solti.Utils.Router
     /// Router delegate.
     /// </summary>
     /// <param name="userData">Custom user data to be passed to handlers.</param>
-    /// <param name="path">Path where to route the request.</param>
+    /// <param name="path">Path where to route the request. Must NOT include the base url.</param>
     /// <param name="method">Method(s) to be accepted. "GET" is the default.</param>
+    /// <param name="splitOptions">Specifies how to split the <paramref name="path"/>.</param>
     /// <returns>The response object.</returns>
-    public delegate object? Router(object? userData, string path, string method = "GET");
+    public delegate object? Router(object? userData, string path, string method = "GET", SplitOptions splitOptions = SplitOptions.Default);
 }

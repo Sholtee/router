@@ -103,9 +103,10 @@ namespace Solti.Utils.Router
 
         private sealed class BuildContext
         {        
-            public ParameterExpression UserData { get; } = Expression.Parameter(typeof(object), nameof(UserData).ToLower());
-            public ParameterExpression Path     { get; } = Expression.Parameter(typeof(string), nameof(Path).ToLower());
-            public ParameterExpression Method   { get; } = Expression.Parameter(typeof(string), nameof(Method).ToLower());
+            public ParameterExpression UserData     { get; } = Expression.Parameter(typeof(object), nameof(UserData).ToLower());
+            public ParameterExpression Path         { get; } = Expression.Parameter(typeof(string), nameof(Path).ToLower());
+            public ParameterExpression Method       { get; } = Expression.Parameter(typeof(string), nameof(Method).ToLower());
+            public ParameterExpression SplitOptions { get; } = Expression.Parameter(typeof(SplitOptions), nameof(SplitOptions).ToLower());
 
             public ParameterExpression Segments  { get; } = Expression.Variable(typeof(PathSplitter), nameof(Segments).ToLower());
             public ParameterExpression Params    { get; } = Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower());
@@ -385,7 +386,7 @@ namespace Solti.Utils.Router
                     Expression.Assign
                     (
                         context.Segments,
-                        Expression.Call(FSplit, context.Path, Expression.Constant(SplitOptions.Default))
+                        Expression.Call(FSplit, context.Path, context.SplitOptions)
                     ),
                     Expression.Assign
                     (
@@ -403,7 +404,8 @@ namespace Solti.Utils.Router
                 {
                     context.UserData,
                     context.Path,
-                    context.Method
+                    context.Method,
+                    context.SplitOptions
                 }
             );
 
