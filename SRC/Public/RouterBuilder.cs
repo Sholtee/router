@@ -20,7 +20,7 @@ namespace Solti.Utils.Router
     /// <summary>
     /// Builds the <see cref="Router"/> delegate that does the actual routing.
     /// <code>
-    /// object Route(object? userData, string path, string method, SplitOptions splitOptions)
+    /// object Route(object? userData, string path, string method = "GET", SplitOptions splitOptions = SplitOptions.Default)
     /// { 
     ///     PathSplitter segments = PathSplitter.Split(path, splitOptions);
     ///     Dictionary&lt;string, object?&gt; paramz = new(MaxParameters);
