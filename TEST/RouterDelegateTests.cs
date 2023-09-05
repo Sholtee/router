@@ -48,7 +48,7 @@ namespace Solti.Utils.Router.Tests
             {
                 RoutingTestCaseDescriptor[] testCases = JsonSerializer.Deserialize<RoutingTestCaseDescriptor[]>
                 (
-                    File.ReadAllText("routerTestCases.json"),
+                    File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "routerTestCases.json")),
                     new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true,
