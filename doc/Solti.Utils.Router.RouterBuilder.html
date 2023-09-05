@@ -43,9 +43,9 @@
   <h1 id="Solti_Utils_Router_RouterBuilder" data-uid="Solti.Utils.Router.RouterBuilder" class="text-break">Class RouterBuilder
   </h1>
   <div class="markdown level0 summary"><p>Builds the <a class="xref" href="Solti.Utils.Router.Router.html">Router</a> delegate that does the actual routing.</p>
-<pre><code>object Route(object? userData, string path, string method)
+<pre><code>object Route(object? userData, string path, string method, SplitOptions splitOptions)
 { 
-    PathSplitter segments = PathSplitter.Split(path);
+    PathSplitter segments = PathSplitter.Split(path, splitOptions);
     Dictionary&lt;string, object?> paramz = new(MaxParameters);
     object converted;
 
