@@ -58,8 +58,7 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Creates the template compiler function that interpolates parameters in the encapsulated route template.
         /// </summary>
-        /// <remarks><paramref name="template"/> must NOT include the base URL.</remarks>
-        public static RouteTemplateCompiler CreateCompiler(string template, IReadOnlyDictionary<string, ConverterFactory>? converters = null)
+        public static RouteTemplateCompiler CreateCompiler(string template, IReadOnlyDictionary<string, ConverterFactory>? converters = null, SplitOptions splitOptions = SplitOptions.Default)
         {
             ParameterExpression paramz = Expression.Parameter(typeof(IReadOnlyDictionary<string, object?>), nameof(paramz));
 
@@ -67,7 +66,8 @@ namespace Solti.Utils.Router
 
             StringBuilder sb = new();
 
-            foreach (RouteSegment segment in new RouteParser(converters).Parse(template ?? throw new ArgumentNullException(nameof(template))))
+            foreach (RouteSegment segment in new RouteParser(converters ?? DefaultConverters.Instance)
+                .Parse(template ?? throw new ArgumentNullException(nameof(template)), splitOptions))
             {
                 sb.Append('/');
 

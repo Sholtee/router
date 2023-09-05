@@ -97,6 +97,15 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Method cannot be empty..
+        /// </summary>
+        internal static string EMPTY_METHOD {
+            get {
+                return ResourceManager.GetString("EMPTY_METHOD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inappropriate parameters..
         /// </summary>
         internal static string INAPPROPRIATE_PARAMETERS {

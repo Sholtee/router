@@ -346,7 +346,7 @@ namespace Solti.Utils.Router
         public RouterBuilder(Expression<DefaultRequestHandler> handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null)
         {
             DefaultHandler = handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr));
-            FRouteParser = new RouteParser(converters);
+            FRouteParser = new RouteParser(converters ?? DefaultConverters.Instance);
         }
 
         /// <summary>
@@ -434,9 +434,10 @@ namespace Solti.Utils.Router
         /// </summary>
         /// <param name="route">Route to be registered.</param>
         /// <param name="handlerExpr">Function accepting requests on the given route.</param>
+        /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(string route, Expression<RequestHandler> handlerExpr, params string[] methods)
+        public void AddRoute(string route, Expression<RequestHandler> handlerExpr, SplitOptions splitOptions, params string[] methods)
         {
             if (route is null)
                 throw new ArgumentNullException(nameof(route));
@@ -451,7 +452,7 @@ namespace Solti.Utils.Router
 
             int parameters = 0;
 
-            foreach (RouteSegment segment in FRouteParser.Parse(route))
+            foreach (RouteSegment segment in FRouteParser.Parse(route, splitOptions))
             {
                 bool found = false;
 
@@ -487,6 +488,8 @@ namespace Solti.Utils.Router
 
             foreach (string method in methods)
             {
+                if (string.IsNullOrEmpty(method))
+                    throw new ArgumentException(Resources.EMPTY_METHOD, nameof(methods));
 #if !NETSTANDARD2_1_OR_GREATER
                 if (!target.Handlers.ContainsKey(method))
                 {
@@ -506,15 +509,37 @@ namespace Solti.Utils.Router
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered.</param>
+        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
+        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
+        /// <exception cref="ArgumentException">If the route already registered.</exception>
+        public void AddRoute(string route, Expression<RequestHandler> handlerExpr, params string[] methods) =>
+            AddRoute(route, handlerExpr, SplitOptions.Default, methods);
+
+        /// <summary>
+        /// Registers a new route.
+        /// </summary>
+        /// <param name="route">Route to be registered.</param>
         /// <param name="handler">Function accepting requests on the given route.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(string route, RequestHandler handler, params string[] methods) => AddRoute
+        public void AddRoute(string route, RequestHandler handler, params string[] methods) =>
+            AddRoute(route, handler, SplitOptions.Default, methods);
+
+        /// <summary>
+        /// Registers a new route.
+        /// </summary>
+        /// <param name="route">Route to be registered.</param>
+        /// <param name="handler">Function accepting requests on the given route.</param>
+        /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
+        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
+        /// <exception cref="ArgumentException">If the route already registered.</exception>
+        public void AddRoute(string route, RequestHandler handler, SplitOptions splitOptions, params string[] methods) => AddRoute
         (
             route,
             handlerExpr: handler is not null
                 ? (paramz, state) => handler(paramz, state)
                 : throw new ArgumentNullException(nameof(handler)),
+            splitOptions,
             methods
         );
     }

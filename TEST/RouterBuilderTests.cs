@@ -77,6 +77,7 @@ namespace Solti.Utils.Router.Tests
                 yield return new object?[] { "path", null, new string[] { "GET" } };
                 yield return new object?[] { null, (RequestHandler) ((_, _) => false), new string[] { "GET" } };
                 yield return new object?[] { "path", (RequestHandler) ((_, _) => false), null };
+                yield return new object?[] { "path", (RequestHandler)((_, _) => false), new string[] { null! } };
             }
         }
 
@@ -85,7 +86,8 @@ namespace Solti.Utils.Router.Tests
         {
             RouterBuilder builder = new(handler: (_, _) => { Assert.Fail(); return null; }, new Dictionary<string, ConverterFactory>(0));
 
-            Assert.Throws<ArgumentNullException>(() => builder.AddRoute(route, handler, methods));
+            ArgumentException? ex = Assert.Catch<ArgumentException>(() => builder.AddRoute(route, handler, methods));
+            Assert.NotNull(ex);
         }
 
         public static IEnumerable<object?[]> NullCasesExpr

@@ -26,13 +26,13 @@ namespace Solti.Utils.Router.Internals
 
         public IReadOnlyDictionary<string, ConverterFactory> Converters { get; }
 
-        public RouteParser(IReadOnlyDictionary<string, ConverterFactory>? converters) => Converters = converters ?? DefaultConverters.Instance;
+        public RouteParser(IReadOnlyDictionary<string, ConverterFactory> converters) => Converters = converters;
 
-        public IEnumerable<RouteSegment> Parse(string input)
+        public IEnumerable<RouteSegment> Parse(string input, SplitOptions splitOptions = SplitOptions.Default)
         {
             HashSet<string> paramz = new();
 
-            return PathSplitter.Split(input).AsEnumerable().Select(segment =>
+            return PathSplitter.Split(input, splitOptions).AsEnumerable().Select(segment =>
             {
                 MatchCollection match = FTemplateMatcher.Matches(segment);
 
