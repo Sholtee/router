@@ -3,35 +3,33 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
-
-using System;
+using System.Text;
 
 namespace Solti.Utils.Router
 {
     /// <summary>
     /// Specifies how to split URIs
     /// </summary>
-    [Flags]
-    public enum SplitOptions
+    public sealed record SplitOptions
     {
-        /// <summary>
-        /// No options provided.
-        /// </summary>
-        None = 0,
-
         /// <summary>
         /// The default set.
         /// </summary>
-        Default = ConvertHexValues | ConvertSpaces,
+        public static SplitOptions Default { get; } = new SplitOptions();
 
         /// <summary>
         /// Resolve characters that are passed by their hexadecimal values
         /// </summary>
-        ConvertHexValues = 1 << 0,
+        public bool ConvertHexValues { get; set; } = true;
 
         /// <summary>
         /// Convert "+" characters to spaces
         /// </summary>
-        ConvertSpaces = 1 << 1
+        public bool ConvertSpaces { get; set; } = true;
+
+        /// <summary>
+        /// <see cref="System.Text.Encoding"/> to be used when converting hex values. 
+        /// </summary>
+        public Encoding Encoding { get; set; } = Encoding.Default;
     }
 }

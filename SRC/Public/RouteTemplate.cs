@@ -58,7 +58,7 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Creates the template compiler function that interpolates parameters in the encapsulated route template.
         /// </summary>
-        public static RouteTemplateCompiler CreateCompiler(string template, IReadOnlyDictionary<string, ConverterFactory>? converters = null, SplitOptions splitOptions = SplitOptions.Default)
+        public static RouteTemplateCompiler CreateCompiler(string template, IReadOnlyDictionary<string, ConverterFactory>? converters = null, SplitOptions? splitOptions = null)
         {
             ParameterExpression paramz = Expression.Parameter(typeof(IReadOnlyDictionary<string, object?>), nameof(paramz));
 

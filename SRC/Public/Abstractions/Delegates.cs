@@ -44,5 +44,5 @@ namespace Solti.Utils.Router
     /// <param name="method">Method(s) to be accepted. "GET" is the default.</param>
     /// <param name="splitOptions">Specifies how to split the <paramref name="path"/>.</param>
     /// <returns>The response object.</returns>
-    public delegate object? Router(object? userData, string path, string method = "GET", SplitOptions splitOptions = SplitOptions.Default);
+    public delegate object? Router(object? userData, string path, string method = "GET", SplitOptions? splitOptions = null);
 }

@@ -10,9 +10,9 @@ Solti.Utils.Router.RequestHandler
 Solti.Utils.Router.Router
 Solti.Utils.Router.RouterBuilder
 Solti.Utils.Router.RouterBuilder.AddRoute(string! route, Solti.Utils.Router.RequestHandler! handler, params string![]! methods) -> void
-Solti.Utils.Router.RouterBuilder.AddRoute(string! route, Solti.Utils.Router.RequestHandler! handler, Solti.Utils.Router.SplitOptions splitOptions, params string![]! methods) -> void
+Solti.Utils.Router.RouterBuilder.AddRoute(string! route, Solti.Utils.Router.RequestHandler! handler, Solti.Utils.Router.SplitOptions! splitOptions, params string![]! methods) -> void
 Solti.Utils.Router.RouterBuilder.AddRoute(string! route, System.Linq.Expressions.Expression<Solti.Utils.Router.RequestHandler!>! handlerExpr, params string![]! methods) -> void
-Solti.Utils.Router.RouterBuilder.AddRoute(string! route, System.Linq.Expressions.Expression<Solti.Utils.Router.RequestHandler!>! handlerExpr, Solti.Utils.Router.SplitOptions splitOptions, params string![]! methods) -> void
+Solti.Utils.Router.RouterBuilder.AddRoute(string! route, System.Linq.Expressions.Expression<Solti.Utils.Router.RequestHandler!>! handlerExpr, Solti.Utils.Router.SplitOptions! splitOptions, params string![]! methods) -> void
 Solti.Utils.Router.RouterBuilder.Build() -> Solti.Utils.Router.Router!
 Solti.Utils.Router.RouterBuilder.DefaultHandler.get -> System.Linq.Expressions.Expression<Solti.Utils.Router.DefaultRequestHandler!>!
 Solti.Utils.Router.RouterBuilder.RouterBuilder(Solti.Utils.Router.DefaultRequestHandler! handler, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> void
@@ -20,9 +20,12 @@ Solti.Utils.Router.RouterBuilder.RouterBuilder(System.Linq.Expressions.Expressio
 Solti.Utils.Router.RouteTemplate
 Solti.Utils.Router.RouteTemplateCompiler
 Solti.Utils.Router.SplitOptions
-Solti.Utils.Router.SplitOptions.ConvertHexValues = 1 -> Solti.Utils.Router.SplitOptions
-Solti.Utils.Router.SplitOptions.ConvertSpaces = 2 -> Solti.Utils.Router.SplitOptions
-Solti.Utils.Router.SplitOptions.Default = Solti.Utils.Router.SplitOptions.ConvertHexValues | Solti.Utils.Router.SplitOptions.ConvertSpaces -> Solti.Utils.Router.SplitOptions
-Solti.Utils.Router.SplitOptions.None = 0 -> Solti.Utils.Router.SplitOptions
+Solti.Utils.Router.SplitOptions.ConvertHexValues.get -> bool
+Solti.Utils.Router.SplitOptions.ConvertHexValues.set -> void
+Solti.Utils.Router.SplitOptions.ConvertSpaces.get -> bool
+Solti.Utils.Router.SplitOptions.ConvertSpaces.set -> void
+Solti.Utils.Router.SplitOptions.Encoding.get -> System.Text.Encoding!
+Solti.Utils.Router.SplitOptions.Encoding.set -> void
 static Solti.Utils.Router.DefaultConverters.Instance.get -> Solti.Utils.Router.DefaultConverters!
-static Solti.Utils.Router.RouteTemplate.CreateCompiler(string! template, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null, Solti.Utils.Router.SplitOptions splitOptions = Solti.Utils.Router.SplitOptions.Default) -> Solti.Utils.Router.RouteTemplateCompiler!
+static Solti.Utils.Router.RouteTemplate.CreateCompiler(string! template, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null, Solti.Utils.Router.SplitOptions? splitOptions = null) -> Solti.Utils.Router.RouteTemplateCompiler!
+static Solti.Utils.Router.SplitOptions.Default.get -> Solti.Utils.Router.SplitOptions!

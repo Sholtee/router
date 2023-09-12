@@ -6,7 +6,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace Solti.Utils.Router.Internals
 {
@@ -24,11 +23,10 @@ namespace Solti.Utils.Router.Internals
 
         private readonly SplitOptions FOptions;
 
-        private PathSplitter(string path, SplitOptions options, Encoding? encoding = null)
+        private PathSplitter(string path, SplitOptions options)
         {
             FInput     = path;
             FOptions   = options;
-            FEncoding  = encoding ?? Encoding.Default;
             FOutput    = new char[path.Length];
         }
 
@@ -74,7 +72,7 @@ namespace Solti.Utils.Router.Internals
 
                         FInputPosition++;
                         return true;
-                    case '%' when FOptions.HasFlag(SplitOptions.ConvertHexValues):
+                    case '%' when FOptions.ConvertHexValues:
                         if (!ReadHexChar())
                             throw InvalidPath(INVALID_HEX);
 
@@ -83,7 +81,7 @@ namespace Solti.Utils.Router.Internals
                         //
 
                         continue;
-                    case '+' when FOptions.HasFlag(SplitOptions.ConvertSpaces):
+                    case '+' when FOptions.ConvertSpaces:
                         c = ' ';
                         break;
                 }
@@ -118,6 +116,6 @@ namespace Solti.Utils.Router.Internals
         /// Splits the given path converting hex values if necessary.
         /// </summary>
         /// <remarks>Due to performance considerations, this method intentionally doesn't return an <see cref="IEnumerable{String}"/>.</remarks>
-        public static PathSplitter Split(string path, SplitOptions options = SplitOptions.Default) => new(path, options);
+        public static PathSplitter Split(string path, SplitOptions? options = null) => new(path, options ?? SplitOptions.Default);
     }
 }

@@ -28,7 +28,7 @@ namespace Solti.Utils.Router.Internals
 
         public RouteParser(IReadOnlyDictionary<string, ConverterFactory> converters) => Converters = converters;
 
-        public IEnumerable<RouteSegment> Parse(string input, SplitOptions splitOptions = SplitOptions.Default)
+        public IEnumerable<RouteSegment> Parse(string input, SplitOptions? splitOptions = null)
         {
             HashSet<string> paramz = new();
 

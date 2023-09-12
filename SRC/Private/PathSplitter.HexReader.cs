@@ -5,14 +5,11 @@
 ********************************************************************************/
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace Solti.Utils.Router.Internals
 {
     internal sealed partial class PathSplitter
     {
-        private readonly Encoding FEncoding;
-
         private byte[]? FBytes;
 
         private char[]? FHexBuffer;
@@ -106,7 +103,14 @@ namespace Solti.Utils.Router.Internals
         {
             if (FByteCount > 0)
             {
-                FOutputPosition += FEncoding.GetChars(FBytes, 0, FByteCount, FOutput, FOutputPosition);
+                FOutputPosition += FOptions.Encoding.GetChars
+                (
+                    FBytes,
+                    0,
+                    FByteCount,
+                    FOutput,
+                    FOutputPosition
+                );
                 FByteCount = 0;
             }
         }

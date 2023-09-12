@@ -25,7 +25,7 @@ namespace Solti.Utils.Router.Internals
         (
             (MethodCallExpression)
             (
-                (Expression<Action<SplitOptions>>)
+                (Expression<Action<int>>)
                 (
                     static o => Enum.TryParse(null!, true, out o)
                 )
