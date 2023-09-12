@@ -5,55 +5,55 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Solti.Utils.Router.Internals
 {
     using static Properties.Resources;
 
-    internal sealed class PathSplitter
+    internal sealed partial class PathSplitter
     {
-        private readonly string FPath;
+        private readonly string FInput;
+
+        private int FInputPosition;
+
+        private readonly char[] FOutput;
+
+        private int FOutputPosition;
 
         private readonly SplitOptions FOptions;
 
-        private readonly char[]
-            FResultBuffer,
-            FHexBufffer;
-
-        private int
-            FPosition,
-            FIndex;
-
-        private PathSplitter(string path, SplitOptions options)
+        private PathSplitter(string path, SplitOptions options, Encoding? encoding = null)
         {
-            FPath = path;
-            FResultBuffer = new char[path.Length];
-            FHexBufffer = options.HasFlag(SplitOptions.ConvertHexValues) ? new char[2] : null!;
-            FOptions = options;
+            FInput     = path;
+            FOptions   = options;
+            FEncoding  = encoding ?? Encoding.Default;
+            FOutput    = new char[path.Length];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private InvalidOperationException InvalidPath(string err)
         {
             InvalidOperationException ex = new(string.Format(Culture, INVALID_PATH, err));
-            ex.Data["Position"] = FPosition;
-            ex.Data["Path"] = FPath;
+            ex.Data["Path"] = FInput;
+            ex.Data["Position"] = FInputPosition;
             return ex;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-            FPosition = 0;
+            FOutputPosition = 0;
 
-            for (; ; FIndex++)
+            for (; ; FInputPosition++)
             {
-                if (FIndex == FPath.Length)
-                    return FPosition > 0;
+                if (FInputPosition == FInput.Length)
+                {
+                    FlushHexChars();
+                    return FOutputPosition > 0;
+                }
 
-                char c = FPath[FIndex];
+                char c = FInput[FInputPosition];
                 switch (c)
                 {
                     case '/':
@@ -61,56 +61,35 @@ namespace Solti.Utils.Router.Internals
                         // Skip leading separator
                         //
 
-                        if (FIndex is 0)
+                        if (FInputPosition is 0)
                             continue;
 
                         //
                         // Ensure the chunk is not empty
                         //
 
-                        if (FPosition is 0)
+                        FlushHexChars();
+                        if (FOutputPosition is 0)
                             throw InvalidPath(EMPTY_CHUNK);
 
-                        FIndex++;
+                        FInputPosition++;
                         return true;
                     case '%' when FOptions.HasFlag(SplitOptions.ConvertHexValues):
+                        if (!ReadHexChar())
+                            throw InvalidPath(INVALID_HEX);
+
                         //
-                        // Validate the HEX value.
+                        // FResultBuffer remains untouched until the next FHexReader.Flush() call
                         //
 
-                        if (FPath.Length - FIndex > 2)
-                        {
-                            FHexBufffer[0] = FPath[FIndex + 1];
-                            FHexBufffer[1] = FPath[FIndex + 2];
-
-                            if 
-                            (
-                                byte.TryParse
-                                (
-#if !NETSTANDARD2_1_OR_GREATER
-                                    new string(FHexBufffer),
-#else
-                                    FHexBufffer,
-#endif
-                                    NumberStyles.HexNumber,
-                                    null,
-                                    out byte chr
-                                )
-                            )
-                            {
-                                c = (char) chr;
-                                FIndex += 2;
-                                break;
-                            }
-                        }
-
-                        throw InvalidPath(INVALID_HEX);
+                        continue;
                     case '+' when FOptions.HasFlag(SplitOptions.ConvertSpaces):
                         c = ' ';
                         break;
                 }
 
-                FResultBuffer[FPosition++] = c;
+                FlushHexChars();
+                FOutput[FOutputPosition++] = c;
             }
         }
 
@@ -119,11 +98,11 @@ namespace Solti.Utils.Router.Internals
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                return new(FResultBuffer, 0, FPosition);
+                return new(FOutput, 0, FOutputPosition);
             }
         }
 
-        public void Reset() => FPosition = FIndex = 0;
+        public void Reset() => FInputPosition = FOutputPosition = 0;
 
         public IEnumerable<string> AsEnumerable()
         {
