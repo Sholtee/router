@@ -168,6 +168,10 @@ namespace Solti.Utils.Router
 
             Expression<RouteTemplateCompiler> compilerExpr = Expression.Lambda<RouteTemplateCompiler>
             (
+                //
+                // HttpUtility.UrlEncode() cannot be called here as it would escape the "/" characters, too
+                //
+
                 Expression.Call
                 (
                     FConcat,
