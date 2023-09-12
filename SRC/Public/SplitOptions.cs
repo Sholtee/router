@@ -30,6 +30,6 @@ namespace Solti.Utils.Router
         /// <summary>
         /// <see cref="System.Text.Encoding"/> to be used when converting hex values. 
         /// </summary>
-        public Encoding Encoding { get; set; } = Encoding.Default;
+        public Encoding Encoding { get; set; } = Encoding.UTF8;
     }
 }
