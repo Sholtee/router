@@ -13,7 +13,7 @@ namespace Solti.Utils.Router
     public sealed record SplitOptions
     {
         /// <summary>
-        /// The default set.
+        /// The default value.
         /// </summary>
         public static SplitOptions Default { get; } = new SplitOptions();
 
