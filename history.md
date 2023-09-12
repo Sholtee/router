@@ -10,3 +10,7 @@
 - 1.0.0-preview4:
   - *introduced*: `ISplitOptions` enum
   - *introduced*: `netstandard2.0` support
+- 1.0.0-preview5:
+  - *breaking*: New `SplitOptions` layout
+  - *fixed*: Missing URL encoding when calling the `RouteTemplateCompiler` delegate 
+  - *done*: Rewritten percent-decoder
