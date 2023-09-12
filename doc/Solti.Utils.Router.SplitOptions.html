@@ -50,23 +50,38 @@
     <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">Object</a></div>
     <div class="level1"><span class="xref">SplitOptions</span></div>
   </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="Solti.Utils.Router.SplitOptions.html">SplitOptions</a>&gt;</div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Solti.Utils.Router.html">Solti.Utils.Router</a></h6>
   <h6><strong>Assembly</strong>: Solti.Utils.Router.dll</h6>
   <h5 id="Solti_Utils_Router_SplitOptions_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public sealed class SplitOptions : Enum</code></pre>
+    <pre><code class="lang-csharp hljs">public sealed class SplitOptions : Object</code></pre>
   </div>
-  <h3 id="fields">Fields
+  <h3 id="constructors">Constructors
   </h3>
+  <a id="Solti_Utils_Router_SplitOptions__ctor_" data-uid="Solti.Utils.Router.SplitOptions.#ctor*"></a>
+  <h4 id="Solti_Utils_Router_SplitOptions__ctor" data-uid="Solti.Utils.Router.SplitOptions.#ctor">SplitOptions()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SplitOptions()</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <a id="Solti_Utils_Router_SplitOptions_ConvertHexValues_" data-uid="Solti.Utils.Router.SplitOptions.ConvertHexValues*"></a>
   <h4 id="Solti_Utils_Router_SplitOptions_ConvertHexValues" data-uid="Solti.Utils.Router.SplitOptions.ConvertHexValues">ConvertHexValues</h4>
   <div class="markdown level1 summary"><p>Resolve characters that are passed by their hexadecimal values</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const SplitOptions ConvertHexValues</code></pre>
+    <pre><code class="lang-csharp hljs">public bool ConvertHexValues { get; set; }</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -76,20 +91,21 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Solti.Utils.Router.SplitOptions.html">SplitOptions</a></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
+  <a id="Solti_Utils_Router_SplitOptions_ConvertSpaces_" data-uid="Solti.Utils.Router.SplitOptions.ConvertSpaces*"></a>
   <h4 id="Solti_Utils_Router_SplitOptions_ConvertSpaces" data-uid="Solti.Utils.Router.SplitOptions.ConvertSpaces">ConvertSpaces</h4>
   <div class="markdown level1 summary"><p>Convert &quot;+&quot; characters to spaces</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const SplitOptions ConvertSpaces</code></pre>
+    <pre><code class="lang-csharp hljs">public bool ConvertSpaces { get; set; }</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -99,20 +115,21 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Solti.Utils.Router.SplitOptions.html">SplitOptions</a></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
+  <a id="Solti_Utils_Router_SplitOptions_Default_" data-uid="Solti.Utils.Router.SplitOptions.Default*"></a>
   <h4 id="Solti_Utils_Router_SplitOptions_Default" data-uid="Solti.Utils.Router.SplitOptions.Default">Default</h4>
   <div class="markdown level1 summary"><p>The default set.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const SplitOptions Default</code></pre>
+    <pre><code class="lang-csharp hljs">public static SplitOptions Default { get; }</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -127,15 +144,41 @@
       </tr>
     </tbody>
   </table>
-  <h4 id="Solti_Utils_Router_SplitOptions_None" data-uid="Solti.Utils.Router.SplitOptions.None">None</h4>
-  <div class="markdown level1 summary"><p>No options provided.</p>
+  <a id="Solti_Utils_Router_SplitOptions_Encoding_" data-uid="Solti.Utils.Router.SplitOptions.Encoding*"></a>
+  <h4 id="Solti_Utils_Router_SplitOptions_Encoding" data-uid="Solti.Utils.Router.SplitOptions.Encoding">Encoding</h4>
+  <div class="markdown level1 summary"><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.text.encoding">Encoding</a> to be used when converting hex values. </p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const SplitOptions None</code></pre>
+    <pre><code class="lang-csharp hljs">public Encoding Encoding { get; set; }</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.text.encoding">Encoding</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Solti_Utils_Router_SplitOptions__Clone___" data-uid="Solti.Utils.Router.SplitOptions.{Clone}$*"></a>
+  <h4 id="Solti_Utils_Router_SplitOptions__Clone__" data-uid="Solti.Utils.Router.SplitOptions.{Clone}$">&lt;Clone&gt;$()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SplitOptions &lt;Clone&gt;$()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -150,14 +193,95 @@
       </tr>
     </tbody>
   </table>
-  <h4 id="Solti_Utils_Router_SplitOptions_value__" data-uid="Solti.Utils.Router.SplitOptions.value__">value__</h4>
+  <a id="Solti_Utils_Router_SplitOptions_Equals_" data-uid="Solti.Utils.Router.SplitOptions.Equals*"></a>
+  <h4 id="Solti_Utils_Router_SplitOptions_Equals_Solti_Utils_Router_SplitOptions_" data-uid="Solti.Utils.Router.SplitOptions.Equals(Solti.Utils.Router.SplitOptions)">Equals(SplitOptions)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int value__</code></pre>
+    <pre><code class="lang-csharp hljs">public bool Equals(SplitOptions other)</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.SplitOptions.html">SplitOptions</a></td>
+        <td><span class="parametername">other</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_SplitOptions_Equals_" data-uid="Solti.Utils.Router.SplitOptions.Equals*"></a>
+  <h4 id="Solti_Utils_Router_SplitOptions_Equals_System_Object_" data-uid="Solti.Utils.Router.SplitOptions.Equals(System.Object)">Equals(Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object obj)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">Object</a></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_SplitOptions_GetHashCode_" data-uid="Solti.Utils.Router.SplitOptions.GetHashCode*"></a>
+  <h4 id="Solti_Utils_Router_SplitOptions_GetHashCode" data-uid="Solti.Utils.Router.SplitOptions.GetHashCode">GetHashCode()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -172,6 +296,125 @@
       </tr>
     </tbody>
   </table>
+  <a id="Solti_Utils_Router_SplitOptions_ToString_" data-uid="Solti.Utils.Router.SplitOptions.ToString*"></a>
+  <h4 id="Solti_Utils_Router_SplitOptions_ToString" data-uid="Solti.Utils.Router.SplitOptions.ToString">ToString()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="operators">Operators
+  </h3>
+  <a id="Solti_Utils_Router_SplitOptions_op_Equality_" data-uid="Solti.Utils.Router.SplitOptions.op_Equality*"></a>
+  <h4 id="Solti_Utils_Router_SplitOptions_op_Equality_Solti_Utils_Router_SplitOptions_Solti_Utils_Router_SplitOptions_" data-uid="Solti.Utils.Router.SplitOptions.op_Equality(Solti.Utils.Router.SplitOptions,Solti.Utils.Router.SplitOptions)">Equality(SplitOptions, SplitOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator ==(SplitOptions left, SplitOptions right)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.SplitOptions.html">SplitOptions</a></td>
+        <td><span class="parametername">left</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.SplitOptions.html">SplitOptions</a></td>
+        <td><span class="parametername">right</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_SplitOptions_op_Inequality_" data-uid="Solti.Utils.Router.SplitOptions.op_Inequality*"></a>
+  <h4 id="Solti_Utils_Router_SplitOptions_op_Inequality_Solti_Utils_Router_SplitOptions_Solti_Utils_Router_SplitOptions_" data-uid="Solti.Utils.Router.SplitOptions.op_Inequality(Solti.Utils.Router.SplitOptions,Solti.Utils.Router.SplitOptions)">Inequality(SplitOptions, SplitOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator !=(SplitOptions left, SplitOptions right)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.SplitOptions.html">SplitOptions</a></td>
+        <td><span class="parametername">left</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.SplitOptions.html">SplitOptions</a></td>
+        <td><span class="parametername">right</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">System.IEquatable&lt;T&gt;</a>
+  </div>
 </article>
           </div>
           

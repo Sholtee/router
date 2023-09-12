@@ -490,33 +490,141 @@ references:
   commentId: T:Solti.Utils.Router.SplitOptions
   fullName: Solti.Utils.Router.SplitOptions
   nameWithType: SplitOptions
+- uid: Solti.Utils.Router.SplitOptions.#ctor
+  name: SplitOptions()
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions__ctor
+  commentId: M:Solti.Utils.Router.SplitOptions.#ctor
+  fullName: Solti.Utils.Router.SplitOptions.SplitOptions()
+  nameWithType: SplitOptions.SplitOptions()
+- uid: Solti.Utils.Router.SplitOptions.#ctor*
+  name: SplitOptions
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions__ctor_
+  commentId: Overload:Solti.Utils.Router.SplitOptions.#ctor
+  fullName: Solti.Utils.Router.SplitOptions.SplitOptions
+  nameWithType: SplitOptions.SplitOptions
+- uid: Solti.Utils.Router.SplitOptions.{Clone}$
+  name: <Clone>$()
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions__Clone__
+  commentId: M:Solti.Utils.Router.SplitOptions.{Clone}$
+  fullName: Solti.Utils.Router.SplitOptions.<Clone>$()
+  nameWithType: SplitOptions.<Clone>$()
+- uid: Solti.Utils.Router.SplitOptions.{Clone}$*
+  name: <Clone>$
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions__Clone___
+  commentId: Overload:Solti.Utils.Router.SplitOptions.{Clone}$
+  fullName: Solti.Utils.Router.SplitOptions.<Clone>$
+  nameWithType: SplitOptions.<Clone>$
 - uid: Solti.Utils.Router.SplitOptions.ConvertHexValues
   name: ConvertHexValues
   href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_ConvertHexValues
-  commentId: F:Solti.Utils.Router.SplitOptions.ConvertHexValues
+  commentId: P:Solti.Utils.Router.SplitOptions.ConvertHexValues
+  fullName: Solti.Utils.Router.SplitOptions.ConvertHexValues
+  nameWithType: SplitOptions.ConvertHexValues
+- uid: Solti.Utils.Router.SplitOptions.ConvertHexValues*
+  name: ConvertHexValues
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_ConvertHexValues_
+  commentId: Overload:Solti.Utils.Router.SplitOptions.ConvertHexValues
   fullName: Solti.Utils.Router.SplitOptions.ConvertHexValues
   nameWithType: SplitOptions.ConvertHexValues
 - uid: Solti.Utils.Router.SplitOptions.ConvertSpaces
   name: ConvertSpaces
   href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_ConvertSpaces
-  commentId: F:Solti.Utils.Router.SplitOptions.ConvertSpaces
+  commentId: P:Solti.Utils.Router.SplitOptions.ConvertSpaces
+  fullName: Solti.Utils.Router.SplitOptions.ConvertSpaces
+  nameWithType: SplitOptions.ConvertSpaces
+- uid: Solti.Utils.Router.SplitOptions.ConvertSpaces*
+  name: ConvertSpaces
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_ConvertSpaces_
+  commentId: Overload:Solti.Utils.Router.SplitOptions.ConvertSpaces
   fullName: Solti.Utils.Router.SplitOptions.ConvertSpaces
   nameWithType: SplitOptions.ConvertSpaces
 - uid: Solti.Utils.Router.SplitOptions.Default
   name: Default
   href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_Default
-  commentId: F:Solti.Utils.Router.SplitOptions.Default
+  commentId: P:Solti.Utils.Router.SplitOptions.Default
   fullName: Solti.Utils.Router.SplitOptions.Default
   nameWithType: SplitOptions.Default
-- uid: Solti.Utils.Router.SplitOptions.None
-  name: None
-  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_None
-  commentId: F:Solti.Utils.Router.SplitOptions.None
-  fullName: Solti.Utils.Router.SplitOptions.None
-  nameWithType: SplitOptions.None
-- uid: Solti.Utils.Router.SplitOptions.value__
-  name: value__
-  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_value__
-  commentId: F:Solti.Utils.Router.SplitOptions.value__
-  fullName: Solti.Utils.Router.SplitOptions.value__
-  nameWithType: SplitOptions.value__
+- uid: Solti.Utils.Router.SplitOptions.Default*
+  name: Default
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_Default_
+  commentId: Overload:Solti.Utils.Router.SplitOptions.Default
+  fullName: Solti.Utils.Router.SplitOptions.Default
+  nameWithType: SplitOptions.Default
+- uid: Solti.Utils.Router.SplitOptions.Encoding
+  name: Encoding
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_Encoding
+  commentId: P:Solti.Utils.Router.SplitOptions.Encoding
+  fullName: Solti.Utils.Router.SplitOptions.Encoding
+  nameWithType: SplitOptions.Encoding
+- uid: Solti.Utils.Router.SplitOptions.Encoding*
+  name: Encoding
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_Encoding_
+  commentId: Overload:Solti.Utils.Router.SplitOptions.Encoding
+  fullName: Solti.Utils.Router.SplitOptions.Encoding
+  nameWithType: SplitOptions.Encoding
+- uid: Solti.Utils.Router.SplitOptions.Equals(Solti.Utils.Router.SplitOptions)
+  name: Equals(SplitOptions)
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_Equals_Solti_Utils_Router_SplitOptions_
+  commentId: M:Solti.Utils.Router.SplitOptions.Equals(Solti.Utils.Router.SplitOptions)
+  fullName: Solti.Utils.Router.SplitOptions.Equals(Solti.Utils.Router.SplitOptions)
+  nameWithType: SplitOptions.Equals(SplitOptions)
+- uid: Solti.Utils.Router.SplitOptions.Equals(System.Object)
+  name: Equals(Object)
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_Equals_System_Object_
+  commentId: M:Solti.Utils.Router.SplitOptions.Equals(System.Object)
+  fullName: Solti.Utils.Router.SplitOptions.Equals(System.Object)
+  nameWithType: SplitOptions.Equals(Object)
+- uid: Solti.Utils.Router.SplitOptions.Equals*
+  name: Equals
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_Equals_
+  commentId: Overload:Solti.Utils.Router.SplitOptions.Equals
+  fullName: Solti.Utils.Router.SplitOptions.Equals
+  nameWithType: SplitOptions.Equals
+- uid: Solti.Utils.Router.SplitOptions.GetHashCode
+  name: GetHashCode()
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_GetHashCode
+  commentId: M:Solti.Utils.Router.SplitOptions.GetHashCode
+  fullName: Solti.Utils.Router.SplitOptions.GetHashCode()
+  nameWithType: SplitOptions.GetHashCode()
+- uid: Solti.Utils.Router.SplitOptions.GetHashCode*
+  name: GetHashCode
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_GetHashCode_
+  commentId: Overload:Solti.Utils.Router.SplitOptions.GetHashCode
+  fullName: Solti.Utils.Router.SplitOptions.GetHashCode
+  nameWithType: SplitOptions.GetHashCode
+- uid: Solti.Utils.Router.SplitOptions.op_Equality(Solti.Utils.Router.SplitOptions,Solti.Utils.Router.SplitOptions)
+  name: Equality(SplitOptions, SplitOptions)
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_op_Equality_Solti_Utils_Router_SplitOptions_Solti_Utils_Router_SplitOptions_
+  commentId: M:Solti.Utils.Router.SplitOptions.op_Equality(Solti.Utils.Router.SplitOptions,Solti.Utils.Router.SplitOptions)
+  fullName: Solti.Utils.Router.SplitOptions.Equality(Solti.Utils.Router.SplitOptions, Solti.Utils.Router.SplitOptions)
+  nameWithType: SplitOptions.Equality(SplitOptions, SplitOptions)
+- uid: Solti.Utils.Router.SplitOptions.op_Equality*
+  name: Equality
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_op_Equality_
+  commentId: Overload:Solti.Utils.Router.SplitOptions.op_Equality
+  fullName: Solti.Utils.Router.SplitOptions.Equality
+  nameWithType: SplitOptions.Equality
+- uid: Solti.Utils.Router.SplitOptions.op_Inequality(Solti.Utils.Router.SplitOptions,Solti.Utils.Router.SplitOptions)
+  name: Inequality(SplitOptions, SplitOptions)
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_op_Inequality_Solti_Utils_Router_SplitOptions_Solti_Utils_Router_SplitOptions_
+  commentId: M:Solti.Utils.Router.SplitOptions.op_Inequality(Solti.Utils.Router.SplitOptions,Solti.Utils.Router.SplitOptions)
+  fullName: Solti.Utils.Router.SplitOptions.Inequality(Solti.Utils.Router.SplitOptions, Solti.Utils.Router.SplitOptions)
+  nameWithType: SplitOptions.Inequality(SplitOptions, SplitOptions)
+- uid: Solti.Utils.Router.SplitOptions.op_Inequality*
+  name: Inequality
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_op_Inequality_
+  commentId: Overload:Solti.Utils.Router.SplitOptions.op_Inequality
+  fullName: Solti.Utils.Router.SplitOptions.Inequality
+  nameWithType: SplitOptions.Inequality
+- uid: Solti.Utils.Router.SplitOptions.ToString
+  name: ToString()
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_ToString
+  commentId: M:Solti.Utils.Router.SplitOptions.ToString
+  fullName: Solti.Utils.Router.SplitOptions.ToString()
+  nameWithType: SplitOptions.ToString()
+- uid: Solti.Utils.Router.SplitOptions.ToString*
+  name: ToString
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_ToString_
+  commentId: Overload:Solti.Utils.Router.SplitOptions.ToString
+  fullName: Solti.Utils.Router.SplitOptions.ToString
+  nameWithType: SplitOptions.ToString

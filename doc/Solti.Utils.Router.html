@@ -63,7 +63,7 @@
 </section>
       <h4><a class="xref" href="Solti.Utils.Router.RouterBuilder.html">RouterBuilder</a></h4>
       <section><p>Builds the <a class="xref" href="Solti.Utils.Router.Router.html">Router</a> delegate that does the actual routing.</p>
-<pre><code>object Route(object? userData, string path, string method = &quot;GET&quot;, SplitOptions splitOptions = SplitOptions.Default)
+<pre><code>object Route(object? userData, string path, string method = &quot;GET&quot;, SplitOptions? splitOptions = null)
 { 
     PathSplitter segments = PathSplitter.Split(path, splitOptions);
     Dictionary&lt;string, object?> paramz = new(MaxParameters);
