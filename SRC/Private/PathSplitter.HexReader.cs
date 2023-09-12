@@ -58,7 +58,7 @@ namespace Solti.Utils.Router.Internals
                 FlushHexChars();
 
                 //
-                // No Encoding.GetChars() call required
+                // Already unicode so no Encoding.GetChars() call required
                 //
 
                 FOutput[FOutputPosition++] = (char) chr;

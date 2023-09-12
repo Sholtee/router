@@ -33,6 +33,17 @@ namespace Solti.Utils.Router
             ).Body
         ).Method;
 
+        private static readonly MethodInfo FEncode =
+        (
+            (MethodCallExpression)
+            (
+                (Expression<Action>)
+                (
+                    static () => HttpUtility.UrlEncode(string.Empty)
+                )
+            ).Body
+        ).Method;
+
         private static readonly MethodInfo FTryConvertToString =
         (
             (MethodCallExpression)
@@ -89,45 +100,49 @@ namespace Solti.Utils.Router
 
                     arrayInitializers.Add
                     (
-                        Expression.Block
+                        Expression.Call
                         (
-                            type: typeof(string),
-                            variables: new ParameterExpression[]
-                            {
-                                objValue,
-                                strValue
-                            },
-                            Expression.IfThen
+                            FEncode,
+                            Expression.Block
                             (
-                                Expression.Or
+                                type: typeof(string),
+                                variables: new ParameterExpression[]
+                                {
+                                    objValue,
+                                    strValue
+                                },
+                                Expression.IfThen
                                 (
-                                    Expression.Not
+                                    Expression.Or
                                     (
-                                        Expression.Call
+                                        Expression.Not
                                         (
-                                            paramz,
-                                            FTryGetValue,
-                                            Expression.Constant(segment.Name),
-                                            objValue
+                                            Expression.Call
+                                            (
+                                                paramz,
+                                                FTryGetValue,
+                                                Expression.Constant(segment.Name),
+                                                objValue
+                                            )
+                                        ),
+                                        Expression.Not
+                                        (
+                                            Expression.Call
+                                            (
+                                                Expression.Constant(segment.Converter),
+                                                FTryConvertToString,
+                                                objValue,
+                                                strValue
+                                            )
                                         )
                                     ),
-                                    Expression.Not
+                                    ifTrue: Expression.Throw
                                     (
-                                        Expression.Call
-                                        (
-                                            Expression.Constant(segment.Converter),
-                                            FTryConvertToString,
-                                            objValue,
-                                            strValue
-                                        )
+                                        Expression.Constant(new ArgumentException(Resources.INAPPROPRIATE_PARAMETERS, nameof(paramz)))
                                     )
                                 ),
-                                ifTrue: Expression.Throw
-                                (
-                                    Expression.Constant(new ArgumentException(Resources.INAPPROPRIATE_PARAMETERS, nameof(paramz)))
-                                )
-                            ),
-                            strValue
+                                strValue
+                            )
                         )
                     );
                 }
