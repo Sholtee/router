@@ -39,7 +39,7 @@ namespace Solti.Utils.Router
             (
                 (Expression<Action>)
                 (
-                    static () => HttpUtility.UrlEncode(string.Empty)
+                    static () => HttpUtility.UrlEncode(string.Empty, Encoding.Default)
                 )
             ).Body
         ).Method;
@@ -77,14 +77,22 @@ namespace Solti.Utils.Router
 
             StringBuilder sb = new();
 
-            foreach (RouteSegment segment in new RouteParser(converters ?? DefaultConverters.Instance)
-                .Parse(template ?? throw new ArgumentNullException(nameof(template)), splitOptions))
+            splitOptions ??= SplitOptions.Default;
+
+            foreach 
+            (
+                RouteSegment segment in new RouteParser(converters ?? DefaultConverters.Instance).Parse
+                (
+                    template ?? throw new ArgumentNullException(nameof(template)),
+                    splitOptions
+                )
+            )
             {
                 sb.Append('/');
 
                 if (segment.Converter is null)
                 {
-                    sb.Append(HttpUtility.UrlEncode(segment.Name));
+                    sb.Append(HttpUtility.UrlEncode(segment.Name, splitOptions.Encoding));
                 }
                 else
                 {
@@ -142,7 +150,8 @@ namespace Solti.Utils.Router
                                     )
                                 ),
                                 strValue
-                            )
+                            ),
+                            Expression.Constant(splitOptions.Encoding, typeof(Encoding))
                         )
                     );
                 }
