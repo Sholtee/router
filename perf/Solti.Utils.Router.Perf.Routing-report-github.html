@@ -38,7 +38,7 @@
             <article class="content wrap" id="_content" data-uid="">
 
 <pre><code>
-BenchmarkDotNet v0.13.7, Windows 10 (10.0.17763.4492/1809/October2018Update/Redstone5) (Hyper-V)
+BenchmarkDotNet v0.13.8, Windows 10 (10.0.17763.4492/1809/October2018Update/Redstone5) (Hyper-V)
 Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 .NET SDK 7.0.304
   [Host]     : .NET 7.0.7 (7.0.723.27404), X64 RyuJIT AVX2
@@ -53,7 +53,6 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <th style="text-align:right">Mean</th>
 <th style="text-align:right">Error</th>
 <th style="text-align:right">StdDev</th>
-<th style="text-align:right">Median</th>
 <th style="text-align:right">Gen0</th>
 <th style="text-align:right">Allocated</th>
 </tr>
@@ -63,89 +62,81 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Route</strong></td>
 <td><strong>1</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>109.0 ns</strong></td>
-<td style="text-align:right"><strong>2.18 ns</strong></td>
-<td style="text-align:right"><strong>3.40 ns</strong></td>
-<td style="text-align:right"><strong>108.5 ns</strong></td>
-<td style="text-align:right"><strong>0.0148</strong></td>
-<td style="text-align:right"><strong>272 B</strong></td>
+<td style="text-align:right"><strong>92.88 ns</strong></td>
+<td style="text-align:right"><strong>1.447 ns</strong></td>
+<td style="text-align:right"><strong>1.208 ns</strong></td>
+<td style="text-align:right"><strong>0.0139</strong></td>
+<td style="text-align:right"><strong>256 B</strong></td>
 </tr>
 <tr>
 <td><strong>Route</strong></td>
 <td><strong>1</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>158.7 ns</strong></td>
-<td style="text-align:right"><strong>3.21 ns</strong></td>
-<td style="text-align:right"><strong>4.18 ns</strong></td>
-<td style="text-align:right"><strong>157.6 ns</strong></td>
-<td style="text-align:right"><strong>0.0222</strong></td>
-<td style="text-align:right"><strong>408 B</strong></td>
+<td style="text-align:right"><strong>152.40 ns</strong></td>
+<td style="text-align:right"><strong>2.033 ns</strong></td>
+<td style="text-align:right"><strong>1.802 ns</strong></td>
+<td style="text-align:right"><strong>0.0210</strong></td>
+<td style="text-align:right"><strong>392 B</strong></td>
 </tr>
 <tr>
 <td><strong>Route</strong></td>
 <td><strong>2</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>149.5 ns</strong></td>
-<td style="text-align:right"><strong>3.02 ns</strong></td>
-<td style="text-align:right"><strong>5.52 ns</strong></td>
-<td style="text-align:right"><strong>148.9 ns</strong></td>
-<td style="text-align:right"><strong>0.0179</strong></td>
-<td style="text-align:right"><strong>328 B</strong></td>
+<td style="text-align:right"><strong>138.13 ns</strong></td>
+<td style="text-align:right"><strong>1.129 ns</strong></td>
+<td style="text-align:right"><strong>1.056 ns</strong></td>
+<td style="text-align:right"><strong>0.0169</strong></td>
+<td style="text-align:right"><strong>312 B</strong></td>
 </tr>
 <tr>
 <td><strong>Route</strong></td>
 <td><strong>2</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>201.7 ns</strong></td>
-<td style="text-align:right"><strong>3.84 ns</strong></td>
-<td style="text-align:right"><strong>3.40 ns</strong></td>
-<td style="text-align:right"><strong>201.8 ns</strong></td>
-<td style="text-align:right"><strong>0.0253</strong></td>
-<td style="text-align:right"><strong>464 B</strong></td>
+<td style="text-align:right"><strong>198.81 ns</strong></td>
+<td style="text-align:right"><strong>2.882 ns</strong></td>
+<td style="text-align:right"><strong>2.555 ns</strong></td>
+<td style="text-align:right"><strong>0.0243</strong></td>
+<td style="text-align:right"><strong>448 B</strong></td>
 </tr>
 <tr>
 <td><strong>Route</strong></td>
 <td><strong>5</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>354.3 ns</strong></td>
-<td style="text-align:right"><strong>38.75 ns</strong></td>
-<td style="text-align:right"><strong>114.24 ns</strong></td>
-<td style="text-align:right"><strong>281.5 ns</strong></td>
-<td style="text-align:right"><strong>0.0267</strong></td>
-<td style="text-align:right"><strong>496 B</strong></td>
+<td style="text-align:right"><strong>367.82 ns</strong></td>
+<td style="text-align:right"><strong>30.017 ns</strong></td>
+<td style="text-align:right"><strong>88.507 ns</strong></td>
+<td style="text-align:right"><strong>0.0262</strong></td>
+<td style="text-align:right"><strong>480 B</strong></td>
 </tr>
 <tr>
 <td><strong>Route</strong></td>
 <td><strong>5</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>399.1 ns</strong></td>
-<td style="text-align:right"><strong>7.20 ns</strong></td>
-<td style="text-align:right"><strong>10.33 ns</strong></td>
-<td style="text-align:right"><strong>398.0 ns</strong></td>
-<td style="text-align:right"><strong>0.0343</strong></td>
-<td style="text-align:right"><strong>632 B</strong></td>
+<td style="text-align:right"><strong>672.53 ns</strong></td>
+<td style="text-align:right"><strong>13.328 ns</strong></td>
+<td style="text-align:right"><strong>19.948 ns</strong></td>
+<td style="text-align:right"><strong>0.0334</strong></td>
+<td style="text-align:right"><strong>616 B</strong></td>
 </tr>
 <tr>
 <td><strong>Route</strong></td>
 <td><strong>10</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>527.7 ns</strong></td>
-<td style="text-align:right"><strong>10.57 ns</strong></td>
-<td style="text-align:right"><strong>15.50 ns</strong></td>
-<td style="text-align:right"><strong>526.4 ns</strong></td>
-<td style="text-align:right"><strong>0.0420</strong></td>
-<td style="text-align:right"><strong>776 B</strong></td>
+<td style="text-align:right"><strong>809.76 ns</strong></td>
+<td style="text-align:right"><strong>3.608 ns</strong></td>
+<td style="text-align:right"><strong>3.375 ns</strong></td>
+<td style="text-align:right"><strong>0.0410</strong></td>
+<td style="text-align:right"><strong>760 B</strong></td>
 </tr>
 <tr>
 <td><strong>Route</strong></td>
 <td><strong>10</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>690.0 ns</strong></td>
-<td style="text-align:right"><strong>13.62 ns</strong></td>
-<td style="text-align:right"><strong>22.38 ns</strong></td>
-<td style="text-align:right"><strong>684.0 ns</strong></td>
-<td style="text-align:right"><strong>0.0553</strong></td>
-<td style="text-align:right"><strong>1024 B</strong></td>
+<td style="text-align:right"><strong>666.37 ns</strong></td>
+<td style="text-align:right"><strong>8.845 ns</strong></td>
+<td style="text-align:right"><strong>9.831 ns</strong></td>
+<td style="text-align:right"><strong>0.0534</strong></td>
+<td style="text-align:right"><strong>1008 B</strong></td>
 </tr>
 </tbody>
 </table>
