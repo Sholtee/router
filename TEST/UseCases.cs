@@ -22,7 +22,7 @@ namespace Solti.Utils.Router.Tests
     {
         public HttpListener? Listener { get; set; }
 
-        protected void Setup(Action<RouterBuilder> setupRoutes)
+        protected void SetupServer(Action<RouterBuilder> setupRoutes)
         {
             RouterBuilder routerBuilder = new(handler: static (object? state, HttpStatusCode reason) => (reason, (object) reason.ToString()));
             setupRoutes(routerBuilder);
@@ -100,11 +100,13 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public async Task Calculator()
         {
-            Setup
+            const string routeTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.UseCases%2BArithmeticalOperation}/{b:int}";
+
+            SetupServer
             (
                 static routes => routes.AddRoute
                 (
-                    "{a:int}/{op:enum:Solti.Utils.Router.Tests.UseCases%2BArithmeticalOperation}/{b:int}",
+                    routeTemplate,
                     handler: static (IReadOnlyDictionary<string, object?> paramz, object? state) => 
                     (
                         HttpStatusCode.OK,
@@ -118,10 +120,35 @@ namespace Solti.Utils.Router.Tests
             HttpResponseMessage resp = await client.GetAsync("http://localhost:8080/");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
 
-            resp = await client.PostAsync("http://localhost:8080/1/add/2", JsonContent.Create(new object()));
+            RouteTemplateCompiler getRoute = RouteTemplate.CreateCompiler(routeTemplate);
+
+            resp = await client.PostAsync
+            (
+                "http://localhost:8080" + getRoute
+                (
+                    new Dictionary<string, object?>
+                    {
+                        { "a", 1 },
+                        { "op", ArithmeticalOperation.Add },
+                        { "b", 2 }
+                    }
+                ),
+                JsonContent.Create(new object())
+            );
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.MethodNotAllowed));
 
-            resp = await client.GetAsync("http://localhost:8080/1/add/2");
+            resp = await client.GetAsync
+            (
+                "http://localhost:8080" + getRoute
+                (
+                    new Dictionary<string, object?>
+                    {
+                        { "a", 1 },
+                        { "op", ArithmeticalOperation.Add },
+                        { "b", 2 }
+                    }
+                )
+            );
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
             using Stream stm = await resp.Content.ReadAsStreamAsync();
