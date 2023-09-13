@@ -120,11 +120,11 @@ namespace Solti.Utils.Router.Tests
             HttpResponseMessage resp = await client.GetAsync("http://localhost:8080/");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
 
-            RouteTemplateCompiler getRoute = RouteTemplate.CreateCompiler(routeTemplate);
+            RouteTemplateCompiler getRoute = RouteTemplate.CreateCompiler("http://localhost:8080/" + routeTemplate);
 
             resp = await client.PostAsync
             (
-                "http://localhost:8080" + getRoute
+                getRoute
                 (
                     new Dictionary<string, object?>
                     {
@@ -139,7 +139,7 @@ namespace Solti.Utils.Router.Tests
 
             resp = await client.GetAsync
             (
-                "http://localhost:8080" + getRoute
+                getRoute
                 (
                     new Dictionary<string, object?>
                     {

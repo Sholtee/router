@@ -142,6 +142,15 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid template..
+        /// </summary>
+        internal static string INVALID_TEMPLATE {
+            get {
+                return ResourceManager.GetString("INVALID_TEMPLATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Route already registered:&quot; {0}&quot;.
         /// </summary>
         internal static string ROUTE_ALREADY_REGISTERED {

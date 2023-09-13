@@ -128,8 +128,8 @@ namespace Solti.Utils.Router.Tests
             Assert.That(val, Is.EqualTo(value));
         }
 
-        [TestCase("Value", MyEnum.Value)]
-        [TestCase("Default", MyEnum.Default)]
+        [TestCase("value", MyEnum.Value)]
+        [TestCase("default", MyEnum.Default)]
         public void EnumCoverterShouldStringify(string expected, MyEnum input)
         {
             Assert.That(new EnumConverter(typeof(MyEnum).FullName).ConvertToString(input, out string? val));

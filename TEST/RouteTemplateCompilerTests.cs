@@ -25,6 +25,15 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/cica/pre-{param:int}/kutya", 1986, "/cica/pre-1986/kutya")]
         [TestCase("/cica/{param:int}-su/kutya", 1986, "/cica/1986-su/kutya")]
         [TestCase("/cica/pre-{param:int}-su/kutya", 1986, "/cica/pre-1986-su/kutya")]
+
+        [TestCase("https://pet.hu", null, "https://pet.hu")]
+        [TestCase("https://pet.hu/cica", null, "https://pet.hu/cica")]
+        [TestCase("https://pet.hu/{param:int}", 1986, "https://pet.hu/1986")]
+        [TestCase("https://pet.hu/cica/{param:int}", 1986, "https://pet.hu/cica/1986")]
+        [TestCase("https://pet.hu/cica/{param:int}/kutya", 1986, "https://pet.hu/cica/1986/kutya")]
+        [TestCase("https://pet.hu/cica/pre-{param:int}/kutya", 1986, "https://pet.hu/cica/pre-1986/kutya")]
+        [TestCase("https://pet.hu/cica/{param:int}-su/kutya", 1986, "https://pet.hu/cica/1986-su/kutya")]
+        [TestCase("https://pet.hu/cica/pre-{param:int}-su/kutya", 1986, "https://pet.hu/cica/pre-1986-su/kutya")]
         public void CompilerShouldSubstitute(string template, object val, string expected)
         {
             RouteTemplateCompiler compile = RouteTemplate.CreateCompiler(template);
@@ -45,6 +54,12 @@ namespace Solti.Utils.Router.Tests
             RouteTemplateCompiler compile = RouteTemplate.CreateCompiler("/{param:int}/cica");
 
             Assert.Throws<ArgumentException>(() => compile(new Dictionary<string, object?> { { "param", "string" } }), Resources.INAPPROPRIATE_PARAMETERS);
+        }
+
+        [Test]
+        public void CompilerFactoryShouldThrowOnEmptyString()
+        {
+            Assert.Throws<ArgumentException>(() => RouteTemplate.CreateCompiler("\n"), Resources.INVALID_TEMPLATE);
         }
     }
 }

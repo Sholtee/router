@@ -105,7 +105,7 @@ namespace Solti.Utils.Router.Internals
                 return false;
             }
 
-            value = @enum.ToString("G");
+            value = @enum.ToString("g").ToLower();
             return true;
         }
 

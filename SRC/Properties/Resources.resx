@@ -144,6 +144,9 @@
   <data name="INVALID_PATH" xml:space="preserve">
     <value>The given path is not valid: "{0}"</value>
   </data>
+  <data name="INVALID_TEMPLATE" xml:space="preserve">
+    <value>Invalid template.</value>
+  </data>
   <data name="ROUTE_ALREADY_REGISTERED" xml:space="preserve">
     <value>Route already registered:" {0}"</value>
   </data>

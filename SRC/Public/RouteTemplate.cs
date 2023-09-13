@@ -6,9 +6,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Solti.Utils.Router
 {
@@ -65,94 +67,105 @@ namespace Solti.Utils.Router
             ).Body
         ).Method;
 
+        private static readonly Regex FFirstTierParser = new("^(?<baseUrl>\\w+://[\\w.:]+)?(?<path>.+)?$", RegexOptions.Compiled);
+
         /// <summary>
         /// Creates the template compiler function that interpolates parameters in the encapsulated route template.
         /// </summary>
         public static RouteTemplateCompiler CreateCompiler(string template, IReadOnlyDictionary<string, ConverterFactory>? converters = null, SplitOptions? splitOptions = null)
         {
-            ParameterExpression paramz = Expression.Parameter(typeof(IReadOnlyDictionary<string, object?>), nameof(paramz));
+            Match preProcessedTemplate = FFirstTierParser.Match(template ?? throw new ArgumentNullException(nameof(template)));
+            if (!preProcessedTemplate.Success || preProcessedTemplate.Groups.Cast<Group>().All(static grp => string.IsNullOrEmpty(grp.Value)))
+                throw new ArgumentException(Resources.INVALID_TEMPLATE, nameof(template));
+
+            StringBuilder sb = new();
+            if (preProcessedTemplate.Groups["baseUrl"].Success)
+                sb.Append(preProcessedTemplate.Groups["baseUrl"].Value);
 
             List<Expression> arrayInitializers = new();
 
-            StringBuilder sb = new();
-
+            ParameterExpression paramz = Expression.Parameter(typeof(IReadOnlyDictionary<string, object?>), nameof(paramz));
+           
             splitOptions ??= SplitOptions.Default;
 
-            foreach 
-            (
-                RouteSegment segment in new RouteParser(converters ?? DefaultConverters.Instance).Parse
-                (
-                    template ?? throw new ArgumentNullException(nameof(template)),
-                    splitOptions
-                )
-            )
+            if (preProcessedTemplate.Groups["path"].Success)
             {
-                sb.Append('/');
-
-                if (segment.Converter is null)
-                {
-                    sb.Append(UrlEncode.Encode(segment.Name, splitOptions.Encoding));
-                }
-                else
-                {
-                    arrayInitializers.Add
+                foreach
+                (
+                    RouteSegment segment in new RouteParser(converters ?? DefaultConverters.Instance).Parse
                     (
-                        Expression.Constant(sb.ToString())
-                    );
-                    sb.Clear();
+                        preProcessedTemplate.Groups["path"].Value,
+                        splitOptions
+                    )
+                )
+                {
+                    sb.Append('/');
 
-                    ParameterExpression
-                        objValue = Expression.Parameter(typeof(object), nameof(objValue)),
-                        strValue = Expression.Parameter(typeof(string), nameof(strValue));
-
-                    arrayInitializers.Add
-                    (
-                        Expression.Call
+                    if (segment.Converter is null)
+                    {
+                        sb.Append(UrlEncode.Encode(segment.Name, splitOptions.Encoding));
+                    }
+                    else
+                    {
+                        arrayInitializers.Add
                         (
-                            FEncode,
-                            Expression.Block
+                            Expression.Constant(sb.ToString())
+                        );
+                        sb.Clear();
+
+                        ParameterExpression
+                            objValue = Expression.Parameter(typeof(object), nameof(objValue)),
+                            strValue = Expression.Parameter(typeof(string), nameof(strValue));
+
+                        arrayInitializers.Add
+                        (
+                            Expression.Call
                             (
-                                type: typeof(string),
-                                variables: new ParameterExpression[]
-                                {
+                                FEncode,
+                                Expression.Block
+                                (
+                                    type: typeof(string),
+                                    variables: new ParameterExpression[]
+                                    {
                                     objValue,
                                     strValue
-                                },
-                                Expression.IfThen
-                                (
-                                    Expression.Or
+                                    },
+                                    Expression.IfThen
                                     (
-                                        Expression.Not
+                                        Expression.Or
                                         (
-                                            Expression.Call
+                                            Expression.Not
                                             (
-                                                paramz,
-                                                FTryGetValue,
-                                                Expression.Constant(segment.Name),
-                                                objValue
+                                                Expression.Call
+                                                (
+                                                    paramz,
+                                                    FTryGetValue,
+                                                    Expression.Constant(segment.Name),
+                                                    objValue
+                                                )
+                                            ),
+                                            Expression.Not
+                                            (
+                                                Expression.Call
+                                                (
+                                                    Expression.Constant(segment.Converter),
+                                                    FTryConvertToString,
+                                                    objValue,
+                                                    strValue
+                                                )
                                             )
                                         ),
-                                        Expression.Not
+                                        ifTrue: Expression.Throw
                                         (
-                                            Expression.Call
-                                            (
-                                                Expression.Constant(segment.Converter),
-                                                FTryConvertToString,
-                                                objValue,
-                                                strValue
-                                            )
+                                            Expression.Constant(new ArgumentException(Resources.INAPPROPRIATE_PARAMETERS, nameof(paramz)))
                                         )
                                     ),
-                                    ifTrue: Expression.Throw
-                                    (
-                                        Expression.Constant(new ArgumentException(Resources.INAPPROPRIATE_PARAMETERS, nameof(paramz)))
-                                    )
+                                    strValue
                                 ),
-                                strValue
-                            ),
-                            Expression.Constant(splitOptions.Encoding, typeof(Encoding))
-                        )
-                    );
+                                Expression.Constant(splitOptions.Encoding, typeof(Encoding))
+                            )
+                        );
+                    }
                 }
             }
 

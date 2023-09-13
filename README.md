@@ -79,8 +79,8 @@ class MyTypeConverter: IConverter
 ```csharp
 using Solti.Utils.Router;
 
-RouteTemplateCompiler compile = RouteTemplate.CreateCompiler("/get/picture-{id:int}");
-string route = compile(new Dictionary<string, object?> { { "id", 1986 } });  // route == "/get/picture-1986"
+RouteTemplateCompiler compile = RouteTemplate.CreateCompiler("https://localhost:8080/get/picture-{id:int}");
+string route = compile(new Dictionary<string, object?> { { "id", 1986 } });  // route == "https://localhost:8080/get/picture-1986"
 ...
 ```
 
