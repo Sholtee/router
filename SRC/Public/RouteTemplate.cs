@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using System.Web;
 
 namespace Solti.Utils.Router
 {
@@ -39,7 +38,7 @@ namespace Solti.Utils.Router
             (
                 (Expression<Action>)
                 (
-                    static () => HttpUtility.UrlEncode(string.Empty, Encoding.Default)
+                    static () => UrlEncode.Encode(string.Empty, Encoding.Default)
                 )
             ).Body
         ).Method;
@@ -92,7 +91,7 @@ namespace Solti.Utils.Router
 
                 if (segment.Converter is null)
                 {
-                    sb.Append(HttpUtility.UrlEncode(segment.Name, splitOptions.Encoding));
+                    sb.Append(UrlEncode.Encode(segment.Name, splitOptions.Encoding));
                 }
                 else
                 {
@@ -169,7 +168,7 @@ namespace Solti.Utils.Router
             Expression<RouteTemplateCompiler> compilerExpr = Expression.Lambda<RouteTemplateCompiler>
             (
                 //
-                // HttpUtility.UrlEncode() cannot be called here as it would escape the "/" characters, too
+                // UrlEncode() cannot be called here as it would escape the "/" characters, too
                 //
 
                 Expression.Call

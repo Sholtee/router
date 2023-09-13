@@ -174,6 +174,8 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/cica/%u00E1bc", arg2: new string[] { "cica", "ábc" })]
         [TestCase("/cica/%u00E1bc/", arg2: new string[] { "cica", "ábc" })]
         [TestCase("/cica/%u00E1bc/mica", arg2: new string[] { "cica", "ábc", "mica" })]
+
+        [TestCase("%uD83D%uDE01", arg2: new string[] { "😁" })]
         public void SplitShouldHandleHexChunks(string input, string[] expected) =>
             Assert.That(PathSplitter.Split(input).AsEnumerable().SequenceEqual(expected));
 
