@@ -14,3 +14,6 @@
   - *breaking*: New `SplitOptions` layout
   - *fixed*: Missing URL encoding when calling the `RouteTemplateCompiler` delegate 
   - *done*: Rewritten percent-decoder
+- 1.0.0:
+  - *done*: `RouteTemplate.CreateCompiler()` now supports templates contaning base-url
+  - *done*: Enhanced URL encoding
