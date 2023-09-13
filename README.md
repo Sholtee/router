@@ -71,7 +71,15 @@ RouterBuilder routerBuilder = new
 
 class MyTypeConverter: IConverter 
 {
-    ...
+    public string Id { get; }
+	public string? Style { get; }
+	public bool ConvertToValue(string input, out object? value) { ... }
+	public bool bool ConvertToString(object? input, out string? value) { ... }
+	public MyTypeConverter(string? style)
+    {
+        Id = $"{GetType().Name}:{style}";
+        Style = style;
+    }
 }
 ```
 
