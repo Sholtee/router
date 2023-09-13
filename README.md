@@ -75,6 +75,15 @@ class MyTypeConverter: IConverter
 }
 ```
 
+## Building routes from template
+```csharp
+using Solti.Utils.Router;
+
+RouteTemplateCompiler compile = RouteTemplate.CreateCompiler("/get/picture-{id:int}");
+string route = compile(new Dictionary<string, object?> { { "id", 1986 } });  // route == "/get/picture-1986"
+...
+```
+
 ## Resources
 - [API Docs](https://sholtee.github.io/router )
 - [Benchmark Results](https://sholtee.github.io/router/perf )
