@@ -101,7 +101,7 @@ string route = compile(new Dictionary<string, object?> { { "id", 1986 } });  // 
 ## Resources
 - [API Docs](https://sholtee.github.io/router )
 - [Benchmark Results](https://sholtee.github.io/router/perf )
-- [Version History](https://github.com/Sholtee/router/blob/master/history.md )
+- [Version History](https://github.com/Sholtee/router/blob/main/history.md )
 
 ## Supported frameworks
 This project currently targets *.NET Standard* 2.0 and 2.1.
