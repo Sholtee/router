@@ -8,13 +8,15 @@ This library comes with an extremely simple API set (consits of a few methods on
 
 1. Register the known routes 
 	```csharp
+	using System.Collections.Generic;
 	using System.Net;
+
 	using Solti.Utils.Router;
 
 	RouterBuilder routerBuilder = new
 	(
 		// This handler is called on every unknown routes
-		defaultHandler: (object? state) =>
+		defaultHandler: (object? state, HttpStatusCode reason) =>
 		{
 			HttpListenerContext ctx = (HttpListenerContext) state;
 			...
@@ -58,6 +60,8 @@ For a more comprehensive example check out the [use cases](https://github.com/Sh
 ## Converters
 Converters are used to parse variable value coming from the request path. Default converters (`int`, `guid`, `str` and `enum`) can be accessed via the `DefaultConverters.Instance` property.
 ```csharp
+using System.Collections.Generic;
+
 using Solti.Utils.Router;
 
 RouterBuilder routerBuilder = new
@@ -72,10 +76,10 @@ RouterBuilder routerBuilder = new
 class MyTypeConverter: IConverter 
 {
     public string Id { get; }
-	public string? Style { get; }
-	public bool ConvertToValue(string input, out object? value) { ... }
-	public bool bool ConvertToString(object? input, out string? value) { ... }
-	public MyTypeConverter(string? style)
+    public string? Style { get; }
+    public bool ConvertToValue(string input, out object? value) { ... }
+    public bool bool ConvertToString(object? input, out string? value) { ... }
+    public MyTypeConverter(string? style)
     {
         Id = $"{GetType().Name}:{style}";
         Style = style;
@@ -85,10 +89,12 @@ class MyTypeConverter: IConverter
 
 ## Building routes from template
 ```csharp
+using System.Collections.Generic;
+
 using Solti.Utils.Router;
 
-RouteTemplateCompiler compile = RouteTemplate.CreateCompiler("https://localhost:8080/get/picture-{id:int}");
-string route = compile(new Dictionary<string, object?> { { "id", 1986 } });  // route == "https://localhost:8080/get/picture-1986"
+RouteTemplateCompiler compile = RouteTemplate.CreateCompiler("http://localhost:8080/get/picture-{id:int}");
+string route = compile(new Dictionary<string, object?> { { "id", 1986 } });  // route == "http://localhost:8080/get/picture-1986"
 ...
 ```
 
