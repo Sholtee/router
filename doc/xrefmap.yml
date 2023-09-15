@@ -322,6 +322,15 @@ references:
   fullName.vb: Solti.Utils.Router.RouterBuilder.RouterBuilder(Solti.Utils.Router.DefaultRequestHandler, System.Collections.Generic.IReadOnlyDictionary(Of System.String, Solti.Utils.Router.ConverterFactory))
   nameWithType: RouterBuilder.RouterBuilder(DefaultRequestHandler, IReadOnlyDictionary<String, ConverterFactory>)
   nameWithType.vb: RouterBuilder.RouterBuilder(DefaultRequestHandler, IReadOnlyDictionary(Of String, ConverterFactory))
+- uid: Solti.Utils.Router.RouterBuilder.#ctor(System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})
+  name: RouterBuilder(IReadOnlyDictionary<String, ConverterFactory>)
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder__ctor_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__
+  commentId: M:Solti.Utils.Router.RouterBuilder.#ctor(System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})
+  name.vb: RouterBuilder(IReadOnlyDictionary(Of String, ConverterFactory))
+  fullName: Solti.Utils.Router.RouterBuilder.RouterBuilder(System.Collections.Generic.IReadOnlyDictionary<System.String, Solti.Utils.Router.ConverterFactory>)
+  fullName.vb: Solti.Utils.Router.RouterBuilder.RouterBuilder(System.Collections.Generic.IReadOnlyDictionary(Of System.String, Solti.Utils.Router.ConverterFactory))
+  nameWithType: RouterBuilder.RouterBuilder(IReadOnlyDictionary<String, ConverterFactory>)
+  nameWithType.vb: RouterBuilder.RouterBuilder(IReadOnlyDictionary(Of String, ConverterFactory))
 - uid: Solti.Utils.Router.RouterBuilder.#ctor(System.Linq.Expressions.Expression{Solti.Utils.Router.DefaultRequestHandler},System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})
   name: RouterBuilder(Expression<DefaultRequestHandler>, IReadOnlyDictionary<String, ConverterFactory>)
   href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder__ctor_System_Linq_Expressions_Expression_Solti_Utils_Router_DefaultRequestHandler__System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__
