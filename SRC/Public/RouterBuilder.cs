@@ -273,8 +273,6 @@ namespace Solti.Utils.Router
                 typeof(object)
             );
         }
-
-        private static object ThrowNotRegistred() => throw new InvalidOperationException(Resources.ROUTE_NOT_REGISTERED);
         #endregion
 
         /// <summary>
@@ -311,7 +309,7 @@ namespace Solti.Utils.Router
             // Compiler generated expression tree cannot contain throw expression (CS8188)
             //
 
-            handlerExpr: static (_, _) => ThrowNotRegistred(),
+            handler: static (_, _) => throw new InvalidOperationException(Resources.ROUTE_NOT_REGISTERED),
             converters
         ) {}
 
