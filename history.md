@@ -19,3 +19,5 @@
   - *done*: Enhanced URL encoding
 - 1.1.0:
   - *introduced*: Passing the default handler when building the router delegate is not obligatory anymore
+- 1.1.1:
+  - *done*: Remove redundant code
