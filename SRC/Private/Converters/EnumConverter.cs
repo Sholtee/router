@@ -23,7 +23,9 @@ namespace Solti.Utils.Router.Internals
     internal sealed class EnumConverter : ConverterBase
     {
 #if !NETSTANDARD2_1_OR_GREATER
-        private static readonly MethodInfo FTryParseGen = MethodInfoExtractor.Extract<int>(static i => Enum.TryParse(null!, true, out i));
+        private static readonly MethodInfo FTryParseGen = MethodInfoExtractor
+            .Extract<int>(static i => Enum.TryParse(null!, true, out i))
+            .GetGenericMethodDefinition();
 
         private delegate bool TryParse(string input, out object? value);
 
