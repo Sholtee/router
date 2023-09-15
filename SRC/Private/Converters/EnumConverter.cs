@@ -7,13 +7,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+#if !NETSTANDARD2_1_OR_GREATER
+using System.Diagnostics;
+using System.Linq.Expressions;
+using System.Reflection;
+#endif
+
 namespace Solti.Utils.Router.Internals
 {
 #if !NETSTANDARD2_1_OR_GREATER
-    using System.Diagnostics;
-    using System.Linq.Expressions;
-    using System.Reflection;
-
     using Primitives;
 #endif
     using static Properties.Resources;
@@ -21,16 +23,7 @@ namespace Solti.Utils.Router.Internals
     internal sealed class EnumConverter : ConverterBase
     {
 #if !NETSTANDARD2_1_OR_GREATER
-        private static readonly MethodInfo FTryParseGen =
-        (
-            (MethodCallExpression)
-            (
-                (Expression<Action<int>>)
-                (
-                    static o => Enum.TryParse(null!, true, out o)
-                )
-            ).Body
-        ).Method.GetGenericMethodDefinition();
+        private static readonly MethodInfo FTryParseGen = MethodInfoExtractor.Extract<int>(static i => Enum.TryParse(null!, true, out i));
 
         private delegate bool TryParse(string input, out object? value);
 

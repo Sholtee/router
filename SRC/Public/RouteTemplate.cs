@@ -23,49 +23,11 @@ namespace Solti.Utils.Router
     /// </summary>
     public static class RouteTemplate
     {
-        private static readonly MethodInfo FTryGetValue =
-        (
-            (MethodCallExpression)
-            (
-                (Expression<Action<IReadOnlyDictionary<string, object?>, object?>>)
-                (
-                    static (dict, val) => dict.TryGetValue(null!, out val)
-                )
-            ).Body
-        ).Method;
-
-        private static readonly MethodInfo FEncode =
-        (
-            (MethodCallExpression)
-            (
-                (Expression<Action>)
-                (
-                    static () => UrlEncode.Encode(string.Empty, Encoding.Default)
-                )
-            ).Body
-        ).Method;
-
-        private static readonly MethodInfo FTryConvertToString =
-        (
-            (MethodCallExpression)
-            (
-                (Expression<Action<IConverter, string?>>)
-                (
-                    static (conv, val) => conv.ConvertToString(null!, out val)
-                )
-            ).Body
-        ).Method;
-
-        private static readonly MethodInfo FConcat =
-        (
-            (MethodCallExpression)
-            (
-                (Expression<Action>)
-                (
-                    static () => string.Concat(new string[0])
-                )
-            ).Body
-        ).Method;
+        private static readonly MethodInfo 
+            FTryGetValue = MethodInfoExtractor.Extract<IReadOnlyDictionary<string, object?>, object?>(static (dict, val) => dict.TryGetValue(null!, out val)),
+            FEncode      = MethodInfoExtractor.Extract(static () => UrlEncode.Encode(string.Empty, Encoding.Default)),
+            FConvert     = MethodInfoExtractor.Extract<IConverter, string?>(static (conv, val) => conv.ConvertToString(null!, out val)),
+            FConcat      = MethodInfoExtractor.Extract(static () => string.Concat(new string[0]));
 
         private static readonly Regex FFirstTierParser = new("^(?<baseUrl>\\w+://[\\w.:]+)?(?<path>.+)?$", RegexOptions.Compiled);
 
@@ -149,7 +111,7 @@ namespace Solti.Utils.Router
                                                 Expression.Call
                                                 (
                                                     Expression.Constant(segment.Converter),
-                                                    FTryConvertToString,
+                                                    FConvert,
                                                     objValue,
                                                     strValue
                                                 )

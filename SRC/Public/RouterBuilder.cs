@@ -115,82 +115,18 @@ namespace Solti.Utils.Router
             public LabelTarget Exit { get; } = Expression.Label(typeof(object), nameof(Exit));
         };
 
-        private static readonly MethodInfo FMoveNext =
-        (
-            (MethodCallExpression)
-            (
-                (Expression<Action<PathSplitter>>)
-                (
-                    static enumerator => enumerator.MoveNext()
-                )
-            ).Body
-        ).Method;
+        private static readonly ConstructorInfo
+            FCreateDict = ConstructorInfoExtractor.Extract(static () => new Dictionary<string, object?>(0));
 
-        private static readonly MethodInfo FSplit =
-        (
-            (MethodCallExpression) 
-            (
-                (Expression<Action>) 
-                (
-                    static () => PathSplitter.Split(null!, SplitOptions.Default)
-                )
-            ).Body
-        ).Method;
+        private static readonly MethodInfo
+            FMoveNext = MethodInfoExtractor.Extract<PathSplitter>(static parts => parts.MoveNext()),
+            FSplit    = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
+            FAddParam = MethodInfoExtractor.Extract<Dictionary<string, object?>>(static dict => dict.Add(null!, null)),
+            FEquals   = MethodInfoExtractor.Extract<string>(static s => s.Equals(null!, default(StringComparison))),
+            FConvert  = MethodInfoExtractor.Extract<IConverter, object?>(static (c, output) => c.ConvertToValue(null!, out output));
 
-        private static readonly ConstructorInfo FCreateDict =
-        (
-            (NewExpression)
-            (
-                (Expression<Func<Dictionary<string, object?>>>)
-                (
-                    static () => new Dictionary<string, object?>(0)
-                )
-            ).Body
-        ).Constructor;
-
-        private static readonly MethodInfo FAddParam =
-        (
-            (MethodCallExpression)
-            (
-                (Expression<Action<Dictionary<string, object?>>>)
-                (
-                    static dict => dict.Add(null!, null)
-                )
-            ).Body
-        ).Method;
-
-        private static readonly MethodInfo FEquals =
-        (
-            (MethodCallExpression)
-            (
-                (Expression<Action<string>>)
-                (
-                    static s => s.Equals(null!, default(StringComparison))
-                )
-            ).Body
-        ).Method;
-
-        private static readonly MethodInfo FConvert =
-        (
-            (MethodCallExpression)
-            (
-                (Expression<Action<IConverter, object?>>)
-                (
-                    static (c, output) => c.ConvertToValue(null!, out output)
-                )
-            ).Body
-        ).Method;
-
-        private static readonly PropertyInfo FCurrent = (PropertyInfo) 
-        (
-            (MemberExpression) 
-            (
-                (Expression<Func<PathSplitter, string>>)
-                (
-                    static enumerator => enumerator.Current
-                )
-            ).Body
-        ).Member;
+        private static readonly PropertyInfo
+            FCurrent = PropertyInfoExtractor.Extract<PathSplitter, string>(static parts => parts.Current);
 
         private readonly RouteParser FRouteParser;
 
