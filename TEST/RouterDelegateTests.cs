@@ -6,7 +6,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+#if NETFRAMEWORK
 using System.Linq;
+#endif
 using System.Net;
 using System.Text.Json;
 
@@ -15,6 +17,8 @@ using NUnit.Framework;
 
 namespace Solti.Utils.Router.Tests
 {
+    using Properties;
+
     [TestFixture]
     public class RouterDelegateTests
     {
@@ -130,6 +134,13 @@ namespace Solti.Utils.Router.Tests
         {
             Router router = new RouterBuilder(handler: (_, _) => false, DefaultConverters.Instance).Build();
             Assert.Throws<ArgumentNullException>(() => router(null, "path", null!));
+        }
+
+        [Test]
+        public void DelegateShouldThrowOnUnregisteredRoute()
+        {
+            Router router = new RouterBuilder().Build();
+            Assert.Throws<InvalidOperationException>(() => router(null, "/cica"), Resources.ROUTE_NOT_REGISTERED);
         }
     }
 }

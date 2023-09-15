@@ -102,14 +102,14 @@ namespace Solti.Utils.Router
         }
 
         private sealed class BuildContext
-        {        
-            public ParameterExpression UserData     { get; } = Expression.Parameter(typeof(object), nameof(UserData).ToLower());
-            public ParameterExpression Path         { get; } = Expression.Parameter(typeof(string), nameof(Path).ToLower());
-            public ParameterExpression Method       { get; } = Expression.Parameter(typeof(string), nameof(Method).ToLower());
+        {
+            public ParameterExpression UserData { get; } = Expression.Parameter(typeof(object), nameof(UserData).ToLower());
+            public ParameterExpression Path { get; } = Expression.Parameter(typeof(string), nameof(Path).ToLower());
+            public ParameterExpression Method { get; } = Expression.Parameter(typeof(string), nameof(Method).ToLower());
             public ParameterExpression SplitOptions { get; } = Expression.Parameter(typeof(SplitOptions), nameof(SplitOptions).ToLower());
 
-            public ParameterExpression Segments  { get; } = Expression.Variable(typeof(PathSplitter), nameof(Segments).ToLower());
-            public ParameterExpression Params    { get; } = Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower());
+            public ParameterExpression Segments { get; } = Expression.Variable(typeof(PathSplitter), nameof(Segments).ToLower());
+            public ParameterExpression Params { get; } = Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower());
             public ParameterExpression Converted { get; } = Expression.Variable(typeof(object), nameof(Converted).ToLower());
 
             public LabelTarget Exit { get; } = Expression.Label(typeof(object), nameof(Exit));
@@ -120,10 +120,10 @@ namespace Solti.Utils.Router
 
         private static readonly MethodInfo
             FMoveNext = MethodInfoExtractor.Extract<PathSplitter>(static parts => parts.MoveNext()),
-            FSplit    = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
+            FSplit = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
             FAddParam = MethodInfoExtractor.Extract<Dictionary<string, object?>>(static dict => dict.Add(null!, null)),
-            FEquals   = MethodInfoExtractor.Extract<string>(static s => s.Equals(null!, default(StringComparison))),
-            FConvert  = MethodInfoExtractor.Extract<IConverter, object?>(static (c, output) => c.ConvertToValue(null!, out output));
+            FEquals = MethodInfoExtractor.Extract<string>(static s => s.Equals(null!, default(StringComparison))),
+            FConvert = MethodInfoExtractor.Extract<IConverter, object?>(static (c, output) => c.ConvertToValue(null!, out output));
 
         private static readonly PropertyInfo
             FCurrent = PropertyInfoExtractor.Extract<PathSplitter, string>(static parts => parts.Current);
@@ -247,8 +247,8 @@ namespace Solti.Utils.Router
                     context.UserData,
                     Expression.Constant
                     (
-                        junction.Handlers.Count is 0 
-                            ? HttpStatusCode.NotFound 
+                        junction.Handlers.Count is 0
+                            ? HttpStatusCode.NotFound
                             : HttpStatusCode.MethodNotAllowed
                     )
                 );
@@ -273,6 +273,8 @@ namespace Solti.Utils.Router
                 typeof(object)
             );
         }
+
+        private static object ThrowNotRegistred() => throw new InvalidOperationException(Resources.ROUTE_NOT_REGISTERED);
         #endregion
 
         /// <summary>
@@ -291,11 +293,25 @@ namespace Solti.Utils.Router
         /// </summary>
         /// <param name="handler">Delegate to handle unknown routes.</param>
         /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be sued.</param>
-        public RouterBuilder(DefaultRequestHandler handler, IReadOnlyDictionary<string, ConverterFactory>? converters = null): this
+        public RouterBuilder(DefaultRequestHandler handler, IReadOnlyDictionary<string, ConverterFactory>? converters = null) : this
         (
-            handlerExpr: handler is not null 
+            handlerExpr: handler is not null
                 ? (state, reason) => handler(state, reason)
                 : throw new ArgumentNullException(nameof(handler)),
+            converters
+        ) { }
+
+        /// <summary>
+        /// Creates a new <see cref="RouterBuilder"/> instance.
+        /// </summary>
+        /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be sued.</param>
+        public RouterBuilder(IReadOnlyDictionary<string, ConverterFactory>? converters = null): this
+        (
+            //
+            // Compiler generated expression tree cannot contain throw expression (CS8188)
+            //
+
+            handlerExpr: static (_, _) => ThrowNotRegistred(),
             converters
         ) {}
 

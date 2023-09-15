@@ -150,6 +150,9 @@
   <data name="ROUTE_ALREADY_REGISTERED" xml:space="preserve">
     <value>Route already registered:" {0}"</value>
   </data>
+  <data name="ROUTE_NOT_REGISTERED" xml:space="preserve">
+    <value>The route is not registered.</value>
+  </data>
   <data name="TOO_MANY_PARAM_DESCRIPTOR" xml:space="preserve">
     <value>A segment may contain one parameter descriptor only.</value>
   </data>

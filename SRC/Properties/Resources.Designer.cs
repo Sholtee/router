@@ -160,6 +160,15 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The route is not registered..
+        /// </summary>
+        internal static string ROUTE_NOT_REGISTERED {
+            get {
+                return ResourceManager.GetString("ROUTE_NOT_REGISTERED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A segment may contain one parameter descriptor only..
         /// </summary>
         internal static string TOO_MANY_PARAM_DESCRIPTOR {
