@@ -17,3 +17,5 @@
 - 1.0.0:
   - *done*: `RouteTemplate.CreateCompiler()` now supports templates contaning base-url
   - *done*: Enhanced URL encoding
+- 1.1.0:
+  - *introduced*: Passing the default handler when building the router delegate is not obligatory anymore
