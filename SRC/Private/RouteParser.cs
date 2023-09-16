@@ -73,14 +73,14 @@ namespace Solti.Utils.Router.Internals
                         }
 
                         return new RouteSegment(name!, converterInst);
+
+                        string? GetMatch(string name)
+                        {
+                            Group group = match[0].Groups[name];
+                            return group.Success ? group.Value : null;
+                        }
                     default:
                         throw new ArgumentException(TOO_MANY_PARAM_DESCRIPTOR, nameof(input));
-                }
-
-                string? GetMatch(string name)
-                {
-                    Group group = match[0].Groups[name];
-                    return group.Success ? group.Value : null;
                 }
             });
         }
