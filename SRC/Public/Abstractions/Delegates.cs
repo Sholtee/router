@@ -5,6 +5,7 @@
 ********************************************************************************/
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Solti.Utils.Router
 {
@@ -29,12 +30,28 @@ namespace Solti.Utils.Router
     public delegate object? DefaultRequestHandler(object? userData, HttpStatusCode reason);
 
     /// <summary>
+    /// Handler for unknown routes.
+    /// </summary>
+    /// <param name="userData">User provided custom data.</param>
+    /// <param name="reason">Reason that caused the routing here for instance <see cref="HttpStatusCode.NotFound"/> or <see cref="HttpStatusCode.MethodNotAllowed"/></param>
+    /// <returns>The response object.</returns>
+    public delegate TResult DefaultRequestHandler<TResult>(object? userData, HttpStatusCode reason);
+
+    /// <summary>
     /// Handler for known routes.
     /// </summary>
     /// <param name="paramz">The request parameters.</param>
     /// <param name="userData">User provided custom data.</param>
     /// <returns>The response object.</returns>
     public delegate object? RequestHandler(IReadOnlyDictionary<string, object?> paramz, object? userData);
+
+    /// <summary>
+    /// Handler for known routes.
+    /// </summary>
+    /// <param name="paramz">The request parameters.</param>
+    /// <param name="userData">User provided custom data.</param>
+    /// <returns>The response object.</returns>
+    public delegate TResult RequestHandler<TResult>(IReadOnlyDictionary<string, object?> paramz, object? userData);
 
     /// <summary>
     /// Router delegate.
@@ -45,4 +62,14 @@ namespace Solti.Utils.Router
     /// <param name="splitOptions">Specifies how to split the <paramref name="path"/>.</param>
     /// <returns>The response object.</returns>
     public delegate object? Router(object? userData, string path, string method = "GET", SplitOptions? splitOptions = null);
+
+    /// <summary>
+    /// Async router delegate.
+    /// </summary>
+    /// <param name="userData">Custom user data to be passed to handlers.</param>
+    /// <param name="path">Path where to route the request. Must NOT include the base URL.</param>
+    /// <param name="method">Method(s) to be accepted. "GET" is the default.</param>
+    /// <param name="splitOptions">Specifies how to split the <paramref name="path"/>.</param>
+    /// <returns>The response object.</returns>
+    public delegate Task<object?> RouterAsync(object? userData, string path, string method = "GET", SplitOptions? splitOptions = null);
 }
