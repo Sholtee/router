@@ -71,5 +71,5 @@ namespace Solti.Utils.Router
     /// <param name="method">Method(s) to be accepted. "GET" is the default.</param>
     /// <param name="splitOptions">Specifies how to split the <paramref name="path"/>.</param>
     /// <returns>The response object.</returns>
-    public delegate Task<object?> RouterAsync(object? userData, string path, string method = "GET", SplitOptions? splitOptions = null);
+    public delegate Task<object?> AsyncRouter(object? userData, string path, string method = "GET", SplitOptions? splitOptions = null);
 }

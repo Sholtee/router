@@ -18,7 +18,7 @@ namespace Solti.Utils.Router
     using Properties;
 
     /// <summary>
-    /// Builds router delegate (<see cref="RouterAsync"/>) that dispatches requests to async handlers.
+    /// Builds router delegate (<see cref="AsyncRouter"/>) that dispatches requests to async handlers.
     /// </summary>
     public sealed class AsyncRouterBuilder
     {
@@ -192,9 +192,9 @@ namespace Solti.Utils.Router
         );
 
         /// <summary>
-        /// Builds the actual <see cref="RouterAsync"/> delegate.
+        /// Builds the actual <see cref="AsyncRouter"/> delegate.
         /// </summary>
-        public RouterAsync Build()
+        public AsyncRouter Build()
         {
             Router router = UnderlyingBuilder.Build();
 

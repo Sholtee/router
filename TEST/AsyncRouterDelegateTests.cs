@@ -32,7 +32,7 @@ namespace Solti.Utils.Router.Tests
             AsyncRouterBuilder builder = AsyncRouterBuilder.Create(handler: (_, _) => false, DefaultConverters.Instance);
             @case.Registrar("/cica", builder);
 
-            RouterAsync router = builder.Build();
+            AsyncRouter router = builder.Build();
 
             Assert.That(await router(null, "/"), Is.False);
             Assert.That(await router(null, "/cica"), Is.EqualTo(@case.Epxected));
@@ -41,7 +41,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void DelegateShouldThrowOnUnregisteredRoute()
         {
-            RouterAsync router = AsyncRouterBuilder.Create().Build();
+            AsyncRouter router = AsyncRouterBuilder.Create().Build();
             Assert.ThrowsAsync<InvalidOperationException>(async () => await router(null, "/cica"), Resources.ROUTE_NOT_REGISTERED);
         }
     }
