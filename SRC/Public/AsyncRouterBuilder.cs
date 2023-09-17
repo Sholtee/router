@@ -94,7 +94,7 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Creates a new <see cref="RouterBuilder"/> instance.
         /// </summary>
-        /// <param name="handlerExpr">Delegate to handle unknown routes.</param>
+        /// <param name="handlerExpr">Delegate to handle unknown routes. You may pass async and sync callbacks as well.</param>
         /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be sued.</param>
         public static AsyncRouterBuilder Create<T>(Expression<DefaultRequestHandler<T>> handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null) => new
         (
@@ -108,7 +108,7 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Creates a new <see cref="RouterBuilder"/> instance.
         /// </summary>
-        /// <param name="handler">Delegate to handle unknown routes.</param>
+        /// <param name="handler">Delegate to handle unknown routes. You may pass async and sync callbacks as well.</param>
         /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be sued.</param>
         public static AsyncRouterBuilder Create<T>(DefaultRequestHandler<T> handler, IReadOnlyDictionary<string, ConverterFactory>? converters = null) => Create<T>
         (
@@ -141,7 +141,7 @@ namespace Solti.Utils.Router
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
-        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
+        /// <param name="handlerExpr">Function accepting requests on the given route. You may pass async and sync callbacks as well.</param>
         /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
@@ -157,7 +157,7 @@ namespace Solti.Utils.Router
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
-        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
+        /// <param name="handlerExpr">Function accepting requests on the given route. You may pass async and sync callbacks as well.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
         public void AddRoute<T>(string route, Expression<RequestHandler<T>> handlerExpr, params string[] methods) =>
@@ -167,7 +167,7 @@ namespace Solti.Utils.Router
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
-        /// <param name="handler">Function accepting requests on the given route.</param>
+        /// <param name="handler">Function accepting requests on the given route. You may pass async and sync callbacks as well.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
         public void AddRoute<T>(string route, RequestHandler<T> handler, params string[] methods) =>
@@ -177,7 +177,7 @@ namespace Solti.Utils.Router
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
-        /// <param name="handler">Function accepting requests on the given route.</param>
+        /// <param name="handler">Function accepting requests on the given route. You may pass async and sync callbacks as well.</param>
         /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
