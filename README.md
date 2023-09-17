@@ -16,7 +16,7 @@ This library comes with an extremely simple API set (consits of a few methods on
 	RouterBuilder routerBuilder = new
 	(
 		// This handler is called on every unknown routes
-		defaultHandler: (object? state, HttpStatusCode reason) =>
+		handler: (object? state, HttpStatusCode reason) =>
 		{
 			HttpListenerContext ctx = (HttpListenerContext) state;
 			...
@@ -96,6 +96,53 @@ using Solti.Utils.Router;
 RouteTemplateCompiler compile = RouteTemplate.CreateCompiler("http://localhost:8080/get/picture-{id:int}");
 string route = compile(new Dictionary<string, object?> { { "id", 1986 } });  // route == "http://localhost:8080/get/picture-1986"
 ...
+```
+
+## Advanced usage, async routing
+In real world, request handlers often contain complex, async logic. `AsyncRouterBuilder` is aimed to support this use case with an API set very similar to `RouterBuilder`:
+```csharp
+using System.Collections.Generic;
+using System.Net;
+
+using Solti.Utils.Router;
+
+AsyncRouterBuilder routerBuilder = AsyncRouterBuilder.Create
+(
+	handler: async (object? state, HttpStatusCode reason) =>
+	{
+		HttpListenerContext ctx = (HttpListenerContext) state;
+		await ...
+	},
+	// can be omitted
+	converters: DefaultConverters.Instance
+);
+routerBuilder.AddRoute
+(
+	route: "/get/picture-{id:int}",
+	handler: async (IReadOnlyDictionary<string, object?> paramz, object? state) =>
+	{
+		HttpListenerContext ctx = (HttpListenerContext) state;
+		int id = (int) paramz["id"];
+		await ...
+	},
+	// "GET" is the default
+	"GET", "OPTIONS"
+);
+routerBuilder.AddRoute
+(
+	route: "/",
+	// non-async callbacks also supported
+	handler: (IReadOnlyDictionary<string, object?> paramz, object? state) =>
+	{
+		...
+	}
+);
+AsyncRouter route = routerBuilder.Build();
+
+...
+
+HttpListenerContext context = Listener.GetContext();
+object? result = await route(context, context.Request.Url!.AbsolutePath, context.Request.HttpMethod);
 ```
 
 ## Resources
