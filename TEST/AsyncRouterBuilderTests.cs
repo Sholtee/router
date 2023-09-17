@@ -161,6 +161,7 @@ namespace Solti.Utils.Router.Tests
         {
             get
             {
+                yield return (route, builder) => builder.AddRoute(route, handler: async (paramz, userData) => await Task.FromResult(1986));
                 yield return (route, builder) => builder.AddRoute(route, handler: (paramz, userData) => Task.FromResult(1986));
                 yield return (route, builder) => builder.AddRoute(route, handler: (paramz, userData) => Task.CompletedTask);
                 yield return (route, builder) => builder.AddRoute(route, handler: (paramz, userData) => 1986);
