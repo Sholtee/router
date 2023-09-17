@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Solti.Utils.Router
 {
+    using Internals;
     using Primitives;
     using Properties;
 
@@ -54,7 +55,7 @@ namespace Solti.Utils.Router
             {
                 body = Expression.Convert
                 (
-                    Expression.Invoke(sourceDelegate, paramz),
+                    UnfoldedLambda.Create(sourceDelegate, paramz),
                     wrapped.ReturnType
                 );
             }
@@ -78,7 +79,7 @@ namespace Solti.Utils.Router
                         Expression.Call
                         (
                             wrap,
-                            Expression.Invoke(sourceDelegate, paramz)
+                            UnfoldedLambda.Create(sourceDelegate, paramz)
                         ),
                         wrapped.ReturnType
                     )
