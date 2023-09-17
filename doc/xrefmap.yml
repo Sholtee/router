@@ -7,6 +7,60 @@ references:
   commentId: N:Solti.Utils.Router
   fullName: Solti.Utils.Router
   nameWithType: Solti.Utils.Router
+- uid: Solti.Utils.Router.AsyncRouter
+  name: AsyncRouter
+  href: Solti.Utils.Router.AsyncRouter.html
+  commentId: T:Solti.Utils.Router.AsyncRouter
+  fullName: Solti.Utils.Router.AsyncRouter
+  nameWithType: AsyncRouter
+- uid: Solti.Utils.Router.AsyncRouter.#ctor(System.Object,System.IntPtr)
+  name: AsyncRouter(Object, IntPtr)
+  href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter__ctor_System_Object_System_IntPtr_
+  commentId: M:Solti.Utils.Router.AsyncRouter.#ctor(System.Object,System.IntPtr)
+  fullName: Solti.Utils.Router.AsyncRouter.AsyncRouter(System.Object, System.IntPtr)
+  nameWithType: AsyncRouter.AsyncRouter(Object, IntPtr)
+- uid: Solti.Utils.Router.AsyncRouter.#ctor*
+  name: AsyncRouter
+  href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter__ctor_
+  commentId: Overload:Solti.Utils.Router.AsyncRouter.#ctor
+  fullName: Solti.Utils.Router.AsyncRouter.AsyncRouter
+  nameWithType: AsyncRouter.AsyncRouter
+- uid: Solti.Utils.Router.AsyncRouter.BeginInvoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
+  name: BeginInvoke(Object, String, String, SplitOptions, AsyncCallback, Object)
+  href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter_BeginInvoke_System_Object_System_String_System_String_Solti_Utils_Router_SplitOptions_System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Router.AsyncRouter.BeginInvoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
+  fullName: Solti.Utils.Router.AsyncRouter.BeginInvoke(System.Object, System.String, System.String, Solti.Utils.Router.SplitOptions, System.AsyncCallback, System.Object)
+  nameWithType: AsyncRouter.BeginInvoke(Object, String, String, SplitOptions, AsyncCallback, Object)
+- uid: Solti.Utils.Router.AsyncRouter.BeginInvoke*
+  name: BeginInvoke
+  href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter_BeginInvoke_
+  commentId: Overload:Solti.Utils.Router.AsyncRouter.BeginInvoke
+  fullName: Solti.Utils.Router.AsyncRouter.BeginInvoke
+  nameWithType: AsyncRouter.BeginInvoke
+- uid: Solti.Utils.Router.AsyncRouter.EndInvoke(System.IAsyncResult)
+  name: EndInvoke(IAsyncResult)
+  href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter_EndInvoke_System_IAsyncResult_
+  commentId: M:Solti.Utils.Router.AsyncRouter.EndInvoke(System.IAsyncResult)
+  fullName: Solti.Utils.Router.AsyncRouter.EndInvoke(System.IAsyncResult)
+  nameWithType: AsyncRouter.EndInvoke(IAsyncResult)
+- uid: Solti.Utils.Router.AsyncRouter.EndInvoke*
+  name: EndInvoke
+  href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter_EndInvoke_
+  commentId: Overload:Solti.Utils.Router.AsyncRouter.EndInvoke
+  fullName: Solti.Utils.Router.AsyncRouter.EndInvoke
+  nameWithType: AsyncRouter.EndInvoke
+- uid: Solti.Utils.Router.AsyncRouter.Invoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions)
+  name: Invoke(Object, String, String, SplitOptions)
+  href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter_Invoke_System_Object_System_String_System_String_Solti_Utils_Router_SplitOptions_
+  commentId: M:Solti.Utils.Router.AsyncRouter.Invoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions)
+  fullName: Solti.Utils.Router.AsyncRouter.Invoke(System.Object, System.String, System.String, Solti.Utils.Router.SplitOptions)
+  nameWithType: AsyncRouter.Invoke(Object, String, String, SplitOptions)
+- uid: Solti.Utils.Router.AsyncRouter.Invoke*
+  name: Invoke
+  href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter_Invoke_
+  commentId: Overload:Solti.Utils.Router.AsyncRouter.Invoke
+  fullName: Solti.Utils.Router.AsyncRouter.Invoke
+  nameWithType: AsyncRouter.Invoke
 - uid: Solti.Utils.Router.AsyncRouterBuilder
   name: AsyncRouterBuilder
   href: Solti.Utils.Router.AsyncRouterBuilder.html
@@ -560,60 +614,6 @@ references:
   commentId: Overload:Solti.Utils.Router.Router.Invoke
   fullName: Solti.Utils.Router.Router.Invoke
   nameWithType: Router.Invoke
-- uid: Solti.Utils.Router.RouterAsync
-  name: RouterAsync
-  href: Solti.Utils.Router.RouterAsync.html
-  commentId: T:Solti.Utils.Router.RouterAsync
-  fullName: Solti.Utils.Router.RouterAsync
-  nameWithType: RouterAsync
-- uid: Solti.Utils.Router.RouterAsync.#ctor(System.Object,System.IntPtr)
-  name: RouterAsync(Object, IntPtr)
-  href: Solti.Utils.Router.RouterAsync.html#Solti_Utils_Router_RouterAsync__ctor_System_Object_System_IntPtr_
-  commentId: M:Solti.Utils.Router.RouterAsync.#ctor(System.Object,System.IntPtr)
-  fullName: Solti.Utils.Router.RouterAsync.RouterAsync(System.Object, System.IntPtr)
-  nameWithType: RouterAsync.RouterAsync(Object, IntPtr)
-- uid: Solti.Utils.Router.RouterAsync.#ctor*
-  name: RouterAsync
-  href: Solti.Utils.Router.RouterAsync.html#Solti_Utils_Router_RouterAsync__ctor_
-  commentId: Overload:Solti.Utils.Router.RouterAsync.#ctor
-  fullName: Solti.Utils.Router.RouterAsync.RouterAsync
-  nameWithType: RouterAsync.RouterAsync
-- uid: Solti.Utils.Router.RouterAsync.BeginInvoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
-  name: BeginInvoke(Object, String, String, SplitOptions, AsyncCallback, Object)
-  href: Solti.Utils.Router.RouterAsync.html#Solti_Utils_Router_RouterAsync_BeginInvoke_System_Object_System_String_System_String_Solti_Utils_Router_SplitOptions_System_AsyncCallback_System_Object_
-  commentId: M:Solti.Utils.Router.RouterAsync.BeginInvoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
-  fullName: Solti.Utils.Router.RouterAsync.BeginInvoke(System.Object, System.String, System.String, Solti.Utils.Router.SplitOptions, System.AsyncCallback, System.Object)
-  nameWithType: RouterAsync.BeginInvoke(Object, String, String, SplitOptions, AsyncCallback, Object)
-- uid: Solti.Utils.Router.RouterAsync.BeginInvoke*
-  name: BeginInvoke
-  href: Solti.Utils.Router.RouterAsync.html#Solti_Utils_Router_RouterAsync_BeginInvoke_
-  commentId: Overload:Solti.Utils.Router.RouterAsync.BeginInvoke
-  fullName: Solti.Utils.Router.RouterAsync.BeginInvoke
-  nameWithType: RouterAsync.BeginInvoke
-- uid: Solti.Utils.Router.RouterAsync.EndInvoke(System.IAsyncResult)
-  name: EndInvoke(IAsyncResult)
-  href: Solti.Utils.Router.RouterAsync.html#Solti_Utils_Router_RouterAsync_EndInvoke_System_IAsyncResult_
-  commentId: M:Solti.Utils.Router.RouterAsync.EndInvoke(System.IAsyncResult)
-  fullName: Solti.Utils.Router.RouterAsync.EndInvoke(System.IAsyncResult)
-  nameWithType: RouterAsync.EndInvoke(IAsyncResult)
-- uid: Solti.Utils.Router.RouterAsync.EndInvoke*
-  name: EndInvoke
-  href: Solti.Utils.Router.RouterAsync.html#Solti_Utils_Router_RouterAsync_EndInvoke_
-  commentId: Overload:Solti.Utils.Router.RouterAsync.EndInvoke
-  fullName: Solti.Utils.Router.RouterAsync.EndInvoke
-  nameWithType: RouterAsync.EndInvoke
-- uid: Solti.Utils.Router.RouterAsync.Invoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions)
-  name: Invoke(Object, String, String, SplitOptions)
-  href: Solti.Utils.Router.RouterAsync.html#Solti_Utils_Router_RouterAsync_Invoke_System_Object_System_String_System_String_Solti_Utils_Router_SplitOptions_
-  commentId: M:Solti.Utils.Router.RouterAsync.Invoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions)
-  fullName: Solti.Utils.Router.RouterAsync.Invoke(System.Object, System.String, System.String, Solti.Utils.Router.SplitOptions)
-  nameWithType: RouterAsync.Invoke(Object, String, String, SplitOptions)
-- uid: Solti.Utils.Router.RouterAsync.Invoke*
-  name: Invoke
-  href: Solti.Utils.Router.RouterAsync.html#Solti_Utils_Router_RouterAsync_Invoke_
-  commentId: Overload:Solti.Utils.Router.RouterAsync.Invoke
-  fullName: Solti.Utils.Router.RouterAsync.Invoke
-  nameWithType: RouterAsync.Invoke
 - uid: Solti.Utils.Router.RouterBuilder
   name: RouterBuilder
   href: Solti.Utils.Router.RouterBuilder.html
