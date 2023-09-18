@@ -21,3 +21,7 @@
   - *introduced*: Passing the default handler when building the router delegate is not obligatory anymore
 - 1.1.1:
   - *done*: Remove redundant code
+- 1.2.0:
+  - *introduced*: `AsyncRouterBuilder` class
+- 1.2.1:
+  - *done*: Enhanced template validation
