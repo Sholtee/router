@@ -47,15 +47,15 @@ namespace Solti.Utils.Router.Internals
                         if (!parsed.Success)
                              throw new ArgumentException(INVALID_TEMPLATE, nameof(input));
 
-                        string name = GetMatch(nameof(name))!;
+                        string name = GetProperty(nameof(name))!;
                         if (!paramz.Add(name!))
                             throw new ArgumentException(Format(Culture, DUPLICATE_PARAMETER, name), nameof(input));
 
-                        string converter = GetMatch(nameof(converter))!;
+                        string converter = GetProperty(nameof(converter))!;
                         if (!Converters.TryGetValue(converter, out ConverterFactory converterFactory))
                             throw new ArgumentException(Format(Culture, CONVERTER_NOT_FOUND, converter), nameof(input));
 
-                        string? param = GetMatch(nameof(param));
+                        string? param = GetProperty(nameof(param));
                         IConverter converterInst = converterFactory(param);
 
                         if (template[0].ToString() != segment)
@@ -74,7 +74,7 @@ namespace Solti.Utils.Router.Internals
 
                         return new RouteSegment(name, converterInst);
 
-                        string? GetMatch(string name)
+                        string? GetProperty(string name)
                         {
                             Group group = parsed.Groups[name];
                             return group.Success ? group.Value : null;
