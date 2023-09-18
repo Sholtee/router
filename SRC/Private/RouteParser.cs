@@ -22,7 +22,9 @@ namespace Solti.Utils.Router.Internals
     /// </remarks>
     internal sealed class RouteParser
     {
-        private static readonly Regex FTemplateMatcher = new("{(?<name>\\w+)?(?::(?<converter>\\w+)?)?(?::(?<param>[\\w+.-]+)?)?}", RegexOptions.Compiled);
+        private static readonly Regex
+            FTemplateMatcher = new("{(?<content>.*)}"), 
+            FTemplateParser  = new("^(?<name>\\w+):(?<converter>\\w+)(?::(?<param>[\\w+.-]+)?)?$", RegexOptions.Compiled);
 
         public IReadOnlyDictionary<string, ConverterFactory> Converters { get; }
 
@@ -34,49 +36,47 @@ namespace Solti.Utils.Router.Internals
 
             return PathSplitter.Split(input, splitOptions).AsEnumerable().Select(segment =>
             {
-                MatchCollection match = FTemplateMatcher.Matches(segment);
+                MatchCollection template = FTemplateMatcher.Matches(segment);
 
-                switch (match.Count)
+                switch (template.Count)
                 {
                     case 0:
                         return new RouteSegment(segment, null);
                     case 1:
-                        string? name = GetMatch(nameof(name));
-                        if (IsNullOrEmpty(name))
-                            throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(name)), nameof(input));
+                        Match parsed = FTemplateParser.Match(template[0].Groups["content"].Value);
+                        if (!parsed.Success)
+                             throw new ArgumentException(INVALID_TEMPLATE, nameof(input));
 
+                        string name = GetMatch(nameof(name))!;
                         if (!paramz.Add(name!))
                             throw new ArgumentException(Format(Culture, DUPLICATE_PARAMETER, name), nameof(input));
 
-                        string? converter = GetMatch(nameof(converter));
-                        if (IsNullOrEmpty(converter))
-                            throw new ArgumentException(Format(Culture, CANNOT_BE_NULL, nameof(converter)), nameof(input));
-
-                        if (!Converters.TryGetValue(converter!, out ConverterFactory converterFactory))
+                        string converter = GetMatch(nameof(converter))!;
+                        if (!Converters.TryGetValue(converter, out ConverterFactory converterFactory))
                             throw new ArgumentException(Format(Culture, CONVERTER_NOT_FOUND, converter), nameof(input));
 
                         string? param = GetMatch(nameof(param));
                         IConverter converterInst = converterFactory(param);
 
-                        if (match[0].ToString() != segment)
+                        if (template[0].ToString() != segment)
                         {
                             string[] extra = segment.Split
                             (
 #if !NETSTANDARD2_1_OR_GREATER
-                                new string[] { match[0].ToString() },
+                                new string[] { template[0].ToString() },
 #else
-                                match[0].ToString(),
+                                template[0].ToString(),
 #endif
                                 StringSplitOptions.None
                             );
                             converterInst = new ConverterWrapper(converterInst, prefix: extra[0], suffix: extra[1]);
                         }
 
-                        return new RouteSegment(name!, converterInst);
+                        return new RouteSegment(name, converterInst);
 
                         string? GetMatch(string name)
                         {
-                            Group group = match[0].Groups[name];
+                            Group group = parsed.Groups[name];
                             return group.Success ? group.Value : null;
                         }
                     default:

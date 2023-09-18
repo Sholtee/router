@@ -235,15 +235,15 @@ namespace Solti.Utils.Router.Tests
         }
 
         [Test]
-        public void ParseShouldThrowOnMissingConverter([Values("{param}", "{param:}")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input).ToList(), Resources.CANNOT_BE_NULL);
+        public void ParseShouldThrowOnMissingConverter([Values("{param}", "{param:}", "pre-{param}", "pre-{param:}", "{param}-su", "{param:}-su", "pre-{param}-su", "pre-{param:}-su")] string input) =>
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input).ToList(), Resources.INVALID_TEMPLATE);
 
         [Test]
-        public void ParseShouldThrowOnMissingParameterName([Values("{}", "{:int}")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input).ToList(), Resources.CANNOT_BE_NULL);
+        public void ParseShouldThrowOnMissingParameterName([Values("{}", "{:int}", "pre-{}", "pre-{:int}", "{}-su", "{:int}-su", "pre-{}-su", "pre-{:int}-su")] string input) =>
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input).ToList(), Resources.INVALID_TEMPLATE);
 
         [Test]
-        public void ParseShouldThrowOnDuplicateParameterName([Values("{param:int}/{param:int}", "{param:int}/pre-{param:int}", "{param:int}/segment/{param:int}")] string input) =>
+        public void ParseShouldThrowOnDuplicateParameterName([Values("{param:int}/{param:int}", "{param:int}/{param:str}", "{param:int}/pre-{param:int}", "{param:int}/{param:int}-su", "{param:int}/pre-{param:int}-su", "{param:int}/segment/{param:int}")] string input) =>
             Assert.Throws<ArgumentException>(() => new RouteParser(DefaultConverters.Instance).Parse(input).ToList(), Resources.DUPLICATE_PARAMETER);
 
         [Test]
