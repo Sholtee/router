@@ -58,14 +58,15 @@ namespace Solti.Utils.Router.Internals
                         string? param = GetProperty(nameof(param));
                         IConverter converterInst = converterFactory(param);
 
-                        if (template[0].ToString() != segment)
+                        string templateStr = template[0].ToString();
+                        if (templateStr != segment)
                         {
                             string[] extra = segment.Split
                             (
 #if !NETSTANDARD2_1_OR_GREATER
-                                new string[] { template[0].ToString() },
+                                new string[] { templateStr },
 #else
-                                template[0].ToString(),
+                                templateStr,
 #endif
                                 StringSplitOptions.None
                             );
