@@ -100,7 +100,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public async Task Calculator()
         {
-            const string routeTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.UseCases%2BArithmeticalOperation}/{b:int}";
+            const string routeTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.UseCases+ArithmeticalOperation}/{b:int}";
 
             SetupServer
             (
@@ -111,7 +111,8 @@ namespace Solti.Utils.Router.Tests
                     (
                         HttpStatusCode.OK,
                         (object) ((int) paramz["a"]! + (int) paramz["op"]! * (int) paramz["b"]!)
-                    )
+                    ),
+                    SplitOptions.Default with { ConvertSpaces = false }
                 )
             );
 
@@ -120,7 +121,11 @@ namespace Solti.Utils.Router.Tests
             HttpResponseMessage resp = await client.GetAsync("http://localhost:8080/");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
 
-            RouteTemplateCompiler getRoute = RouteTemplate.CreateCompiler("http://localhost:8080/" + routeTemplate);
+            RouteTemplateCompiler getRoute = RouteTemplate.CreateCompiler
+            (
+                "http://localhost:8080/" + routeTemplate,
+                splitOptions: SplitOptions.Default with { ConvertSpaces = false }
+            );
 
             resp = await client.PostAsync
             (
