@@ -36,8 +36,8 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Creates a new <see cref="RouteParser"/> instance.
         /// </summary>
-        public RouteParser(IReadOnlyDictionary<string, ConverterFactory> converters) =>
-            Converters = converters ?? throw new ArgumentNullException(nameof(converters));
+        public RouteParser(IReadOnlyDictionary<string, ConverterFactory>? converters = null) =>
+            Converters = converters ?? DefaultConverters.Instance;
 
         private IEnumerable<RouteSegment> ParseInternal(string route, SplitOptions? splitOptions = null)
         {
