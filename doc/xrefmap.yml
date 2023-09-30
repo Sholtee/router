@@ -437,6 +437,156 @@ references:
   commentId: Overload:Solti.Utils.Router.IConverter.Type
   fullName: Solti.Utils.Router.IConverter.Type
   nameWithType: IConverter.Type
+- uid: Solti.Utils.Router.ParsedRoute
+  name: ParsedRoute
+  href: Solti.Utils.Router.ParsedRoute.html
+  commentId: T:Solti.Utils.Router.ParsedRoute
+  fullName: Solti.Utils.Router.ParsedRoute
+  nameWithType: ParsedRoute
+- uid: Solti.Utils.Router.ParsedRoute.#ctor(System.Collections.Generic.IReadOnlyList{Solti.Utils.Router.RouteSegment},System.Collections.Generic.IReadOnlyDictionary{System.String,System.Type},System.String)
+  name: ParsedRoute(IReadOnlyList<RouteSegment>, IReadOnlyDictionary<String, Type>, String)
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute__ctor_System_Collections_Generic_IReadOnlyList_Solti_Utils_Router_RouteSegment__System_Collections_Generic_IReadOnlyDictionary_System_String_System_Type__System_String_
+  commentId: M:Solti.Utils.Router.ParsedRoute.#ctor(System.Collections.Generic.IReadOnlyList{Solti.Utils.Router.RouteSegment},System.Collections.Generic.IReadOnlyDictionary{System.String,System.Type},System.String)
+  name.vb: ParsedRoute(IReadOnlyList(Of RouteSegment), IReadOnlyDictionary(Of String, Type), String)
+  fullName: Solti.Utils.Router.ParsedRoute.ParsedRoute(System.Collections.Generic.IReadOnlyList<Solti.Utils.Router.RouteSegment>, System.Collections.Generic.IReadOnlyDictionary<System.String, System.Type>, System.String)
+  fullName.vb: Solti.Utils.Router.ParsedRoute.ParsedRoute(System.Collections.Generic.IReadOnlyList(Of Solti.Utils.Router.RouteSegment), System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.Type), System.String)
+  nameWithType: ParsedRoute.ParsedRoute(IReadOnlyList<RouteSegment>, IReadOnlyDictionary<String, Type>, String)
+  nameWithType.vb: ParsedRoute.ParsedRoute(IReadOnlyList(Of RouteSegment), IReadOnlyDictionary(Of String, Type), String)
+- uid: Solti.Utils.Router.ParsedRoute.#ctor*
+  name: ParsedRoute
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute__ctor_
+  commentId: Overload:Solti.Utils.Router.ParsedRoute.#ctor
+  fullName: Solti.Utils.Router.ParsedRoute.ParsedRoute
+  nameWithType: ParsedRoute.ParsedRoute
+- uid: Solti.Utils.Router.ParsedRoute.{Clone}$
+  name: <Clone>$()
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute__Clone__
+  commentId: M:Solti.Utils.Router.ParsedRoute.{Clone}$
+  fullName: Solti.Utils.Router.ParsedRoute.<Clone>$()
+  nameWithType: ParsedRoute.<Clone>$()
+- uid: Solti.Utils.Router.ParsedRoute.{Clone}$*
+  name: <Clone>$
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute__Clone___
+  commentId: Overload:Solti.Utils.Router.ParsedRoute.{Clone}$
+  fullName: Solti.Utils.Router.ParsedRoute.<Clone>$
+  nameWithType: ParsedRoute.<Clone>$
+- uid: Solti.Utils.Router.ParsedRoute.Deconstruct(System.Collections.Generic.IReadOnlyList{Solti.Utils.Router.RouteSegment}@,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Type}@,System.String@)
+  name: Deconstruct(out IReadOnlyList<RouteSegment>, out IReadOnlyDictionary<String, Type>, out String)
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Deconstruct_System_Collections_Generic_IReadOnlyList_Solti_Utils_Router_RouteSegment___System_Collections_Generic_IReadOnlyDictionary_System_String_System_Type___System_String__
+  commentId: M:Solti.Utils.Router.ParsedRoute.Deconstruct(System.Collections.Generic.IReadOnlyList{Solti.Utils.Router.RouteSegment}@,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Type}@,System.String@)
+  name.vb: Deconstruct(ByRef IReadOnlyList(Of RouteSegment), ByRef IReadOnlyDictionary(Of String, Type), ByRef String)
+  fullName: Solti.Utils.Router.ParsedRoute.Deconstruct(out System.Collections.Generic.IReadOnlyList<Solti.Utils.Router.RouteSegment>, out System.Collections.Generic.IReadOnlyDictionary<System.String, System.Type>, out System.String)
+  fullName.vb: Solti.Utils.Router.ParsedRoute.Deconstruct(ByRef System.Collections.Generic.IReadOnlyList(Of Solti.Utils.Router.RouteSegment), ByRef System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.Type), ByRef System.String)
+  nameWithType: ParsedRoute.Deconstruct(out IReadOnlyList<RouteSegment>, out IReadOnlyDictionary<String, Type>, out String)
+  nameWithType.vb: ParsedRoute.Deconstruct(ByRef IReadOnlyList(Of RouteSegment), ByRef IReadOnlyDictionary(Of String, Type), ByRef String)
+- uid: Solti.Utils.Router.ParsedRoute.Deconstruct*
+  name: Deconstruct
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Deconstruct_
+  commentId: Overload:Solti.Utils.Router.ParsedRoute.Deconstruct
+  fullName: Solti.Utils.Router.ParsedRoute.Deconstruct
+  nameWithType: ParsedRoute.Deconstruct
+- uid: Solti.Utils.Router.ParsedRoute.Equals(Solti.Utils.Router.ParsedRoute)
+  name: Equals(ParsedRoute)
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Equals_Solti_Utils_Router_ParsedRoute_
+  commentId: M:Solti.Utils.Router.ParsedRoute.Equals(Solti.Utils.Router.ParsedRoute)
+  fullName: Solti.Utils.Router.ParsedRoute.Equals(Solti.Utils.Router.ParsedRoute)
+  nameWithType: ParsedRoute.Equals(ParsedRoute)
+- uid: Solti.Utils.Router.ParsedRoute.Equals(System.Object)
+  name: Equals(Object)
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Equals_System_Object_
+  commentId: M:Solti.Utils.Router.ParsedRoute.Equals(System.Object)
+  fullName: Solti.Utils.Router.ParsedRoute.Equals(System.Object)
+  nameWithType: ParsedRoute.Equals(Object)
+- uid: Solti.Utils.Router.ParsedRoute.Equals*
+  name: Equals
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Equals_
+  commentId: Overload:Solti.Utils.Router.ParsedRoute.Equals
+  fullName: Solti.Utils.Router.ParsedRoute.Equals
+  nameWithType: ParsedRoute.Equals
+- uid: Solti.Utils.Router.ParsedRoute.GetHashCode
+  name: GetHashCode()
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_GetHashCode
+  commentId: M:Solti.Utils.Router.ParsedRoute.GetHashCode
+  fullName: Solti.Utils.Router.ParsedRoute.GetHashCode()
+  nameWithType: ParsedRoute.GetHashCode()
+- uid: Solti.Utils.Router.ParsedRoute.GetHashCode*
+  name: GetHashCode
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_GetHashCode_
+  commentId: Overload:Solti.Utils.Router.ParsedRoute.GetHashCode
+  fullName: Solti.Utils.Router.ParsedRoute.GetHashCode
+  nameWithType: ParsedRoute.GetHashCode
+- uid: Solti.Utils.Router.ParsedRoute.op_Equality(Solti.Utils.Router.ParsedRoute,Solti.Utils.Router.ParsedRoute)
+  name: Equality(ParsedRoute, ParsedRoute)
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_op_Equality_Solti_Utils_Router_ParsedRoute_Solti_Utils_Router_ParsedRoute_
+  commentId: M:Solti.Utils.Router.ParsedRoute.op_Equality(Solti.Utils.Router.ParsedRoute,Solti.Utils.Router.ParsedRoute)
+  fullName: Solti.Utils.Router.ParsedRoute.Equality(Solti.Utils.Router.ParsedRoute, Solti.Utils.Router.ParsedRoute)
+  nameWithType: ParsedRoute.Equality(ParsedRoute, ParsedRoute)
+- uid: Solti.Utils.Router.ParsedRoute.op_Equality*
+  name: Equality
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_op_Equality_
+  commentId: Overload:Solti.Utils.Router.ParsedRoute.op_Equality
+  fullName: Solti.Utils.Router.ParsedRoute.Equality
+  nameWithType: ParsedRoute.Equality
+- uid: Solti.Utils.Router.ParsedRoute.op_Inequality(Solti.Utils.Router.ParsedRoute,Solti.Utils.Router.ParsedRoute)
+  name: Inequality(ParsedRoute, ParsedRoute)
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_op_Inequality_Solti_Utils_Router_ParsedRoute_Solti_Utils_Router_ParsedRoute_
+  commentId: M:Solti.Utils.Router.ParsedRoute.op_Inequality(Solti.Utils.Router.ParsedRoute,Solti.Utils.Router.ParsedRoute)
+  fullName: Solti.Utils.Router.ParsedRoute.Inequality(Solti.Utils.Router.ParsedRoute, Solti.Utils.Router.ParsedRoute)
+  nameWithType: ParsedRoute.Inequality(ParsedRoute, ParsedRoute)
+- uid: Solti.Utils.Router.ParsedRoute.op_Inequality*
+  name: Inequality
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_op_Inequality_
+  commentId: Overload:Solti.Utils.Router.ParsedRoute.op_Inequality
+  fullName: Solti.Utils.Router.ParsedRoute.Inequality
+  nameWithType: ParsedRoute.Inequality
+- uid: Solti.Utils.Router.ParsedRoute.Original
+  name: Original
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Original
+  commentId: P:Solti.Utils.Router.ParsedRoute.Original
+  fullName: Solti.Utils.Router.ParsedRoute.Original
+  nameWithType: ParsedRoute.Original
+- uid: Solti.Utils.Router.ParsedRoute.Original*
+  name: Original
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Original_
+  commentId: Overload:Solti.Utils.Router.ParsedRoute.Original
+  fullName: Solti.Utils.Router.ParsedRoute.Original
+  nameWithType: ParsedRoute.Original
+- uid: Solti.Utils.Router.ParsedRoute.Segments
+  name: Segments
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Segments
+  commentId: P:Solti.Utils.Router.ParsedRoute.Segments
+  fullName: Solti.Utils.Router.ParsedRoute.Segments
+  nameWithType: ParsedRoute.Segments
+- uid: Solti.Utils.Router.ParsedRoute.Segments*
+  name: Segments
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Segments_
+  commentId: Overload:Solti.Utils.Router.ParsedRoute.Segments
+  fullName: Solti.Utils.Router.ParsedRoute.Segments
+  nameWithType: ParsedRoute.Segments
+- uid: Solti.Utils.Router.ParsedRoute.ToString
+  name: ToString()
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_ToString
+  commentId: M:Solti.Utils.Router.ParsedRoute.ToString
+  fullName: Solti.Utils.Router.ParsedRoute.ToString()
+  nameWithType: ParsedRoute.ToString()
+- uid: Solti.Utils.Router.ParsedRoute.ToString*
+  name: ToString
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_ToString_
+  commentId: Overload:Solti.Utils.Router.ParsedRoute.ToString
+  fullName: Solti.Utils.Router.ParsedRoute.ToString
+  nameWithType: ParsedRoute.ToString
+- uid: Solti.Utils.Router.ParsedRoute.Variables
+  name: Variables
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Variables
+  commentId: P:Solti.Utils.Router.ParsedRoute.Variables
+  fullName: Solti.Utils.Router.ParsedRoute.Variables
+  nameWithType: ParsedRoute.Variables
+- uid: Solti.Utils.Router.ParsedRoute.Variables*
+  name: Variables
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Variables_
+  commentId: Overload:Solti.Utils.Router.ParsedRoute.Variables
+  fullName: Solti.Utils.Router.ParsedRoute.Variables
+  nameWithType: ParsedRoute.Variables
 - uid: Solti.Utils.Router.RequestHandler
   name: RequestHandler
   href: Solti.Utils.Router.RequestHandler.html
@@ -572,6 +722,51 @@ references:
   fullName.vb: Solti.Utils.Router.RequestHandler(Of TResult).Invoke
   nameWithType: RequestHandler<TResult>.Invoke
   nameWithType.vb: RequestHandler(Of TResult).Invoke
+- uid: Solti.Utils.Router.RouteParser
+  name: RouteParser
+  href: Solti.Utils.Router.RouteParser.html
+  commentId: T:Solti.Utils.Router.RouteParser
+  fullName: Solti.Utils.Router.RouteParser
+  nameWithType: RouteParser
+- uid: Solti.Utils.Router.RouteParser.#ctor(System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})
+  name: RouteParser(IReadOnlyDictionary<String, ConverterFactory>)
+  href: Solti.Utils.Router.RouteParser.html#Solti_Utils_Router_RouteParser__ctor_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__
+  commentId: M:Solti.Utils.Router.RouteParser.#ctor(System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})
+  name.vb: RouteParser(IReadOnlyDictionary(Of String, ConverterFactory))
+  fullName: Solti.Utils.Router.RouteParser.RouteParser(System.Collections.Generic.IReadOnlyDictionary<System.String, Solti.Utils.Router.ConverterFactory>)
+  fullName.vb: Solti.Utils.Router.RouteParser.RouteParser(System.Collections.Generic.IReadOnlyDictionary(Of System.String, Solti.Utils.Router.ConverterFactory))
+  nameWithType: RouteParser.RouteParser(IReadOnlyDictionary<String, ConverterFactory>)
+  nameWithType.vb: RouteParser.RouteParser(IReadOnlyDictionary(Of String, ConverterFactory))
+- uid: Solti.Utils.Router.RouteParser.#ctor*
+  name: RouteParser
+  href: Solti.Utils.Router.RouteParser.html#Solti_Utils_Router_RouteParser__ctor_
+  commentId: Overload:Solti.Utils.Router.RouteParser.#ctor
+  fullName: Solti.Utils.Router.RouteParser.RouteParser
+  nameWithType: RouteParser.RouteParser
+- uid: Solti.Utils.Router.RouteParser.Converters
+  name: Converters
+  href: Solti.Utils.Router.RouteParser.html#Solti_Utils_Router_RouteParser_Converters
+  commentId: P:Solti.Utils.Router.RouteParser.Converters
+  fullName: Solti.Utils.Router.RouteParser.Converters
+  nameWithType: RouteParser.Converters
+- uid: Solti.Utils.Router.RouteParser.Converters*
+  name: Converters
+  href: Solti.Utils.Router.RouteParser.html#Solti_Utils_Router_RouteParser_Converters_
+  commentId: Overload:Solti.Utils.Router.RouteParser.Converters
+  fullName: Solti.Utils.Router.RouteParser.Converters
+  nameWithType: RouteParser.Converters
+- uid: Solti.Utils.Router.RouteParser.Parse(System.String,Solti.Utils.Router.SplitOptions)
+  name: Parse(String, SplitOptions)
+  href: Solti.Utils.Router.RouteParser.html#Solti_Utils_Router_RouteParser_Parse_System_String_Solti_Utils_Router_SplitOptions_
+  commentId: M:Solti.Utils.Router.RouteParser.Parse(System.String,Solti.Utils.Router.SplitOptions)
+  fullName: Solti.Utils.Router.RouteParser.Parse(System.String, Solti.Utils.Router.SplitOptions)
+  nameWithType: RouteParser.Parse(String, SplitOptions)
+- uid: Solti.Utils.Router.RouteParser.Parse*
+  name: Parse
+  href: Solti.Utils.Router.RouteParser.html#Solti_Utils_Router_RouteParser_Parse_
+  commentId: Overload:Solti.Utils.Router.RouteParser.Parse
+  fullName: Solti.Utils.Router.RouteParser.Parse
+  nameWithType: RouteParser.Parse
 - uid: Solti.Utils.Router.Router
   name: Router
   href: Solti.Utils.Router.Router.html
@@ -731,6 +926,141 @@ references:
   commentId: Overload:Solti.Utils.Router.RouterBuilder.DefaultHandler
   fullName: Solti.Utils.Router.RouterBuilder.DefaultHandler
   nameWithType: RouterBuilder.DefaultHandler
+- uid: Solti.Utils.Router.RouteSegment
+  name: RouteSegment
+  href: Solti.Utils.Router.RouteSegment.html
+  commentId: T:Solti.Utils.Router.RouteSegment
+  fullName: Solti.Utils.Router.RouteSegment
+  nameWithType: RouteSegment
+- uid: Solti.Utils.Router.RouteSegment.#ctor(System.String,Solti.Utils.Router.IConverter)
+  name: RouteSegment(String, IConverter)
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment__ctor_System_String_Solti_Utils_Router_IConverter_
+  commentId: M:Solti.Utils.Router.RouteSegment.#ctor(System.String,Solti.Utils.Router.IConverter)
+  fullName: Solti.Utils.Router.RouteSegment.RouteSegment(System.String, Solti.Utils.Router.IConverter)
+  nameWithType: RouteSegment.RouteSegment(String, IConverter)
+- uid: Solti.Utils.Router.RouteSegment.#ctor*
+  name: RouteSegment
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment__ctor_
+  commentId: Overload:Solti.Utils.Router.RouteSegment.#ctor
+  fullName: Solti.Utils.Router.RouteSegment.RouteSegment
+  nameWithType: RouteSegment.RouteSegment
+- uid: Solti.Utils.Router.RouteSegment.{Clone}$
+  name: <Clone>$()
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment__Clone__
+  commentId: M:Solti.Utils.Router.RouteSegment.{Clone}$
+  fullName: Solti.Utils.Router.RouteSegment.<Clone>$()
+  nameWithType: RouteSegment.<Clone>$()
+- uid: Solti.Utils.Router.RouteSegment.{Clone}$*
+  name: <Clone>$
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment__Clone___
+  commentId: Overload:Solti.Utils.Router.RouteSegment.{Clone}$
+  fullName: Solti.Utils.Router.RouteSegment.<Clone>$
+  nameWithType: RouteSegment.<Clone>$
+- uid: Solti.Utils.Router.RouteSegment.Converter
+  name: Converter
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_Converter
+  commentId: P:Solti.Utils.Router.RouteSegment.Converter
+  fullName: Solti.Utils.Router.RouteSegment.Converter
+  nameWithType: RouteSegment.Converter
+- uid: Solti.Utils.Router.RouteSegment.Converter*
+  name: Converter
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_Converter_
+  commentId: Overload:Solti.Utils.Router.RouteSegment.Converter
+  fullName: Solti.Utils.Router.RouteSegment.Converter
+  nameWithType: RouteSegment.Converter
+- uid: Solti.Utils.Router.RouteSegment.Deconstruct(System.String@,Solti.Utils.Router.IConverter@)
+  name: Deconstruct(out String, out IConverter)
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_Deconstruct_System_String__Solti_Utils_Router_IConverter__
+  commentId: M:Solti.Utils.Router.RouteSegment.Deconstruct(System.String@,Solti.Utils.Router.IConverter@)
+  name.vb: Deconstruct(ByRef String, ByRef IConverter)
+  fullName: Solti.Utils.Router.RouteSegment.Deconstruct(out System.String, out Solti.Utils.Router.IConverter)
+  fullName.vb: Solti.Utils.Router.RouteSegment.Deconstruct(ByRef System.String, ByRef Solti.Utils.Router.IConverter)
+  nameWithType: RouteSegment.Deconstruct(out String, out IConverter)
+  nameWithType.vb: RouteSegment.Deconstruct(ByRef String, ByRef IConverter)
+- uid: Solti.Utils.Router.RouteSegment.Deconstruct*
+  name: Deconstruct
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_Deconstruct_
+  commentId: Overload:Solti.Utils.Router.RouteSegment.Deconstruct
+  fullName: Solti.Utils.Router.RouteSegment.Deconstruct
+  nameWithType: RouteSegment.Deconstruct
+- uid: Solti.Utils.Router.RouteSegment.Equals(Solti.Utils.Router.RouteSegment)
+  name: Equals(RouteSegment)
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_Equals_Solti_Utils_Router_RouteSegment_
+  commentId: M:Solti.Utils.Router.RouteSegment.Equals(Solti.Utils.Router.RouteSegment)
+  fullName: Solti.Utils.Router.RouteSegment.Equals(Solti.Utils.Router.RouteSegment)
+  nameWithType: RouteSegment.Equals(RouteSegment)
+- uid: Solti.Utils.Router.RouteSegment.Equals(System.Object)
+  name: Equals(Object)
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_Equals_System_Object_
+  commentId: M:Solti.Utils.Router.RouteSegment.Equals(System.Object)
+  fullName: Solti.Utils.Router.RouteSegment.Equals(System.Object)
+  nameWithType: RouteSegment.Equals(Object)
+- uid: Solti.Utils.Router.RouteSegment.Equals*
+  name: Equals
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_Equals_
+  commentId: Overload:Solti.Utils.Router.RouteSegment.Equals
+  fullName: Solti.Utils.Router.RouteSegment.Equals
+  nameWithType: RouteSegment.Equals
+- uid: Solti.Utils.Router.RouteSegment.GetHashCode
+  name: GetHashCode()
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_GetHashCode
+  commentId: M:Solti.Utils.Router.RouteSegment.GetHashCode
+  fullName: Solti.Utils.Router.RouteSegment.GetHashCode()
+  nameWithType: RouteSegment.GetHashCode()
+- uid: Solti.Utils.Router.RouteSegment.GetHashCode*
+  name: GetHashCode
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_GetHashCode_
+  commentId: Overload:Solti.Utils.Router.RouteSegment.GetHashCode
+  fullName: Solti.Utils.Router.RouteSegment.GetHashCode
+  nameWithType: RouteSegment.GetHashCode
+- uid: Solti.Utils.Router.RouteSegment.Name
+  name: Name
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_Name
+  commentId: P:Solti.Utils.Router.RouteSegment.Name
+  fullName: Solti.Utils.Router.RouteSegment.Name
+  nameWithType: RouteSegment.Name
+- uid: Solti.Utils.Router.RouteSegment.Name*
+  name: Name
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_Name_
+  commentId: Overload:Solti.Utils.Router.RouteSegment.Name
+  fullName: Solti.Utils.Router.RouteSegment.Name
+  nameWithType: RouteSegment.Name
+- uid: Solti.Utils.Router.RouteSegment.op_Equality(Solti.Utils.Router.RouteSegment,Solti.Utils.Router.RouteSegment)
+  name: Equality(RouteSegment, RouteSegment)
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_op_Equality_Solti_Utils_Router_RouteSegment_Solti_Utils_Router_RouteSegment_
+  commentId: M:Solti.Utils.Router.RouteSegment.op_Equality(Solti.Utils.Router.RouteSegment,Solti.Utils.Router.RouteSegment)
+  fullName: Solti.Utils.Router.RouteSegment.Equality(Solti.Utils.Router.RouteSegment, Solti.Utils.Router.RouteSegment)
+  nameWithType: RouteSegment.Equality(RouteSegment, RouteSegment)
+- uid: Solti.Utils.Router.RouteSegment.op_Equality*
+  name: Equality
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_op_Equality_
+  commentId: Overload:Solti.Utils.Router.RouteSegment.op_Equality
+  fullName: Solti.Utils.Router.RouteSegment.Equality
+  nameWithType: RouteSegment.Equality
+- uid: Solti.Utils.Router.RouteSegment.op_Inequality(Solti.Utils.Router.RouteSegment,Solti.Utils.Router.RouteSegment)
+  name: Inequality(RouteSegment, RouteSegment)
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_op_Inequality_Solti_Utils_Router_RouteSegment_Solti_Utils_Router_RouteSegment_
+  commentId: M:Solti.Utils.Router.RouteSegment.op_Inequality(Solti.Utils.Router.RouteSegment,Solti.Utils.Router.RouteSegment)
+  fullName: Solti.Utils.Router.RouteSegment.Inequality(Solti.Utils.Router.RouteSegment, Solti.Utils.Router.RouteSegment)
+  nameWithType: RouteSegment.Inequality(RouteSegment, RouteSegment)
+- uid: Solti.Utils.Router.RouteSegment.op_Inequality*
+  name: Inequality
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_op_Inequality_
+  commentId: Overload:Solti.Utils.Router.RouteSegment.op_Inequality
+  fullName: Solti.Utils.Router.RouteSegment.Inequality
+  nameWithType: RouteSegment.Inequality
+- uid: Solti.Utils.Router.RouteSegment.ToString
+  name: ToString()
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_ToString
+  commentId: M:Solti.Utils.Router.RouteSegment.ToString
+  fullName: Solti.Utils.Router.RouteSegment.ToString()
+  nameWithType: RouteSegment.ToString()
+- uid: Solti.Utils.Router.RouteSegment.ToString*
+  name: ToString
+  href: Solti.Utils.Router.RouteSegment.html#Solti_Utils_Router_RouteSegment_ToString_
+  commentId: Overload:Solti.Utils.Router.RouteSegment.ToString
+  fullName: Solti.Utils.Router.RouteSegment.ToString
+  nameWithType: RouteSegment.ToString
 - uid: Solti.Utils.Router.RouteTemplate
   name: RouteTemplate
   href: Solti.Utils.Router.RouteTemplate.html

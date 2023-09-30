@@ -64,11 +64,17 @@
       <h4><a class="xref" href="Solti.Utils.Router.DefaultRequestHandler-1.html">DefaultRequestHandler&lt;TResult&gt;</a></h4>
       <section><p>Handler for unknown routes.</p>
 </section>
+      <h4><a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a></h4>
+      <section><p>Represents a parsed route.</p>
+</section>
       <h4><a class="xref" href="Solti.Utils.Router.RequestHandler.html">RequestHandler</a></h4>
       <section><p>Handler for known routes.</p>
 </section>
       <h4><a class="xref" href="Solti.Utils.Router.RequestHandler-1.html">RequestHandler&lt;TResult&gt;</a></h4>
       <section><p>Handler for known routes.</p>
+</section>
+      <h4><a class="xref" href="Solti.Utils.Router.RouteParser.html">RouteParser</a></h4>
+      <section><p>Parses the given route template.</p>
 </section>
       <h4><a class="xref" href="Solti.Utils.Router.Router.html">Router</a></h4>
       <section><p>Router delegate.</p>
@@ -140,6 +146,9 @@
 
     return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
 }</code></pre>
+</section>
+      <h4><a class="xref" href="Solti.Utils.Router.RouteSegment.html">RouteSegment</a></h4>
+      <section><p>Represents a segment of route (for instance <em>RouteSegment(&quot;picture&quot;, null)</em> in case of &quot;/picture&quot; or <em>RouteSegment(&quot;id&quot;, IntConverter(...))</em> in case of &quot;/{id:int}&quot;) </p>
 </section>
       <h4><a class="xref" href="Solti.Utils.Router.RouteTemplate.html">RouteTemplate</a></h4>
       <section><p>Route template related functions.</p>
