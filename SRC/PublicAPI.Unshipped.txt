@@ -1,1 +1,1 @@
-﻿
+﻿Solti.Utils.Router.IConverter.Type.get -> System.Type!

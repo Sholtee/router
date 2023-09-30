@@ -14,7 +14,7 @@ namespace Solti.Utils.Router.Internals
     {
         public NumberStyles StyleFlag { get; }
 
-        public IntConverter(string? style): base(style)
+        public IntConverter(string? style): base(style, typeof(int))
         {
             StyleFlag = style switch
             {

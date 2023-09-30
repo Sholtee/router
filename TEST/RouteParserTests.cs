@@ -280,6 +280,9 @@ namespace Solti.Utils.Router.Tests
             intConverter
                 .SetupGet(x => x.Id)
                 .Returns("IntConverter");
+            intConverter
+                .SetupGet(x => x.Type)
+                .Returns(typeof(int));
 
             Mock<ConverterFactory> intConverterFactory = new(MockBehavior.Strict);
             intConverterFactory

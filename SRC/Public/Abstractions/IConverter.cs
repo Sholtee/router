@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
 
 namespace Solti.Utils.Router
 {
@@ -21,6 +22,11 @@ namespace Solti.Utils.Router
         /// Style used during conversion.
         /// </summary>
         string? Style { get; }
+
+        /// <summary>
+        /// The target <see cref="System.Type"/>.
+        /// </summary>
+        Type Type { get; }
 
         /// <summary>
         /// Tries to convert the input string to the type this converter responsible for.

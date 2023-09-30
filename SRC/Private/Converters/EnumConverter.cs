@@ -31,13 +31,8 @@ namespace Solti.Utils.Router.Internals
 
         private readonly TryParse FTryParse;
 #endif
-        public Type EnumType { get; }
-
-        public EnumConverter(string? style): base(style)
+        private static Type GetEnumType(string qualifiedName)
         {
-            if (style is null)
-                throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style));
-
             //
             // Types declared outside of System.Private.CoreLib.dll can be loaded by assembly qualified name only
             // so we have to overcome this limitation. It's slow but won't run frequently
@@ -46,18 +41,32 @@ namespace Solti.Utils.Router.Internals
             List<Type> hits = AppDomain
                 .CurrentDomain
                 .GetAssemblies()
-                .Select(asm => asm.GetType(style, throwOnError: false))
-                .Where(t => t is not null)
+                .Select
+                (
+                    asm => asm.GetType(qualifiedName, throwOnError: false)
+                )
+                .Where(static t => t is not null)
                 .ToList();
             if (hits.Count is not 1 || !hits[0].IsEnum)
-                throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style));
+                throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, qualifiedName), nameof(qualifiedName));
 
-            EnumType = hits[0];
+            return hits[0];
+        }
+
+        public EnumConverter(string? style): base
+        (
+            style,
+            GetEnumType
+            (
+                style ?? throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style))
+            )
+        )
+        {
 #if !NETSTANDARD2_1_OR_GREATER
             ParameterExpression
                 input  = Expression.Parameter(typeof(string), nameof(input)),
                 output = Expression.Parameter(typeof(object).MakeByRefType(), nameof(output)),
-                ret    = Expression.Variable(EnumType, nameof(ret));
+                ret    = Expression.Variable(Type, nameof(ret));
 
             LabelTarget exit = Expression.Label(typeof(bool), nameof(exit));
 
@@ -70,7 +79,7 @@ namespace Solti.Utils.Router.Internals
                     (
                         Expression.Call
                         (
-                            FTryParseGen.MakeGenericMethod(EnumType),
+                            FTryParseGen.MakeGenericMethod(Type),
                             input,
                             Expression.Constant(true),  // ignoreCase
                             ret
@@ -108,7 +117,7 @@ namespace Solti.Utils.Router.Internals
 #if !NETSTANDARD2_1_OR_GREATER
             FTryParse(input, out value);
 #else
-            Enum.TryParse(EnumType, input, ignoreCase: true, out value);
+            Enum.TryParse(Type, input, ignoreCase: true, out value);
 #endif
     }
 }

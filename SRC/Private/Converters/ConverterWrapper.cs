@@ -15,7 +15,7 @@ namespace Solti.Utils.Router.Internals
 
         public string Suffix { get; }
 
-        public ConverterWrapper(IConverter toBeWrapped, string prefix, string suffix): base($"[{prefix}]{toBeWrapped.Id}[{suffix}]", null)
+        public ConverterWrapper(IConverter toBeWrapped, string prefix, string suffix): base($"[{prefix}]{toBeWrapped.Id}[{suffix}]", null, toBeWrapped.Type)
         {
             Wrapped = toBeWrapped;
             Prefix = prefix;

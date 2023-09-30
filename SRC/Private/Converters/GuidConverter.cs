@@ -12,7 +12,7 @@ namespace Solti.Utils.Router.Internals
 
     internal sealed class GuidConverter : ConverterBase
     {
-        public GuidConverter(string? style): base(style ?? "N")
+        public GuidConverter(string? style): base(style ?? "N", typeof(Guid))
         {
             if (!new List<string> { "N", "D", "B", "P", "X" }.Contains(Style!))
                 throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style));

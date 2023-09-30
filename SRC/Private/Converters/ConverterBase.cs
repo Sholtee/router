@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
 
 namespace Solti.Utils.Router.Internals
 {
@@ -12,16 +13,20 @@ namespace Solti.Utils.Router.Internals
 
         public string? Style { get; }
 
-        protected ConverterBase(string id, string? style)
+        public Type Type { get; }
+
+        protected ConverterBase(string id, string? style, Type type)
         {
             Id = id;
             Style = style;
+            Type = type;
         }
 
-        protected ConverterBase(string? style)
+        protected ConverterBase(string? style, Type type)
         {
             Id = $"{GetType().Name}:{style}";
             Style = style;
+            Type = type;
         }
 
         public override bool Equals(object obj) => obj is ConverterBase other && other.Id == Id;

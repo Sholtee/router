@@ -11,7 +11,7 @@ namespace Solti.Utils.Router.Internals
 
     internal sealed class StrConverter : ConverterBase
     {
-        public StrConverter(string? style): base(style)
+        public StrConverter(string? style): base(style, typeof(string))
         {
             if (style is not null)
                 throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style));
