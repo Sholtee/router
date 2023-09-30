@@ -1,5 +1,5 @@
 ﻿/********************************************************************************
-* RouteParserTests.cs                                                           *
+* RouteTemplateParserTests.cs                                                   *
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
@@ -16,7 +16,7 @@ namespace Solti.Utils.Router.Tests
     using Properties;
 
     [TestFixture]
-    internal class RouteParserTests
+    internal class RouteTemplateParserTests
     {
         public static IEnumerable<(string Route, IEnumerable<RouteSegment> Parsed, Action<Mock<ConverterFactory>, Mock<ConverterFactory>> Assert)> Cases
         {
@@ -220,15 +220,15 @@ namespace Solti.Utils.Router.Tests
 
             Assert.That
             (
-                new RouteParser
+                RouteTemplate.Parse
                 (
+                    @case.Route,
                     new Dictionary<string, ConverterFactory>
                     {
                         { "int", mockIntConverterFactory.Object },
                         { "str", mockStrConverterFactory.Object }
                     }
                 )
-                .Parse(@case.Route)
                 .Segments
                 .SequenceEqual(@case.Parsed)
             );
@@ -237,27 +237,27 @@ namespace Solti.Utils.Router.Tests
 
         [Test]
         public void ParseShouldThrowOnMissingConverter([Values("{param}", "{param:}", "pre-{param}", "pre-{param:}", "{param}-su", "{param:}-su", "pre-{param}-su", "pre-{param:}-su")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input), Resources.INVALID_TEMPLATE);
+            Assert.Throws<ArgumentException>(() => RouteTemplate.Parse(input, new Dictionary<string, ConverterFactory>(0)), Resources.INVALID_TEMPLATE);
 
         [Test]
         public void ParseShouldThrowOnMissingParameterName([Values("{}", "{:int}", "pre-{}", "pre-{:int}", "{}-su", "{:int}-su", "pre-{}-su", "pre-{:int}-su")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input), Resources.INVALID_TEMPLATE);
+            Assert.Throws<ArgumentException>(() => RouteTemplate.Parse(input, new Dictionary<string, ConverterFactory>(0)), Resources.INVALID_TEMPLATE);
 
         [Test]
         public void ParseShouldThrowOnDuplicateParameterName([Values("{param:int}/{param:int}", "{param:int}/{param:str}", "{param:int}/pre-{param:int}", "{param:int}/{param:int}-su", "{param:int}/pre-{param:int}-su", "{param:int}/segment/{param:int}")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(DefaultConverters.Instance).Parse(input), Resources.DUPLICATE_PARAMETER);
+            Assert.Throws<ArgumentException>(() => RouteTemplate.Parse(input), Resources.DUPLICATE_PARAMETER);
 
         [Test]
         public void ParseShouldThrowOnNonregisteredConverter([Values("{param:cica}")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input), Resources.CONVERTER_NOT_FOUND);
+            Assert.Throws<ArgumentException>(() => RouteTemplate.Parse(input, new Dictionary<string, ConverterFactory>(0)), Resources.CONVERTER_NOT_FOUND);
 
         [Test]
         public void ParseShouldThrowOnMultipleParameters([Values("{param:int}{param2:int}", "pre-{param:int}-{param2:int}", "{param:int}-{param2:int}-su", "pre-{param:int}-{param2:int}-su")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input), Resources.TOO_MANY_PARAM_DESCRIPTOR);
+            Assert.Throws<ArgumentException>(() => RouteTemplate.Parse(input, new Dictionary<string, ConverterFactory>(0)), Resources.TOO_MANY_PARAM_DESCRIPTOR);
 
         [Test]
         public void ParseShouldThrowOnBaseURL([Values("http://example.com", "http://example.com/path/to/somehwere", "http://example.co.uk", "https://www.google.hu/", "www.google.hu", "http://localhost:8000/foo", "http://localhost")]string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input), Resources.BASE_URL_NOT_ALLOWED);
+            Assert.Throws<ArgumentException>(() => RouteTemplate.Parse(input, new Dictionary<string, ConverterFactory>(0)), Resources.BASE_URL_NOT_ALLOWED);
 
         [TestCase("pre-{param:int}",   null, "pre-16",  true)]
         [TestCase("pre-{param:int:x}", "x",  "pre-16",  true)]
@@ -294,12 +294,18 @@ namespace Solti.Utils.Router.Tests
                 .Setup(x => x.Invoke(userData))
                 .Returns(intConverter.Object);
 
-            RouteParser parser = new(new Dictionary<string, ConverterFactory>
-            {
-                { "int", intConverterFactory.Object }
-            });
-
-            IConverter wrapper = parser.Parse(input).Segments.Single().Converter!;
+            IConverter wrapper = RouteTemplate
+                .Parse
+                (
+                    input,
+                    new Dictionary<string, ConverterFactory>
+                    {
+                        { "int", intConverterFactory.Object }
+                    }
+                )
+                .Segments
+                .Single()
+                .Converter!;
 
             Assert.That(wrapper, Is.InstanceOf<ConverterWrapper>());
             Assert.That(wrapper!.ConvertToValue(test, out ret), Is.EqualTo(shouldCallOriginal));

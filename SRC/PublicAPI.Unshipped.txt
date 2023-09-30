@@ -1,19 +1,12 @@
 ﻿Solti.Utils.Router.IConverter.Type.get -> System.Type!
 Solti.Utils.Router.ParsedRoute
-Solti.Utils.Router.ParsedRoute.Original.get -> string!
-Solti.Utils.Router.ParsedRoute.Original.init -> void
-Solti.Utils.Router.ParsedRoute.ParsedRoute(System.Collections.Generic.IReadOnlyList<Solti.Utils.Router.RouteSegment!>! Segments, System.Collections.Generic.IReadOnlyDictionary<string!, System.Type!>! Variables, string! Original) -> void
 Solti.Utils.Router.ParsedRoute.Segments.get -> System.Collections.Generic.IReadOnlyList<Solti.Utils.Router.RouteSegment!>!
-Solti.Utils.Router.ParsedRoute.Segments.init -> void
+Solti.Utils.Router.ParsedRoute.Template.get -> string!
 Solti.Utils.Router.ParsedRoute.Variables.get -> System.Collections.Generic.IReadOnlyDictionary<string!, System.Type!>!
-Solti.Utils.Router.ParsedRoute.Variables.init -> void
-Solti.Utils.Router.RouteParser
-Solti.Utils.Router.RouteParser.Converters.get -> System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>!
-Solti.Utils.Router.RouteParser.Parse(string! route, Solti.Utils.Router.SplitOptions? splitOptions = null) -> Solti.Utils.Router.ParsedRoute!
-Solti.Utils.Router.RouteParser.RouteParser(System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> void
 Solti.Utils.Router.RouteSegment
 Solti.Utils.Router.RouteSegment.Converter.get -> Solti.Utils.Router.IConverter?
 Solti.Utils.Router.RouteSegment.Converter.init -> void
 Solti.Utils.Router.RouteSegment.Name.get -> string!
 Solti.Utils.Router.RouteSegment.Name.init -> void
 Solti.Utils.Router.RouteSegment.RouteSegment(string! Name, Solti.Utils.Router.IConverter? Converter = null) -> void
+static Solti.Utils.Router.RouteTemplate.Parse(string! template, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null, Solti.Utils.Router.SplitOptions? splitOptions = null) -> Solti.Utils.Router.ParsedRoute!

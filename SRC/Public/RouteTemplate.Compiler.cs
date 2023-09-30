@@ -21,7 +21,7 @@ namespace Solti.Utils.Router
     /// <summary>
     /// Route template related functions.
     /// </summary>
-    public static class RouteTemplate
+    public static partial class RouteTemplate
     {
         private static readonly MethodInfo 
             FTryGetValue = MethodInfoExtractor.Extract<IReadOnlyDictionary<string, object?>, object?>(static (dict, val) => dict.TryGetValue(null!, out val)),
@@ -53,17 +53,11 @@ namespace Solti.Utils.Router
             ParameterExpression paramz = Expression.Parameter(typeof(IReadOnlyDictionary<string, object?>), nameof(paramz));
            
             splitOptions ??= SplitOptions.Default;
+            converters ??= DefaultConverters.Instance;
 
             if (preProcessedTemplate.Groups["path"].Success)
             {
-                foreach
-                (
-                    RouteSegment segment in new RouteParser(converters ?? DefaultConverters.Instance).Parse
-                    (
-                        preProcessedTemplate.Groups["path"].Value,
-                        splitOptions
-                    ).Segments
-                )
+                foreach(RouteSegment segment in ParseInternal(preProcessedTemplate.Groups["path"].Value, converters, splitOptions))
                 {
                     sb.Append('/');
 

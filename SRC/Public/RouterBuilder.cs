@@ -128,9 +128,10 @@ namespace Solti.Utils.Router
         private static readonly PropertyInfo
             FCurrent = PropertyInfoExtractor.Extract<PathSplitter, string>(static parts => parts.Current);
 
-        private readonly RouteParser FRouteParser;
-
         private readonly Junction FRoot = new();
+
+        // TODO: remove in V2
+        private readonly IReadOnlyDictionary<string, ConverterFactory> FConverters;
 
         private int FMaxParameters;
 
@@ -283,7 +284,7 @@ namespace Solti.Utils.Router
         public RouterBuilder(Expression<DefaultRequestHandler> handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null)
         {
             DefaultHandler = handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr));
-            FRouteParser = new RouteParser(converters ?? DefaultConverters.Instance);
+            FConverters = converters ?? DefaultConverters.Instance;
         }
 
         /// <summary>
@@ -404,7 +405,7 @@ namespace Solti.Utils.Router
 
             int parameters = 0;
 
-            foreach (RouteSegment segment in FRouteParser.Parse(route, splitOptions).Segments)
+            foreach (RouteSegment segment in RouteTemplate.Parse(route, FConverters, splitOptions).Segments)
             {
                 bool found = false;
 
