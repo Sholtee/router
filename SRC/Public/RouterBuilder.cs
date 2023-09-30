@@ -404,7 +404,7 @@ namespace Solti.Utils.Router
 
             int parameters = 0;
 
-            foreach (RouteSegment segment in FRouteParser.Parse(route, splitOptions))
+            foreach (RouteSegment segment in FRouteParser.Parse(route, splitOptions).Segments)
             {
                 bool found = false;
 

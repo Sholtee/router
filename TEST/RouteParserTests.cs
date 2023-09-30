@@ -229,6 +229,7 @@ namespace Solti.Utils.Router.Tests
                     }
                 )
                 .Parse(@case.Route)
+                .Segments
                 .SequenceEqual(@case.Parsed)
             );
             @case.Assert(mockIntConverterFactory, mockStrConverterFactory);
@@ -236,23 +237,27 @@ namespace Solti.Utils.Router.Tests
 
         [Test]
         public void ParseShouldThrowOnMissingConverter([Values("{param}", "{param:}", "pre-{param}", "pre-{param:}", "{param}-su", "{param:}-su", "pre-{param}-su", "pre-{param:}-su")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input).ToList(), Resources.INVALID_TEMPLATE);
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input), Resources.INVALID_TEMPLATE);
 
         [Test]
         public void ParseShouldThrowOnMissingParameterName([Values("{}", "{:int}", "pre-{}", "pre-{:int}", "{}-su", "{:int}-su", "pre-{}-su", "pre-{:int}-su")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input).ToList(), Resources.INVALID_TEMPLATE);
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input), Resources.INVALID_TEMPLATE);
 
         [Test]
         public void ParseShouldThrowOnDuplicateParameterName([Values("{param:int}/{param:int}", "{param:int}/{param:str}", "{param:int}/pre-{param:int}", "{param:int}/{param:int}-su", "{param:int}/pre-{param:int}-su", "{param:int}/segment/{param:int}")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(DefaultConverters.Instance).Parse(input).ToList(), Resources.DUPLICATE_PARAMETER);
+            Assert.Throws<ArgumentException>(() => new RouteParser(DefaultConverters.Instance).Parse(input), Resources.DUPLICATE_PARAMETER);
 
         [Test]
         public void ParseShouldThrowOnNonregisteredConverter([Values("{param:cica}")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input).ToList(), Resources.CONVERTER_NOT_FOUND);
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input), Resources.CONVERTER_NOT_FOUND);
 
         [Test]
         public void ParseShouldThrowOnMultipleParameters([Values("{param:int}{param2:int}", "pre-{param:int}-{param2:int}", "{param:int}-{param2:int}-su", "pre-{param:int}-{param2:int}-su")] string input) =>
-            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input).ToList(), Resources.TOO_MANY_PARAM_DESCRIPTOR);
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input), Resources.TOO_MANY_PARAM_DESCRIPTOR);
+
+        [Test]
+        public void ParseShouldThrowOnBaseURL([Values("http://example.com", "http://example.com/path/to/somehwere", "http://example.co.uk", "https://www.google.hu/", "www.google.hu", "http://localhost:8000/foo", "http://localhost")]string input) =>
+            Assert.Throws<ArgumentException>(() => new RouteParser(new Dictionary<string, ConverterFactory>(0)).Parse(input), Resources.BASE_URL_NOT_ALLOWED);
 
         [TestCase("pre-{param:int}",   null, "pre-16",  true)]
         [TestCase("pre-{param:int:x}", "x",  "pre-16",  true)]
@@ -294,7 +299,7 @@ namespace Solti.Utils.Router.Tests
                 { "int", intConverterFactory.Object }
             });
 
-            IConverter wrapper = parser.Parse(input).Single().Converter!;
+            IConverter wrapper = parser.Parse(input).Segments.Single().Converter!;
 
             Assert.That(wrapper, Is.InstanceOf<ConverterWrapper>());
             Assert.That(wrapper!.ConvertToValue(test, out ret), Is.EqualTo(shouldCallOriginal));

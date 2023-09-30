@@ -58,7 +58,7 @@ namespace Solti.Utils.Router
                     (
                         preProcessedTemplate.Groups["path"].Value,
                         splitOptions
-                    )
+                    ).Segments
                 )
                 {
                     sb.Append('/');

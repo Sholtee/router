@@ -61,6 +61,15 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The route may not contain base URL..
+        /// </summary>
+        internal static string BASE_URL_NOT_ALLOWED {
+            get {
+                return ResourceManager.GetString("BASE_URL_NOT_ALLOWED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Converter cannot be found: &quot;{0}&quot;.
         /// </summary>
         internal static string CONVERTER_NOT_FOUND {

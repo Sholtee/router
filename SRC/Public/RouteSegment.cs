@@ -3,12 +3,12 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
-namespace Solti.Utils.Router.Internals
+using System;
+
+namespace Solti.Utils.Router
 {
     /// <summary>
-    /// Represents a segment of route (for instance "picture" &amp;&amp; "id" in case of "/picture/{id:int}") 
+    /// Represents a segment of route (for instance <i>RouteSegment("picture", null)</i> in case of "/picture" or <i>RouteSegment("id", IntConverter(...))</i> in case of "/{id:int}") 
     /// </summary>
-    /// <param name="Name">The name of segment or variable</param>
-    /// <param name="Converter">The converter</param>
-    internal sealed record RouteSegment(string Name, IConverter? Converter);
+    public sealed record RouteSegment(string Name, IConverter? Converter = null);
 }
