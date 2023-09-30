@@ -425,6 +425,18 @@ references:
   commentId: Overload:Solti.Utils.Router.IConverter.Style
   fullName: Solti.Utils.Router.IConverter.Style
   nameWithType: IConverter.Style
+- uid: Solti.Utils.Router.IConverter.Type
+  name: Type
+  href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_Type
+  commentId: P:Solti.Utils.Router.IConverter.Type
+  fullName: Solti.Utils.Router.IConverter.Type
+  nameWithType: IConverter.Type
+- uid: Solti.Utils.Router.IConverter.Type*
+  name: Type
+  href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_Type_
+  commentId: Overload:Solti.Utils.Router.IConverter.Type
+  fullName: Solti.Utils.Router.IConverter.Type
+  nameWithType: IConverter.Type
 - uid: Solti.Utils.Router.RequestHandler
   name: RequestHandler
   href: Solti.Utils.Router.RequestHandler.html
