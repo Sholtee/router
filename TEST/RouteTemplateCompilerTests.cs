@@ -34,6 +34,24 @@ namespace Solti.Utils.Router.Tests
         [TestCase("https://pet.hu/cica/pre-{param:int}/kutya", 1986, "https://pet.hu/cica/pre-1986/kutya")]
         [TestCase("https://pet.hu/cica/{param:int}-su/kutya", 1986, "https://pet.hu/cica/1986-su/kutya")]
         [TestCase("https://pet.hu/cica/pre-{param:int}-su/kutya", 1986, "https://pet.hu/cica/pre-1986-su/kutya")]
+
+        [TestCase("https://pet.hu:1986", null, "https://pet.hu:1986")]
+        [TestCase("https://pet.hu:1986/cica", null, "https://pet.hu:1986/cica")]
+        [TestCase("https://pet.hu:1986/{param:int}", 1986, "https://pet.hu:1986/1986")]
+        [TestCase("https://pet.hu:1986/cica/{param:int}", 1986, "https://pet.hu:1986/cica/1986")]
+        [TestCase("https://pet.hu:1986/cica/{param:int}/kutya", 1986, "https://pet.hu:1986/cica/1986/kutya")]
+        [TestCase("https://pet.hu:1986/cica/pre-{param:int}/kutya", 1986, "https://pet.hu:1986/cica/pre-1986/kutya")]
+        [TestCase("https://pet.hu:1986/cica/{param:int}-su/kutya", 1986, "https://pet.hu:1986/cica/1986-su/kutya")]
+        [TestCase("https://pet.hu:1986/cica/pre-{param:int}-su/kutya", 1986, "https://pet.hu:1986/cica/pre-1986-su/kutya")]
+
+        [TestCase("https://localhost:1986", null, "https://localhost:1986")]
+        [TestCase("https://localhost:1986/cica", null, "https://localhost:1986/cica")]
+        [TestCase("https://localhost:1986/{param:int}", 1986, "https://localhost:1986/1986")]
+        [TestCase("https://localhost:1986/cica/{param:int}", 1986, "https://localhost:1986/cica/1986")]
+        [TestCase("https://localhost:1986/cica/{param:int}/kutya", 1986, "https://localhost:1986/cica/1986/kutya")]
+        [TestCase("https://localhost:1986/cica/pre-{param:int}/kutya", 1986, "https://localhost:1986/cica/pre-1986/kutya")]
+        [TestCase("https://localhost:1986/cica/{param:int}-su/kutya", 1986, "https://localhost:1986/cica/1986-su/kutya")]
+        [TestCase("https://localhost:1986/cica/pre-{param:int}-su/kutya", 1986, "https://localhost:1986/cica/pre-1986-su/kutya")]
         public void CompilerShouldSubstitute(string template, object val, string expected)
         {
             RouteTemplateCompiler compile = RouteTemplate.CreateCompiler(template);

@@ -29,7 +29,11 @@ namespace Solti.Utils.Router
             FConvert     = MethodInfoExtractor.Extract<IConverter, string?>(static (conv, val) => conv.ConvertToString(null!, out val)),
             FConcat      = MethodInfoExtractor.Extract(static () => string.Concat(new string[0]));
 
-        private static readonly Regex FFirstTierParser = new("^(?<baseUrl>\\w+://[\\w.:]+)?(?<path>.+)?$", RegexOptions.Compiled);
+        private static readonly Regex FFirstTierParser = new
+        (
+            "^(?<baseUrl>(?:\\w+://)?(?:\\w+(?:\\.\\w+)+|localhost)(?::\\d+)?)?(?<path>.+)?$",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase
+        );
 
         /// <summary>
         /// Creates the template compiler function that interpolates parameters in the encapsulated route template.
