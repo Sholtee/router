@@ -50,86 +50,22 @@
     <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">Object</a></div>
     <div class="level1"><span class="xref">ParsedRoute</span></div>
   </div>
-  <div class="implements">
-    <h5>Implements</h5>
-    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a>&gt;</div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Solti.Utils.Router.html">Solti.Utils.Router</a></h6>
   <h6><strong>Assembly</strong>: Solti.Utils.Router.dll</h6>
   <h5 id="Solti_Utils_Router_ParsedRoute_syntax">Syntax</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public sealed class ParsedRoute : Object</code></pre>
   </div>
-  <h3 id="constructors">Constructors
+  <h3 id="properties">Properties
   </h3>
-  <a id="Solti_Utils_Router_ParsedRoute__ctor_" data-uid="Solti.Utils.Router.ParsedRoute.#ctor*"></a>
-  <h4 id="Solti_Utils_Router_ParsedRoute__ctor_System_Collections_Generic_IReadOnlyList_Solti_Utils_Router_RouteSegment__System_Collections_Generic_IReadOnlyDictionary_System_String_System_Type__System_String_" data-uid="Solti.Utils.Router.ParsedRoute.#ctor(System.Collections.Generic.IReadOnlyList{Solti.Utils.Router.RouteSegment},System.Collections.Generic.IReadOnlyDictionary{System.String,System.Type},System.String)">ParsedRoute(IReadOnlyList&lt;RouteSegment&gt;, IReadOnlyDictionary&lt;String, Type&gt;, String)</h4>
-  <div class="markdown level1 summary"><p>Represents a parsed route.</p>
+  <a id="Solti_Utils_Router_ParsedRoute_Segments_" data-uid="Solti.Utils.Router.ParsedRoute.Segments*"></a>
+  <h4 id="Solti_Utils_Router_ParsedRoute_Segments" data-uid="Solti.Utils.Router.ParsedRoute.Segments">Segments</h4>
+  <div class="markdown level1 summary"><p>Parse segments.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ParsedRoute(IReadOnlyList&lt;RouteSegment&gt; Segments, IReadOnlyDictionary&lt;string, Type&gt; Variables, string Original)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Solti.Utils.Router.RouteSegment.html">RouteSegment</a>&gt;</td>
-        <td><span class="parametername">Segments</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2">IReadOnlyDictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.type">Type</a>&gt;</td>
-        <td><span class="parametername">Variables</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td><span class="parametername">Original</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="properties">Properties
-  </h3>
-  <a id="Solti_Utils_Router_ParsedRoute_Original_" data-uid="Solti.Utils.Router.ParsedRoute.Original*"></a>
-  <h4 id="Solti_Utils_Router_ParsedRoute_Original" data-uid="Solti.Utils.Router.ParsedRoute.Original">Original</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string Original { get; set; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="Solti_Utils_Router_ParsedRoute_Segments_" data-uid="Solti.Utils.Router.ParsedRoute.Segments*"></a>
-  <h4 id="Solti_Utils_Router_ParsedRoute_Segments" data-uid="Solti.Utils.Router.ParsedRoute.Segments">Segments</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;RouteSegment&gt; Segments { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;RouteSegment&gt; Segments { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -142,17 +78,42 @@
     <tbody>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Solti.Utils.Router.RouteSegment.html">RouteSegment</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_ParsedRoute_Template_" data-uid="Solti.Utils.Router.ParsedRoute.Template*"></a>
+  <h4 id="Solti_Utils_Router_ParsedRoute_Template" data-uid="Solti.Utils.Router.ParsedRoute.Template">Template</h4>
+  <div class="markdown level1 summary"><p>The original parsed route template</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Template { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <a id="Solti_Utils_Router_ParsedRoute_Variables_" data-uid="Solti.Utils.Router.ParsedRoute.Variables*"></a>
   <h4 id="Solti_Utils_Router_ParsedRoute_Variables" data-uid="Solti.Utils.Router.ParsedRoute.Variables">Variables</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Variables declared in the <a class="xref" href="Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Template">Template</a></p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReadOnlyDictionary&lt;string, Type&gt; Variables { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public IReadOnlyDictionary&lt;string, Type&gt; Variables { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -169,288 +130,6 @@
       </tr>
     </tbody>
   </table>
-  <h3 id="methods">Methods
-  </h3>
-  <a id="Solti_Utils_Router_ParsedRoute__Clone___" data-uid="Solti.Utils.Router.ParsedRoute.{Clone}$*"></a>
-  <h4 id="Solti_Utils_Router_ParsedRoute__Clone__" data-uid="Solti.Utils.Router.ParsedRoute.{Clone}$">&lt;Clone&gt;$()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ParsedRoute &lt;Clone&gt;$()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="Solti_Utils_Router_ParsedRoute_Deconstruct_" data-uid="Solti.Utils.Router.ParsedRoute.Deconstruct*"></a>
-  <h4 id="Solti_Utils_Router_ParsedRoute_Deconstruct_System_Collections_Generic_IReadOnlyList_Solti_Utils_Router_RouteSegment___System_Collections_Generic_IReadOnlyDictionary_System_String_System_Type___System_String__" data-uid="Solti.Utils.Router.ParsedRoute.Deconstruct(System.Collections.Generic.IReadOnlyList{Solti.Utils.Router.RouteSegment}@,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Type}@,System.String@)">Deconstruct(out IReadOnlyList&lt;RouteSegment&gt;, out IReadOnlyDictionary&lt;String, Type&gt;, out String)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Deconstruct(out IReadOnlyList&lt;RouteSegment&gt; Segments, out IReadOnlyDictionary&lt;string, Type&gt; Variables, out string Original)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Solti.Utils.Router.RouteSegment.html">RouteSegment</a>&gt;</td>
-        <td><span class="parametername">Segments</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2">IReadOnlyDictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.type">Type</a>&gt;</td>
-        <td><span class="parametername">Variables</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td><span class="parametername">Original</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="Solti_Utils_Router_ParsedRoute_Equals_" data-uid="Solti.Utils.Router.ParsedRoute.Equals*"></a>
-  <h4 id="Solti_Utils_Router_ParsedRoute_Equals_Solti_Utils_Router_ParsedRoute_" data-uid="Solti.Utils.Router.ParsedRoute.Equals(Solti.Utils.Router.ParsedRoute)">Equals(ParsedRoute)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool Equals(ParsedRoute other)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a></td>
-        <td><span class="parametername">other</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="Solti_Utils_Router_ParsedRoute_Equals_" data-uid="Solti.Utils.Router.ParsedRoute.Equals*"></a>
-  <h4 id="Solti_Utils_Router_ParsedRoute_Equals_System_Object_" data-uid="Solti.Utils.Router.ParsedRoute.Equals(System.Object)">Equals(Object)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override bool Equals(object obj)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">Object</a></td>
-        <td><span class="parametername">obj</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="Solti_Utils_Router_ParsedRoute_GetHashCode_" data-uid="Solti.Utils.Router.ParsedRoute.GetHashCode*"></a>
-  <h4 id="Solti_Utils_Router_ParsedRoute_GetHashCode" data-uid="Solti.Utils.Router.ParsedRoute.GetHashCode">GetHashCode()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">Int32</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="Solti_Utils_Router_ParsedRoute_ToString_" data-uid="Solti.Utils.Router.ParsedRoute.ToString*"></a>
-  <h4 id="Solti_Utils_Router_ParsedRoute_ToString" data-uid="Solti.Utils.Router.ParsedRoute.ToString">ToString()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="operators">Operators
-  </h3>
-  <a id="Solti_Utils_Router_ParsedRoute_op_Equality_" data-uid="Solti.Utils.Router.ParsedRoute.op_Equality*"></a>
-  <h4 id="Solti_Utils_Router_ParsedRoute_op_Equality_Solti_Utils_Router_ParsedRoute_Solti_Utils_Router_ParsedRoute_" data-uid="Solti.Utils.Router.ParsedRoute.op_Equality(Solti.Utils.Router.ParsedRoute,Solti.Utils.Router.ParsedRoute)">Equality(ParsedRoute, ParsedRoute)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool operator ==(ParsedRoute left, ParsedRoute right)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a></td>
-        <td><span class="parametername">left</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a></td>
-        <td><span class="parametername">right</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="Solti_Utils_Router_ParsedRoute_op_Inequality_" data-uid="Solti.Utils.Router.ParsedRoute.op_Inequality*"></a>
-  <h4 id="Solti_Utils_Router_ParsedRoute_op_Inequality_Solti_Utils_Router_ParsedRoute_Solti_Utils_Router_ParsedRoute_" data-uid="Solti.Utils.Router.ParsedRoute.op_Inequality(Solti.Utils.Router.ParsedRoute,Solti.Utils.Router.ParsedRoute)">Inequality(ParsedRoute, ParsedRoute)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool operator !=(ParsedRoute left, ParsedRoute right)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a></td>
-        <td><span class="parametername">left</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a></td>
-        <td><span class="parametername">right</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="implements">Implements</h3>
-  <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">System.IEquatable&lt;T&gt;</a>
-  </div>
 </article>
           </div>
           
