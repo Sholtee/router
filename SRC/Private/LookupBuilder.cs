@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Solti.Utils.Router.Internals
 {
@@ -104,6 +105,7 @@ namespace Solti.Utils.Router.Internals
             Func<string, int> getIndex = getIndexExpr.Compile();
             return GetValue;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             ref TData GetValue(TData[] dataArray, string key)
             {
                 int index = getIndex(key);

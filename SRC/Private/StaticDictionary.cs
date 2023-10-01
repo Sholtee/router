@@ -8,6 +8,7 @@ using System.Collections.Generic;
 #if !DEBUG
 using System.Diagnostics;
 #endif
+using System.Runtime.CompilerServices;
 
 namespace Solti.Utils.Router.Internals
 {
@@ -35,13 +36,14 @@ namespace Solti.Utils.Router.Internals
 
         public StaticDictionary(IReadOnlyList<string> keys, LookupDelegate<ValueWrapper> lookup)
         {
-            FKeys = keys;
+            FKeys   = keys;
             FLookup = lookup;
             FValues = new ValueWrapper[keys.Count];
         }
 
         public object? this[string key]
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 ref ValueWrapper val = ref FLookup(FValues, key);
@@ -77,6 +79,7 @@ namespace Solti.Utils.Router.Internals
 
         public int Count { get; private set; }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Add(string key, object? value)
         {
             ref ValueWrapper val = ref FLookup(FValues, key);
