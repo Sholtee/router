@@ -23,7 +23,7 @@ namespace Solti.Utils.Router
     /// object Route(object? userData, string path, string method = "GET", SplitOptions? splitOptions = null)
     /// { 
     ///     PathSplitter segments = PathSplitter.Split(path, splitOptions);
-    ///     Dictionary&lt;string, object?&gt; paramz = new(MaxParameters);
+    ///     StaticDictionary paramz = createParamzDict();
     ///     object converted;
     ///    
     ///     if (segments.MoveNext())
@@ -109,19 +109,16 @@ namespace Solti.Utils.Router
             public ParameterExpression SplitOptions { get; } = Expression.Parameter(typeof(SplitOptions), nameof(SplitOptions).ToLower());
 
             public ParameterExpression Segments  { get; } = Expression.Variable(typeof(PathSplitter), nameof(Segments).ToLower());
-            public ParameterExpression Params    { get; } = Expression.Variable(typeof(Dictionary<string, object?>), nameof(Params).ToLower());
+            public ParameterExpression Params    { get; } = Expression.Variable(typeof(StaticDictionary), nameof(Params).ToLower());
             public ParameterExpression Converted { get; } = Expression.Variable(typeof(object), nameof(Converted).ToLower());
 
             public LabelTarget Exit { get; } = Expression.Label(typeof(object), nameof(Exit));
         };
 
-        private static readonly ConstructorInfo
-            FCreateDict = ConstructorInfoExtractor.Extract(static () => new Dictionary<string, object?>(0));
-
         private static readonly MethodInfo
             FMoveNext = MethodInfoExtractor.Extract<PathSplitter>(static parts => parts.MoveNext()),
             FSplit    = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
-            FAddParam = MethodInfoExtractor.Extract<Dictionary<string, object?>>(static dict => dict.Add(null!, null)),
+            FAddParam = MethodInfoExtractor.Extract<StaticDictionary>(static dict => dict.Add(null!, null)),
             FEquals   = MethodInfoExtractor.Extract<string>(static s => s.Equals(null!, default(StringComparison))),
             FConvert  = MethodInfoExtractor.Extract<IConverter, object?>(static (c, output) => c.ConvertToValue(null!, out output));
 
@@ -132,7 +129,7 @@ namespace Solti.Utils.Router
 
         private readonly IReadOnlyDictionary<string, ConverterFactory> FConverters;
 
-        private int FMaxParameters;
+        private readonly StaticDictionaryBuilder FStaticDictionaryBuilder = new();
 
         private Expression BuildJunction(Junction junction, BuildContext context)
         {
@@ -320,6 +317,8 @@ namespace Solti.Utils.Router
         {
             BuildContext context = new();
 
+            StaticDictionaryFactory createParamzDict = FStaticDictionaryBuilder.CreateFactory(); 
+
             Expression<Router> routerExpr = Expression.Lambda<Router>
             (
                 body: Expression.Block
@@ -341,10 +340,9 @@ namespace Solti.Utils.Router
                     Expression.Assign
                     (
                         context.Params,
-                        Expression.New
+                        Expression.Invoke
                         (
-                            FCreateDict,
-                            Expression.Constant(FMaxParameters)
+                            Expression.Constant(createParamzDict)
                         )
                     ),
                     BuildJunction(FRoot, context),
@@ -400,11 +398,11 @@ namespace Solti.Utils.Router
             if (methods is null)
                 throw new ArgumentNullException(nameof(methods));
 
+
+            ParsedRoute parsedRoute = RouteTemplate.Parse(route, FConverters, splitOptions);
             Junction target = FRoot;
 
-            int parameters = 0;
-
-            foreach (RouteSegment segment in RouteTemplate.Parse(route, FConverters, splitOptions).Segments)
+            foreach (RouteSegment segment in parsedRoute.Segments)
             {
                 bool found = false;
 
@@ -430,9 +428,6 @@ namespace Solti.Utils.Router
                     target.Children.Add(child);
                     target = child;
                 }
-
-                if (segment.Converter is not null)
-                    parameters++;
             }
 
             if (methods.Length is 0)
@@ -454,7 +449,10 @@ namespace Solti.Utils.Router
                     throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
             }
 
-            FMaxParameters = Math.Max(FMaxParameters, parameters);
+            foreach (string variable in parsedRoute.Variables.Keys)
+            {
+                FStaticDictionaryBuilder.RegisterKey(variable);
+            }
         }
 
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿/********************************************************************************
-* ReadOnlyDictionary.cs                                                         *
+* LookupBuilder.cs                                                              *
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
@@ -13,19 +13,12 @@ namespace Solti.Utils.Router.Internals
 {
     using Primitives;
 
-    internal struct ValueWrapper
+    internal sealed class LookupBuilder<TData>
     {
-        public bool Assigned;
-
-        public object Value;
-    }
-
-    internal delegate ref ValueWrapper GetValueDelegate(ValueWrapper[] ar, string name);
-
-    internal sealed class ReadOnlyDictionaryBuilder
-    {
-        private static readonly MethodInfo
-            FCompareTo = MethodInfoExtractor.Extract<IComparer<string>>(static cmp => cmp.Compare(null!, null!));
+        private static readonly MethodInfo FCompareTo = MethodInfoExtractor.Extract<IComparer<string>>
+        (
+            static cmp => cmp.Compare(null!, null!)
+        );
 
         private readonly IComparer<string> FComparer;
 
@@ -65,11 +58,11 @@ namespace Solti.Utils.Router.Internals
                     Expression.GreaterThan(FOrder, Expression.Constant(0)),
                     ProcessNode(node.Right, ref index)
                 ),
-                Expression.Goto(FFound, Expression.Constant(index++))           
+                Expression.Goto(FFound, Expression.Constant(index++))
             );
         }
 
-        public ReadOnlyDictionaryBuilder(IComparer<string> comparer)
+        public LookupBuilder(IComparer<string> comparer)
         {
             FTree = new RedBlackTree<string>(FComparer = comparer);
             FKey = Expression.Parameter(typeof(string), "key");
@@ -79,7 +72,18 @@ namespace Solti.Utils.Router.Internals
 
         public bool CreateSlot(string name) => FTree.Add(name);
 
-        public GetValueDelegate Build(out int arSize)
+        public IEnumerable<string> Slots
+        {
+            get
+            {
+                foreach (RedBlackTreeNode<string> node in FTree)
+                {
+                    yield return node.Data;
+                }
+            }
+        }
+
+        public LookupDelegate<TData> Build(out int arSize)
         {
             arSize = 0;
 
@@ -100,7 +104,7 @@ namespace Solti.Utils.Router.Internals
             Func<string, int> getIndex = getIndexExpr.Compile();
             return GetValue;
 
-            ref ValueWrapper GetValue(ValueWrapper[] dataArray, string key)
+            ref TData GetValue(TData[] dataArray, string key)
             {
                 int index = getIndex(key);
                 if (index < 0)
