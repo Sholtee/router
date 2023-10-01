@@ -25,31 +25,17 @@ namespace Solti.Utils.Router.Internals
     internal sealed class ReadOnlyDictionaryBuilder
     {
         private static readonly MethodInfo
-            FCompareTo = MethodInfoExtractor.Extract<IComparer<string>>(static cmp => cmp.Compare(null!, null!)),
-            FGetValue = ((GetValueByIndexDelegate) GetValue).Method; // MethodInfoExtractor.Extract(static () => GetValue(null!, 0))
-
-        private static readonly Type FValueWrapperByRef = typeof(ValueWrapper).MakeByRefType();
+            FCompareTo = MethodInfoExtractor.Extract<IComparer<string>>(static cmp => cmp.Compare(null!, null!));
 
         private readonly IComparer<string> FComparer;
 
         private readonly RedBlackTree<string> FTree;
 
         private readonly ParameterExpression
-            FDataArray,
             FOrder,
             FKey;
 
         private readonly LabelTarget FFound;
-
-        private delegate ref ValueWrapper GetValueByIndexDelegate(ValueWrapper[] ar, int index);
-
-        private static ref ValueWrapper GetValue(ValueWrapper[] ar, int index)
-        {
-            if (index < 0)
-                throw new KeyNotFoundException();
-
-            return ref ar[index];
-        }
 
         private Expression ProcessNode(RedBlackTreeNode<string>? node, ref int index)
         {
@@ -86,7 +72,6 @@ namespace Solti.Utils.Router.Internals
         public ReadOnlyDictionaryBuilder(IComparer<string> comparer)
         {
             FTree = new RedBlackTree<string>(FComparer = comparer);
-            FDataArray = Expression.Parameter(typeof(ValueWrapper[]), "dataAr");
             FKey = Expression.Parameter(typeof(string), "key");
             FOrder = Expression.Variable(typeof(int), "order");
             FFound = Expression.Label(type: typeof(int), "found");
@@ -98,31 +83,31 @@ namespace Solti.Utils.Router.Internals
         {
             arSize = 0;
 
-            Expression<GetValueDelegate> del = Expression.Lambda<GetValueDelegate>
+            Expression<Func<string, int>> getIndexExpr = Expression.Lambda<Func<string, int>>
             (
                 Expression.Block
                 (
-                    type: FValueWrapperByRef,
+                    type: typeof(int),
                     variables: new ParameterExpression[] { FOrder },
-                    Expression.Call
-                    (
-                        FGetValue,
-                        FDataArray,
-                        Expression.Block
-                        (
-                            type: typeof(int),
-                            ProcessNode(FTree.Root, ref arSize),
-                            Expression.Label(FFound, Expression.Constant(-1))
-                        )
-                    )
+                    ProcessNode(FTree.Root, ref arSize),
+                    Expression.Label(FFound, Expression.Constant(-1))
                 ),
-                FDataArray,
                 FKey
             );
 
-            Debug.WriteLine(del.GetDebugView());
+            Debug.WriteLine(getIndexExpr.GetDebugView());
 
-            return del.Compile();
+            Func<string, int> getIndex = getIndexExpr.Compile();
+            return GetValue;
+
+            ref ValueWrapper GetValue(ValueWrapper[] dataArray, string key)
+            {
+                int index = getIndex(key);
+                if (index < 0)
+                    throw new KeyNotFoundException(key);
+
+                return ref dataArray[index];
+            }
         }
     }
 }
