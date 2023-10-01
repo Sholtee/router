@@ -81,7 +81,7 @@
 <pre><code>object Route(object? userData, string path, string method = &quot;GET&quot;, SplitOptions? splitOptions = null)
 { 
     PathSplitter segments = PathSplitter.Split(path, splitOptions);
-    Dictionary&lt;string, object?> paramz = new(MaxParameters);
+    StaticDictionary paramz = createParamzDict();
     object converted;
 
     if (segments.MoveNext())
