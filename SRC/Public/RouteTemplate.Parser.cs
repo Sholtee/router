@@ -84,7 +84,7 @@ namespace Solti.Utils.Router
         /// Parses the given route template.
         /// </summary>
         /// <remarks>
-        /// Route template looks like: <code>"[/]segment1/[prefix]{paramName:converter[:userData]}[suffix]/segment3[/]"</code>
+        /// A route template looks like: <code>"[/]segment1/[prefix]{paramName:converter[:userData]}[suffix]/segment3[/]"</code>
         /// </remarks>
         /// <param name="template">Route template to be parsed (for instsance: <i>/picute/{id:int}</i>. Must NOT include the base URL.</param>
         /// <param name="converters"></param>

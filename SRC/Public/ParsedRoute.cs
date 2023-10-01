@@ -32,17 +32,17 @@ namespace Solti.Utils.Router
         }
 
         /// <summary>
-        /// Parse segments.
+        /// Parsed segments.
         /// </summary>
         public IReadOnlyList<RouteSegment> Segments { get; }
 
         /// <summary>
-        /// Variables declared in the <see cref="Template"/>
+        /// Variables declared in  <see cref="Template"/>
         /// </summary>
         public IReadOnlyDictionary<string, Type> Variables { get; }
 
         /// <summary>
-        /// The original parsed route template
+        /// The original template.
         /// </summary>
         public string Template { get; }
     }

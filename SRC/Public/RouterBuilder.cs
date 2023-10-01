@@ -130,7 +130,6 @@ namespace Solti.Utils.Router
 
         private readonly Junction FRoot = new();
 
-        // TODO: remove in V2
         private readonly IReadOnlyDictionary<string, ConverterFactory> FConverters;
 
         private int FMaxParameters;
