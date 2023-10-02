@@ -101,20 +101,6 @@ namespace Solti.Utils.Router
             public IList<Junction> Children { get; } = new List<Junction>();
         }
 
-        private sealed class BuildContext
-        {
-            public ParameterExpression UserData     { get; } = Expression.Parameter(typeof(object), nameof(UserData).ToLower());
-            public ParameterExpression Path         { get; } = Expression.Parameter(typeof(string), nameof(Path).ToLower());
-            public ParameterExpression Method       { get; } = Expression.Parameter(typeof(string), nameof(Method).ToLower());
-            public ParameterExpression SplitOptions { get; } = Expression.Parameter(typeof(SplitOptions), nameof(SplitOptions).ToLower());
-
-            public ParameterExpression Segments  { get; } = Expression.Variable(typeof(PathSplitter), nameof(Segments).ToLower());
-            public ParameterExpression Params    { get; } = Expression.Variable(typeof(StaticDictionary), nameof(Params).ToLower());
-            public ParameterExpression Converted { get; } = Expression.Variable(typeof(object), nameof(Converted).ToLower());
-
-            public LabelTarget Exit { get; } = Expression.Label(typeof(object), nameof(Exit));
-        };
-
         private static readonly MethodInfo
             FMoveNext = MethodInfoExtractor.Extract<PathSplitter>(static parts => parts.MoveNext()),
             FSplit    = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
@@ -131,7 +117,19 @@ namespace Solti.Utils.Router
 
         private readonly StaticDictionaryBuilder FStaticDictionaryBuilder = new();
 
-        private Expression BuildJunction(Junction junction, BuildContext context)
+        private readonly ParameterExpression
+            FUserData     = Expression.Parameter(typeof(object), "userData"),
+            FPath         = Expression.Parameter(typeof(string), "path"),
+            FMethod       = Expression.Parameter(typeof(string), "method"),
+            FSplitOptions = Expression.Parameter(typeof(SplitOptions), "splitOptions"),
+
+            FSegments  = Expression.Variable(typeof(PathSplitter), "segments"),
+            FParams    = Expression.Variable(typeof(StaticDictionary), "params"),
+            FConverted = Expression.Variable(typeof(object), "converted");
+
+        private readonly LabelTarget FExit = Expression.Label(typeof(object), "exit");
+
+        private Expression BuildJunction(Junction junction)
         {
             if (junction.Segment is null)  // root node, no segment
                 return Expression.Block
@@ -144,7 +142,7 @@ namespace Solti.Utils.Router
                 (
                     Equals
                     (
-                        Expression.Property(context.Segments, FCurrent),
+                        Expression.Property(FSegments, FCurrent),
                         Expression.Constant(junction.Segment.Name)
                     ),
                     Expression.Block
@@ -159,8 +157,8 @@ namespace Solti.Utils.Router
                 (
                     Expression.Constant(junction.Segment.Converter),
                     FConvert,
-                    Expression.Property(context.Segments, FCurrent),
-                    context.Converted
+                    Expression.Property(FSegments, FCurrent),
+                    FConverted
                 ),
                 Expression.Block
                 (
@@ -168,10 +166,10 @@ namespace Solti.Utils.Router
                     {
                         Expression.Call
                         (
-                            context.Params,
+                            FParams,
                             FAddParam,
                             Expression.Constant(junction.Segment.Name),
-                            context.Converted
+                            FConverted
                         )
                     }.Concat
                     (
@@ -192,18 +190,18 @@ namespace Solti.Utils.Router
 
                 yield return Expression.IfThen
                 (
-                    Expression.Call(context.Segments, FMoveNext),
+                    Expression.Call(FSegments, FMoveNext),
                     Expression.Block
                     (
                         junction
                             .Children
-                            .Select(child => BuildJunction(child, context))
+                            .Select(BuildJunction)
                             .Append
                             (
                                 Return
                                 (
                                     DefaultHandler,
-                                    context.UserData,
+                                    FUserData,
                                     Expression.Constant(HttpStatusCode.NotFound)
                                 )
                             )
@@ -223,13 +221,13 @@ namespace Solti.Utils.Router
                     yield return Expression.IfThen
                     (
                         handlerGroup
-                            .Select(handler => Equals(context.Method, Expression.Constant(handler.Key)))
+                            .Select(handler => Equals(FMethod, Expression.Constant(handler.Key)))
                             .Aggregate(static (accu, curr) => Expression.Or(accu, curr)),
                         Return
                         (
                             handlerGroup.Key,
-                            context.Params,
-                            context.UserData
+                            FParams,
+                            FUserData
                         )
                     );
                 }
@@ -241,7 +239,7 @@ namespace Solti.Utils.Router
                 yield return Return
                 (
                     DefaultHandler,
-                    context.UserData,
+                    FUserData,
                     Expression.Constant
                     (
                         junction.Handlers.Count is 0
@@ -261,7 +259,7 @@ namespace Solti.Utils.Router
 
             Expression Return(LambdaExpression lambda, params Expression[] paramz) => Expression.Return
             (
-                context.Exit,
+                FExit,
                 UnfoldedLambda.Create
                 (
                     lambda,
@@ -315,8 +313,6 @@ namespace Solti.Utils.Router
         /// </summary>
         public Router Build()
         {
-            BuildContext context = new();
-
             StaticDictionaryFactory createParamzDict = FStaticDictionaryBuilder.CreateFactory(); 
 
             Expression<Router> routerExpr = Expression.Lambda<Router>
@@ -326,34 +322,34 @@ namespace Solti.Utils.Router
                     type: typeof(object),
                     variables: new ParameterExpression[]
                     {
-                        context.Segments,
-                        context.Params,
-                        context.Converted
+                        FSegments,
+                        FParams,
+                        FConverted
                     },
-                    EnsureNotNull(context.Path),
-                    EnsureNotNull(context.Method),
+                    EnsureNotNull(FPath),
+                    EnsureNotNull(FMethod),
                     Expression.Assign
                     (
-                        context.Segments,
-                        Expression.Call(FSplit, context.Path, context.SplitOptions)
+                        FSegments,
+                        Expression.Call(FSplit, FPath, FSplitOptions)
                     ),
                     Expression.Assign
                     (
-                        context.Params,
+                        FParams,
                         Expression.Invoke
                         (
                             Expression.Constant(createParamzDict)
                         )
                     ),
-                    BuildJunction(FRoot, context),
-                    Expression.Label(context.Exit, Expression.Constant(null, typeof(object)))
+                    BuildJunction(FRoot),
+                    Expression.Label(FExit, Expression.Constant(null, typeof(object)))
                 ),
                 parameters: new ParameterExpression[]
                 {
-                    context.UserData,
-                    context.Path,
-                    context.Method,
-                    context.SplitOptions
+                    FUserData,
+                    FPath,
+                    FMethod,
+                    FSplitOptions
                 }
             );
 
