@@ -22,7 +22,6 @@ namespace Solti.Utils.Router.Internals
             public bool Assigned;
             public object? Value;
         }
-
 #if !DEBUG  // inspecting all keys can be confusing
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif

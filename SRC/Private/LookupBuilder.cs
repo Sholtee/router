@@ -65,8 +65,8 @@ namespace Solti.Utils.Router.Internals
 
         public LookupBuilder(IComparer<string> comparer)
         {
-            FTree = new RedBlackTree<string>(FComparer = comparer);
-            FKey = Expression.Parameter(typeof(string), "key");
+            FTree  = new RedBlackTree<string>(FComparer = comparer);
+            FKey   = Expression.Parameter(typeof(string), "key");
             FOrder = Expression.Variable(typeof(int), "order");
             FFound = Expression.Label(type: typeof(int), "found");
         }
@@ -111,6 +111,8 @@ namespace Solti.Utils.Router.Internals
                 int index = getIndex(key);
                 if (index < 0)
                     throw new KeyNotFoundException(key);
+
+                Debug.Assert(index < dataArray.Length, "Miscalculated index");
 
                 return ref dataArray[index];
             }
