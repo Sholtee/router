@@ -22,69 +22,75 @@ namespace Solti.Utils.Router
     /// <code>
     /// object Route(object? userData, string path, string method = "GET", SplitOptions? splitOptions = null)
     /// { 
-    ///     PathSplitter segments = PathSplitter.Split(path, splitOptions);
-    ///     StaticDictionary paramz = createParamzDict();
-    ///     object converted;
+    ///     try
+    ///     {
+    ///         PathSplitter segments = PathSplitter.Split(path, splitOptions);
+    ///         StaticDictionary paramz = createParamzDict();
+    ///         object converted;
     ///    
-    ///     if (segments.MoveNext())
-    ///     {
-    ///         if (segments.Current == "cica")
+    ///         if (segments.MoveNext())
     ///         {
-    ///             if (segments.MoveNext())
+    ///             if (segments.Current == "cica")
     ///             {
-    ///                 if (segments.Current == "mica")
+    ///                 if (segments.MoveNext())
     ///                 {
-    ///                     if (segments.MoveNext())
+    ///                     if (segments.Current == "mica")
     ///                     {
-    ///                         return DefaultHandler(userData, HttpStatusCode.NotFound);
-    ///                     }
+    ///                         if (segments.MoveNext())
+    ///                         {
+    ///                             return DefaultHandler(userData, HttpStatusCode.NotFound);
+    ///                         }
     /// 
-    ///                     if (method == "GET")
-    ///                     {
-    ///                         return CicaMicaHandler(paramz, userData); // GET "/cica/mica" defined
+    ///                         if (method == "GET")
+    ///                         {
+    ///                             return CicaMicaHandler(paramz, userData); // GET "/cica/mica" defined
+    ///                         }
+    ///                     
+    ///                         return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);  // Unknown method
     ///                     }
     ///                     
-    ///                     return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);  // Unknown method
-    ///                 }
-    ///                     
-    ///                 if (intParser(segments.Current, out converted))
-    ///                 {
-    ///                     paramz.Add("id", val);
+    ///                     if (intParser(segments.Current, out converted))
+    ///                     {
+    ///                         paramz.Add("id", val);
     ///                         
-    ///                     if (segments.MoveNext())
-    ///                     {
-    ///                         return DefaultHandler(userData, HttpStatusCode.NotFound);
-    ///                     }
+    ///                         if (segments.MoveNext())
+    ///                         {
+    ///                             return DefaultHandler(userData, HttpStatusCode.NotFound);
+    ///                         }
     /// 
-    ///                     if (method == "GET" || method == "POST" )
-    ///                     {
-    ///                         return CicaIdHandler(paramz, userData); // GET | POST "/cica/{id:int}" defined
+    ///                         if (method == "GET" || method == "POST" )
+    ///                         {
+    ///                             return CicaIdHandler(paramz, userData); // GET | POST "/cica/{id:int}" defined
+    ///                         }
+    ///                     
+    ///                         return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
     ///                     }
     ///                     
-    ///                     return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
+    ///                     return DefaultHandler(userData, HttpStatusCode.NotFound);  // neither "/cica/mica" nor "/cica/{id:int}"
     ///                 }
-    ///                     
-    ///                 return DefaultHandler(userData, HttpStatusCode.NotFound);  // neither "/cica/mica" nor "/cica/{id:int}"
+    ///             
+    ///                 if (method == "GET")
+    ///                 {
+    ///                     return CicaHandler(paramz, userData); // GET "/cica" defined
+    ///                 }
+    ///             
+    ///                 return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
     ///             }
     ///             
-    ///             if (method == "GET")
-    ///             {
-    ///                 return CicaHandler(paramz, userData); // GET "/cica" defined
-    ///             }
-    ///             
-    ///             return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
+    ///             return DefaultHandler(userData, HttpStatusCode.NotFound);  // not "/cica[/..]"
     ///         }
-    ///             
-    ///         return DefaultHandler(userData, HttpStatusCode.NotFound);  // not "/cica[/..]"
-    ///     }
     ///         
-    ///     if (method == "GET")
-    ///     {
-    ///         return RootHandler(paramz, userData);  // GET "/" is defined
-    ///     }
+    ///         if (method == "GET")
+    ///         {
+    ///             return RootHandler(paramz, userData);  // GET "/" is defined
+    ///         }
     ///     
-    ///     return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
-    /// }
+    ///         return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
+    ///     } 
+    ///     catch 
+    ///     {
+    ///         return DefaultHandler(userData, HttpStatusCode.InternalServerError);
+    ///     }
     /// </code>
     /// </summary>
     public sealed class RouterBuilder
@@ -257,17 +263,18 @@ namespace Solti.Utils.Router
                 Expression.Constant(StringComparison.OrdinalIgnoreCase)
             );
 
-            Expression Return(LambdaExpression lambda, params Expression[] paramz) => Expression.Return
-            (
-                FExit,
-                UnfoldedLambda.Create
-                (
-                    lambda,
-                    paramz
-                ),
-                typeof(object)
-            );
         }
+
+        private Expression Return(LambdaExpression lambda, params Expression[] paramz) => Expression.Return
+        (
+            FExit,
+            UnfoldedLambda.Create
+            (
+                lambda,
+                paramz
+            ),
+            typeof(object)
+        );
         #endregion
 
         /// <summary>
@@ -319,7 +326,6 @@ namespace Solti.Utils.Router
             (
                 body: Expression.Block
                 (
-                    type: typeof(object),
                     variables: new ParameterExpression[]
                     {
                         FSegments,
@@ -328,20 +334,36 @@ namespace Solti.Utils.Router
                     },
                     EnsureNotNull(FPath),
                     EnsureNotNull(FMethod),
-                    Expression.Assign
+                    Expression.TryCatch
                     (
-                        FSegments,
-                        Expression.Call(FSplit, FPath, FSplitOptions)
-                    ),
-                    Expression.Assign
-                    (
-                        FParams,
-                        Expression.Invoke
+                        Expression.Block
                         (
-                            Expression.Constant(createParamzDict)
-                        )
+                            Expression.Assign
+                            (
+                                FSegments,
+                                Expression.Call(FSplit, FPath, FSplitOptions)
+                            ),
+                            Expression.Assign
+                            (
+                                FParams,
+                                Expression.Invoke
+                                (
+                                    Expression.Constant(createParamzDict)
+                                )
+                            ),
+                            BuildJunction(FRoot)              
+                        ),
+                        Expression.Catch
+                        (
+                            typeof(Exception),
+                            Return
+                            (
+                                DefaultHandler,
+                                FUserData, 
+                                Expression.Constant(HttpStatusCode.InternalServerError)
+                            )
+                        )          
                     ),
-                    BuildJunction(FRoot),
                     Expression.Label(FExit, Expression.Constant(null, typeof(object)))
                 ),
                 parameters: new ParameterExpression[]

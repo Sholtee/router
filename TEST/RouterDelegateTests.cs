@@ -142,5 +142,55 @@ namespace Solti.Utils.Router.Tests
             Router router = new RouterBuilder().Build();
             Assert.Throws<InvalidOperationException>(() => router(null, "/cica"), Resources.ROUTE_NOT_REGISTERED);
         }
+
+        [Test]
+        public void DelegateShouldHandleInternalErrors()
+        {
+            object
+                request = new(),
+                userData = new();
+
+            Mock<DefaultRequestHandler> mockDefaultHandler = new(MockBehavior.Strict);
+            mockDefaultHandler
+                .Setup(h => h.Invoke(userData, HttpStatusCode.InternalServerError))
+                .Returns(true);
+
+            Mock<RequestHandler> mockHandler = new(MockBehavior.Strict);
+            mockHandler
+                .Setup(h => h.Invoke(It.IsAny<IReadOnlyDictionary<string, object?>>(), userData))
+                .Throws(new Exception());
+
+            RouterBuilder bldr = new(mockDefaultHandler.Object, DefaultConverters.Instance);
+            bldr.AddRoute("/fail", mockHandler.Object);
+
+            Router router = bldr.Build();
+            Assert.That(router(userData, "/fail") is true);
+            mockDefaultHandler.Verify(h => h.Invoke(userData, HttpStatusCode.InternalServerError), Times.Once);
+        }
+
+        [Test]
+        public void DelegateShouldHandleUnknownMethods()
+        {
+            object
+                request = new(),
+                userData = new();
+
+            Mock<DefaultRequestHandler> mockDefaultHandler = new(MockBehavior.Strict);
+            mockDefaultHandler
+                .Setup(h => h.Invoke(userData, HttpStatusCode.MethodNotAllowed))
+                .Returns(true);
+
+            Mock<RequestHandler> mockHandler = new(MockBehavior.Strict);
+            mockHandler
+                .Setup(h => h.Invoke(It.IsAny<IReadOnlyDictionary<string, object?>>(), userData))
+                .Returns(true);
+
+            RouterBuilder bldr = new(mockDefaultHandler.Object, DefaultConverters.Instance);
+            bldr.AddRoute("/cica", mockHandler.Object, "GET");
+
+            Router router = bldr.Build();
+            Assert.That(router(userData, "/cica", "POST") is true);
+            mockDefaultHandler.Verify(h => h.Invoke(userData, HttpStatusCode.MethodNotAllowed), Times.Once);
+        }
     }
 }
