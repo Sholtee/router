@@ -80,69 +80,75 @@
       <section><p>Builds the <a class="xref" href="Solti.Utils.Router.Router.html">Router</a> delegate that does the actual routing.</p>
 <pre><code>object Route(object? userData, string path, string method = &quot;GET&quot;, SplitOptions? splitOptions = null)
 { 
-    PathSplitter segments = PathSplitter.Split(path, splitOptions);
-    StaticDictionary paramz = createParamzDict();
-    object converted;
-
-    if (segments.MoveNext())
+    try
     {
-        if (segments.Current == &quot;cica&quot;)
+        PathSplitter segments = PathSplitter.Split(path, splitOptions);
+        StaticDictionary paramz = createParamzDict();
+        object converted;
+
+        if (segments.MoveNext())
         {
-            if (segments.MoveNext())
+            if (segments.Current == &quot;cica&quot;)
             {
-                if (segments.Current == &quot;mica&quot;)
+                if (segments.MoveNext())
                 {
-                    if (segments.MoveNext())
+                    if (segments.Current == &quot;mica&quot;)
                     {
-                        return DefaultHandler(userData, HttpStatusCode.NotFound);
+                        if (segments.MoveNext())
+                        {
+                            return DefaultHandler(userData, HttpStatusCode.NotFound);
+                        }
+
+                        if (method == &quot;GET&quot;)
+                        {
+                            return CicaMicaHandler(paramz, userData); // GET &quot;/cica/mica&quot; defined
+                        }
+
+                        return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);  // Unknown method
                     }
 
-                    if (method == &quot;GET&quot;)
+                    if (intParser(segments.Current, out converted))
                     {
-                        return CicaMicaHandler(paramz, userData); // GET &quot;/cica/mica&quot; defined
+                        paramz.Add(&quot;id&quot;, val);
+
+                        if (segments.MoveNext())
+                        {
+                            return DefaultHandler(userData, HttpStatusCode.NotFound);
+                        }
+
+                        if (method == &quot;GET&quot; || method == &quot;POST&quot; )
+                        {
+                            return CicaIdHandler(paramz, userData); // GET | POST &quot;/cica/{id:int}&quot; defined
+                        }
+
+                        return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
                     }
 
-                    return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);  // Unknown method
+                    return DefaultHandler(userData, HttpStatusCode.NotFound);  // neither &quot;/cica/mica&quot; nor &quot;/cica/{id:int}&quot;
                 }
 
-                if (intParser(segments.Current, out converted))
+                if (method == &quot;GET&quot;)
                 {
-                    paramz.Add(&quot;id&quot;, val);
-
-                    if (segments.MoveNext())
-                    {
-                        return DefaultHandler(userData, HttpStatusCode.NotFound);
-                    }
-
-                    if (method == &quot;GET&quot; || method == &quot;POST&quot; )
-                    {
-                        return CicaIdHandler(paramz, userData); // GET | POST &quot;/cica/{id:int}&quot; defined
-                    }
-
-                    return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
+                    return CicaHandler(paramz, userData); // GET &quot;/cica&quot; defined
                 }
 
-                return DefaultHandler(userData, HttpStatusCode.NotFound);  // neither &quot;/cica/mica&quot; nor &quot;/cica/{id:int}&quot;
+                return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
             }
 
-            if (method == &quot;GET&quot;)
-            {
-                return CicaHandler(paramz, userData); // GET &quot;/cica&quot; defined
-            }
-
-            return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
+            return DefaultHandler(userData, HttpStatusCode.NotFound);  // not &quot;/cica[/..]&quot;
         }
 
-        return DefaultHandler(userData, HttpStatusCode.NotFound);  // not &quot;/cica[/..]&quot;
-    }
+        if (method == &quot;GET&quot;)
+        {
+            return RootHandler(paramz, userData);  // GET &quot;/&quot; is defined
+        }
 
-    if (method == &quot;GET&quot;)
+        return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
+    } 
+    catch 
     {
-        return RootHandler(paramz, userData);  // GET &quot;/&quot; is defined
-    }
-
-    return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
-}</code></pre>
+        return DefaultHandler(userData, HttpStatusCode.InternalServerError);
+    }</code></pre>
 </section>
       <h4><a class="xref" href="Solti.Utils.Router.RouteSegment.html">RouteSegment</a></h4>
       <section><p>Represents a segment of route (for instance <em>RouteSegment(&quot;picture&quot;, null)</em> in case of &quot;/picture&quot; or <em>RouteSegment(&quot;id&quot;, IntConverter(...))</em> in case of &quot;/{id:int}&quot;) </p>
