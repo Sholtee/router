@@ -165,8 +165,45 @@ namespace Solti.Utils.Router.Tests
             bldr.RegisterExceptionHandler(mockExceptionHandler.Object);
 
             Router router = bldr.Build();
+
             Assert.That(router(userData, "/fail") is true);
             mockExceptionHandler.Verify(h => h.Invoke(userData, ex), Times.Once);
+            mockExceptionHandler.VerifyNoOtherCalls();
+        }
+
+        [Test]
+        public void DelegateShouldHandleMultipleExceptions()
+        {
+            object userData = new();
+
+            ArgumentException ex = new();
+
+            Mock<ExceptionHandler<Exception>> mockExceptionHandler = new(MockBehavior.Strict);
+            mockExceptionHandler
+                .Setup(h => h.Invoke(userData, It.IsAny<Exception>()))
+                .Returns(true);
+
+            Mock<ExceptionHandler<ArgumentException>> mockArgExceptionHandler = new(MockBehavior.Strict);
+            mockArgExceptionHandler
+                .Setup(h => h.Invoke(userData, ex))
+                .Returns(true);
+
+            Mock<RequestHandler> mockHandler = new(MockBehavior.Strict);
+            mockHandler
+                .Setup(h => h.Invoke(It.IsAny<IReadOnlyDictionary<string, object?>>(), userData))
+                .Throws(ex);
+
+            RouterBuilder bldr = new();
+            bldr.AddRoute("/fail", mockHandler.Object);
+            bldr.RegisterExceptionHandler(mockArgExceptionHandler.Object);
+            bldr.RegisterExceptionHandler(mockExceptionHandler.Object);
+
+            Router router = bldr.Build();
+
+            Assert.That(router(userData, "/fail") is true);
+            mockExceptionHandler.VerifyNoOtherCalls();
+            mockArgExceptionHandler.Verify(h => h.Invoke(userData, ex), Times.Once);
+            mockArgExceptionHandler.VerifyNoOtherCalls();
         }
 
         [Test]

@@ -341,7 +341,7 @@ namespace Solti.Utils.Router
             if (FExceptionHandlers.Count > 0) route = Expression.TryCatch
             (
                 route,
-                FExceptionHandlers .Select
+                FExceptionHandlers.Select
                 (
                     (LambdaExpression exceptionHandler) =>
                     {
