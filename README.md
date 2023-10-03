@@ -98,7 +98,9 @@ string route = compile(new Dictionary<string, object?> { { "id", 1986 } });  // 
 ...
 ```
 
-## Advanced usage, async routing
+## Advanced usage
+
+### Async routing
 In real world, request handlers often contain complex, async logic. `AsyncRouterBuilder` is aimed to support this use case with an API set very similar to `RouterBuilder`:
 ```csharp
 using System.Collections.Generic;
@@ -143,6 +145,22 @@ AsyncRouter route = routerBuilder.Build();
 
 HttpListenerContext context = Listener.GetContext();
 object? result = await route(context, context.Request.Url!.AbsolutePath, context.Request.HttpMethod);
+```
+
+### Error handling
+You can register your own exception handler to be built into the router delegate
+```csharp
+using System;
+
+using Solti.Utils.Router;
+
+RouterBuilder routerBuilder = new();
+routerBuilder.RegisterExceptionHandler(handler: (object? state, MyException exception) => exception);
+routerBuilder.AddRoute("/fail", handler: (IReadOnlyDictionary<string, object?> paramz, object? state) => throw new MyException());
+
+Router route = routerBuilder.Build();
+
+Assert.That(route(null, "/fail", "GET"), Is.InstanceOf<MyException>());
 ```
 
 ## Resources
