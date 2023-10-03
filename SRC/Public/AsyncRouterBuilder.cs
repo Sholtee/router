@@ -40,7 +40,7 @@ namespace Solti.Utils.Router
 
         private static Expression<TDestinationDelegate> Wrap<TDestinationDelegate>(LambdaExpression sourceDelegate) where TDestinationDelegate: Delegate
         {           
-            Type originaReturnType = sourceDelegate.ReturnType;
+            Type originalReturnType = sourceDelegate.ReturnType;
             
             MethodInfo wrapped = typeof(TDestinationDelegate).GetMethod(nameof(Action.Invoke));
 
@@ -51,7 +51,7 @@ namespace Solti.Utils.Router
 
             Expression body;
 
-            if (!typeof(Task).IsAssignableFrom(originaReturnType))
+            if (!typeof(Task).IsAssignableFrom(originalReturnType))
             {
                 body = Expression.Convert
                 (
@@ -61,13 +61,13 @@ namespace Solti.Utils.Router
             }
             else
             {
-                body = originaReturnType == typeof(Task)
+                body = originalReturnType == typeof(Task)
                     ? CreateWrap(FWrapSingleTask)  // Task
                     : CreateWrap  // Task<T>
                     (
                         FWrapTypedTask.MakeGenericMethod
                         (
-                            originaReturnType.GetGenericArguments().Single()
+                            originalReturnType.GetGenericArguments().Single()
                         )
                     );
 
@@ -200,6 +200,11 @@ namespace Solti.Utils.Router
 
             return (object? userData, string path, string method, SplitOptions? splitOptions) =>
             {
+                //
+                // Do NOT put this logic to Wrap() to support the scenario when
+                // the UnderlyingBuilder.AddRoute() is called from user code.
+                //
+
                 object? result = router(userData, path, method, splitOptions);
 
                 return result is Task<object?> task
