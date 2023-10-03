@@ -39,6 +39,14 @@ namespace Solti.Utils.Router
     public delegate object? ExceptionHandler<TException>(object? userData, TException exception) where TException: Exception;
 
     /// <summary>
+    /// Handler for exceptions.
+    /// </summary>
+    /// <param name="userData">User provided custom data.</param>
+    /// <param name="exception">Exception that was being caught.</param>
+    /// <returns>The response object.</returns>
+    public delegate TResult ExceptionHandler<TException, TResult>(object? userData, TException exception) where TException : Exception;
+
+    /// <summary>
     /// Handler for unknown routes.
     /// </summary>
     /// <param name="userData">User provided custom data.</param>

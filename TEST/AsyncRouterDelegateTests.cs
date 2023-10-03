@@ -11,6 +11,7 @@ using NUnit.Framework;
 
 namespace Solti.Utils.Router.Tests
 {
+    using Moq;
     using Properties;
 
     [TestFixture]
@@ -43,6 +44,34 @@ namespace Solti.Utils.Router.Tests
         {
             AsyncRouter router = AsyncRouterBuilder.Create().Build();
             Assert.ThrowsAsync<InvalidOperationException>(async () => await router(null, "/cica"), Resources.ROUTE_NOT_REGISTERED);
+        }
+
+        [Test]
+        public async Task DelegateShouldHandleExceptions()
+        {
+            object userData = new();
+
+            Exception ex = new();
+
+            Mock<ExceptionHandler<Exception, Task<bool>>> mockExceptionHandler = new(MockBehavior.Strict);
+            mockExceptionHandler
+                .Setup(h => h.Invoke(userData, ex))
+                .Returns(Task.FromResult(true));
+
+            Mock<RequestHandler<Task>> mockHandler = new(MockBehavior.Strict);
+            mockHandler
+                .Setup(h => h.Invoke(It.IsAny<IReadOnlyDictionary<string, object?>>(), userData))
+                .Returns(Task.FromException(ex));
+
+            AsyncRouterBuilder bldr = AsyncRouterBuilder.Create();
+            bldr.AddRoute("/fail", mockHandler.Object);
+            bldr.RegisterExceptionHandler(mockExceptionHandler.Object);
+
+            AsyncRouter router = bldr.Build();
+
+            Assert.That(await router(userData, "/fail") is true);
+            mockExceptionHandler.Verify(h => h.Invoke(userData, ex), Times.Once);
+            mockExceptionHandler.VerifyNoOtherCalls();
         }
     }
 }

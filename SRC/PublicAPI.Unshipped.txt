@@ -1,4 +1,7 @@
-﻿Solti.Utils.Router.ExceptionHandler<TException>
+﻿Solti.Utils.Router.AsyncRouterBuilder.RegisterExceptionHandler<TException, T>(Solti.Utils.Router.ExceptionHandler<TException!, T>! handler) -> void
+Solti.Utils.Router.AsyncRouterBuilder.RegisterExceptionHandler<TException, T>(System.Linq.Expressions.Expression<Solti.Utils.Router.ExceptionHandler<TException!, T>!>! handlerExpr) -> void
+Solti.Utils.Router.ExceptionHandler<TException, TResult>
+Solti.Utils.Router.ExceptionHandler<TException>
 Solti.Utils.Router.IConverter.Type.get -> System.Type!
 Solti.Utils.Router.ParsedRoute
 Solti.Utils.Router.ParsedRoute.Segments.get -> System.Collections.Generic.IReadOnlyList<Solti.Utils.Router.RouteSegment!>!

@@ -22,6 +22,8 @@ namespace Solti.Utils.Router
     /// </summary>
     public sealed class AsyncRouterBuilder
     {
+        private delegate Task<object?> AsyncExceptionHandler(object? userData, Exception exc);
+
         private AsyncRouterBuilder(RouterBuilder builder) => UnderlyingBuilder = builder;
 
         private static async Task<object?> Wrap(Task result)
@@ -35,8 +37,11 @@ namespace Solti.Utils.Router
         private static readonly MethodInfo
 #pragma warning disable CS4014
             FWrapSingleTask  = MethodInfoExtractor.Extract(static () => Wrap((Task) null!)), 
-            FWrapTypedTask   = MethodInfoExtractor.Extract(static () => Wrap((Task<object>) null!)).GetGenericMethodDefinition();
+            FWrapTypedTask   = MethodInfoExtractor.Extract(static () => Wrap((Task<object>) null!)).GetGenericMethodDefinition(),
 #pragma warning restore CS4014
+            FGetType         = MethodInfoExtractor.Extract<object>(static o => o.GetType());
+
+        private readonly IList<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
 
         private static Expression<TDestinationDelegate> Wrap<TDestinationDelegate>(LambdaExpression sourceDelegate) where TDestinationDelegate: Delegate
         {           
@@ -56,7 +61,7 @@ namespace Solti.Utils.Router
                 body = Expression.Convert
                 (
                     UnfoldedLambda.Create(sourceDelegate, paramz),
-                    wrapped.ReturnType
+                    wrapped.ReturnType  // typeof(object)
                 );
             }
             else
@@ -192,24 +197,105 @@ namespace Solti.Utils.Router
         );
 
         /// <summary>
+        /// Registers a new exception handler.
+        /// </summary>
+        public void RegisterExceptionHandler<TException, T>(Expression<ExceptionHandler<TException, T>> handlerExpr) where TException : Exception => FExceptionHandlers.Add
+        (
+            handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr))
+        );
+
+        /// <summary>
+        /// Registers a new exception handler.
+        /// </summary>
+        public void RegisterExceptionHandler<TException, T>(ExceptionHandler<TException, T> handler) where TException : Exception => RegisterExceptionHandler<TException, T>
+        (
+            handlerExpr: handler is not null
+                ? (userData, exc) => handler(userData, exc)
+                : throw new ArgumentNullException(nameof(handler))
+        );
+
+        /// <summary>
         /// Builds the actual <see cref="AsyncRouter"/> delegate.
         /// </summary>
         public AsyncRouter Build()
         {
+
+            AsyncExceptionHandler? excHandler = null;
+            if (FExceptionHandlers.Count > 0)
+            {
+                ParameterExpression
+                    userData = Expression.Parameter(typeof(object), nameof(userData)),
+                    exc = Expression.Parameter(typeof(Exception), nameof(exc));
+
+                LabelTarget exit = Expression.Label(typeof(Task<object?>), nameof(exit));
+
+                Expression<AsyncExceptionHandler> excHandlerExpr = Expression.Lambda<AsyncExceptionHandler>
+                (
+                    Expression.Block
+                    (
+                        Expression.Switch
+                        (
+                            Expression.Call(exc, FGetType),
+                            FExceptionHandlers.Select
+                            (
+                                (LambdaExpression exceptionHandler) =>
+                                {
+                                    Type excType = exceptionHandler.Parameters.Last().Type;
+                                    Debug.Assert(typeof(Exception).IsAssignableFrom(excType), "Not an exception handler");
+
+                                    return Expression.SwitchCase
+                                    (
+                                        Expression.Return
+                                        (
+                                            exit,
+                                            Expression.Invoke
+                                            (
+                                                Wrap<AsyncExceptionHandler>(exceptionHandler),
+                                                userData, 
+                                                exc
+                                            )
+                                        ),
+                                        Expression.Constant(excType)
+                                    );
+                                }
+                            ).ToArray()
+                        ),
+                        Expression.Throw(exc),
+                        Expression.Label(exit, Expression.Default(typeof(Task<object?>)))
+                    ),
+                    userData,
+                    exc
+                );
+
+                Debug.WriteLine(excHandlerExpr.GetDebugView());
+                excHandler = excHandlerExpr.Compile();
+            }
+
             Router router = UnderlyingBuilder.Build();
 
-            return (object? userData, string path, string method, SplitOptions? splitOptions) =>
+            return AsyncRouter;
+
+            async Task<object?> AsyncRouter(object? userData, string path, string method, SplitOptions? splitOptions)
             {
-                //
-                // Do NOT put this logic to Wrap() to support the scenario when
-                // the UnderlyingBuilder.AddRoute() is called from user code.
-                //
+                try
+                {
+                    //
+                    // Do NOT put this logic to Wrap() to support the scenario when the UnderlyingBuilder.AddRoute()
+                    // is called from user code.
+                    //
 
-                object? result = router(userData, path, method, splitOptions);
+                    object? result = router(userData, path, method, splitOptions);
 
-                return result is Task<object?> task
-                    ? task
-                    : Task.FromResult(result);
+                    Task<object?> t = result is Task<object?> task
+                        ? task
+                        : Task.FromResult(result);
+
+                    return await t;
+                }
+                catch(Exception ex) when (excHandler is not null)
+                {
+                    return await excHandler(userData, ex);
+                } 
             };
         }
     }
