@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -28,6 +29,14 @@ namespace Solti.Utils.Router
     /// <param name="reason">Reason that caused the routing here for instance <see cref="HttpStatusCode.NotFound"/> or <see cref="HttpStatusCode.MethodNotAllowed"/></param>
     /// <returns>The response object.</returns>
     public delegate object? DefaultRequestHandler(object? userData, HttpStatusCode reason);
+
+    /// <summary>
+    /// Handler for exceptions.
+    /// </summary>
+    /// <param name="userData">User provided custom data.</param>
+    /// <param name="exception">Exception that was being caught.</param>
+    /// <returns>The response object.</returns>
+    public delegate object? ExceptionHandler<TException>(object? userData, TException exception) where TException: Exception;
 
     /// <summary>
     /// Handler for unknown routes.

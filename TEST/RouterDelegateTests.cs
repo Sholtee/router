@@ -144,28 +144,29 @@ namespace Solti.Utils.Router.Tests
         }
 
         [Test]
-        public void DelegateShouldHandleInternalErrors()
+        public void DelegateShouldHandleExceptions()
         {
-            object
-                request = new(),
-                userData = new();
+            object userData = new();
 
-            Mock<DefaultRequestHandler> mockDefaultHandler = new(MockBehavior.Strict);
-            mockDefaultHandler
-                .Setup(h => h.Invoke(userData, HttpStatusCode.InternalServerError))
+            Exception ex = new();
+
+            Mock<ExceptionHandler<Exception>> mockExceptionHandler = new(MockBehavior.Strict);
+            mockExceptionHandler
+                .Setup(h => h.Invoke(userData, ex))
                 .Returns(true);
 
             Mock<RequestHandler> mockHandler = new(MockBehavior.Strict);
             mockHandler
                 .Setup(h => h.Invoke(It.IsAny<IReadOnlyDictionary<string, object?>>(), userData))
-                .Throws(new Exception());
+                .Throws(ex);
 
-            RouterBuilder bldr = new(mockDefaultHandler.Object, DefaultConverters.Instance);
+            RouterBuilder bldr = new();
             bldr.AddRoute("/fail", mockHandler.Object);
+            bldr.RegisterExceptionHandler(mockExceptionHandler.Object);
 
             Router router = bldr.Build();
             Assert.That(router(userData, "/fail") is true);
-            mockDefaultHandler.Verify(h => h.Invoke(userData, HttpStatusCode.InternalServerError), Times.Once);
+            mockExceptionHandler.Verify(h => h.Invoke(userData, ex), Times.Once);
         }
 
         [Test]

@@ -22,7 +22,7 @@ namespace Solti.Utils.Router
     /// <code>
     /// object Route(object? userData, string path, string method = "GET", SplitOptions? splitOptions = null)
     /// { 
-    ///     try
+    ///     [try]
     ///     {
     ///         PathSplitter segments = PathSplitter.Split(path, splitOptions);
     ///         StaticDictionary paramz = createParamzDict();
@@ -87,10 +87,7 @@ namespace Solti.Utils.Router
     ///     
     ///         return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
     ///     } 
-    ///     catch 
-    ///     {
-    ///         return DefaultHandler(userData, HttpStatusCode.InternalServerError);
-    ///     }
+    ///     [catch(Exception exc) { return ExceptionHandler(userData, exc); }]
     /// </code>
     /// </summary>
     public sealed class RouterBuilder
@@ -122,6 +119,8 @@ namespace Solti.Utils.Router
         private readonly IReadOnlyDictionary<string, ConverterFactory> FConverters;
 
         private readonly StaticDictionaryBuilder FStaticDictionaryBuilder = new();
+
+        private readonly IList<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
 
         private readonly ParameterExpression
             FUserData     = Expression.Parameter(typeof(object), "userData"),
@@ -320,7 +319,50 @@ namespace Solti.Utils.Router
         /// </summary>
         public Router Build()
         {
-            StaticDictionaryFactory createParamzDict = FStaticDictionaryBuilder.CreateFactory(); 
+            StaticDictionaryFactory createParamzDict = FStaticDictionaryBuilder.CreateFactory();
+
+            Expression route = Expression.Block
+            (
+                Expression.Assign
+                (
+                    FSegments,
+                    Expression.Call(FSplit, FPath, FSplitOptions)
+                ),
+                Expression.Assign
+                (
+                    FParams,
+                    Expression.Invoke
+                    (
+                        Expression.Constant(createParamzDict)
+                    )
+                ),
+                BuildJunction(FRoot)
+            );
+            if (FExceptionHandlers.Count > 0) route = Expression.TryCatch
+            (
+                route,
+                FExceptionHandlers .Select
+                (
+                    (LambdaExpression exceptionHandler) =>
+                    {
+                        Type excType = exceptionHandler.Parameters.Last().Type;
+                        Debug.Assert(typeof(Exception).IsAssignableFrom(excType), "Not an exception handler");
+
+                        ParameterExpression exception = Expression.Variable(excType, nameof(exception));
+
+                        return Expression.Catch
+                        (
+                            exception,
+                            Return
+                            (
+                                exceptionHandler,
+                                FUserData,
+                                exception
+                            )
+                        );
+                    }
+                ).ToArray()                       
+            );
 
             Expression<Router> routerExpr = Expression.Lambda<Router>
             (
@@ -334,36 +376,7 @@ namespace Solti.Utils.Router
                     },
                     EnsureNotNull(FPath),
                     EnsureNotNull(FMethod),
-                    Expression.TryCatch
-                    (
-                        Expression.Block
-                        (
-                            Expression.Assign
-                            (
-                                FSegments,
-                                Expression.Call(FSplit, FPath, FSplitOptions)
-                            ),
-                            Expression.Assign
-                            (
-                                FParams,
-                                Expression.Invoke
-                                (
-                                    Expression.Constant(createParamzDict)
-                                )
-                            ),
-                            BuildJunction(FRoot)              
-                        ),
-                        Expression.Catch
-                        (
-                            typeof(Exception),
-                            Return
-                            (
-                                DefaultHandler,
-                                FUserData, 
-                                Expression.Constant(HttpStatusCode.InternalServerError)
-                            )
-                        )          
-                    ),
+                    route,
                     Expression.Label(FExit, Expression.Constant(null, typeof(object)))
                 ),
                 parameters: new ParameterExpression[]
@@ -509,6 +522,22 @@ namespace Solti.Utils.Router
                 : throw new ArgumentNullException(nameof(handler)),
             splitOptions,
             methods
+        );
+
+        /// <summary>
+        /// Registers a new exception handler.
+        /// </summary>
+        public void RegisterExceptionHandler<TException>(Expression<ExceptionHandler<TException>> handlerExpr) where TException : Exception =>
+            FExceptionHandlers.Add(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr)));
+
+        /// <summary>
+        /// Registers a new exception handler.
+        /// </summary>
+        public void RegisterExceptionHandler<TException>(ExceptionHandler<TException> handler) where TException : Exception => RegisterExceptionHandler<TException>
+        (
+            handlerExpr: handler is not null
+                ? (userData, exc) => handler(userData, exc)
+                : throw new ArgumentNullException(nameof(handler))
         );
     }
 }
