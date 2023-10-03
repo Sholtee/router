@@ -64,6 +64,9 @@
       <h4><a class="xref" href="Solti.Utils.Router.DefaultRequestHandler-1.html">DefaultRequestHandler&lt;TResult&gt;</a></h4>
       <section><p>Handler for unknown routes.</p>
 </section>
+      <h4><a class="xref" href="Solti.Utils.Router.ExceptionHandler-1.html">ExceptionHandler&lt;TException&gt;</a></h4>
+      <section><p>Handler for exceptions.</p>
+</section>
       <h4><a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a></h4>
       <section><p>Represents a parsed route.</p>
 </section>
@@ -80,7 +83,7 @@
       <section><p>Builds the <a class="xref" href="Solti.Utils.Router.Router.html">Router</a> delegate that does the actual routing.</p>
 <pre><code>object Route(object? userData, string path, string method = &quot;GET&quot;, SplitOptions? splitOptions = null)
 { 
-    try
+    [try]
     {
         PathSplitter segments = PathSplitter.Split(path, splitOptions);
         StaticDictionary paramz = createParamzDict();
@@ -145,10 +148,7 @@
 
         return DefaultHandler(userData, HttpStatusCode.MethodNotAllowed);
     } 
-    catch 
-    {
-        return DefaultHandler(userData, HttpStatusCode.InternalServerError);
-    }</code></pre>
+    [catch(Exception exc) { return ExceptionHandler(userData, exc); }]</code></pre>
 </section>
       <h4><a class="xref" href="Solti.Utils.Router.RouteSegment.html">RouteSegment</a></h4>
       <section><p>Represents a segment of route (for instance <em>RouteSegment(&quot;picture&quot;, null)</em> in case of &quot;/picture&quot; or <em>RouteSegment(&quot;id&quot;, IntConverter(...))</em> in case of &quot;/{id:int}&quot;) </p>

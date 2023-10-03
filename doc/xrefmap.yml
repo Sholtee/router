@@ -365,6 +365,79 @@ references:
   fullName.vb: Solti.Utils.Router.DefaultRequestHandler(Of TResult).Invoke
   nameWithType: DefaultRequestHandler<TResult>.Invoke
   nameWithType.vb: DefaultRequestHandler(Of TResult).Invoke
+- uid: Solti.Utils.Router.ExceptionHandler`1
+  name: ExceptionHandler<TException>
+  href: Solti.Utils.Router.ExceptionHandler-1.html
+  commentId: T:Solti.Utils.Router.ExceptionHandler`1
+  name.vb: ExceptionHandler(Of TException)
+  fullName: Solti.Utils.Router.ExceptionHandler<TException>
+  fullName.vb: Solti.Utils.Router.ExceptionHandler(Of TException)
+  nameWithType: ExceptionHandler<TException>
+  nameWithType.vb: ExceptionHandler(Of TException)
+- uid: Solti.Utils.Router.ExceptionHandler`1.#ctor(System.Object,System.IntPtr)
+  name: ExceptionHandler(Object, IntPtr)
+  href: Solti.Utils.Router.ExceptionHandler-1.html#Solti_Utils_Router_ExceptionHandler_1__ctor_System_Object_System_IntPtr_
+  commentId: M:Solti.Utils.Router.ExceptionHandler`1.#ctor(System.Object,System.IntPtr)
+  fullName: Solti.Utils.Router.ExceptionHandler<TException>.ExceptionHandler(System.Object, System.IntPtr)
+  fullName.vb: Solti.Utils.Router.ExceptionHandler(Of TException).ExceptionHandler(System.Object, System.IntPtr)
+  nameWithType: ExceptionHandler<TException>.ExceptionHandler(Object, IntPtr)
+  nameWithType.vb: ExceptionHandler(Of TException).ExceptionHandler(Object, IntPtr)
+- uid: Solti.Utils.Router.ExceptionHandler`1.#ctor*
+  name: ExceptionHandler
+  href: Solti.Utils.Router.ExceptionHandler-1.html#Solti_Utils_Router_ExceptionHandler_1__ctor_
+  commentId: Overload:Solti.Utils.Router.ExceptionHandler`1.#ctor
+  fullName: Solti.Utils.Router.ExceptionHandler<TException>.ExceptionHandler
+  fullName.vb: Solti.Utils.Router.ExceptionHandler(Of TException).ExceptionHandler
+  nameWithType: ExceptionHandler<TException>.ExceptionHandler
+  nameWithType.vb: ExceptionHandler(Of TException).ExceptionHandler
+- uid: Solti.Utils.Router.ExceptionHandler`1.BeginInvoke(System.Object,`0,System.AsyncCallback,System.Object)
+  name: BeginInvoke(Object, TException, AsyncCallback, Object)
+  href: Solti.Utils.Router.ExceptionHandler-1.html#Solti_Utils_Router_ExceptionHandler_1_BeginInvoke_System_Object__0_System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Router.ExceptionHandler`1.BeginInvoke(System.Object,`0,System.AsyncCallback,System.Object)
+  fullName: Solti.Utils.Router.ExceptionHandler<TException>.BeginInvoke(System.Object, TException, System.AsyncCallback, System.Object)
+  fullName.vb: Solti.Utils.Router.ExceptionHandler(Of TException).BeginInvoke(System.Object, TException, System.AsyncCallback, System.Object)
+  nameWithType: ExceptionHandler<TException>.BeginInvoke(Object, TException, AsyncCallback, Object)
+  nameWithType.vb: ExceptionHandler(Of TException).BeginInvoke(Object, TException, AsyncCallback, Object)
+- uid: Solti.Utils.Router.ExceptionHandler`1.BeginInvoke*
+  name: BeginInvoke
+  href: Solti.Utils.Router.ExceptionHandler-1.html#Solti_Utils_Router_ExceptionHandler_1_BeginInvoke_
+  commentId: Overload:Solti.Utils.Router.ExceptionHandler`1.BeginInvoke
+  fullName: Solti.Utils.Router.ExceptionHandler<TException>.BeginInvoke
+  fullName.vb: Solti.Utils.Router.ExceptionHandler(Of TException).BeginInvoke
+  nameWithType: ExceptionHandler<TException>.BeginInvoke
+  nameWithType.vb: ExceptionHandler(Of TException).BeginInvoke
+- uid: Solti.Utils.Router.ExceptionHandler`1.EndInvoke(System.IAsyncResult)
+  name: EndInvoke(IAsyncResult)
+  href: Solti.Utils.Router.ExceptionHandler-1.html#Solti_Utils_Router_ExceptionHandler_1_EndInvoke_System_IAsyncResult_
+  commentId: M:Solti.Utils.Router.ExceptionHandler`1.EndInvoke(System.IAsyncResult)
+  fullName: Solti.Utils.Router.ExceptionHandler<TException>.EndInvoke(System.IAsyncResult)
+  fullName.vb: Solti.Utils.Router.ExceptionHandler(Of TException).EndInvoke(System.IAsyncResult)
+  nameWithType: ExceptionHandler<TException>.EndInvoke(IAsyncResult)
+  nameWithType.vb: ExceptionHandler(Of TException).EndInvoke(IAsyncResult)
+- uid: Solti.Utils.Router.ExceptionHandler`1.EndInvoke*
+  name: EndInvoke
+  href: Solti.Utils.Router.ExceptionHandler-1.html#Solti_Utils_Router_ExceptionHandler_1_EndInvoke_
+  commentId: Overload:Solti.Utils.Router.ExceptionHandler`1.EndInvoke
+  fullName: Solti.Utils.Router.ExceptionHandler<TException>.EndInvoke
+  fullName.vb: Solti.Utils.Router.ExceptionHandler(Of TException).EndInvoke
+  nameWithType: ExceptionHandler<TException>.EndInvoke
+  nameWithType.vb: ExceptionHandler(Of TException).EndInvoke
+- uid: Solti.Utils.Router.ExceptionHandler`1.Invoke(System.Object,`0)
+  name: Invoke(Object, TException)
+  href: Solti.Utils.Router.ExceptionHandler-1.html#Solti_Utils_Router_ExceptionHandler_1_Invoke_System_Object__0_
+  commentId: M:Solti.Utils.Router.ExceptionHandler`1.Invoke(System.Object,`0)
+  fullName: Solti.Utils.Router.ExceptionHandler<TException>.Invoke(System.Object, TException)
+  fullName.vb: Solti.Utils.Router.ExceptionHandler(Of TException).Invoke(System.Object, TException)
+  nameWithType: ExceptionHandler<TException>.Invoke(Object, TException)
+  nameWithType.vb: ExceptionHandler(Of TException).Invoke(Object, TException)
+- uid: Solti.Utils.Router.ExceptionHandler`1.Invoke*
+  name: Invoke
+  href: Solti.Utils.Router.ExceptionHandler-1.html#Solti_Utils_Router_ExceptionHandler_1_Invoke_
+  commentId: Overload:Solti.Utils.Router.ExceptionHandler`1.Invoke
+  fullName: Solti.Utils.Router.ExceptionHandler<TException>.Invoke
+  fullName.vb: Solti.Utils.Router.ExceptionHandler(Of TException).Invoke
+  nameWithType: ExceptionHandler<TException>.Invoke
+  nameWithType.vb: ExceptionHandler(Of TException).Invoke
 - uid: Solti.Utils.Router.IConverter
   name: IConverter
   href: Solti.Utils.Router.IConverter.html
@@ -773,6 +846,30 @@ references:
   commentId: Overload:Solti.Utils.Router.RouterBuilder.DefaultHandler
   fullName: Solti.Utils.Router.RouterBuilder.DefaultHandler
   nameWithType: RouterBuilder.DefaultHandler
+- uid: Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler*
+  name: RegisterExceptionHandler
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_RegisterExceptionHandler_
+  commentId: Overload:Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler
+  fullName: Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler
+  nameWithType: RouterBuilder.RegisterExceptionHandler
+- uid: Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler``1(Solti.Utils.Router.ExceptionHandler{``0})
+  name: RegisterExceptionHandler<TException>(ExceptionHandler<TException>)
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_RegisterExceptionHandler__1_Solti_Utils_Router_ExceptionHandler___0__
+  commentId: M:Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler``1(Solti.Utils.Router.ExceptionHandler{``0})
+  name.vb: RegisterExceptionHandler(Of TException)(ExceptionHandler(Of TException))
+  fullName: Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler<TException>(Solti.Utils.Router.ExceptionHandler<TException>)
+  fullName.vb: Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler(Of TException)(Solti.Utils.Router.ExceptionHandler(Of TException))
+  nameWithType: RouterBuilder.RegisterExceptionHandler<TException>(ExceptionHandler<TException>)
+  nameWithType.vb: RouterBuilder.RegisterExceptionHandler(Of TException)(ExceptionHandler(Of TException))
+- uid: Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler``1(System.Linq.Expressions.Expression{Solti.Utils.Router.ExceptionHandler{``0}})
+  name: RegisterExceptionHandler<TException>(Expression<ExceptionHandler<TException>>)
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_RegisterExceptionHandler__1_System_Linq_Expressions_Expression_Solti_Utils_Router_ExceptionHandler___0___
+  commentId: M:Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler``1(System.Linq.Expressions.Expression{Solti.Utils.Router.ExceptionHandler{``0}})
+  name.vb: RegisterExceptionHandler(Of TException)(Expression(Of ExceptionHandler(Of TException)))
+  fullName: Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler<TException>(System.Linq.Expressions.Expression<Solti.Utils.Router.ExceptionHandler<TException>>)
+  fullName.vb: Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler(Of TException)(System.Linq.Expressions.Expression(Of Solti.Utils.Router.ExceptionHandler(Of TException)))
+  nameWithType: RouterBuilder.RegisterExceptionHandler<TException>(Expression<ExceptionHandler<TException>>)
+  nameWithType.vb: RouterBuilder.RegisterExceptionHandler(Of TException)(Expression(Of ExceptionHandler(Of TException)))
 - uid: Solti.Utils.Router.RouteSegment
   name: RouteSegment
   href: Solti.Utils.Router.RouteSegment.html
