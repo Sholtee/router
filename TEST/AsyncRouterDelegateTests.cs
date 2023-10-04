@@ -51,9 +51,9 @@ namespace Solti.Utils.Router.Tests
         {
             object userData = new();
 
-            Exception ex = new();
+            ArgumentException ex = new();
 
-            Mock<ExceptionHandler<Exception, Task<bool>>> mockExceptionHandler = new(MockBehavior.Strict);
+            Mock<ExceptionHandler<ArgumentException, Task<bool>>> mockExceptionHandler = new(MockBehavior.Strict);
             mockExceptionHandler
                 .Setup(h => h.Invoke(userData, ex))
                 .Returns(Task.FromResult(true));

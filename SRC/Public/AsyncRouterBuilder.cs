@@ -22,7 +22,7 @@ namespace Solti.Utils.Router
     /// </summary>
     public sealed class AsyncRouterBuilder
     {
-        private delegate Task<object?> AsyncExceptionHandler(object? userData, Exception exc);
+        private delegate Task<object?> AsyncExceptionHandler<TException>(object? userData, TException exc) where TException : Exception;
 
         private AsyncRouterBuilder(RouterBuilder builder) => UnderlyingBuilder = builder;
 
@@ -43,11 +43,11 @@ namespace Solti.Utils.Router
 
         private readonly IList<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
 
-        private static Expression<TDestinationDelegate> Wrap<TDestinationDelegate>(LambdaExpression sourceDelegate) where TDestinationDelegate: Delegate
+        private static LambdaExpression Wrap(LambdaExpression sourceDelegate, Type destinationDelegate)
         {           
             Type originalReturnType = sourceDelegate.ReturnType;
             
-            MethodInfo wrapped = typeof(TDestinationDelegate).GetMethod(nameof(Action.Invoke));
+            MethodInfo wrapped = destinationDelegate.GetMethod(nameof(Action.Invoke));
 
             ParameterExpression[] paramz = wrapped
                 .GetParameters()
@@ -91,10 +91,13 @@ namespace Solti.Utils.Router
                 );
             }
 
-            Expression<TDestinationDelegate> result = Expression.Lambda<TDestinationDelegate>(body, paramz);
+            LambdaExpression result = Expression.Lambda(destinationDelegate, body, paramz);
             Debug.WriteLine(result.GetDebugView());
             return result;
         }
+
+        private static Expression<TDestinationDelegate> Wrap<TDestinationDelegate>(LambdaExpression sourceDelegate) where TDestinationDelegate : Delegate =>
+            (Expression<TDestinationDelegate>) Wrap(sourceDelegate, typeof(TDestinationDelegate));
 
         /// <summary>
         /// Creates a new <see cref="RouterBuilder"/> instance.
@@ -201,7 +204,11 @@ namespace Solti.Utils.Router
         /// </summary>
         public void RegisterExceptionHandler<TException, T>(Expression<ExceptionHandler<TException, T>> handlerExpr) where TException : Exception => FExceptionHandlers.Add
         (
-            handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr))
+            Wrap
+            (
+                handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr)),
+                typeof(AsyncExceptionHandler<>).MakeGenericType(typeof(TException))
+            )
         );
 
         /// <summary>
@@ -219,8 +226,7 @@ namespace Solti.Utils.Router
         /// </summary>
         public AsyncRouter Build()
         {
-
-            AsyncExceptionHandler? excHandler = null;
+            AsyncExceptionHandler<Exception>? excHandler = null;
             if (FExceptionHandlers.Count > 0)
             {
                 ParameterExpression
@@ -229,7 +235,7 @@ namespace Solti.Utils.Router
 
                 LabelTarget exit = Expression.Label(typeof(Task<object?>), nameof(exit));
 
-                Expression<AsyncExceptionHandler> excHandlerExpr = Expression.Lambda<AsyncExceptionHandler>
+                Expression<AsyncExceptionHandler<Exception>> excHandlerExpr = Expression.Lambda<AsyncExceptionHandler<Exception>>
                 (
                     Expression.Block
                     (
@@ -250,9 +256,9 @@ namespace Solti.Utils.Router
                                             exit,
                                             Expression.Invoke
                                             (
-                                                Wrap<AsyncExceptionHandler>(exceptionHandler),
+                                                exceptionHandler,
                                                 userData, 
-                                                exc
+                                                Expression.Convert(exc, excType)
                                             )
                                         ),
                                         Expression.Constant(excType)
