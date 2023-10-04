@@ -46,14 +46,21 @@ namespace Solti.Utils.Router.Tests
             Assert.ThrowsAsync<InvalidOperationException>(async () => await router(null, "/cica"), Resources.ROUTE_NOT_REGISTERED);
         }
 
-        [Test]
-        public async Task DelegateShouldHandleExceptions()
+        public static IEnumerable<object> Exceptions
+        {
+            get
+            {
+                yield return new Exception();
+                yield return new ArgumentException();
+            }
+        }
+
+        [TestCaseSource(nameof(Exceptions))]
+        public async Task DelegateShouldHandleExceptions<TException>(TException ex) where TException : Exception
         {
             object userData = new();
 
-            ArgumentException ex = new();
-
-            Mock<ExceptionHandler<ArgumentException, Task<bool>>> mockExceptionHandler = new(MockBehavior.Strict);
+            Mock<ExceptionHandler<TException, Task<bool>>> mockExceptionHandler = new(MockBehavior.Strict);
             mockExceptionHandler
                 .Setup(h => h.Invoke(userData, ex))
                 .Returns(Task.FromResult(true));
