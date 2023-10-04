@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Solti.Utils.Router
@@ -26,30 +27,33 @@ namespace Solti.Utils.Router
 
         private AsyncRouterBuilder(RouterBuilder builder) => UnderlyingBuilder = builder;
 
-        private static async Task<object?> Wrap(Task result)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static async Task<object?> Convert(Task result)
         {
             await result;
             return null;
         }
 
-        private static async Task<object?> Wrap<T>(Task<T> result) => await result;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static async Task<object?> Convert<T>(Task<T> result) => await result;
 
         private static readonly MethodInfo
 #pragma warning disable CS4014
-            FWrapSingleTask  = MethodInfoExtractor.Extract(static () => Wrap((Task) null!)), 
-            FWrapTypedTask   = MethodInfoExtractor.Extract(static () => Wrap((Task<object>) null!)).GetGenericMethodDefinition(),
+            FConvertSingleTask = MethodInfoExtractor.Extract(static () => Convert((Task) null!)), 
+            FConvertTypedTask  = MethodInfoExtractor.Extract(static () => Convert((Task<object>) null!)).GetGenericMethodDefinition(),
 #pragma warning restore CS4014
-            FGetType         = MethodInfoExtractor.Extract<object>(static o => o.GetType());
+            FGetType           = MethodInfoExtractor.Extract<object>(static o => o.GetType()),
+            FTaskFromResult    = MethodInfoExtractor.Extract(static () => Task.FromResult((object?) null));
 
         private readonly IList<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
 
         private static LambdaExpression Wrap(LambdaExpression sourceDelegate, Type destinationDelegate)
-        {           
+        {
             Type originalReturnType = sourceDelegate.ReturnType;
             
-            MethodInfo wrapped = destinationDelegate.GetMethod(nameof(Action.Invoke));
+            MethodInfo detinationMethod = destinationDelegate.GetMethod(nameof(Action.Invoke));
 
-            ParameterExpression[] paramz = wrapped
+            ParameterExpression[] paramz = detinationMethod
                 .GetParameters()
                 .Select(static p => Expression.Parameter(p.ParameterType, p.Name))
                 .ToArray();
@@ -58,35 +62,55 @@ namespace Solti.Utils.Router
 
             if (!typeof(Task).IsAssignableFrom(originalReturnType))
             {
+                //
+                // object DestinationMethod([paramz]) => Task.FromResult<object>(sourceMethod([paramz]));
+                //
+
                 body = Expression.Convert
                 (
-                    UnfoldedLambda.Create(sourceDelegate, paramz),
-                    wrapped.ReturnType  // typeof(object)
+                    Expression.Call
+                    (
+                        FTaskFromResult,
+                        Expression.Convert
+                        (
+                            UnfoldedLambda.Create(sourceDelegate, paramz),
+                            typeof(object)
+                        )
+                    ),
+                    detinationMethod.ReturnType // typeof(object)
                 );
             }
             else
             {
+                //
+                // object DestinationMethod([paramz])
+                // {
+                //     return (object) Convert(sourceMethod([paramz]));
+                //     async Task<object?> Convert(Task<T> task) => await task;
+                // }
+                //
+
                 body = originalReturnType == typeof(Task)
-                    ? CreateWrap(FWrapSingleTask)  // Task
-                    : CreateWrap  // Task<T>
+                    ? WrapUsing(FConvertSingleTask)  // Task
+                    : WrapUsing  // Task<T>
                     (
-                        FWrapTypedTask.MakeGenericMethod
+                        FConvertTypedTask.MakeGenericMethod
                         (
                             originalReturnType.GetGenericArguments().Single()
                         )
                     );
 
-                Expression CreateWrap(MethodInfo wrap) => Expression.Block
+                Expression WrapUsing(MethodInfo taskConverter) => Expression.Block
                 (
-                    type: wrapped.ReturnType,
+                    type: detinationMethod.ReturnType,
                     Expression.Convert
                     (
                         Expression.Call
                         (
-                            wrap,
+                            taskConverter,
                             UnfoldedLambda.Create(sourceDelegate, paramz)
                         ),
-                        wrapped.ReturnType
+                        detinationMethod.ReturnType
                     )
                 );
             }
@@ -285,18 +309,8 @@ namespace Solti.Utils.Router
             {
                 try
                 {
-                    //
-                    // Do NOT put this logic to Wrap() to support the scenario when the UnderlyingBuilder.AddRoute()
-                    // is called from user code.
-                    //
-
-                    object? result = router(userData, path, method, splitOptions);
-
-                    Task<object?> t = result is Task<object?> task
-                        ? task
-                        : Task.FromResult(result);
-
-                    return await t;
+                    Task<object?> result = (Task<object?>) router(userData, path, method, splitOptions)!;
+                    return await result;
                 }
                 catch(Exception ex) when (excHandler is not null)
                 {
