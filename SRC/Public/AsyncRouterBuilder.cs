@@ -47,11 +47,11 @@ namespace Solti.Utils.Router
 
         private readonly IList<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
 
-        private static LambdaExpression Wrap(LambdaExpression sourceDelegate, Type destinationDelegate)
+        private static Expression<TDestinationDelegate> Wrap<TDestinationDelegate>(LambdaExpression sourceDelegate) where TDestinationDelegate : Delegate
         {
             Type originalReturnType = sourceDelegate.ReturnType;
             
-            MethodInfo detinationMethod = destinationDelegate.GetMethod(nameof(Action.Invoke));
+            MethodInfo detinationMethod = typeof(TDestinationDelegate).GetMethod(nameof(Action.Invoke));
 
             ParameterExpression[] paramz = detinationMethod
                 .GetParameters()
@@ -115,13 +115,10 @@ namespace Solti.Utils.Router
                 );
             }
 
-            LambdaExpression result = Expression.Lambda(destinationDelegate, body, paramz);
+            Expression<TDestinationDelegate> result = Expression.Lambda<TDestinationDelegate>(body, paramz);
             Debug.WriteLine(result.GetDebugView());
             return result;
         }
-
-        private static Expression<TDestinationDelegate> Wrap<TDestinationDelegate>(LambdaExpression sourceDelegate) where TDestinationDelegate : Delegate =>
-            (Expression<TDestinationDelegate>) Wrap(sourceDelegate, typeof(TDestinationDelegate));
 
         /// <summary>
         /// Creates a new <see cref="RouterBuilder"/> instance.
@@ -228,11 +225,7 @@ namespace Solti.Utils.Router
         /// </summary>
         public void RegisterExceptionHandler<TException, T>(Expression<ExceptionHandler<TException, T>> handlerExpr) where TException : Exception => FExceptionHandlers.Add
         (
-            Wrap
-            (
-                handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr)),
-                typeof(AsyncExceptionHandler<>).MakeGenericType(typeof(TException))
-            )
+            Wrap<AsyncExceptionHandler<TException>>(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr)))
         );
 
         /// <summary>
