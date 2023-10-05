@@ -20,9 +20,17 @@ namespace Solti.Utils.Router.Tests
         public static IEnumerable<(Action<string, AsyncRouterBuilder>, object?)> Cases
         {
             get
-            {
-                yield return ((route, builder) => builder.AddRoute(route, handler: (paramz, userData) => Task.FromResult(1986)), 1986);
+            {    
+                // void type
                 yield return ((route, builder) => builder.AddRoute(route, handler: (paramz, userData) => Task.CompletedTask), null);
+
+                // by ref type
+                object obj = new();
+                yield return ((route, builder) => builder.AddRoute(route, handler: (paramz, userData) => Task.FromResult(obj)), obj);
+                yield return ((route, builder) => builder.AddRoute(route, handler: (paramz, userData) => obj), obj);
+
+                // value type
+                yield return ((route, builder) => builder.AddRoute(route, handler: (paramz, userData) => Task.FromResult(1986)), 1986);
                 yield return ((route, builder) => builder.AddRoute(route, handler: (paramz, userData) => 1986), 1986);
             }
         }
