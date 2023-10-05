@@ -6,7 +6,6 @@ Solti.Utils.Router.AsyncRouterBuilder.AddRoute<T>(string! route, Solti.Utils.Rou
 Solti.Utils.Router.AsyncRouterBuilder.AddRoute<T>(string! route, System.Linq.Expressions.Expression<Solti.Utils.Router.RequestHandler<T>!>! handlerExpr, params string![]! methods) -> void
 Solti.Utils.Router.AsyncRouterBuilder.AddRoute<T>(string! route, System.Linq.Expressions.Expression<Solti.Utils.Router.RequestHandler<T>!>! handlerExpr, Solti.Utils.Router.SplitOptions! splitOptions, params string![]! methods) -> void
 Solti.Utils.Router.AsyncRouterBuilder.Build() -> Solti.Utils.Router.AsyncRouter!
-Solti.Utils.Router.AsyncRouterBuilder.UnderlyingBuilder.get -> Solti.Utils.Router.RouterBuilder!
 Solti.Utils.Router.ConverterFactory
 Solti.Utils.Router.DefaultConverters
 Solti.Utils.Router.DefaultRequestHandler

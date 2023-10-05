@@ -25,7 +25,7 @@ namespace Solti.Utils.Router
     {
         private delegate Task<object?> AsyncExceptionHandler<TException>(object? userData, TException exc) where TException : Exception;
 
-        private AsyncRouterBuilder(RouterBuilder builder) => UnderlyingBuilder = builder;
+        private AsyncRouterBuilder(RouterBuilder builder) => FUnderlyingBuilder = builder;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static async Task<object?> Convert(Task result)
@@ -45,6 +45,8 @@ namespace Solti.Utils.Router
             FGetType           = MethodInfoExtractor.Extract<object>(static o => o.GetType()),
             FTaskFromResult    = MethodInfoExtractor.Extract(static () => Task.FromResult((object?) null));
 
+        private readonly RouterBuilder FUnderlyingBuilder;
+
         private readonly IList<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
 
         private static Expression<TDestinationDelegate> Wrap<TDestinationDelegate>(LambdaExpression sourceDelegate) where TDestinationDelegate : Delegate
@@ -58,30 +60,21 @@ namespace Solti.Utils.Router
                 .Select(static p => Expression.Parameter(p.ParameterType, p.Name))
                 .ToArray();
 
-            Expression body;
-
-            if (!typeof(Task).IsAssignableFrom(originalReturnType))
-            {
+            Expression body = !typeof(Task).IsAssignableFrom(originalReturnType)
                 //
                 // object DestinationMethod([paramz]) => Task.FromResult<object>(sourceMethod([paramz]));
                 //
 
-                body = Expression.Convert
+                ? Expression.Call
                 (
-                    Expression.Call
+                    FTaskFromResult,
+                    Expression.Convert  // convert required as we may encounter value types here
                     (
-                        FTaskFromResult,
-                        Expression.Convert
-                        (
-                            UnfoldedLambda.Create(sourceDelegate, paramz),
-                            typeof(object)
-                        )
-                    ),
-                    detinationMethod.ReturnType // typeof(object)
-                );
-            }
-            else
-            {
+                        UnfoldedLambda.Create(sourceDelegate, paramz),
+                        typeof(object)
+                    )
+                )
+
                 //
                 // object DestinationMethod([paramz])
                 // {
@@ -90,30 +83,16 @@ namespace Solti.Utils.Router
                 // }
                 //
 
-                body = originalReturnType == typeof(Task)
-                    ? WrapUsing(FConvertSingleTask)  // Task
-                    : WrapUsing  // Task<T>
-                    (
-                        FConvertTypedTask.MakeGenericMethod
+                : Expression.Call
+                (
+                    originalReturnType == typeof(Task)
+                        ? FConvertSingleTask  // Task
+                        : FConvertTypedTask.MakeGenericMethod // Task<T>
                         (
                             originalReturnType.GetGenericArguments().Single()
-                        )
-                    );
-
-                Expression WrapUsing(MethodInfo taskConverter) => Expression.Block
-                (
-                    type: detinationMethod.ReturnType,
-                    Expression.Convert
-                    (
-                        Expression.Call
-                        (
-                            taskConverter,
-                            UnfoldedLambda.Create(sourceDelegate, paramz)
                         ),
-                        detinationMethod.ReturnType
-                    )
+                    UnfoldedLambda.Create(sourceDelegate, paramz)
                 );
-            }
 
             Expression<TDestinationDelegate> result = Expression.Lambda<TDestinationDelegate>(body, paramz);
             Debug.WriteLine(result.GetDebugView());
@@ -162,11 +141,6 @@ namespace Solti.Utils.Router
         );
 
         /// <summary>
-        /// The utilized <see cref="RouterBuilder"/> instance.
-        /// </summary>
-        public RouterBuilder UnderlyingBuilder { get; }
-
-        /// <summary>
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
@@ -174,7 +148,7 @@ namespace Solti.Utils.Router
         /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute<T>(string route, Expression<RequestHandler<T>> handlerExpr, SplitOptions splitOptions, params string[] methods) => UnderlyingBuilder.AddRoute
+        public void AddRoute<T>(string route, Expression<RequestHandler<T>> handlerExpr, SplitOptions splitOptions, params string[] methods) => FUnderlyingBuilder.AddRoute
         (
             route ?? throw new ArgumentNullException(nameof(route)),
             Wrap<RequestHandler>(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr))),
@@ -294,7 +268,7 @@ namespace Solti.Utils.Router
                 excHandler = excHandlerExpr.Compile();
             }
 
-            Router router = UnderlyingBuilder.Build();
+            Router router = FUnderlyingBuilder.Build();
 
             return AsyncRouter;
 
