@@ -178,18 +178,6 @@ references:
   fullName.vb: Solti.Utils.Router.AsyncRouterBuilder.RegisterExceptionHandler(Of TException, T)(System.Linq.Expressions.Expression(Of Solti.Utils.Router.ExceptionHandler(Of TException, T)))
   nameWithType: AsyncRouterBuilder.RegisterExceptionHandler<TException, T>(Expression<ExceptionHandler<TException, T>>)
   nameWithType.vb: AsyncRouterBuilder.RegisterExceptionHandler(Of TException, T)(Expression(Of ExceptionHandler(Of TException, T)))
-- uid: Solti.Utils.Router.AsyncRouterBuilder.UnderlyingBuilder
-  name: UnderlyingBuilder
-  href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_UnderlyingBuilder
-  commentId: P:Solti.Utils.Router.AsyncRouterBuilder.UnderlyingBuilder
-  fullName: Solti.Utils.Router.AsyncRouterBuilder.UnderlyingBuilder
-  nameWithType: AsyncRouterBuilder.UnderlyingBuilder
-- uid: Solti.Utils.Router.AsyncRouterBuilder.UnderlyingBuilder*
-  name: UnderlyingBuilder
-  href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_UnderlyingBuilder_
-  commentId: Overload:Solti.Utils.Router.AsyncRouterBuilder.UnderlyingBuilder
-  fullName: Solti.Utils.Router.AsyncRouterBuilder.UnderlyingBuilder
-  nameWithType: AsyncRouterBuilder.UnderlyingBuilder
 - uid: Solti.Utils.Router.ConverterFactory
   name: ConverterFactory
   href: Solti.Utils.Router.ConverterFactory.html
