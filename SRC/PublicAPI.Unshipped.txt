@@ -4,9 +4,9 @@ Solti.Utils.Router.ExceptionHandler<TException, TResult>
 Solti.Utils.Router.ExceptionHandler<TException>
 Solti.Utils.Router.IConverter.Type.get -> System.Type!
 Solti.Utils.Router.ParsedRoute
+Solti.Utils.Router.ParsedRoute.Parameters.get -> System.Collections.Generic.IReadOnlyDictionary<string!, System.Type!>!
 Solti.Utils.Router.ParsedRoute.Segments.get -> System.Collections.Generic.IReadOnlyList<Solti.Utils.Router.RouteSegment!>!
 Solti.Utils.Router.ParsedRoute.Template.get -> string!
-Solti.Utils.Router.ParsedRoute.Variables.get -> System.Collections.Generic.IReadOnlyDictionary<string!, System.Type!>!
 Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler<TException>(Solti.Utils.Router.ExceptionHandler<TException!>! handler) -> void
 Solti.Utils.Router.RouterBuilder.RegisterExceptionHandler<TException>(System.Linq.Expressions.Expression<Solti.Utils.Router.ExceptionHandler<TException!>!>! handlerExpr) -> void
 Solti.Utils.Router.RouteSegment

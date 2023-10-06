@@ -16,19 +16,19 @@ namespace Solti.Utils.Router
         internal ParsedRoute(IEnumerable<RouteSegment> segments, string template)
         {
             List<RouteSegment> segmentList = new();
-            SortedDictionary<string, Type> variables = new();
+            SortedDictionary<string, Type> paramz = new();
 
             foreach (RouteSegment segment in segments)
             {
                 segmentList.Add(segment);
 
                 if (segment.Converter is not null)
-                    variables.Add(segment.Name, segment.Converter.Type);
+                    paramz.Add(segment.Name, segment.Converter.Type);
             }
 
-            Segments  = segmentList;
-            Variables = variables;
-            Template  = template;
+            Segments   = segmentList;
+            Parameters = paramz;
+            Template   = template;
         }
 
         /// <summary>
@@ -37,9 +37,9 @@ namespace Solti.Utils.Router
         public IReadOnlyList<RouteSegment> Segments { get; }
 
         /// <summary>
-        /// Variables declared in  <see cref="Template"/>
+        /// Parameters declared in  <see cref="Template"/>
         /// </summary>
-        public IReadOnlyDictionary<string, Type> Variables { get; }
+        public IReadOnlyDictionary<string, Type> Parameters { get; }
 
         /// <summary>
         /// The original template.

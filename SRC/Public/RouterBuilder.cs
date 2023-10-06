@@ -118,7 +118,7 @@ namespace Solti.Utils.Router
 
         private readonly IReadOnlyDictionary<string, ConverterFactory> FConverters;
 
-        private readonly StaticDictionaryBuilder FStaticDictionaryBuilder = new();
+        private readonly StaticDictionaryBuilder FParameters = new();
 
         private readonly IList<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
 
@@ -319,7 +319,7 @@ namespace Solti.Utils.Router
         /// </summary>
         public Router Build()
         {
-            StaticDictionaryFactory createParamzDict = FStaticDictionaryBuilder.CreateFactory();
+            StaticDictionaryFactory createParamzDict = FParameters.CreateFactory();
 
             Expression route = Expression.Block
             (
@@ -480,9 +480,9 @@ namespace Solti.Utils.Router
                     throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
             }
 
-            foreach (string variable in parsedRoute.Variables.Keys)
+            foreach (string variable in parsedRoute.Parameters.Keys)
             {
-                FStaticDictionaryBuilder.RegisterKey(variable);
+                FParameters.RegisterKey(variable);
             }
         }
 
