@@ -601,6 +601,18 @@ references:
   commentId: T:Solti.Utils.Router.ParsedRoute
   fullName: Solti.Utils.Router.ParsedRoute
   nameWithType: ParsedRoute
+- uid: Solti.Utils.Router.ParsedRoute.Parameters
+  name: Parameters
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Parameters
+  commentId: P:Solti.Utils.Router.ParsedRoute.Parameters
+  fullName: Solti.Utils.Router.ParsedRoute.Parameters
+  nameWithType: ParsedRoute.Parameters
+- uid: Solti.Utils.Router.ParsedRoute.Parameters*
+  name: Parameters
+  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Parameters_
+  commentId: Overload:Solti.Utils.Router.ParsedRoute.Parameters
+  fullName: Solti.Utils.Router.ParsedRoute.Parameters
+  nameWithType: ParsedRoute.Parameters
 - uid: Solti.Utils.Router.ParsedRoute.Segments
   name: Segments
   href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Segments
@@ -625,18 +637,6 @@ references:
   commentId: Overload:Solti.Utils.Router.ParsedRoute.Template
   fullName: Solti.Utils.Router.ParsedRoute.Template
   nameWithType: ParsedRoute.Template
-- uid: Solti.Utils.Router.ParsedRoute.Variables
-  name: Variables
-  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Variables
-  commentId: P:Solti.Utils.Router.ParsedRoute.Variables
-  fullName: Solti.Utils.Router.ParsedRoute.Variables
-  nameWithType: ParsedRoute.Variables
-- uid: Solti.Utils.Router.ParsedRoute.Variables*
-  name: Variables
-  href: Solti.Utils.Router.ParsedRoute.html#Solti_Utils_Router_ParsedRoute_Variables_
-  commentId: Overload:Solti.Utils.Router.ParsedRoute.Variables
-  fullName: Solti.Utils.Router.ParsedRoute.Variables
-  nameWithType: ParsedRoute.Variables
 - uid: Solti.Utils.Router.RequestHandler
   name: RequestHandler
   href: Solti.Utils.Router.RequestHandler.html
