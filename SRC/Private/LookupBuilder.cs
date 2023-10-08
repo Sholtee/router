@@ -84,7 +84,7 @@ namespace Solti.Utils.Router.Internals
             }
         }
 
-        public LookupDelegate<TData> Build(out int arSize)
+        public LookupDelegate<TData> Build(DelegateCompiler compiler, out int arSize)
         {
             arSize = 0;
 
@@ -102,13 +102,13 @@ namespace Solti.Utils.Router.Internals
 
             Debug.WriteLine(getIndexExpr.GetDebugView());
 
-            Func<string, int> getIndex = getIndexExpr.Compile();
+            FutureDelegate<Func<string, int>> getIndex = compiler.Register(getIndexExpr);
             return GetValue;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             ref TData GetValue(TData[] dataArray, string key)
             {
-                int index = getIndex(key);
+                int index = getIndex.Value(key);
                 if (index < 0)
                     throw new KeyNotFoundException(key);
 

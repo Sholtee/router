@@ -298,13 +298,13 @@ namespace Solti.Utils.Router
                 ? (state, reason) => handler(state, reason)
                 : throw new ArgumentNullException(nameof(handler)),
             converters
-        ) {}
+        ) { }
 
         /// <summary>
         /// Creates a new <see cref="RouterBuilder"/> instance.
         /// </summary>
         /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be used.</param>
-        public RouterBuilder(IReadOnlyDictionary<string, ConverterFactory>? converters = null): this
+        public RouterBuilder(IReadOnlyDictionary<string, ConverterFactory>? converters = null) : this
         (
             //
             // Compiler generated expression tree cannot contain throw expression (CS8188)
@@ -312,14 +312,11 @@ namespace Solti.Utils.Router
 
             handler: static (_, _) => throw new InvalidOperationException(Resources.ROUTE_NOT_REGISTERED),
             converters
-        ) {}
+        ) { }
 
-        /// <summary>
-        /// Builds the actual <see cref="Router"/> delegate.
-        /// </summary>
-        public Router Build()
+        internal FutureDelegate<Router> Build(DelegateCompiler compiler)
         {
-            StaticDictionaryFactory createParamzDict = FParameters.CreateFactory();
+            StaticDictionaryFactory createParamzDict = FParameters.CreateFactory(compiler);
 
             Expression route = Expression.Block
             (
@@ -390,7 +387,7 @@ namespace Solti.Utils.Router
 
             Debug.WriteLine(routerExpr.GetDebugView());
 
-            return routerExpr.Compile();
+            return compiler.Register(routerExpr);
 
             static Expression EnsureNotNull(ParameterExpression parameter)
             {
@@ -403,6 +400,17 @@ namespace Solti.Utils.Router
                     )
                 );
             }
+        }
+
+        /// <summary>
+        /// Builds the actual <see cref="Router"/> delegate.
+        /// </summary>
+        public Router Build()
+        {
+            DelegateCompiler compiler = new();
+            FutureDelegate<Router> router = Build(compiler);
+            compiler.Compile();
+            return router.Value;
         }
 
         /// <summary>

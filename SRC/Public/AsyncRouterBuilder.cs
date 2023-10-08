@@ -217,7 +217,9 @@ namespace Solti.Utils.Router
         /// </summary>
         public AsyncRouter Build()
         {
-            AsyncExceptionHandler<Exception>? excHandler = null;
+            DelegateCompiler compiler = new();
+
+            FutureDelegate<AsyncExceptionHandler<Exception>>? excHandler = null;
             if (FExceptionHandlers.Count > 0)
             {
                 ParameterExpression
@@ -265,10 +267,12 @@ namespace Solti.Utils.Router
                 );
 
                 Debug.WriteLine(excHandlerExpr.GetDebugView());
-                excHandler = excHandlerExpr.Compile();
+
+                excHandler = compiler.Register(excHandlerExpr);
             }
 
-            Router router = FUnderlyingBuilder.Build();
+            FutureDelegate<Router> router = FUnderlyingBuilder.Build(compiler);
+            compiler.Compile();
 
             return AsyncRouter;
 
@@ -276,12 +280,12 @@ namespace Solti.Utils.Router
             {
                 try
                 {
-                    Task<object?> result = (Task<object?>) router(userData, path, method, splitOptions)!;
+                    Task<object?> result = (Task<object?>) router.Value(userData, path, method, splitOptions)!;
                     return await result;
                 }
                 catch(Exception ex) when (excHandler is not null)
                 {
-                    return await excHandler(userData, ex);
+                    return await excHandler.Value(userData, ex);
                 } 
             };
         }

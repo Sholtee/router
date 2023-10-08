@@ -11,6 +11,7 @@ using BenchmarkDotNet.Attributes;
 namespace Solti.Utils.Router.Perf
 {
     using Internals;
+    using Primitives;
 
     [MemoryDiagnoser]
     public class StaticDictionary
@@ -52,7 +53,9 @@ namespace Solti.Utils.Router.Perf
                 bldr.RegisterKey(Keys[i] = Path.GetRandomFileName());
             }
 
-            StaticDictInst = bldr.CreateFactory().Invoke();
+            DelegateCompiler compiler = new();
+            StaticDictInst = bldr.CreateFactory(compiler).Invoke();
+            compiler.Compile();
 
             for (int i = 0; i < ItemCount; i++)
             {
