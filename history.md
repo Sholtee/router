@@ -25,3 +25,9 @@
   - *introduced*: `AsyncRouterBuilder` class
 - 1.2.1:
   - *done*: Enhanced template validation
+- 2.0.0:
+  - *breaking*: Dropped `AsyncRouterBuilder.UnderlyingBuilder` property
+  - *introduced*: `IConverter.Type` property
+  - *introduced*: `RouteTemplate.Parse()` method
+  - *introduced*: `[Async]RouterBuilder.RegisterExceptionHandler()` methods
+  - *done*: `IReadOnlyDictionary` got a custom implementation

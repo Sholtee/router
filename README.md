@@ -148,7 +148,7 @@ object? result = await route(context, context.Request.Url!.AbsolutePath, context
 ```
 
 ### Error handling
-You can register your own exception handler to be built into the router delegate
+You can register your own (even `async`) exception handler to be built into the router delegate
 ```csharp
 using System;
 
@@ -161,6 +161,28 @@ routerBuilder.AddRoute("/fail", handler: (IReadOnlyDictionary<string, object?> p
 Router route = routerBuilder.Build();
 
 Assert.That(route(null, "/fail", "GET"), Is.InstanceOf<MyException>());
+```
+
+### Route parsing
+Lets suppose we want to validate the route parameters if they meet a given condition. In this case we may utilize the `RouteTemplate.Parse()` method:
+```csharp
+using System.Reflection;
+using Solti.Utils.Router;
+
+void Validate(ParameterInfo[] expected, string route)
+{
+  ParsedRoute parsed = RouteTemplate.Parse(route);
+  if (parsed.Parameters.Count != expected.Length)
+	throw ...;
+
+  foreach (ParameterInfo param in expected)
+  {
+     if (!parsed.Parameters.TryGetValue(param.Name, out Type t) || param.Type != t)
+	   throw ...;
+  }
+
+  ...
+}
 ```
 
 ## Resources
