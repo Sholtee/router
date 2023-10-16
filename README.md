@@ -162,6 +162,20 @@ Router route = routerBuilder.Build();
 
 Assert.That(route(null, "/fail", "GET"), Is.InstanceOf<MyException>());
 ```
+or
+```csharp
+using System;
+
+using Solti.Utils.Router;
+
+AsyncRouterBuilder routerBuilder = AsyncRouterBuilder.Create();
+routerBuilder.RegisterExceptionHandler(handler: (object? state, MyException exception) => Task.FromResult(exception));
+routerBuilder.AddRoute("/fail", handler: (IReadOnlyDictionary<string, object?> paramz, object? state) => Task.FromException<TAny>(new MyException()));
+
+AsyncRouter route = routerBuilder.Build();
+
+Assert.That(await route(null, "/fail", "GET"), Is.InstanceOf<MyException>());
+```
 
 ### Route parsing
 Lets suppose we want to validate route parameters if they meet a given condition. In this case we may utilize the `RouteTemplate.Parse()` method:
