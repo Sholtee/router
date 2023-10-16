@@ -1,7 +1,7 @@
 # Compass.NET [![Build status](https://ci.appveyor.com/api/projects/status/uq0ep9idk7rw8ogr?svg=true)](https://ci.appveyor.com/project/Sholtee/router) ![AppVeyor tests](https://img.shields.io/appveyor/tests/sholtee/router/main) [![Coverage Status](https://coveralls.io/repos/github/Sholtee/router/badge.svg?branch=main)](https://coveralls.io/github/Sholtee/router?branch=main) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/sholtee/router/main) [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/compass.net)](https://www.nuget.org/packages/compass.net)
 > Simple HTTP request router for .NET backends
 
-**This documentation refers the v1.X of the library**
+**This documentation refers the v2.X of the library**
 
 ## How to use
 This library comes with an extremely simple API set (consits of a few methods only)
@@ -164,7 +164,7 @@ Assert.That(route(null, "/fail", "GET"), Is.InstanceOf<MyException>());
 ```
 
 ### Route parsing
-Lets suppose we want to validate the route parameters if they meet a given condition. In this case we may utilize the `RouteTemplate.Parse()` method:
+Lets suppose we want to validate route parameters if they meet a given condition. In this case we may utilize the `RouteTemplate.Parse()` method:
 ```csharp
 using System.Reflection;
 using Solti.Utils.Router;
