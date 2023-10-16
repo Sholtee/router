@@ -38,7 +38,7 @@
             <article class="content wrap" id="_content" data-uid="">
 
 <pre><code>
-BenchmarkDotNet v0.13.8, Windows 10 (10.0.17763.4720/1809/October2018Update/Redstone5) (Hyper-V)
+BenchmarkDotNet v0.13.9+228a464e8be6c580ad9408e98f18813f6407fb5a, Windows 10 (10.0.17763.4720/1809/October2018Update/Redstone5) (Hyper-V)
 Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 .NET SDK 7.0.400
   [Host]     : .NET 7.0.10 (7.0.1023.36312), X64 RyuJIT AVX2
@@ -53,6 +53,7 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <th style="text-align:right">Mean</th>
 <th style="text-align:right">Error</th>
 <th style="text-align:right">StdDev</th>
+<th style="text-align:right">Median</th>
 <th style="text-align:right">Gen0</th>
 <th style="text-align:right">Allocated</th>
 </tr>
@@ -62,9 +63,10 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>1</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>10.18 ns</strong></td>
-<td style="text-align:right"><strong>0.220 ns</strong></td>
-<td style="text-align:right"><strong>0.301 ns</strong></td>
+<td style="text-align:right"><strong>12.31 ns</strong></td>
+<td style="text-align:right"><strong>0.280 ns</strong></td>
+<td style="text-align:right"><strong>0.262 ns</strong></td>
+<td style="text-align:right"><strong>12.32 ns</strong></td>
 <td style="text-align:right"><strong>0.0017</strong></td>
 <td style="text-align:right"><strong>32 B</strong></td>
 </tr>
@@ -72,9 +74,10 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>1</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>138.08 ns</strong></td>
-<td style="text-align:right"><strong>2.802 ns</strong></td>
-<td style="text-align:right"><strong>8.038 ns</strong></td>
+<td style="text-align:right"><strong>137.61 ns</strong></td>
+<td style="text-align:right"><strong>2.467 ns</strong></td>
+<td style="text-align:right"><strong>2.060 ns</strong></td>
+<td style="text-align:right"><strong>137.23 ns</strong></td>
 <td style="text-align:right"><strong>0.0107</strong></td>
 <td style="text-align:right"><strong>200 B</strong></td>
 </tr>
@@ -82,9 +85,10 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>2</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>11.11 ns</strong></td>
-<td style="text-align:right"><strong>0.261 ns</strong></td>
-<td style="text-align:right"><strong>0.522 ns</strong></td>
+<td style="text-align:right"><strong>11.27 ns</strong></td>
+<td style="text-align:right"><strong>0.267 ns</strong></td>
+<td style="text-align:right"><strong>0.748 ns</strong></td>
+<td style="text-align:right"><strong>11.48 ns</strong></td>
 <td style="text-align:right"><strong>0.0017</strong></td>
 <td style="text-align:right"><strong>32 B</strong></td>
 </tr>
@@ -92,9 +96,10 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>2</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>148.39 ns</strong></td>
-<td style="text-align:right"><strong>2.908 ns</strong></td>
-<td style="text-align:right"><strong>2.986 ns</strong></td>
+<td style="text-align:right"><strong>150.71 ns</strong></td>
+<td style="text-align:right"><strong>2.422 ns</strong></td>
+<td style="text-align:right"><strong>2.266 ns</strong></td>
+<td style="text-align:right"><strong>150.62 ns</strong></td>
 <td style="text-align:right"><strong>0.0122</strong></td>
 <td style="text-align:right"><strong>224 B</strong></td>
 </tr>
@@ -102,9 +107,10 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>5</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>10.77 ns</strong></td>
-<td style="text-align:right"><strong>0.255 ns</strong></td>
-<td style="text-align:right"><strong>0.404 ns</strong></td>
+<td style="text-align:right"><strong>11.38 ns</strong></td>
+<td style="text-align:right"><strong>0.265 ns</strong></td>
+<td style="text-align:right"><strong>0.305 ns</strong></td>
+<td style="text-align:right"><strong>11.38 ns</strong></td>
 <td style="text-align:right"><strong>0.0017</strong></td>
 <td style="text-align:right"><strong>32 B</strong></td>
 </tr>
@@ -112,9 +118,10 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>5</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>359.94 ns</strong></td>
-<td style="text-align:right"><strong>5.776 ns</strong></td>
-<td style="text-align:right"><strong>4.823 ns</strong></td>
+<td style="text-align:right"><strong>368.55 ns</strong></td>
+<td style="text-align:right"><strong>5.627 ns</strong></td>
+<td style="text-align:right"><strong>4.988 ns</strong></td>
+<td style="text-align:right"><strong>369.08 ns</strong></td>
 <td style="text-align:right"><strong>0.0286</strong></td>
 <td style="text-align:right"><strong>528 B</strong></td>
 </tr>
@@ -122,9 +129,10 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>10</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>10.59 ns</strong></td>
-<td style="text-align:right"><strong>0.190 ns</strong></td>
-<td style="text-align:right"><strong>0.178 ns</strong></td>
+<td style="text-align:right"><strong>11.51 ns</strong></td>
+<td style="text-align:right"><strong>0.260 ns</strong></td>
+<td style="text-align:right"><strong>0.310 ns</strong></td>
+<td style="text-align:right"><strong>11.44 ns</strong></td>
 <td style="text-align:right"><strong>0.0017</strong></td>
 <td style="text-align:right"><strong>32 B</strong></td>
 </tr>
@@ -132,9 +140,10 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>10</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>608.05 ns</strong></td>
-<td style="text-align:right"><strong>6.417 ns</strong></td>
-<td style="text-align:right"><strong>6.002 ns</strong></td>
+<td style="text-align:right"><strong>618.41 ns</strong></td>
+<td style="text-align:right"><strong>8.525 ns</strong></td>
+<td style="text-align:right"><strong>7.974 ns</strong></td>
+<td style="text-align:right"><strong>615.71 ns</strong></td>
 <td style="text-align:right"><strong>0.0477</strong></td>
 <td style="text-align:right"><strong>888 B</strong></td>
 </tr>

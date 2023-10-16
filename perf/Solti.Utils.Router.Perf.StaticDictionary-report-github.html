@@ -1,0 +1,285 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title> | Benchmark Results </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content=" | Benchmark Results ">
+    <meta name="generator" content="docfx 2.59.3.0">
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+
+<pre><code>
+BenchmarkDotNet v0.13.9+228a464e8be6c580ad9408e98f18813f6407fb5a, Windows 10 (10.0.17763.4720/1809/October2018Update/Redstone5) (Hyper-V)
+Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
+.NET SDK 7.0.400
+  [Host]     : .NET 7.0.10 (7.0.1023.36312), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.10 (7.0.1023.36312), X64 RyuJIT AVX2
+
+</code></pre><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>ItemCount</th>
+<th style="text-align:right">Mean</th>
+<th style="text-align:right">Error</th>
+<th style="text-align:right">StdDev</th>
+<th style="text-align:right">Allocated</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RegularDictGet</strong></td>
+<td><strong>1</strong></td>
+<td style="text-align:right"><strong>18.84 ns</strong></td>
+<td style="text-align:right"><strong>0.384 ns</strong></td>
+<td style="text-align:right"><strong>0.359 ns</strong></td>
+<td style="text-align:right"><strong>-</strong></td>
+</tr>
+<tr>
+<td>RegularDictAdd</td>
+<td>1</td>
+<td style="text-align:right">25.29 ns</td>
+<td style="text-align:right">0.239 ns</td>
+<td style="text-align:right">0.224 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>StaticDictGet</td>
+<td>1</td>
+<td style="text-align:right">11.47 ns</td>
+<td style="text-align:right">0.135 ns</td>
+<td style="text-align:right">0.126 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>StaticDictAdd</td>
+<td>1</td>
+<td style="text-align:right">11.35 ns</td>
+<td style="text-align:right">0.221 ns</td>
+<td style="text-align:right">0.206 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td><strong>RegularDictGet</strong></td>
+<td><strong>2</strong></td>
+<td style="text-align:right"><strong>32.77 ns</strong></td>
+<td style="text-align:right"><strong>0.450 ns</strong></td>
+<td style="text-align:right"><strong>0.421 ns</strong></td>
+<td style="text-align:right"><strong>-</strong></td>
+</tr>
+<tr>
+<td>RegularDictAdd</td>
+<td>2</td>
+<td style="text-align:right">28.67 ns</td>
+<td style="text-align:right">0.460 ns</td>
+<td style="text-align:right">0.430 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>StaticDictGet</td>
+<td>2</td>
+<td style="text-align:right">20.77 ns</td>
+<td style="text-align:right">0.243 ns</td>
+<td style="text-align:right">0.227 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>StaticDictAdd</td>
+<td>2</td>
+<td style="text-align:right">21.44 ns</td>
+<td style="text-align:right">0.425 ns</td>
+<td style="text-align:right">0.397 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td><strong>RegularDictGet</strong></td>
+<td><strong>5</strong></td>
+<td style="text-align:right"><strong>38.11 ns</strong></td>
+<td style="text-align:right"><strong>0.780 ns</strong></td>
+<td style="text-align:right"><strong>0.730 ns</strong></td>
+<td style="text-align:right"><strong>-</strong></td>
+</tr>
+<tr>
+<td>RegularDictAdd</td>
+<td>5</td>
+<td style="text-align:right">51.58 ns</td>
+<td style="text-align:right">0.703 ns</td>
+<td style="text-align:right">0.658 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>StaticDictGet</td>
+<td>5</td>
+<td style="text-align:right">32.83 ns</td>
+<td style="text-align:right">0.320 ns</td>
+<td style="text-align:right">0.284 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>StaticDictAdd</td>
+<td>5</td>
+<td style="text-align:right">34.58 ns</td>
+<td style="text-align:right">0.376 ns</td>
+<td style="text-align:right">0.333 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td><strong>RegularDictGet</strong></td>
+<td><strong>10</strong></td>
+<td style="text-align:right"><strong>35.85 ns</strong></td>
+<td style="text-align:right"><strong>0.761 ns</strong></td>
+<td style="text-align:right"><strong>0.675 ns</strong></td>
+<td style="text-align:right"><strong>-</strong></td>
+</tr>
+<tr>
+<td>RegularDictAdd</td>
+<td>10</td>
+<td style="text-align:right">40.80 ns</td>
+<td style="text-align:right">0.404 ns</td>
+<td style="text-align:right">0.358 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>StaticDictGet</td>
+<td>10</td>
+<td style="text-align:right">37.54 ns</td>
+<td style="text-align:right">0.379 ns</td>
+<td style="text-align:right">0.355 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>StaticDictAdd</td>
+<td>10</td>
+<td style="text-align:right">38.62 ns</td>
+<td style="text-align:right">0.418 ns</td>
+<td style="text-align:right">0.371 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td><strong>RegularDictGet</strong></td>
+<td><strong>20</strong></td>
+<td style="text-align:right"><strong>37.51 ns</strong></td>
+<td style="text-align:right"><strong>0.368 ns</strong></td>
+<td style="text-align:right"><strong>0.344 ns</strong></td>
+<td style="text-align:right"><strong>-</strong></td>
+</tr>
+<tr>
+<td>RegularDictAdd</td>
+<td>20</td>
+<td style="text-align:right">50.57 ns</td>
+<td style="text-align:right">0.463 ns</td>
+<td style="text-align:right">0.411 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>StaticDictGet</td>
+<td>20</td>
+<td style="text-align:right">43.43 ns</td>
+<td style="text-align:right">0.631 ns</td>
+<td style="text-align:right">0.559 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>StaticDictAdd</td>
+<td>20</td>
+<td style="text-align:right">45.99 ns</td>
+<td style="text-align:right">0.593 ns</td>
+<td style="text-align:right">0.555 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td><strong>RegularDictGet</strong></td>
+<td><strong>30</strong></td>
+<td style="text-align:right"><strong>30.32 ns</strong></td>
+<td style="text-align:right"><strong>0.672 ns</strong></td>
+<td style="text-align:right"><strong>0.825 ns</strong></td>
+<td style="text-align:right"><strong>-</strong></td>
+</tr>
+<tr>
+<td>RegularDictAdd</td>
+<td>30</td>
+<td style="text-align:right">39.59 ns</td>
+<td style="text-align:right">0.319 ns</td>
+<td style="text-align:right">0.283 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>StaticDictGet</td>
+<td>30</td>
+<td style="text-align:right">40.22 ns</td>
+<td style="text-align:right">0.851 ns</td>
+<td style="text-align:right">0.836 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>StaticDictAdd</td>
+<td>30</td>
+<td style="text-align:right">39.48 ns</td>
+<td style="text-align:right">0.756 ns</td>
+<td style="text-align:right">0.671 ns</td>
+<td style="text-align:right">-</td>
+</tr>
+</tbody>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>
