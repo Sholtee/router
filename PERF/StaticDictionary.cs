@@ -26,8 +26,8 @@ namespace Solti.Utils.Router.Perf
 
         private Dictionary<string, object?> RegularDictInst = null!;
 
-        [GlobalSetup(Target = nameof(RegularDict))]
-        public void SetupRegularDict()
+        [GlobalSetup(Target = nameof(RegularDictGet))]
+        public void SetupRegularDictGet()
         {
             RegularDictInst = new Dictionary<string, object?>(ItemCount);
             Keys = new string[ItemCount];
@@ -37,13 +37,27 @@ namespace Solti.Utils.Router.Perf
             }           
         }
 
-        [Benchmark(Baseline = true)]
-        public object? RegularDict() => RegularDictInst[Keys[Random.Next(ItemCount)]];
+        [Benchmark]
+        public object? RegularDictGet() => RegularDictInst[Keys[Random.Next(ItemCount)]];
+
+        [GlobalSetup(Target = nameof(RegularDictAdd))]
+        public void SetupRegularDictAdd()
+        {
+            RegularDictInst = new Dictionary<string, object?>(ItemCount);
+            Keys = new string[ItemCount];
+            for (int i = 0; i < ItemCount; i++)
+            {
+                Keys[i] = Path.GetRandomFileName();
+            }
+        }
+
+        [Benchmark]
+        public void RegularDictAdd() => RegularDictInst[Keys[Random.Next(ItemCount)]] = null;
 
         private Internals.StaticDictionary StaticDictInst = null!;
 
-        [GlobalSetup(Target = nameof(StaticDict))]
-        public void SetupStaticDict()
+        [GlobalSetup(Target = nameof(StaticDictGet))]
+        public void SetupStaticDictGet()
         {
             StaticDictionaryBuilder bldr = new();
             Keys = new string[ItemCount];
@@ -63,6 +77,24 @@ namespace Solti.Utils.Router.Perf
         }
 
         [Benchmark]
-        public object? StaticDict() => StaticDictInst[Keys[Random.Next(ItemCount)]];
+        public object? StaticDictGet() => StaticDictInst[Keys[Random.Next(ItemCount)]];
+
+        [GlobalSetup(Target = nameof(StaticDictAdd))]
+        public void SetupStaticDictAdd()
+        {
+            StaticDictionaryBuilder bldr = new();
+            Keys = new string[ItemCount];
+            for (int i = 0; i < ItemCount; i++)
+            {
+                bldr.RegisterKey(Keys[i] = Path.GetRandomFileName());
+            }
+
+            DelegateCompiler compiler = new();
+            StaticDictInst = bldr.CreateFactory(compiler).Invoke();
+            compiler.Compile();
+        }
+
+        [Benchmark]
+        public void StaticDictAdd() => StaticDictInst.Add(Keys[Random.Next(ItemCount)], null);
     }
 }
