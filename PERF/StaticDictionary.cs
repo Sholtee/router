@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -21,14 +22,13 @@ namespace Solti.Utils.Router.Perf
 
         private string[] Keys = null!;
 
-        private int Index;
+        private readonly Random Random = new();
 
         private Dictionary<string, object?> RegularDictInst = null!;
 
         [GlobalSetup(Target = nameof(RegularDict))]
         public void SetupRegularDict()
         {
-            Index = 0;
             RegularDictInst = new Dictionary<string, object?>(ItemCount);
             Keys = new string[ItemCount];
             for (int i = 0; i < ItemCount; i++)
@@ -38,14 +38,13 @@ namespace Solti.Utils.Router.Perf
         }
 
         [Benchmark(Baseline = true)]
-        public object? RegularDict() => RegularDictInst[Keys[Index++ % ItemCount]];
+        public object? RegularDict() => RegularDictInst[Keys[Random.Next(ItemCount)]];
 
         private Internals.StaticDictionary StaticDictInst = null!;
 
         [GlobalSetup(Target = nameof(StaticDict))]
         public void SetupStaticDict()
         {
-            Index = 0;
             StaticDictionaryBuilder bldr = new();
             Keys = new string[ItemCount];
             for (int i = 0; i < ItemCount; i++)
@@ -64,6 +63,6 @@ namespace Solti.Utils.Router.Perf
         }
 
         [Benchmark]
-        public object? StaticDict() => StaticDictInst[Keys[Index++ % ItemCount]];
+        public object? StaticDict() => StaticDictInst[Keys[Random.Next(ItemCount)]];
     }
 }
