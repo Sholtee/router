@@ -12,6 +12,9 @@
 	<AssemblyName>Solti.Utils.Router</AssemblyName>
 	<RootNamespace>Solti.Utils.Router</RootNamespace>
 	<NoWarn>RS0036;RS0026;</NoWarn>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditLevel>moderate</NuGetAuditLevel>
+    <NuGetAuditMode>all</NuGetAuditMode>
   </PropertyGroup>
 
   <ItemGroup>
@@ -60,7 +63,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.*">
+	<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.*">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
