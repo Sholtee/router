@@ -31,3 +31,5 @@
   - *introduced*: `RouteTemplate.Parse()` method
   - *introduced*: `[Async]RouterBuilder.RegisterExceptionHandler()` methods
   - *done*: `IReadOnlyDictionary` got a custom implementation
+- 2.0.1:
+  - *fixed:* Possible `OverflowException` when reading mixed hex values
