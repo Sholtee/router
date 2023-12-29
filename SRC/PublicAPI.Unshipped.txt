@@ -1,0 +1,5 @@
+Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute! route, System.Linq.Expressions.LambdaExpression! handlerExpr, params string![]! methods) -> void
+Solti.Utils.Router.AsyncRouterBuilder.RegisterExceptionHandler(System.Linq.Expressions.LambdaExpression! handlerExpr) -> void
+Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute! route, System.Linq.Expressions.Expression<Solti.Utils.Router.RequestHandler!>! handlerExpr, params string![]! methods) -> void
+Solti.Utils.Router.RouterBuilder.Converters.get -> System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>!
+static Solti.Utils.Router.AsyncRouterBuilder.Create(System.Linq.Expressions.LambdaExpression! handlerExpr, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> Solti.Utils.Router.AsyncRouterBuilder!

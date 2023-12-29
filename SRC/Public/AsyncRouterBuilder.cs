@@ -16,7 +16,8 @@ namespace Solti.Utils.Router
 {
     using Internals;
     using Primitives;
-    using Properties;
+
+    using static Properties.Resources;
 
     /// <summary>
     /// Builds router delegate (<see cref="AsyncRouter"/>) that dispatches requests to async handlers.
@@ -49,13 +50,12 @@ namespace Solti.Utils.Router
 
         private readonly IList<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
 
-        private static Expression<TDestinationDelegate> Wrap<TDestinationDelegate>(LambdaExpression sourceDelegate) where TDestinationDelegate : Delegate
+        private static LambdaExpression Wrap(LambdaExpression sourceDelegate, Type destinationDelegate)
         {
             Type originalReturnType = sourceDelegate.ReturnType;
             
-            MethodInfo detinationMethod = typeof(TDestinationDelegate).GetMethod(nameof(Action.Invoke));
-
-            ParameterExpression[] paramz = detinationMethod
+            ParameterExpression[] paramz = destinationDelegate
+                .GetMethod(nameof(Action.Invoke))
                 .GetParameters()
                 .Select(static p => Expression.Parameter(p.ParameterType, p.Name))
                 .ToArray();
@@ -94,9 +94,21 @@ namespace Solti.Utils.Router
                     UnfoldedLambda.Create(sourceDelegate, paramz)
                 );
 
-            Expression<TDestinationDelegate> result = Expression.Lambda<TDestinationDelegate>(body, paramz);
+            LambdaExpression result = Expression.Lambda(destinationDelegate, body, paramz);
             Debug.WriteLine(result.GetDebugView());
             return result;
+        }
+
+        private static Expression<TDestinationDelegate> Wrap<TDestinationDelegate>(LambdaExpression sourceDelegate) where TDestinationDelegate : Delegate =>
+            (Expression<TDestinationDelegate>) Wrap(sourceDelegate, typeof(TDestinationDelegate));
+
+        private static Type CheckHandler(LambdaExpression handlerExpr, Type expected)
+        {
+            Type delegateType = handlerExpr.GetType().GetGenericArguments().Single();  // Expression<TDelegate> should be the only derived
+            if (!delegateType.IsGenericType || delegateType.GetGenericTypeDefinition() != expected)
+                throw new ArgumentException(INVALID_HANDLER, nameof(handlerExpr));
+
+            return delegateType;
         }
 
         /// <summary>
@@ -104,14 +116,27 @@ namespace Solti.Utils.Router
         /// </summary>
         /// <param name="handlerExpr">Delegate to handle unknown routes. You may pass async and sync callbacks as well.</param>
         /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be sued.</param>
-        public static AsyncRouterBuilder Create<T>(Expression<DefaultRequestHandler<T>> handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null) => new
-        (
-            new RouterBuilder
+        public static AsyncRouterBuilder Create(LambdaExpression handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null)
+        {
+            CheckHandler(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr)), typeof(DefaultRequestHandler<>));
+
+            return new AsyncRouterBuilder
             (
-                Wrap<DefaultRequestHandler>(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr))),
-                converters
-            )
-        );
+                new RouterBuilder
+                (
+                    Wrap<DefaultRequestHandler>(handlerExpr),
+                    converters
+                )
+            );
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="RouterBuilder"/> instance.
+        /// </summary>
+        /// <param name="handlerExpr">Delegate to handle unknown routes. You may pass async and sync callbacks as well.</param>
+        /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be sued.</param>
+        public static AsyncRouterBuilder Create<T>(Expression<DefaultRequestHandler<T>> handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null) =>
+            Create((LambdaExpression) handlerExpr, converters);
 
         /// <summary>
         /// Creates a new <see cref="RouterBuilder"/> instance.
@@ -136,9 +161,28 @@ namespace Solti.Utils.Router
             // Compiler generated expression tree cannot contain throw expression (CS8188)
             //
 
-            handler: static (_, _) => throw new InvalidOperationException(Resources.ROUTE_NOT_REGISTERED),
+            handler: static (_, _) => throw new InvalidOperationException(ROUTE_NOT_REGISTERED),
             converters
         );
+
+        /// <summary>
+        /// Registers a new route.
+        /// </summary>
+        /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
+        /// <param name="handlerExpr">Function accepting requests on the given route. You may pass async and sync callbacks as well.</param>
+        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
+        /// <exception cref="ArgumentException">If the route already registered.</exception>
+        public void AddRoute(ParsedRoute route, LambdaExpression handlerExpr, params string[] methods)
+        {
+            CheckHandler(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr)), typeof(RequestHandler<>));
+
+            FUnderlyingBuilder.AddRoute
+            (
+                route ?? throw new ArgumentNullException(nameof(route)),
+                Wrap<RequestHandler>(handlerExpr),
+                methods ?? throw new ArgumentNullException(nameof(methods))
+            );
+        }
 
         /// <summary>
         /// Registers a new route.
@@ -148,12 +192,11 @@ namespace Solti.Utils.Router
         /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute<T>(string route, Expression<RequestHandler<T>> handlerExpr, SplitOptions splitOptions, params string[] methods) => FUnderlyingBuilder.AddRoute
+        public void AddRoute<T>(string route, Expression<RequestHandler<T>> handlerExpr, SplitOptions splitOptions, params string[] methods) => AddRoute
         (
-            route ?? throw new ArgumentNullException(nameof(route)),
-            Wrap<RequestHandler>(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr))),
-            splitOptions ?? throw new ArgumentNullException(nameof(splitOptions)),
-            methods ?? throw new ArgumentNullException(nameof(methods))
+            RouteTemplate.Parse(route, FUnderlyingBuilder.Converters, splitOptions),
+            handlerExpr,
+            methods
         );
 
         /// <summary>
@@ -197,10 +240,24 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Registers a new exception handler.
         /// </summary>
-        public void RegisterExceptionHandler<TException, T>(Expression<ExceptionHandler<TException, T>> handlerExpr) where TException : Exception => FExceptionHandlers.Add
-        (
-            Wrap<AsyncExceptionHandler<TException>>(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr)))
-        );
+        public void RegisterExceptionHandler(LambdaExpression handlerExpr)
+        {
+            Type
+                exceptionType = CheckHandler(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr)), typeof(ExceptionHandler<,>))
+                    .GetGenericArguments()[0],
+                concreteHandler = typeof(AsyncExceptionHandler<>).MakeGenericType(exceptionType);
+
+            FExceptionHandlers.Add
+            (
+                Wrap(handlerExpr, concreteHandler)
+            );
+        }
+
+        /// <summary>
+        /// Registers a new exception handler.
+        /// </summary>
+        public void RegisterExceptionHandler<TException, T>(Expression<ExceptionHandler<TException, T>> handlerExpr) where TException : Exception =>
+            RegisterExceptionHandler((LambdaExpression) handlerExpr);
 
         /// <summary>
         /// Registers a new exception handler.

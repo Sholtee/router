@@ -13,6 +13,7 @@ using NUnit.Framework;
 namespace Solti.Utils.Router.Tests
 {
     using Primitives;
+    using Properties;
 
     [TestFixture]
     public class AsyncRouterBuilderTests
@@ -42,6 +43,14 @@ namespace Solti.Utils.Router.Tests
             Assert.Throws<ArgumentException>(() => builder.AddRoute(b, DummyHandler));
         }
 
+        [Test]
+        public void AddRouteShouldThrowOnInvalidHandler()
+        {
+            AsyncRouterBuilder builder = AsyncRouterBuilder.Create<Task<object?>>(handler: (_, _) => { Assert.Fail(); return null!; }, DefaultConverters.Instance);
+
+            Assert.Throws<ArgumentException>(() => builder.AddRoute(RouteTemplate.Parse("/"), () => Console.WriteLine("")), Resources.INVALID_HANDLER);
+        }
+
         [TestCase("/{param:int}/cica", "/{param:int}/cica")]
         [TestCase("/{param:int}/cica", "/{param2:int}/cica")]
         [TestCase("/cica/{param:int}", "/cica/{param2:int}")]
@@ -67,6 +76,12 @@ namespace Solti.Utils.Router.Tests
         {
             Assert.Throws<ArgumentNullException>(() => AsyncRouterBuilder.Create<object>(handler: null!));
             Assert.Throws<ArgumentNullException>(() => AsyncRouterBuilder.Create<object>(handlerExpr: null!));
+        }
+
+        [Test]
+        public void CtorShouldThrowOnInvalidHandler()
+        {
+            Assert.Throws<ArgumentException>(() => AsyncRouterBuilder.Create(() => Console.WriteLine(""), DefaultConverters.Instance), Resources.INVALID_HANDLER);
         }
 
         public static IEnumerable<object?[]> NullCases

@@ -124,6 +124,15 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid handler..
+        /// </summary>
+        internal static string INVALID_HANDLER {
+            get {
+                return ResourceManager.GetString("INVALID_HANDLER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid HEX value.
         /// </summary>
         internal static string INVALID_HEX {

@@ -138,6 +138,9 @@
   <data name="INVALID_FORMAT_STYLE" xml:space="preserve">
     <value>Invalid format style: "{0}"</value>
   </data>
+  <data name="INVALID_HANDLER" xml:space="preserve">
+    <value>Invalid handler.</value>
+  </data>
   <data name="INVALID_HEX" xml:space="preserve">
     <value>Invalid HEX value</value>
   </data>

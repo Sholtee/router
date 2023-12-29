@@ -116,11 +116,9 @@ namespace Solti.Utils.Router
 
         private readonly Junction FRoot = new();
 
-        private readonly IReadOnlyDictionary<string, ConverterFactory> FConverters;
-
         private readonly StaticDictionaryBuilder FParameters = new();
 
-        private readonly IList<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
+        private readonly List<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
 
         private readonly ParameterExpression
             FUserData     = Expression.Parameter(typeof(object), "userData"),
@@ -284,7 +282,7 @@ namespace Solti.Utils.Router
         public RouterBuilder(Expression<DefaultRequestHandler> handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null)
         {
             DefaultHandler = handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr));
-            FConverters = converters ?? DefaultConverters.Instance;
+            Converters = converters ?? DefaultConverters.Instance;
         }
 
         /// <summary>
@@ -358,7 +356,7 @@ namespace Solti.Utils.Router
                             )
                         );
                     }
-                ).ToArray()                       
+                ).ToArray()
             );
 
             Expression<Router> routerExpr = Expression.Lambda<Router>
@@ -403,6 +401,11 @@ namespace Solti.Utils.Router
         }
 
         /// <summary>
+        /// Converters to be used during parameter resolution.
+        /// </summary>
+        public IReadOnlyDictionary<string, ConverterFactory> Converters { get; }
+
+        /// <summary>
         /// Builds the actual <see cref="Router"/> delegate.
         /// </summary>
         public Router Build()
@@ -426,7 +429,26 @@ namespace Solti.Utils.Router
         /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(string route, Expression<RequestHandler> handlerExpr, SplitOptions splitOptions, params string[] methods)
+        public void AddRoute(string route, Expression<RequestHandler> handlerExpr, SplitOptions splitOptions, params string[] methods) => AddRoute
+        (
+            RouteTemplate.Parse
+            (
+                route ?? throw new ArgumentNullException(nameof(route)),
+                Converters,
+                splitOptions
+            ),
+            handlerExpr,
+            methods
+        );
+
+        /// <summary>
+        /// Registers a new route.
+        /// </summary>
+        /// <param name="route">Route to be registered.</param>
+        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
+        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
+        /// <exception cref="ArgumentException">If the route already registered.</exception>
+        public void AddRoute(ParsedRoute route, Expression<RequestHandler> handlerExpr, params string[] methods)
         {
             if (route is null)
                 throw new ArgumentNullException(nameof(route));
@@ -437,11 +459,9 @@ namespace Solti.Utils.Router
             if (methods is null)
                 throw new ArgumentNullException(nameof(methods));
 
-
-            ParsedRoute parsedRoute = RouteTemplate.Parse(route, FConverters, splitOptions);
             Junction target = FRoot;
 
-            foreach (RouteSegment segment in parsedRoute.Segments)
+            foreach (RouteSegment segment in route.Segments)
             {
                 bool found = false;
 
@@ -488,7 +508,7 @@ namespace Solti.Utils.Router
                     throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
             }
 
-            foreach (string variable in parsedRoute.Parameters.Keys)
+            foreach (string variable in route.Parameters.Keys)
             {
                 FParameters.RegisterKey(variable);
             }
