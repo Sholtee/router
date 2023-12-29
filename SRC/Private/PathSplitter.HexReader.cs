@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
@@ -12,41 +13,33 @@ namespace Solti.Utils.Router.Internals
     {
         private byte[]? FBytes;
 
-        private char[]? FHexBuffer;
-
         private int FByteCount;
 
         private bool ReadHexChar()
         {
             int pos = FInputPosition;
 
-            if (FInput.Length - pos <= 2 || FInput[pos] != '%')
+            if (FInput.Length - pos <= 2 || FInput[pos++] != '%')
                 return false;
 
-            FHexBuffer ??= new char[4];
-
-            if ((FHexBuffer[0] = FInput[++pos]) == 'u')
+            if (FInput[pos] == 'u')
             {
                 //
                 // %uXXXX
                 //
-
-                if (FInput.Length - pos <= 4)
+              
+                pos++;
+                if (FInput.Length - pos < 4)
                     return false;
-
-                FHexBuffer[0] = FInput[++pos];
-                FHexBuffer[1] = FInput[++pos];
-                FHexBuffer[2] = FInput[++pos];
-                FHexBuffer[3] = FInput[++pos];
 
                 if
                 (
                     !ushort.TryParse
                     (
-#if !NETSTANDARD2_1_OR_GREATER
-                        new string(FHexBuffer),
+#if NETSTANDARD2_1_OR_GREATER
+                        FInput.AsSpan(pos, 4),
 #else
-                        FHexBuffer,
+                        FInput.Substring(pos, 4),
 #endif
                         NumberStyles.HexNumber,
                         null,
@@ -55,6 +48,7 @@ namespace Solti.Utils.Router.Internals
                 )
                     return false;
 
+                pos += 3;
                 FlushHexChars();
 
                 //
@@ -67,18 +61,16 @@ namespace Solti.Utils.Router.Internals
                 // %XX
                 //
 
-                FHexBuffer[1] = FInput[++pos];
-
                 FBytes ??= new byte[FInput.Length / 3]; // 3 == "%XX".Length 
 
                 if 
                 (
                     !byte.TryParse
                     (
-#if !NETSTANDARD2_1_OR_GREATER
-                        new string(FHexBuffer),
+#if NETSTANDARD2_1_OR_GREATER
+                        FInput.AsSpan(pos, 2),
 #else
-                        FHexBuffer,
+                        FInput.Substring(pos, 2),
 #endif
                         NumberStyles.HexNumber,
                         null,
@@ -87,6 +79,7 @@ namespace Solti.Utils.Router.Internals
                 )
                     return false;
 
+                pos += 1;
                 FByteCount++;
             }
 

@@ -162,6 +162,8 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/cica/%u00E1/", arg2: new string[] { "cica", "á" })]
         [TestCase("/cica/%u00E1/mica", arg2: new string[] { "cica", "á", "mica" })]
 
+        [TestCase("%u00E1%C3%A1", arg2: new string[] { "áá" })]  // mixed hex values
+
         [TestCase("%u00E1bc", arg2: new string[] { "ábc" })]
         [TestCase("%u00E1bc/", arg2: new string[] { "ábc" })]
         [TestCase("%u00E1bc/mica", arg2: new string[] { "ábc", "mica" })]
