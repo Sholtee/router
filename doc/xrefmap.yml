@@ -67,6 +67,15 @@ references:
   commentId: T:Solti.Utils.Router.AsyncRouterBuilder
   fullName: Solti.Utils.Router.AsyncRouterBuilder
   nameWithType: AsyncRouterBuilder
+- uid: Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.LambdaExpression,System.String[])
+  name: AddRoute(ParsedRoute, LambdaExpression, String[])
+  href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_AddRoute_Solti_Utils_Router_ParsedRoute_System_Linq_Expressions_LambdaExpression_System_String___
+  commentId: M:Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.LambdaExpression,System.String[])
+  name.vb: AddRoute(ParsedRoute, LambdaExpression, String())
+  fullName: Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute, System.Linq.Expressions.LambdaExpression, System.String[])
+  fullName.vb: Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute, System.Linq.Expressions.LambdaExpression, System.String())
+  nameWithType: AsyncRouterBuilder.AddRoute(ParsedRoute, LambdaExpression, String[])
+  nameWithType.vb: AsyncRouterBuilder.AddRoute(ParsedRoute, LambdaExpression, String())
 - uid: Solti.Utils.Router.AsyncRouterBuilder.AddRoute*
   name: AddRoute
   href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_AddRoute_
@@ -130,6 +139,15 @@ references:
   fullName.vb: Solti.Utils.Router.AsyncRouterBuilder.Create(System.Collections.Generic.IReadOnlyDictionary(Of System.String, Solti.Utils.Router.ConverterFactory))
   nameWithType: AsyncRouterBuilder.Create(IReadOnlyDictionary<String, ConverterFactory>)
   nameWithType.vb: AsyncRouterBuilder.Create(IReadOnlyDictionary(Of String, ConverterFactory))
+- uid: Solti.Utils.Router.AsyncRouterBuilder.Create(System.Linq.Expressions.LambdaExpression,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})
+  name: Create(LambdaExpression, IReadOnlyDictionary<String, ConverterFactory>)
+  href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_Create_System_Linq_Expressions_LambdaExpression_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__
+  commentId: M:Solti.Utils.Router.AsyncRouterBuilder.Create(System.Linq.Expressions.LambdaExpression,System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})
+  name.vb: Create(LambdaExpression, IReadOnlyDictionary(Of String, ConverterFactory))
+  fullName: Solti.Utils.Router.AsyncRouterBuilder.Create(System.Linq.Expressions.LambdaExpression, System.Collections.Generic.IReadOnlyDictionary<System.String, Solti.Utils.Router.ConverterFactory>)
+  fullName.vb: Solti.Utils.Router.AsyncRouterBuilder.Create(System.Linq.Expressions.LambdaExpression, System.Collections.Generic.IReadOnlyDictionary(Of System.String, Solti.Utils.Router.ConverterFactory))
+  nameWithType: AsyncRouterBuilder.Create(LambdaExpression, IReadOnlyDictionary<String, ConverterFactory>)
+  nameWithType.vb: AsyncRouterBuilder.Create(LambdaExpression, IReadOnlyDictionary(Of String, ConverterFactory))
 - uid: Solti.Utils.Router.AsyncRouterBuilder.Create*
   name: Create
   href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_Create_
@@ -154,6 +172,12 @@ references:
   fullName.vb: Solti.Utils.Router.AsyncRouterBuilder.Create(Of T)(System.Linq.Expressions.Expression(Of Solti.Utils.Router.DefaultRequestHandler(Of T)), System.Collections.Generic.IReadOnlyDictionary(Of System.String, Solti.Utils.Router.ConverterFactory))
   nameWithType: AsyncRouterBuilder.Create<T>(Expression<DefaultRequestHandler<T>>, IReadOnlyDictionary<String, ConverterFactory>)
   nameWithType.vb: AsyncRouterBuilder.Create(Of T)(Expression(Of DefaultRequestHandler(Of T)), IReadOnlyDictionary(Of String, ConverterFactory))
+- uid: Solti.Utils.Router.AsyncRouterBuilder.RegisterExceptionHandler(System.Linq.Expressions.LambdaExpression)
+  name: RegisterExceptionHandler(LambdaExpression)
+  href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_RegisterExceptionHandler_System_Linq_Expressions_LambdaExpression_
+  commentId: M:Solti.Utils.Router.AsyncRouterBuilder.RegisterExceptionHandler(System.Linq.Expressions.LambdaExpression)
+  fullName: Solti.Utils.Router.AsyncRouterBuilder.RegisterExceptionHandler(System.Linq.Expressions.LambdaExpression)
+  nameWithType: AsyncRouterBuilder.RegisterExceptionHandler(LambdaExpression)
 - uid: Solti.Utils.Router.AsyncRouterBuilder.RegisterExceptionHandler*
   name: RegisterExceptionHandler
   href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_RegisterExceptionHandler_
@@ -865,6 +889,15 @@ references:
   commentId: Overload:Solti.Utils.Router.RouterBuilder.#ctor
   fullName: Solti.Utils.Router.RouterBuilder.RouterBuilder
   nameWithType: RouterBuilder.RouterBuilder
+- uid: Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.Expression{Solti.Utils.Router.RequestHandler},System.String[])
+  name: AddRoute(ParsedRoute, Expression<RequestHandler>, String[])
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_AddRoute_Solti_Utils_Router_ParsedRoute_System_Linq_Expressions_Expression_Solti_Utils_Router_RequestHandler__System_String___
+  commentId: M:Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.Expression{Solti.Utils.Router.RequestHandler},System.String[])
+  name.vb: AddRoute(ParsedRoute, Expression(Of RequestHandler), String())
+  fullName: Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute, System.Linq.Expressions.Expression<Solti.Utils.Router.RequestHandler>, System.String[])
+  fullName.vb: Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute, System.Linq.Expressions.Expression(Of Solti.Utils.Router.RequestHandler), System.String())
+  nameWithType: RouterBuilder.AddRoute(ParsedRoute, Expression<RequestHandler>, String[])
+  nameWithType.vb: RouterBuilder.AddRoute(ParsedRoute, Expression(Of RequestHandler), String())
 - uid: Solti.Utils.Router.RouterBuilder.AddRoute(System.String,Solti.Utils.Router.RequestHandler,Solti.Utils.Router.SplitOptions,System.String[])
   name: AddRoute(String, RequestHandler, SplitOptions, String[])
   href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_AddRoute_System_String_Solti_Utils_Router_RequestHandler_Solti_Utils_Router_SplitOptions_System_String___
@@ -919,6 +952,18 @@ references:
   commentId: Overload:Solti.Utils.Router.RouterBuilder.Build
   fullName: Solti.Utils.Router.RouterBuilder.Build
   nameWithType: RouterBuilder.Build
+- uid: Solti.Utils.Router.RouterBuilder.Converters
+  name: Converters
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_Converters
+  commentId: P:Solti.Utils.Router.RouterBuilder.Converters
+  fullName: Solti.Utils.Router.RouterBuilder.Converters
+  nameWithType: RouterBuilder.Converters
+- uid: Solti.Utils.Router.RouterBuilder.Converters*
+  name: Converters
+  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_Converters_
+  commentId: Overload:Solti.Utils.Router.RouterBuilder.Converters
+  fullName: Solti.Utils.Router.RouterBuilder.Converters
+  nameWithType: RouterBuilder.Converters
 - uid: Solti.Utils.Router.RouterBuilder.DefaultHandler
   name: DefaultHandler
   href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_DefaultHandler
