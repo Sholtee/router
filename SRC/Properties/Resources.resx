@@ -135,6 +135,9 @@
   <data name="EMPTY_METHOD" xml:space="preserve">
     <value>Method cannot be empty.</value>
   </data>
+  <data name="GENERIC_HANDLER" xml:space="preserve">
+    <value>Request handler cannot be an open generic method.</value>
+  </data>
   <data name="INAPPROPRIATE_PARAMETERS" xml:space="preserve">
     <value>Inappropriate parameters.</value>
   </data>

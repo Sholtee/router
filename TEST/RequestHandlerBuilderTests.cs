@@ -24,11 +24,13 @@ namespace Solti.Utils.Router.Extensions.Tests
     {
         public interface IMyService
         {
-            void VoidMethod(string para);
+            void VoidMethod();
 
             Task<int> AsyncMethod(int para);
 
             int Method(int para);
+
+            T Generic<T>(int para);
 
             int RefMethod(ref int para);
         }
@@ -100,6 +102,17 @@ namespace Solti.Utils.Router.Extensions.Tests
         }
 
         [Test]
+        public void InvokeServiceShouldThrowOnOpenGenericMethod()
+        {
+            RequestHandlerBuilder bldr = new(MethodInfoExtractor.Extract<IMyService>(svc => svc.Generic<int>(0)).GetGenericMethodDefinition());
+
+            Assert.Throws<NotSupportedException>(() => bldr.InvokeService(RouteTemplate.Parse("/{para:int}"), null), GENERIC_HANDLER);
+
+            bldr = new(MethodInfoExtractor.Extract<IMyService>(svc => svc.Generic<int>(0)));
+            Assert.DoesNotThrow(() => bldr.InvokeService(RouteTemplate.Parse("/{para:int}"), null));
+        }
+
+        [Test]
         public void CreateLambdaShouldBeNullChecked()
         {
             RequestHandlerBuilder bldr = new(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)));
@@ -139,12 +152,12 @@ namespace Solti.Utils.Router.Extensions.Tests
         [Test]
         public void CreateLambdaShouldSupportVoidMethods()
         {
-            RequestHandler<object?> lambda = (RequestHandler<object?>) new RequestHandlerBuilder(MethodInfoExtractor.Extract<IMyService>(svc => svc.VoidMethod(null!)))
-                .CreateLambda(RouteTemplate.Parse("/{para:str}"), null)
+            RequestHandler<object?> lambda = (RequestHandler<object?>) new RequestHandlerBuilder(MethodInfoExtractor.Extract<IMyService>(svc => svc.VoidMethod()))
+                .CreateLambda(RouteTemplate.Parse("/"), null)
                 .Compile();
 
             Mock<IMyService> mockService = new(MockBehavior.Strict);
-            mockService.Setup(svc => svc.VoidMethod("cica"));
+            mockService.Setup(svc => svc.VoidMethod());
 
             Mock<IServiceProvider> mockServicePrivder = new(MockBehavior.Strict);
             mockServicePrivder
@@ -152,15 +165,12 @@ namespace Solti.Utils.Router.Extensions.Tests
                 .Returns(mockService.Object);
 
             Mock<IReadOnlyDictionary<string, object?>> mockParamz = new(MockBehavior.Strict);
-            mockParamz
-                .Setup(p => p["para"])
-                .Returns("cica");
 
             Assert.That(lambda(mockParamz.Object, mockServicePrivder.Object), Is.Null);
 
             mockServicePrivder.Verify(p => p.GetService(typeof(IMyService)), Times.Once);
-            mockService.Verify(svc => svc.VoidMethod("cica"), Times.Once);
-            mockParamz.Verify(p => p["para"], Times.Once);
+            mockService.Verify(svc => svc.VoidMethod(), Times.Once);
+            mockParamz.VerifyNoOtherCalls();
         }
 
         private sealed class InjectorDotNetRequestHandlerBuilder : RequestHandlerBuilder

@@ -157,6 +157,9 @@ namespace Solti.Utils.Router.Extensions
             if (route is null)
                 throw new ArgumentNullException(nameof(route));
 
+            if (InvokeServiceMethod.IsGenericMethodDefinition)
+                throw new NotSupportedException(GENERIC_HANDLER);
+
             Expression call = Expression.Call
             (
                 CreateService(userData),
