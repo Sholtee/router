@@ -70,6 +70,15 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;by ref&quot; parameters are not supported..
+        /// </summary>
+        internal static string BY_REF_PARAMETER {
+            get {
+                return ResourceManager.GetString("BY_REF_PARAMETER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Converter cannot be found: &quot;{0}&quot;.
         /// </summary>
         internal static string CONVERTER_NOT_FOUND {
@@ -156,6 +165,15 @@ namespace Solti.Utils.Router.Properties {
         internal static string INVALID_TEMPLATE {
             get {
                 return ResourceManager.GetString("INVALID_TEMPLATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter must be defined in the route template..
+        /// </summary>
+        internal static string PARAM_NOT_DEFINED {
+            get {
+                return ResourceManager.GetString("PARAM_NOT_DEFINED", resourceCulture);
             }
         }
         
