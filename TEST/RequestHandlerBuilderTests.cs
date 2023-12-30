@@ -14,6 +14,7 @@ using NUnit.Framework;
 
 namespace Solti.Utils.Router.Tests
 {
+    using DI.Interfaces;
     using Primitives;
 
     using static Properties.Resources;
@@ -159,6 +160,52 @@ namespace Solti.Utils.Router.Tests
 
             mockServicePrivder.Verify(p => p.GetService(typeof(IMyService)), Times.Once);
             mockService.Verify(svc => svc.VoidMethod("cica"), Times.Once);
+            mockParamz.Verify(p => p["para"], Times.Once);
+        }
+
+        private sealed class InjectorDotNetRequestHandlerBuilder : RequestHandlerBuilder
+        {
+            public InjectorDotNetRequestHandlerBuilder(MethodInfo invokeServiceMethod) : base(invokeServiceMethod)
+            {
+            }
+
+            protected override MethodInfo CreateServiceMethod { get; } = MethodInfoExtractor.Extract<IInjector>(i => i.Get(null!, null));
+
+            protected internal override Expression GetCreateServiceArgument(ParameterInfo param, object? userData)
+            {
+                if (param.Position is 1)
+                    return Expression.Constant(null, typeof(string));
+
+                return base.GetCreateServiceArgument(param, userData);
+            }
+        }
+
+        [Test]
+        public void BuilderCanBeCustomized()
+        {
+            RequestHandler<int> lambda = (RequestHandler<int>) new InjectorDotNetRequestHandlerBuilder(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)))
+                .CreateLambda(RouteTemplate.Parse("/{para:int}"), null)
+                .Compile();
+
+            Mock<IMyService> mockService = new(MockBehavior.Strict);
+            mockService
+                .Setup(svc => svc.Method(1986))
+                .Returns(1990);
+
+            Mock<IInjector> mockServicePrivder = new(MockBehavior.Strict);
+            mockServicePrivder
+                .Setup(p => p.Get(typeof(IMyService), null))
+                .Returns(mockService.Object);
+
+            Mock<IReadOnlyDictionary<string, object?>> mockParamz = new(MockBehavior.Strict);
+            mockParamz
+                .Setup(p => p["para"])
+                .Returns(1986);
+
+            Assert.That(lambda(mockParamz.Object, mockServicePrivder.Object), Is.EqualTo(1990));
+
+            mockServicePrivder.Verify(p => p.Get(typeof(IMyService), null), Times.Once);
+            mockService.Verify(svc => svc.Method(1986), Times.Once);
             mockParamz.Verify(p => p["para"], Times.Once);
         }
     }
