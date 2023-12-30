@@ -97,11 +97,8 @@ namespace Solti.Utils.Router
         {
             public RouteSegment? Segment { get; init; }  // null at "/"
             // order doesn't matter
-            public IDictionary<string, Expression<RequestHandler>> Handlers { get; } = new Dictionary<string, Expression<RequestHandler>>
-            (
-                StringComparer.OrdinalIgnoreCase
-            );
-            public IList<Junction> Children { get; } = new List<Junction>();
+            public Dictionary<string, Expression<RequestHandler>> Handlers { get; } = new(StringComparer.OrdinalIgnoreCase);
+            public List<Junction> Children { get; } = new();
         }
 
         private static readonly MethodInfo
@@ -118,7 +115,7 @@ namespace Solti.Utils.Router
 
         private readonly StaticDictionaryBuilder FParameters = new();
 
-        private readonly List<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
+        private readonly List<LambdaExpression> FExceptionHandlers = new();
 
         private readonly ParameterExpression
             FUserData     = Expression.Parameter(typeof(object), "userData"),
