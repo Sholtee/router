@@ -424,26 +424,6 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Registers a new route.
         /// </summary>
-        /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
-        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
-        /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
-        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
-        /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(string route, Expression<RequestHandler> handlerExpr, SplitOptions splitOptions, params string[] methods) => AddRoute
-        (
-            RouteTemplate.Parse
-            (
-                route ?? throw new ArgumentNullException(nameof(route)),
-                Converters,
-                splitOptions
-            ),
-            handlerExpr,
-            methods
-        );
-
-        /// <summary>
-        /// Registers a new route.
-        /// </summary>
         /// <param name="route">Route to be registered.</param>
         /// <param name="handlerExpr">Function accepting requests on the given route.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
@@ -496,16 +476,17 @@ namespace Solti.Utils.Router
             {
                 if (string.IsNullOrEmpty(method))
                     throw new ArgumentException(Resources.EMPTY_METHOD, nameof(methods));
-#if !NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER
+                if (target.Handlers.TryAdd(method, handlerExpr))
+                    continue;
+#else
                 if (!target.Handlers.ContainsKey(method))
                 {
                     target.Handlers.Add(method, handlerExpr);
                     continue;
                 }
-#else
-                if (!target.Handlers.TryAdd(method, handlerExpr))
 #endif
-                    throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
+                throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
             }
 
             foreach (string variable in route.Parameters.Keys)
@@ -513,6 +494,26 @@ namespace Solti.Utils.Router
                 FParameters.RegisterKey(variable);
             }
         }
+
+        /// <summary>
+        /// Registers a new route.
+        /// </summary>
+        /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
+        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
+        /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
+        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
+        /// <exception cref="ArgumentException">If the route already registered.</exception>
+        public void AddRoute(string route, Expression<RequestHandler> handlerExpr, SplitOptions splitOptions, params string[] methods) => AddRoute
+        (
+            RouteTemplate.Parse
+            (
+                route ?? throw new ArgumentNullException(nameof(route)),
+                Converters,
+                splitOptions
+            ),
+            handlerExpr,
+            methods
+        );
 
         /// <summary>
         /// Registers a new route.
