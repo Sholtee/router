@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 
-namespace Solti.Utils.Router.Tests
+namespace Solti.Utils.Router.Extensions.Tests
 {
     using DI.Interfaces;
     using Primitives;
