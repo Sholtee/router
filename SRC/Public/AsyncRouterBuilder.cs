@@ -48,7 +48,7 @@ namespace Solti.Utils.Router
 
         private readonly RouterBuilder FUnderlyingBuilder;
 
-        private readonly IList<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
+        private readonly List<LambdaExpression> FExceptionHandlers = new();
 
         private static LambdaExpression Wrap(LambdaExpression sourceDelegate, Type destinationDelegate)
         {

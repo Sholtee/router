@@ -54,7 +54,7 @@ namespace Solti.Utils.Router.Extensions
         #if DEBUG
         internal
         #endif
-        protected virtual Expression CreateService(object? userData) => Expression.Convert
+        protected virtual Expression CreateService(Type serviceType, object? userData) => Expression.Convert
         (
             Expression.Call
             (
@@ -64,9 +64,9 @@ namespace Solti.Utils.Router.Extensions
                     CreateServiceMethod.ReflectedType
                 ),
                 CreateServiceMethod,
-                CreateServiceMethod.GetParameters().Select(arg => GetCreateServiceArgument(arg, userData))
+                CreateServiceMethod.GetParameters().Select(arg => GetCreateServiceArgument(arg, serviceType, userData))
             ),
-            InvokeServiceMethod.ReflectedType
+            serviceType
         );
 
         /// <summary>
@@ -80,22 +80,11 @@ namespace Solti.Utils.Router.Extensions
         #if DEBUG
         internal
         #endif
-        protected virtual Expression GetCreateServiceArgument(ParameterInfo param, object? userData)
+        protected virtual Expression GetCreateServiceArgument(ParameterInfo param, Type serviceType, object? userData) => param.Position switch
         {
-            if (param is null)
-                throw new ArgumentNullException(nameof(param));
-
-            return param.Position switch
-            {
-                0 => Expression.Constant(InvokeServiceMethod.ReflectedType),
-                _ => throw new NotSupportedException()
-            };
-        }
-
-        /// <summary>
-        /// The concrete method to handle the request.
-        /// </summary>
-        public MethodInfo InvokeServiceMethod { get; }
+            0 => Expression.Constant(serviceType),
+            _ => throw new NotSupportedException()
+        };
 
         /// <summary>
         /// Gets the argument name to be used when getting the value from the "paramz" dict.
@@ -104,21 +93,15 @@ namespace Solti.Utils.Router.Extensions
         protected virtual string GetArgumentName(ParameterInfo arg) => arg.Name;
 
         /// <summary>
-        /// Returns the argument(s) to be passed to the <see cref="InvokeServiceMethod"/>.
+        /// Returns the argument(s) to be passed to the request handler.
         /// </summary>
         #if DEBUG
         internal
         #endif
         protected virtual Expression GetInvokeServiceArgument(ParameterInfo param, ParsedRoute route, object? userData)
         {
-            if (param is null)
-                throw new ArgumentNullException(nameof(param));
-
             if (param.ParameterType.IsByRef)
                 throw new ArgumentException(BY_REF_PARAMETER, param.Name);
-
-            if (route is null)
-                throw new ArgumentNullException(nameof(route));
 
             string name = GetArgumentName(param);
 
@@ -152,21 +135,15 @@ namespace Solti.Utils.Router.Extensions
         #if DEBUG
         internal
         #endif
-        protected virtual Expression InvokeService(ParsedRoute route, object? userData)
+        protected virtual Expression InvokeService(ParsedRoute route, MethodInfo invokeServiceMethod, object? userData)
         {
-            if (route is null)
-                throw new ArgumentNullException(nameof(route));
-
-            if (InvokeServiceMethod.IsGenericMethodDefinition)
-                throw new NotSupportedException(GENERIC_HANDLER);
-
             Expression call = Expression.Call
             (
-                CreateService(userData),
-                InvokeServiceMethod,
-                InvokeServiceMethod.GetParameters().Select(arg => GetInvokeServiceArgument(arg, route, userData))
+                CreateService(invokeServiceMethod.ReflectedType, userData),
+                invokeServiceMethod,
+                invokeServiceMethod.GetParameters().Select(arg => GetInvokeServiceArgument(arg, route, userData))
             );
-            return InvokeServiceMethod.ReturnType != typeof(void)
+            return invokeServiceMethod.ReturnType != typeof(void)
                 ? call
                 : Expression.Block
                 (
@@ -175,11 +152,6 @@ namespace Solti.Utils.Router.Extensions
                    Expression.Constant(null, typeof(object))
                 );
         }
-
-        /// <summary>
-        /// Creates a new <see cref="RequestHandlerBuilder"/> method.
-        /// </summary>
-        public RequestHandlerBuilder(MethodInfo invokeServiceMethod) => InvokeServiceMethod = invokeServiceMethod ?? throw new ArgumentNullException(nameof(invokeServiceMethod));
 
         /// <summary>
         /// Creates the <see cref="LambdaExpression"/> that represents the service invocation. The returned lambda is safe to be passed to <see cref="AsyncRouterBuilder.AddRoute(ParsedRoute, LambdaExpression, string[])"/> method.
@@ -192,20 +164,31 @@ namespace Solti.Utils.Router.Extensions
         /// }
         /// </code>
         /// </remarks>
-        public virtual LambdaExpression CreateLambda(ParsedRoute route, object? userData)
+        public virtual LambdaExpression CreateLambda(ParsedRoute route, MethodInfo invokeServiceMethod, object? userData)
         {
             if (route is null)
                 throw new ArgumentNullException(nameof(route));
 
-            Type lambdaType = typeof(RequestHandler<>).MakeGenericType
-            (
-                InvokeServiceMethod.ReturnType != typeof(void)
-                    ? InvokeServiceMethod.ReturnType
-                    : typeof(object)
-            );
+            if (invokeServiceMethod is null)
+                throw new ArgumentNullException(nameof(invokeServiceMethod));
 
-            LambdaExpression lambda = Expression.Lambda(lambdaType, InvokeService(route, userData), ParamsDict, UserData);
+            if (invokeServiceMethod.IsGenericMethodDefinition || invokeServiceMethod.IsStatic || (!invokeServiceMethod.ReflectedType.IsInterface && invokeServiceMethod.IsAbstract))
+                throw new ArgumentException(INVALID_HANDLER, nameof(invokeServiceMethod));
+
+            LambdaExpression lambda = Expression.Lambda
+            (
+                typeof(RequestHandler<>).MakeGenericType
+                (
+                    invokeServiceMethod.ReturnType != typeof(void)
+                        ? invokeServiceMethod.ReturnType
+                        : typeof(object)
+                ),
+                InvokeService(route, invokeServiceMethod, userData),
+                ParamsDict,
+                UserData
+            );
             Debug.WriteLine(lambda.GetDebugView());
+
             return lambda;
         }
     }

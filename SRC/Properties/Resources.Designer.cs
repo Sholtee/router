@@ -115,15 +115,6 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request handler cannot be an open generic method..
-        /// </summary>
-        internal static string GENERIC_HANDLER {
-            get {
-                return ResourceManager.GetString("GENERIC_HANDLER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Inappropriate parameters..
         /// </summary>
         internal static string INAPPROPRIATE_PARAMETERS {

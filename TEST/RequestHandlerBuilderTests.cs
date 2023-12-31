@@ -35,96 +35,59 @@ namespace Solti.Utils.Router.Extensions.Tests
             int RefMethod(ref int para);
         }
 
-
-        [Test]
-        public void GetCreateServiceArgumentShouldBeNullChecked()
-        {
-            RequestHandlerBuilder bldr = new(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)));
-
-            Assert.Throws<ArgumentNullException>(() => bldr.GetCreateServiceArgument(null!, null));
-        }
+        public RequestHandlerBuilder DefaultBuilder { get; } = new RequestHandlerBuilder();
 
         [Test]
         public void GetCreateServiceArgumentShouldThrowOnInvalidArgument()
         {
-            RequestHandlerBuilder bldr = new(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)));
-
             ParameterInfo para = MethodInfoExtractor.Extract<IServiceProvider>(p => p.GetService(null!)).ReturnParameter;
 
-            Assert.Throws<NotSupportedException>(() => bldr.GetCreateServiceArgument(para, null));
+            Assert.Throws<NotSupportedException>(() => DefaultBuilder.GetCreateServiceArgument(para, typeof(IMyService), null));
         }
 
         [Test]
         public void GetCreateServiceArgumentShouldReflectTheActualService()
         {
-            RequestHandlerBuilder bldr = new(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)));
-
             ParameterInfo para = MethodInfoExtractor.Extract<IServiceProvider>(p => p.GetService(null!)).GetParameters()[0];
 
-            Assert.That(Expression.Lambda<Func<Type>>(bldr.GetCreateServiceArgument(para, null)).Compile().Invoke(), Is.EqualTo(typeof(IMyService)));
-        }
-
-        [Test]
-        public void GetInvokeServiceArgumentShouldBeNullChecked()
-        {
-            RequestHandlerBuilder bldr = new(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)));
-
-            Assert.Throws<ArgumentNullException>(() => bldr.GetInvokeServiceArgument(null!, RouteTemplate.Parse("/{para:int}"), null));
-            Assert.Throws<ArgumentNullException>(() => bldr.GetInvokeServiceArgument(bldr.InvokeServiceMethod.GetParameters()[0], null!, null));
+            Assert.That(Expression.Lambda<Func<Type>>(DefaultBuilder.GetCreateServiceArgument(para, typeof(IMyService), null)).Compile().Invoke(), Is.EqualTo(typeof(IMyService)));
         }
 
         [Test]
         public void GetInvokeServiceArgumentShouldThrowOnRefMethod()
         {
-            RequestHandlerBuilder bldr = new(MethodInfoExtractor.Extract<IMyService, int>((svc, val) => svc.RefMethod(ref val)));
+            ParameterInfo para = MethodInfoExtractor.Extract<IMyService, int>((svc, val) => svc.RefMethod(ref val)).GetParameters()[0];
 
-            ParameterInfo para = bldr.InvokeServiceMethod.GetParameters()[0];
-
-            Assert.Throws<ArgumentException>(() => bldr.GetInvokeServiceArgument(para, RouteTemplate.Parse("/{para:int}"), null), BY_REF_PARAMETER);
+            Assert.Throws<ArgumentException>(() => DefaultBuilder.GetInvokeServiceArgument(para, RouteTemplate.Parse("/{para:int}"), null), BY_REF_PARAMETER);
         }
 
         [Test]
-        public void GetInvokeServiceArgumentShouldOnUndefinedParameter()
+        public void GetInvokeServiceArgumentShouldThrowOnUndefinedParameter()
         {
-            RequestHandlerBuilder bldr = new(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)));
-
             ParameterInfo para = MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)).GetParameters()[0];
 
-            Assert.Throws<ArgumentException>(() => bldr.GetInvokeServiceArgument(para, RouteTemplate.Parse("/"), null), PARAM_NOT_DEFINED);
+            Assert.Throws<ArgumentException>(() => DefaultBuilder.GetInvokeServiceArgument(para, RouteTemplate.Parse("/"), null), PARAM_NOT_DEFINED);
         }
 
         [Test]
-        public void InvokeServiceShouldBeNullChecked()
+        public void CreateLambdaThrowOnOpenGenericMethod()
         {
-            RequestHandlerBuilder bldr = new(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)));
-
-            Assert.Throws<ArgumentNullException>(() => bldr.InvokeService(null!, null));
-        }
-
-        [Test]
-        public void InvokeServiceShouldThrowOnOpenGenericMethod()
-        {
-            RequestHandlerBuilder bldr = new(MethodInfoExtractor.Extract<IMyService>(svc => svc.Generic<int>(0)).GetGenericMethodDefinition());
-
-            Assert.Throws<NotSupportedException>(() => bldr.InvokeService(RouteTemplate.Parse("/{para:int}"), null), GENERIC_HANDLER);
-
-            bldr = new(MethodInfoExtractor.Extract<IMyService>(svc => svc.Generic<int>(0)));
-            Assert.DoesNotThrow(() => bldr.InvokeService(RouteTemplate.Parse("/{para:int}"), null));
+            Assert.Throws<ArgumentException>(() => DefaultBuilder.CreateLambda(RouteTemplate.Parse("/{para:int}"), MethodInfoExtractor.Extract<IMyService>(svc => svc.Generic<int>(0)).GetGenericMethodDefinition(), null), INVALID_HANDLER);
+            Assert.DoesNotThrow(() => DefaultBuilder.CreateLambda(RouteTemplate.Parse("/{para:int}"), MethodInfoExtractor.Extract<IMyService>(svc => svc.Generic<int>(0)), null));
         }
 
         [Test]
         public void CreateLambdaShouldBeNullChecked()
         {
-            RequestHandlerBuilder bldr = new(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)));
-
-            Assert.Throws<ArgumentNullException>(() => bldr.CreateLambda(null!, null));
+            Assert.Throws<ArgumentNullException>(() => DefaultBuilder.CreateLambda(null!, MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)), null));
+            Assert.Throws<ArgumentNullException>(() => DefaultBuilder.CreateLambda(RouteTemplate.Parse("/"), null!, null));
         }
 
         [Test]
         public void CreateLambdaShouldSupportRegularMethods()
         {
-            RequestHandler<int> lambda = (RequestHandler<int>) new RequestHandlerBuilder(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)))
-                .CreateLambda(RouteTemplate.Parse("/{para:int}"), null)
+            RequestHandler<int> lambda = (RequestHandler<int>) DefaultBuilder
+                .CreateLambda(RouteTemplate.Parse("/{para:int}"), MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)), null)
                 .Compile();
 
             Mock<IMyService> mockService = new(MockBehavior.Strict);
@@ -152,8 +115,8 @@ namespace Solti.Utils.Router.Extensions.Tests
         [Test]
         public void CreateLambdaShouldSupportVoidMethods()
         {
-            RequestHandler<object?> lambda = (RequestHandler<object?>) new RequestHandlerBuilder(MethodInfoExtractor.Extract<IMyService>(svc => svc.VoidMethod()))
-                .CreateLambda(RouteTemplate.Parse("/"), null)
+            RequestHandler<object?> lambda = (RequestHandler<object?>) DefaultBuilder
+                .CreateLambda(RouteTemplate.Parse("/"), MethodInfoExtractor.Extract<IMyService>(svc => svc.VoidMethod()), null)
                 .Compile();
 
             Mock<IMyService> mockService = new(MockBehavior.Strict);
@@ -175,26 +138,22 @@ namespace Solti.Utils.Router.Extensions.Tests
 
         private sealed class InjectorDotNetRequestHandlerBuilder : RequestHandlerBuilder
         {
-            public InjectorDotNetRequestHandlerBuilder(MethodInfo invokeServiceMethod) : base(invokeServiceMethod)
-            {
-            }
-
             protected override MethodInfo CreateServiceMethod { get; } = MethodInfoExtractor.Extract<IInjector>(i => i.Get(null!, null));
 
-            protected internal override Expression GetCreateServiceArgument(ParameterInfo param, object? userData)
+            protected internal override Expression GetCreateServiceArgument(ParameterInfo param, Type serviceType, object? userData)
             {
                 if (param.Position is 1)
                     return Expression.Constant(null, typeof(string));
 
-                return base.GetCreateServiceArgument(param, userData);
+                return base.GetCreateServiceArgument(param, serviceType, userData);
             }
         }
 
         [Test]
         public void BuilderCanBeCustomized()
         {
-            RequestHandler<int> lambda = (RequestHandler<int>) new InjectorDotNetRequestHandlerBuilder(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)))
-                .CreateLambda(RouteTemplate.Parse("/{para:int}"), null)
+            RequestHandler<int> lambda = (RequestHandler<int>) new InjectorDotNetRequestHandlerBuilder()
+                .CreateLambda(RouteTemplate.Parse("/{para:int}"), MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)), null)
                 .Compile();
 
             Mock<IMyService> mockService = new(MockBehavior.Strict);
