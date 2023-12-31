@@ -137,6 +137,9 @@ namespace Solti.Utils.Router.Tests
         {
             HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+
+            using Stream stm = await resp.Content.ReadAsStreamAsync();
+            Assert.That(await JsonSerializer.DeserializeAsync<string>(stm), Is.EqualTo("NotFound"));
         }
 
         [Test]
@@ -162,6 +165,9 @@ namespace Solti.Utils.Router.Tests
                 JsonContent.Create(new object())
             );
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.MethodNotAllowed));
+
+            using Stream stm = await resp.Content.ReadAsStreamAsync();
+            Assert.That(await JsonSerializer.DeserializeAsync<string>(stm), Is.EqualTo("MethodNotAllowed"));
         }
 
         [Test]
@@ -324,8 +330,18 @@ namespace Solti.Utils.Router.Tests
             HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
 
+            using (Stream stm = await resp.Content.ReadAsStreamAsync())
+            {
+                Assert.That(await JsonSerializer.DeserializeAsync<string>(stm), Is.EqualTo("NotFound"));
+            }
+
             resp = await Client.GetAsync("http://localhost:8080/10");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+
+            using (Stream stm = await resp.Content.ReadAsStreamAsync())
+            {
+                Assert.That(await JsonSerializer.DeserializeAsync<string>(stm), Is.EqualTo("NotFound"));
+            }
         }
 
         [Test]
@@ -333,6 +349,9 @@ namespace Solti.Utils.Router.Tests
         {
             HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/error");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.InternalServerError));
+
+            using Stream stm = await resp.Content.ReadAsStreamAsync();
+            Assert.That(await JsonSerializer.DeserializeAsync<string>(stm), Is.EqualTo("This is the end"));
         }
 
         [Test]
@@ -358,6 +377,9 @@ namespace Solti.Utils.Router.Tests
                 JsonContent.Create(new object())
             );
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.MethodNotAllowed));
+
+            using Stream stm = await resp.Content.ReadAsStreamAsync();
+            Assert.That(await JsonSerializer.DeserializeAsync<string>(stm), Is.EqualTo("MethodNotAllowed"));
         }
 
         [Test]
