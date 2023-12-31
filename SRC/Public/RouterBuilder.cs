@@ -369,7 +369,14 @@ namespace Solti.Utils.Router
                     EnsureNotNull(FPath),
                     EnsureNotNull(FMethod),
                     route,
-                    Expression.Label(FExit, Expression.Constant(null, typeof(object)))
+                    Expression.Label
+                    (
+                        FExit,
+                        Expression.Invoke
+                        (
+                            Expression.Constant((Func<object?>) Disaster)
+                        )
+                    )
                 ),
                 parameters: new ParameterExpression[]
                 {
@@ -394,6 +401,12 @@ namespace Solti.Utils.Router
                         Expression.Constant(new ArgumentNullException(parameter.Name))
                     )
                 );
+            }
+
+            static object? Disaster()
+            {
+                Debug.Fail("The code should have never reached here");
+                return null;
             }
         }
 

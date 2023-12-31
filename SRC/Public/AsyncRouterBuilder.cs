@@ -166,6 +166,11 @@ namespace Solti.Utils.Router
         );
 
         /// <summary>
+        /// Converters to be used during parameter resolution.
+        /// </summary>
+        public IReadOnlyDictionary<string, ConverterFactory> Converters => FUnderlyingBuilder.Converters;
+
+        /// <summary>
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
