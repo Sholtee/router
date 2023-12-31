@@ -40,10 +40,10 @@ namespace Solti.Utils.Router
         private static async Task<object?> Convert<T>(Task<T> result) => await result;
 
         private static readonly MethodInfo
-#pragma warning disable CS4014
+            #pragma warning disable CS4014
             FConvertSingleTask = MethodInfoExtractor.Extract(static () => Convert((Task) null!)), 
             FConvertTypedTask  = MethodInfoExtractor.Extract(static () => Convert((Task<object>) null!)).GetGenericMethodDefinition(),
-#pragma warning restore CS4014
+            #pragma warning restore CS4014
             FGetType           = MethodInfoExtractor.Extract<object>(static o => o.GetType()),
             FTaskFromResult    = MethodInfoExtractor.Extract(static () => Task.FromResult((object?) null));
 
@@ -156,6 +156,9 @@ namespace Solti.Utils.Router
 
         private static Type CheckHandler(LambdaExpression handlerExpr, Type expected)
         {
+            if (handlerExpr is null)
+                throw new ArgumentNullException(nameof(handlerExpr));
+
             Type delegateType = handlerExpr.GetType().GetGenericArguments().Single();  // Expression<TDelegate> should be the only derived
             if (!delegateType.IsGenericType || delegateType.GetGenericTypeDefinition() != expected)
                 throw new ArgumentException(INVALID_HANDLER, nameof(handlerExpr));
@@ -171,7 +174,7 @@ namespace Solti.Utils.Router
         /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be sued.</param>
         public static AsyncRouterBuilder Create(LambdaExpression handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null)
         {
-            CheckHandler(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr)), typeof(DefaultRequestHandler<>));
+            CheckHandler(handlerExpr, typeof(DefaultRequestHandler<>));
 
             return new AsyncRouterBuilder
             (
@@ -232,7 +235,7 @@ namespace Solti.Utils.Router
         /// <exception cref="ArgumentException">If the route already registered.</exception>
         public void AddRoute(ParsedRoute route, LambdaExpression handlerExpr, params string[] methods)
         {
-            CheckHandler(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr)), typeof(RequestHandler<>));
+            CheckHandler(handlerExpr, typeof(RequestHandler<>));
 
             FUnderlyingBuilder.AddRoute
             (
@@ -301,8 +304,7 @@ namespace Solti.Utils.Router
         public void RegisterExceptionHandler(LambdaExpression handlerExpr)
         {
             Type
-                exceptionType = CheckHandler(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr)), typeof(ExceptionHandler<,>))
-                    .GetGenericArguments()[0],
+                exceptionType = CheckHandler(handlerExpr, typeof(ExceptionHandler<,>)).GetGenericArguments()[0],
                 concreteHandler = typeof(AsyncExceptionHandler<>).MakeGenericType(exceptionType);
 
             FExceptionHandlers.Add
