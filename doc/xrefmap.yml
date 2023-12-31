@@ -130,6 +130,18 @@ references:
   commentId: Overload:Solti.Utils.Router.AsyncRouterBuilder.Build
   fullName: Solti.Utils.Router.AsyncRouterBuilder.Build
   nameWithType: AsyncRouterBuilder.Build
+- uid: Solti.Utils.Router.AsyncRouterBuilder.Converters
+  name: Converters
+  href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_Converters
+  commentId: P:Solti.Utils.Router.AsyncRouterBuilder.Converters
+  fullName: Solti.Utils.Router.AsyncRouterBuilder.Converters
+  nameWithType: AsyncRouterBuilder.Converters
+- uid: Solti.Utils.Router.AsyncRouterBuilder.Converters*
+  name: Converters
+  href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_Converters_
+  commentId: Overload:Solti.Utils.Router.AsyncRouterBuilder.Converters
+  fullName: Solti.Utils.Router.AsyncRouterBuilder.Converters
+  nameWithType: AsyncRouterBuilder.Converters
 - uid: Solti.Utils.Router.AsyncRouterBuilder.Create(System.Collections.Generic.IReadOnlyDictionary{System.String,Solti.Utils.Router.ConverterFactory})
   name: Create(IReadOnlyDictionary<String, ConverterFactory>)
   href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_Create_System_Collections_Generic_IReadOnlyDictionary_System_String_Solti_Utils_Router_ConverterFactory__
@@ -547,6 +559,225 @@ references:
   fullName.vb: Solti.Utils.Router.ExceptionHandler(Of TException, TResult).Invoke
   nameWithType: ExceptionHandler<TException, TResult>.Invoke
   nameWithType.vb: ExceptionHandler(Of TException, TResult).Invoke
+- uid: Solti.Utils.Router.Extensions
+  name: Solti.Utils.Router.Extensions
+  href: Solti.Utils.Router.Extensions.html
+  commentId: N:Solti.Utils.Router.Extensions
+  fullName: Solti.Utils.Router.Extensions
+  nameWithType: Solti.Utils.Router.Extensions
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions
+  name: AsyncRouterBuilderAddRouteExtensions
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html
+  commentId: T:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions
+  nameWithType: AsyncRouterBuilderAddRouteExtensions
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder,Solti.Utils.Router.ParsedRoute,System.Reflection.MethodInfo,System.String[])
+  name: AddRoute(AsyncRouterBuilder, ParsedRoute, MethodInfo, String[])
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute_Solti_Utils_Router_AsyncRouterBuilder_Solti_Utils_Router_ParsedRoute_System_Reflection_MethodInfo_System_String___
+  commentId: M:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder,Solti.Utils.Router.ParsedRoute,System.Reflection.MethodInfo,System.String[])
+  name.vb: AddRoute(AsyncRouterBuilder, ParsedRoute, MethodInfo, String())
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder, Solti.Utils.Router.ParsedRoute, System.Reflection.MethodInfo, System.String[])
+  fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder, Solti.Utils.Router.ParsedRoute, System.Reflection.MethodInfo, System.String())
+  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute(AsyncRouterBuilder, ParsedRoute, MethodInfo, String[])
+  nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(AsyncRouterBuilder, ParsedRoute, MethodInfo, String())
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute*
+  name: AddRoute
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute_
+  commentId: Overload:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute
+  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``1(Solti.Utils.Router.AsyncRouterBuilder,Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.Expression{System.Action{``0}},System.String[])
+  name: AddRoute<TService>(AsyncRouterBuilder, ParsedRoute, Expression<Action<TService>>, String[])
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute__1_Solti_Utils_Router_AsyncRouterBuilder_Solti_Utils_Router_ParsedRoute_System_Linq_Expressions_Expression_System_Action___0___System_String___
+  commentId: M:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``1(Solti.Utils.Router.AsyncRouterBuilder,Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.Expression{System.Action{``0}},System.String[])
+  name.vb: AddRoute(Of TService)(AsyncRouterBuilder, ParsedRoute, Expression(Of Action(Of TService)), String())
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute<TService>(Solti.Utils.Router.AsyncRouterBuilder, Solti.Utils.Router.ParsedRoute, System.Linq.Expressions.Expression<System.Action<TService>>, System.String[])
+  fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService)(Solti.Utils.Router.AsyncRouterBuilder, Solti.Utils.Router.ParsedRoute, System.Linq.Expressions.Expression(Of System.Action(Of TService)), System.String())
+  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute<TService>(AsyncRouterBuilder, ParsedRoute, Expression<Action<TService>>, String[])
+  nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService)(AsyncRouterBuilder, ParsedRoute, Expression(Of Action(Of TService)), String())
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``1(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Action{``0}},Solti.Utils.Router.SplitOptions,System.String[])
+  name: AddRoute<TService>(AsyncRouterBuilder, String, Expression<Action<TService>>, SplitOptions, String[])
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute__1_Solti_Utils_Router_AsyncRouterBuilder_System_String_System_Linq_Expressions_Expression_System_Action___0___Solti_Utils_Router_SplitOptions_System_String___
+  commentId: M:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``1(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Action{``0}},Solti.Utils.Router.SplitOptions,System.String[])
+  name.vb: AddRoute(Of TService)(AsyncRouterBuilder, String, Expression(Of Action(Of TService)), SplitOptions, String())
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute<TService>(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression<System.Action<TService>>, Solti.Utils.Router.SplitOptions, System.String[])
+  fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService)(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression(Of System.Action(Of TService)), Solti.Utils.Router.SplitOptions, System.String())
+  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute<TService>(AsyncRouterBuilder, String, Expression<Action<TService>>, SplitOptions, String[])
+  nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService)(AsyncRouterBuilder, String, Expression(Of Action(Of TService)), SplitOptions, String())
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``1(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Action{``0}},System.String[])
+  name: AddRoute<TService>(AsyncRouterBuilder, String, Expression<Action<TService>>, String[])
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute__1_Solti_Utils_Router_AsyncRouterBuilder_System_String_System_Linq_Expressions_Expression_System_Action___0___System_String___
+  commentId: M:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``1(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Action{``0}},System.String[])
+  name.vb: AddRoute(Of TService)(AsyncRouterBuilder, String, Expression(Of Action(Of TService)), String())
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute<TService>(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression<System.Action<TService>>, System.String[])
+  fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService)(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression(Of System.Action(Of TService)), System.String())
+  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute<TService>(AsyncRouterBuilder, String, Expression<Action<TService>>, String[])
+  nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService)(AsyncRouterBuilder, String, Expression(Of Action(Of TService)), String())
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``2(Solti.Utils.Router.AsyncRouterBuilder,Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.String[])
+  name: AddRoute<TService, TResult>(AsyncRouterBuilder, ParsedRoute, Expression<Func<TService, TResult>>, String[])
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute__2_Solti_Utils_Router_AsyncRouterBuilder_Solti_Utils_Router_ParsedRoute_System_Linq_Expressions_Expression_System_Func___0___1___System_String___
+  commentId: M:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``2(Solti.Utils.Router.AsyncRouterBuilder,Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.String[])
+  name.vb: AddRoute(Of TService, TResult)(AsyncRouterBuilder, ParsedRoute, Expression(Of Func(Of TService, TResult)), String())
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute<TService, TResult>(Solti.Utils.Router.AsyncRouterBuilder, Solti.Utils.Router.ParsedRoute, System.Linq.Expressions.Expression<System.Func<TService, TResult>>, System.String[])
+  fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService, TResult)(Solti.Utils.Router.AsyncRouterBuilder, Solti.Utils.Router.ParsedRoute, System.Linq.Expressions.Expression(Of System.Func(Of TService, TResult)), System.String())
+  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute<TService, TResult>(AsyncRouterBuilder, ParsedRoute, Expression<Func<TService, TResult>>, String[])
+  nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService, TResult)(AsyncRouterBuilder, ParsedRoute, Expression(Of Func(Of TService, TResult)), String())
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``2(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Func{``0,``1}},Solti.Utils.Router.SplitOptions,System.String[])
+  name: AddRoute<TService, TResult>(AsyncRouterBuilder, String, Expression<Func<TService, TResult>>, SplitOptions, String[])
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute__2_Solti_Utils_Router_AsyncRouterBuilder_System_String_System_Linq_Expressions_Expression_System_Func___0___1___Solti_Utils_Router_SplitOptions_System_String___
+  commentId: M:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``2(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Func{``0,``1}},Solti.Utils.Router.SplitOptions,System.String[])
+  name.vb: AddRoute(Of TService, TResult)(AsyncRouterBuilder, String, Expression(Of Func(Of TService, TResult)), SplitOptions, String())
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute<TService, TResult>(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression<System.Func<TService, TResult>>, Solti.Utils.Router.SplitOptions, System.String[])
+  fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService, TResult)(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression(Of System.Func(Of TService, TResult)), Solti.Utils.Router.SplitOptions, System.String())
+  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute<TService, TResult>(AsyncRouterBuilder, String, Expression<Func<TService, TResult>>, SplitOptions, String[])
+  nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService, TResult)(AsyncRouterBuilder, String, Expression(Of Func(Of TService, TResult)), SplitOptions, String())
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``2(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.String[])
+  name: AddRoute<TService, TResult>(AsyncRouterBuilder, String, Expression<Func<TService, TResult>>, String[])
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute__2_Solti_Utils_Router_AsyncRouterBuilder_System_String_System_Linq_Expressions_Expression_System_Func___0___1___System_String___
+  commentId: M:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``2(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.String[])
+  name.vb: AddRoute(Of TService, TResult)(AsyncRouterBuilder, String, Expression(Of Func(Of TService, TResult)), String())
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute<TService, TResult>(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression<System.Func<TService, TResult>>, System.String[])
+  fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService, TResult)(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression(Of System.Func(Of TService, TResult)), System.String())
+  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute<TService, TResult>(AsyncRouterBuilder, String, Expression<Func<TService, TResult>>, String[])
+  nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService, TResult)(AsyncRouterBuilder, String, Expression(Of Func(Of TService, TResult)), String())
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder
+  name: RequestHandlerBuilder
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_RequestHandlerBuilder
+  commentId: P:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder
+  nameWithType: AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder*
+  name: RequestHandlerBuilder
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_RequestHandlerBuilder_
+  commentId: Overload:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder
+  nameWithType: AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder
+  name: RequestHandlerBuilder
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html
+  commentId: T:Solti.Utils.Router.Extensions.RequestHandlerBuilder
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder
+  nameWithType: RequestHandlerBuilder
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.#ctor
+  name: RequestHandlerBuilder()
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder__ctor
+  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.#ctor
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.RequestHandlerBuilder()
+  nameWithType: RequestHandlerBuilder.RequestHandlerBuilder()
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.#ctor*
+  name: RequestHandlerBuilder
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder__ctor_
+  commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.#ctor
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.RequestHandlerBuilder
+  nameWithType: RequestHandlerBuilder.RequestHandlerBuilder
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateLambda(Solti.Utils.Router.ParsedRoute,System.Reflection.MethodInfo,System.Object)
+  name: CreateLambda(ParsedRoute, MethodInfo, Object)
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_CreateLambda_Solti_Utils_Router_ParsedRoute_System_Reflection_MethodInfo_System_Object_
+  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateLambda(Solti.Utils.Router.ParsedRoute,System.Reflection.MethodInfo,System.Object)
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateLambda(Solti.Utils.Router.ParsedRoute, System.Reflection.MethodInfo, System.Object)
+  nameWithType: RequestHandlerBuilder.CreateLambda(ParsedRoute, MethodInfo, Object)
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateLambda*
+  name: CreateLambda
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_CreateLambda_
+  commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateLambda
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateLambda
+  nameWithType: RequestHandlerBuilder.CreateLambda
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateService(System.Type,System.Object)
+  name: CreateService(Type, Object)
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_CreateService_System_Type_System_Object_
+  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateService(System.Type,System.Object)
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateService(System.Type, System.Object)
+  nameWithType: RequestHandlerBuilder.CreateService(Type, Object)
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateService*
+  name: CreateService
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_CreateService_
+  commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateService
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateService
+  nameWithType: RequestHandlerBuilder.CreateService
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod
+  name: CreateServiceMethod
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_CreateServiceMethod
+  commentId: P:Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod
+  nameWithType: RequestHandlerBuilder.CreateServiceMethod
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod*
+  name: CreateServiceMethod
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_CreateServiceMethod_
+  commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod
+  nameWithType: RequestHandlerBuilder.CreateServiceMethod
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetArgumentName(System.Reflection.ParameterInfo)
+  name: GetArgumentName(ParameterInfo)
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_GetArgumentName_System_Reflection_ParameterInfo_
+  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetArgumentName(System.Reflection.ParameterInfo)
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetArgumentName(System.Reflection.ParameterInfo)
+  nameWithType: RequestHandlerBuilder.GetArgumentName(ParameterInfo)
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetArgumentName*
+  name: GetArgumentName
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_GetArgumentName_
+  commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetArgumentName
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetArgumentName
+  nameWithType: RequestHandlerBuilder.GetArgumentName
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo,System.Type,System.Object)
+  name: GetCreateServiceArgument(ParameterInfo, Type, Object)
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_GetCreateServiceArgument_System_Reflection_ParameterInfo_System_Type_System_Object_
+  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo,System.Type,System.Object)
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo, System.Type, System.Object)
+  nameWithType: RequestHandlerBuilder.GetCreateServiceArgument(ParameterInfo, Type, Object)
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetCreateServiceArgument*
+  name: GetCreateServiceArgument
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_GetCreateServiceArgument_
+  commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetCreateServiceArgument
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetCreateServiceArgument
+  nameWithType: RequestHandlerBuilder.GetCreateServiceArgument
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo,Solti.Utils.Router.ParsedRoute,System.Object)
+  name: GetInvokeServiceArgument(ParameterInfo, ParsedRoute, Object)
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_GetInvokeServiceArgument_System_Reflection_ParameterInfo_Solti_Utils_Router_ParsedRoute_System_Object_
+  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo,Solti.Utils.Router.ParsedRoute,System.Object)
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo, Solti.Utils.Router.ParsedRoute, System.Object)
+  nameWithType: RequestHandlerBuilder.GetInvokeServiceArgument(ParameterInfo, ParsedRoute, Object)
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument*
+  name: GetInvokeServiceArgument
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_GetInvokeServiceArgument_
+  commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument
+  nameWithType: RequestHandlerBuilder.GetInvokeServiceArgument
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute,System.Reflection.MethodInfo,System.Object)
+  name: InvokeService(ParsedRoute, MethodInfo, Object)
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_InvokeService_Solti_Utils_Router_ParsedRoute_System_Reflection_MethodInfo_System_Object_
+  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute,System.Reflection.MethodInfo,System.Object)
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute, System.Reflection.MethodInfo, System.Object)
+  nameWithType: RequestHandlerBuilder.InvokeService(ParsedRoute, MethodInfo, Object)
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService*
+  name: InvokeService
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_InvokeService_
+  commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService
+  nameWithType: RequestHandlerBuilder.InvokeService
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.ParamsDict
+  name: ParamsDict
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_ParamsDict
+  commentId: P:Solti.Utils.Router.Extensions.RequestHandlerBuilder.ParamsDict
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.ParamsDict
+  nameWithType: RequestHandlerBuilder.ParamsDict
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.ParamsDict*
+  name: ParamsDict
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_ParamsDict_
+  commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.ParamsDict
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.ParamsDict
+  nameWithType: RequestHandlerBuilder.ParamsDict
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.UserData
+  name: UserData
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_UserData
+  commentId: P:Solti.Utils.Router.Extensions.RequestHandlerBuilder.UserData
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.UserData
+  nameWithType: RequestHandlerBuilder.UserData
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.UserData*
+  name: UserData
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_UserData_
+  commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.UserData
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.UserData
+  nameWithType: RequestHandlerBuilder.UserData
 - uid: Solti.Utils.Router.IConverter
   name: IConverter
   href: Solti.Utils.Router.IConverter.html
