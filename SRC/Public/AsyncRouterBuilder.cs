@@ -24,6 +24,7 @@ namespace Solti.Utils.Router
     /// </summary>
     public sealed class AsyncRouterBuilder
     {
+        #region Private
         private delegate Task<object?> AsyncExceptionHandler<TException>(object? userData, TException exc) where TException : Exception;
 
         private AsyncRouterBuilder(RouterBuilder builder) => FUnderlyingBuilder = builder;
@@ -99,6 +100,57 @@ namespace Solti.Utils.Router
             return result;
         }
 
+        private Expression<AsyncExceptionHandler<Exception>> BuildExceptionHandler()
+        {
+            ParameterExpression
+                userData = Expression.Parameter(typeof(object), nameof(userData)),
+                exc = Expression.Parameter(typeof(Exception), nameof(exc));
+
+            LabelTarget exit = Expression.Label(typeof(Task<object?>), nameof(exit));
+
+            Expression<AsyncExceptionHandler<Exception>> excHandlerExpr = Expression.Lambda<AsyncExceptionHandler<Exception>>
+            (
+                Expression.Block
+                (
+                    Expression.Switch
+                    (
+                        Expression.Call(exc, FGetType),
+                        FExceptionHandlers.Select
+                        (
+                            (LambdaExpression exceptionHandler) =>
+                            {
+                                Type excType = exceptionHandler.Parameters.Last().Type;
+                                Debug.Assert(typeof(Exception).IsAssignableFrom(excType), "Not an exception handler");
+
+                                return Expression.SwitchCase
+                                (
+                                    Expression.Return
+                                    (
+                                        exit,
+                                        Expression.Invoke
+                                        (
+                                            exceptionHandler,
+                                            userData,
+                                            Expression.Convert(exc, excType)
+                                        )
+                                    ),
+                                    Expression.Constant(excType)
+                                );
+                            }
+                        ).ToArray()
+                    ),
+                    Expression.Throw(exc),
+                    Expression.Label(exit, Expression.Default(typeof(Task<object?>)))
+                ),
+                userData,
+                exc
+            );
+
+            Debug.WriteLine(excHandlerExpr.GetDebugView());
+
+            return excHandlerExpr;
+        }
+
         private static Expression<TDestinationDelegate> Wrap<TDestinationDelegate>(LambdaExpression sourceDelegate) where TDestinationDelegate : Delegate =>
             (Expression<TDestinationDelegate>) Wrap(sourceDelegate, typeof(TDestinationDelegate));
 
@@ -110,6 +162,7 @@ namespace Solti.Utils.Router
 
             return delegateType;
         }
+        #endregion
 
         /// <summary>
         /// Creates a new <see cref="RouterBuilder"/> instance.
@@ -281,59 +334,11 @@ namespace Solti.Utils.Router
         {
             DelegateCompiler compiler = new();
 
-            FutureDelegate<AsyncExceptionHandler<Exception>>? excHandler = null;
-            if (FExceptionHandlers.Count > 0)
-            {
-                ParameterExpression
-                    userData = Expression.Parameter(typeof(object), nameof(userData)),
-                    exc = Expression.Parameter(typeof(Exception), nameof(exc));
-
-                LabelTarget exit = Expression.Label(typeof(Task<object?>), nameof(exit));
-
-                Expression<AsyncExceptionHandler<Exception>> excHandlerExpr = Expression.Lambda<AsyncExceptionHandler<Exception>>
-                (
-                    Expression.Block
-                    (
-                        Expression.Switch
-                        (
-                            Expression.Call(exc, FGetType),
-                            FExceptionHandlers.Select
-                            (
-                                (LambdaExpression exceptionHandler) =>
-                                {
-                                    Type excType = exceptionHandler.Parameters.Last().Type;
-                                    Debug.Assert(typeof(Exception).IsAssignableFrom(excType), "Not an exception handler");
-
-                                    return Expression.SwitchCase
-                                    (
-                                        Expression.Return
-                                        (
-                                            exit,
-                                            Expression.Invoke
-                                            (
-                                                exceptionHandler,
-                                                userData, 
-                                                Expression.Convert(exc, excType)
-                                            )
-                                        ),
-                                        Expression.Constant(excType)
-                                    );
-                                }
-                            ).ToArray()
-                        ),
-                        Expression.Throw(exc),
-                        Expression.Label(exit, Expression.Default(typeof(Task<object?>)))
-                    ),
-                    userData,
-                    exc
-                );
-
-                Debug.WriteLine(excHandlerExpr.GetDebugView());
-
-                excHandler = compiler.Register(excHandlerExpr);
-            }
-
+            FutureDelegate<AsyncExceptionHandler<Exception>>? excHandler = FExceptionHandlers.Count > 0
+                ? compiler.Register(BuildExceptionHandler())
+                : null;
             FutureDelegate<Router> router = FUnderlyingBuilder.Build(compiler);
+
             compiler.Compile();
 
             return AsyncRouter;
