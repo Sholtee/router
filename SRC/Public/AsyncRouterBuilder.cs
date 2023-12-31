@@ -48,7 +48,7 @@ namespace Solti.Utils.Router
 
         private readonly RouterBuilder FUnderlyingBuilder;
 
-        private readonly IList<LambdaExpression> FExceptionHandlers = new List<LambdaExpression>();
+        private readonly List<LambdaExpression> FExceptionHandlers = new();
 
         private static LambdaExpression Wrap(LambdaExpression sourceDelegate, Type destinationDelegate)
         {
@@ -164,6 +164,11 @@ namespace Solti.Utils.Router
             handler: static (_, _) => throw new InvalidOperationException(ROUTE_NOT_REGISTERED),
             converters
         );
+
+        /// <summary>
+        /// Converters to be used during parameter resolution.
+        /// </summary>
+        public IReadOnlyDictionary<string, ConverterFactory> Converters => FUnderlyingBuilder.Converters;
 
         /// <summary>
         /// Registers a new route.

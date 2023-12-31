@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net472;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
-    <LangVersion>10</LangVersion>
+    <LangVersion>12</LangVersion>
     <OutputPath>..\BIN\$(Configuration)</OutputPath>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
@@ -24,6 +24,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.*" />
     <PackageReference Include="NunitXml.TestLogger" Version="2.*" />
     <PackageReference Include="System.Net.Http.Json" Version="5.*" />
+    <PackageReference Include="Injector.NET" Version="10.*" />
   </ItemGroup>
 
   <ItemGroup>
