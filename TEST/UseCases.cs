@@ -217,7 +217,7 @@ namespace Solti.Utils.Router.Tests
 
         private sealed class CalculatorService
         {
-            public ResponseData Calculate(int a, ArithmeticalOperation op, int b) => new ResponseData(HttpStatusCode.OK, a + (int) op * b);
+            public int Calculate(int a, ArithmeticalOperation op, int b) => a + (int) op * b;
 
             public void ErrorMethod() => throw new Exception("This is the end");
         }
@@ -255,14 +255,21 @@ namespace Solti.Utils.Router.Tests
                             context.Request.HttpMethod
                         ).GetAwaiter().GetResult()!;
 
-                        ResponseData data = (ResponseData) response;
-
-                        context.Response.StatusCode = (int) data.Status;
                         context.Response.ContentType = "application/json";
+
+                        if (response is ResponseData responseData)
+                        {
+                            context.Response.StatusCode = (int) responseData.Status;
+                            response = responseData.Body;
+                        }
+                        else
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        }
 
                         using (StreamWriter streamWriter = new(context.Response.OutputStream))
                         {
-                            streamWriter.Write(JsonSerializer.Serialize(data.Body));
+                            streamWriter.Write(JsonSerializer.Serialize(response));
                         }
 
                         context.Response.Close();
@@ -282,21 +289,17 @@ namespace Solti.Utils.Router.Tests
         {
             AsyncRouterBuilder routerBuilder = AsyncRouterBuilder.Create
             (
-                handler: static (object? state, HttpStatusCode reason) =>
-                    new ResponseData(reason, reason.ToString())
+                handler: static (object? state, HttpStatusCode reason) => new ResponseData(reason, reason.ToString())
             );
 
-            routerBuilder.AddRoute<CalculatorService, ResponseData>
+            routerBuilder.AddRoute<CalculatorService, int>
             (
                 RouteTemplate,
                 calc => calc.Calculate(0, default, 0),
                 SplitOptions.Default with { ConvertSpaces = false }
             );
             routerBuilder.AddRoute<CalculatorService>("/error", calc => calc.ErrorMethod());
-            routerBuilder.RegisterExceptionHandler<Exception, ResponseData>
-            (
-                handler: (_, exc) => new ResponseData(HttpStatusCode.InternalServerError, exc.Message)
-            );
+            routerBuilder.RegisterExceptionHandler<Exception, ResponseData>(handler: (_, exc) => new ResponseData(HttpStatusCode.InternalServerError, exc.Message));
 
             return routerBuilder.Build();
         }
