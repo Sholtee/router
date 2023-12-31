@@ -35,9 +35,12 @@ namespace Solti.Utils.Router.Tests
     [TestFixture]
     public class UseCaseBasic
     {
-        const string RouteTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.ArithmeticalOperation}/{b:int}";
+        #region Helpers
+        private string RouteTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.ArithmeticalOperation}/{b:int}";
 
-        public HttpListener? Listener { get; set; }
+        private HttpListener Listener { get; set; } = null!;
+
+        private HttpClient Client { get; set; } = null!;
 
         private void SetupServer(Router router)
         {
@@ -94,8 +97,7 @@ namespace Solti.Utils.Router.Tests
         {
             RouterBuilder routerBuilder = new
             (
-                handler: static (object? state, HttpStatusCode reason) => 
-                    new ResponseData(reason, reason.ToString())
+                handler: static (object? state, HttpStatusCode reason) => new ResponseData(reason, reason.ToString())
             );
 
             routerBuilder.AddRoute
@@ -111,31 +113,42 @@ namespace Solti.Utils.Router.Tests
 
             return routerBuilder.Build();
         }
+        #endregion
 
-        [TearDown]
-        public void TearDown()
+        [OneTimeSetUp]
+        public void SetupFixture()
+        {
+            SetupServer(SetupRouter());
+            Client = new HttpClient();
+        }
+
+        [OneTimeTearDown]
+        public void TearDownFixture()
         {
             Listener?.Close();
-            Listener = null;
+            Listener = null!;
+
+            Client?.Dispose();
+            Client = null!;
         }
 
         [Test]
-        public async Task Calculator()
+        public async Task Calculator_InvalidRoute()
         {
-            SetupServer(SetupRouter());
-
-            using HttpClient client = new();
-
-            HttpResponseMessage resp = await client.GetAsync("http://localhost:8080/");
+            HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+        }
 
+        [Test]
+        public async Task Calculator_InvalidMethod()
+        {
             RouteTemplateCompiler getRoute = Utils.Router.RouteTemplate.CreateCompiler
             (
                 "http://localhost:8080/" + RouteTemplate,
                 splitOptions: SplitOptions.Default with { ConvertSpaces = false }
             );
 
-            resp = await client.PostAsync
+            HttpResponseMessage resp = await Client.PostAsync
             (
                 getRoute
                 (
@@ -149,8 +162,18 @@ namespace Solti.Utils.Router.Tests
                 JsonContent.Create(new object())
             );
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.MethodNotAllowed));
+        }
 
-            resp = await client.GetAsync
+        [Test]
+        public async Task Calculator()
+        {
+            RouteTemplateCompiler getRoute = Utils.Router.RouteTemplate.CreateCompiler
+            (
+                "http://localhost:8080/" + RouteTemplate,
+                splitOptions: SplitOptions.Default with { ConvertSpaces = false }
+            );
+
+            HttpResponseMessage resp = await Client.GetAsync
             (
                 getRoute
                 (
@@ -172,6 +195,7 @@ namespace Solti.Utils.Router.Tests
     [TestFixture]
     public class UseCaseIOC
     {
+        #region Helpers
         private sealed class InjectorDotNetRequestHandlerBuilder: RequestHandlerBuilder
         {
             protected override MethodInfo CreateServiceMethod { get; } = MethodInfoExtractor.Extract<IInjector>(i => i.Get(null!, null));
@@ -192,24 +216,13 @@ namespace Solti.Utils.Router.Tests
             public void ErrorMethod() => throw new Exception("This is the end");
         }
 
-        const string RouteTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.ArithmeticalOperation}/{b:int}";
+        private const string RouteTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.ArithmeticalOperation}/{b:int}";
 
-        public RequestHandlerBuilder OldBuilder { get; set; } = null!;
+        private RequestHandlerBuilder OldBuilder { get; set; } = null!;
 
-        [OneTimeSetUp]
-        public void SetupFixture()
-        {
-            OldBuilder = AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder;
-            AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = new InjectorDotNetRequestHandlerBuilder();
-        }
+        private HttpListener Listener { get; set; } = null!;
 
-        [OneTimeTearDown]
-        public void TearDownFixture()
-        {
-            AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = OldBuilder;
-        }
-
-        public HttpListener? Listener { get; set; }
+        private HttpClient Client { get; set; } = null!;
 
         private void SetupServer(AsyncRouter router)
         {
@@ -276,40 +289,62 @@ namespace Solti.Utils.Router.Tests
             routerBuilder.AddRoute<CalculatorService>("/error", calc => calc.ErrorMethod());
             routerBuilder.RegisterExceptionHandler<Exception, ResponseData>
             (
-                handler: (_, exc) =>
-                    new ResponseData(HttpStatusCode.InternalServerError, exc.Message)
+                handler: (_, exc) => new ResponseData(HttpStatusCode.InternalServerError, exc.Message)
             );
 
             return routerBuilder.Build();
         }
+        #endregion
 
-        [TearDown]
-        public void TearDown()
+        [OneTimeSetUp]
+        public void SetupFixture()
+        {
+            OldBuilder = AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder;
+            AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = new InjectorDotNetRequestHandlerBuilder();
+
+            SetupServer(SetupRouter());
+            Client = new HttpClient();
+        }
+
+        [OneTimeTearDown]
+        public void TearDownFixture()
         {
             Listener?.Close();
-            Listener = null;
+            Listener = null!;
+
+            Client?.Dispose();
+            Client = null!;
+
+            AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = OldBuilder;
         }
 
         [Test]
-        public async Task Calculator()
+        public async Task Calculator_InvalidRoute()
         {
-            SetupServer(SetupRouter());
-
-            using HttpClient client = new();
-
-            HttpResponseMessage resp = await client.GetAsync("http://localhost:8080/error");
-            Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.InternalServerError));
-
-            resp = await client.GetAsync("http://localhost:8080/10");
+            HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
 
+            resp = await Client.GetAsync("http://localhost:8080/10");
+            Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+        }
+
+        [Test]
+        public async Task Calculator_InternalError()
+        {
+            HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/error");
+            Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.InternalServerError));
+        }
+
+        [Test]
+        public async Task Calculator_InvalidMethod()
+        {
             RouteTemplateCompiler getRoute = Utils.Router.RouteTemplate.CreateCompiler
             (
                 "http://localhost:8080/" + RouteTemplate,
                 splitOptions: SplitOptions.Default with { ConvertSpaces = false }
             );
 
-            resp = await client.PostAsync
+            HttpResponseMessage resp = await Client.PostAsync
             (
                 getRoute
                 (
@@ -323,8 +358,18 @@ namespace Solti.Utils.Router.Tests
                 JsonContent.Create(new object())
             );
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.MethodNotAllowed));
+        }
 
-            resp = await client.GetAsync
+        [Test]
+        public async Task Calculator()
+        {
+            RouteTemplateCompiler getRoute = Utils.Router.RouteTemplate.CreateCompiler
+            (
+                "http://localhost:8080/" + RouteTemplate,
+                splitOptions: SplitOptions.Default with { ConvertSpaces = false }
+            );
+
+            HttpResponseMessage resp = await Client.GetAsync
             (
                 getRoute
                 (
