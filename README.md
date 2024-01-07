@@ -189,31 +189,34 @@ ServiceProvider serviceProvider = services.BuildServiceProvider();
 
 using(IServiceScope scope = serviceProvider.CreateScope())
 {
-    HttpListenerContext context = Listener.GetContext();
-    object? response = await route(scope.ServiceProvider, context.Request.Url!.AbsolutePath, context.Request.HttpMethod);
+	HttpListenerContext context = Listener.GetContext();
+	object? response = await route(scope.ServiceProvider, context.Request.Url!.AbsolutePath, context.Request.HttpMethod);
 
-    context.Response.ContentType = "application/json";
+	context.Response.ContentType = "application/json";
 
-    if (response is ResponseData responseData)
-    {
-        context.Response.StatusCode = (int) responseData.Status;
-        response = responseData.Body;
-    }
-    else
-    {
-        context.Response.StatusCode = (int) HttpStatusCode.OK;
-    }
+	if (response is ResponseData responseData)
+	{
+		context.Response.StatusCode = (int) responseData.Status;
+		response = responseData.Body;
+	}
+	else
+	{
+		context.Response.StatusCode = (int) HttpStatusCode.OK;
+	}
 
-    using (StreamWriter streamWriter = new(context.Response.OutputStream))
-    {
-        streamWriter.Write(JsonSerializer.Serialize(response));
-    }
+	using (StreamWriter streamWriter = new(context.Response.OutputStream))
+	{
+		streamWriter.Write(JsonSerializer.Serialize(response));
+	}
 
-    context.Response.Close();
+	context.Response.Close();
 }
 ```
 The `Solti.Utils.Router.Extensions` namespace aims to simplify the route registration described above:
 ```csharp
+using Solti.Utils.Router;
+using Solti.Utils.Router.Extensions;
+
 routerBuilder.AddRoute<PictureStore, Task<object>>
 (
     "/get/picture-{id:int}",
