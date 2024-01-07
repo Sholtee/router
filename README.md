@@ -1,7 +1,7 @@
 # Compass.NET [![Build status](https://ci.appveyor.com/api/projects/status/uq0ep9idk7rw8ogr?svg=true)](https://ci.appveyor.com/project/Sholtee/router) ![AppVeyor tests](https://img.shields.io/appveyor/tests/sholtee/router/main) [![Coverage Status](https://coveralls.io/repos/github/Sholtee/router/badge.svg?branch=main)](https://coveralls.io/github/Sholtee/router?branch=main) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/sholtee/router/main) [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/compass.net)](https://www.nuget.org/packages/compass.net)
 > Simple HTTP request router for .NET backends
 
-**This documentation refers the v2.X of the library**
+**This documentation refers the v3.X of the library**
 
 ## How to use
 This library comes with an extremely simple API set (consits of a few methods only)
@@ -77,7 +77,7 @@ class MyTypeConverter: IConverter
 {
     public string Id { get; }
     public string? Style { get; }
-    public bool ConvertToValue(string input, out object? value) { ... }
+    public bool ConvertToValue(string|ReadOnySpan<char> input, out object? value) { ... }
     public bool bool ConvertToString(object? input, out string? value) { ... }
     public MyTypeConverter(string? style)
     {
@@ -145,6 +145,80 @@ AsyncRouter route = routerBuilder.Build();
 
 HttpListenerContext context = Listener.GetContext();
 object? result = await route(context, context.Request.Url!.AbsolutePath, context.Request.HttpMethod);
+```
+
+### IoC backed routing
+Since request handlers may contain complex logic and they usually depend on another services, it's a suggested practice to grab them via [dependency injection](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection ):
+```csharp
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+
+using Microsoft.Extensions.DependencyInjection;
+
+using Solti.Utils.Router;
+
+using ResponseData = (HttpStatusCode Status, object? Body);
+
+AsyncRouterBuilder routerBuilder = AsyncRouterBuilder.Create
+(
+	handler: async (object? state, HttpStatusCode reason) =>
+	{
+		return new ResponseData(HttpStatusCode.NotFound, "Not found");
+	}
+);
+routerBuilder.AddRoute
+(
+	route: "/get/picture-{id:int}",
+	handler: async (IReadOnlyDictionary<string, object?> paramz, object? state) =>
+	{
+		IServiceProvider svcProvider = (IServiceProvider) state;
+		int id = (int) paramz["id"];
+
+		return await svcProvider.GetService(typeof(PictureStore)).GetPicture(id);
+	}
+);
+
+...
+
+ServiceCollection services = new();
+services.AddScoped<PictureStore>();
+ServiceProvider serviceProvider = services.BuildServiceProvider();
+
+...
+
+using(IServiceScope scope = serviceProvider.CreateScope())
+{
+    HttpListenerContext context = Listener.GetContext();
+    object? response = await route(scope.ServiceProvider, context.Request.Url!.AbsolutePath, context.Request.HttpMethod);
+
+    context.Response.ContentType = "application/json";
+
+    if (response is ResponseData responseData)
+    {
+        context.Response.StatusCode = (int) responseData.Status;
+        response = responseData.Body;
+    }
+    else
+    {
+        context.Response.StatusCode = (int) HttpStatusCode.OK;
+    }
+
+    using (StreamWriter streamWriter = new(context.Response.OutputStream))
+    {
+        streamWriter.Write(JsonSerializer.Serialize(response));
+    }
+
+    context.Response.Close();
+}
+```
+The `Solti.Utils.Router.Extensions` namespace aims to simplify the route registration described above:
+```csharp
+routerBuilder.AddRoute<PictureStore, Task<object>>
+(
+    "/get/picture-{id:int}",
+    store => store.GetPicture(default)  // GetPicture() should have only one parameter named "id" 
+);
 ```
 
 ### Error handling

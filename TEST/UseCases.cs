@@ -264,7 +264,7 @@ namespace Solti.Utils.Router.Tests
                         }
                         else
                         {
-                            context.Response.StatusCode = (int)HttpStatusCode.OK;
+                            context.Response.StatusCode = (int) HttpStatusCode.OK;
                         }
 
                         using (StreamWriter streamWriter = new(context.Response.OutputStream))

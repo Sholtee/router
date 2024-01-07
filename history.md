@@ -33,3 +33,8 @@
   - *done*: `IReadOnlyDictionary` got a custom implementation
 - 2.0.1:
   - *fixed:* Possible `OverflowException` when reading mixed hex values
+- 3.0.0-preview1:
+  - *breaking:* `IConverter.ConvertToValue()` now expects the input as `ReadOnylSpan<char>` under `netstandard2.1`
+  - *improved:* Routing performance
+  - *introduced:* `Solti.Utils.Router.Extensions` namespace
+  - *introduced:* `[Async]RouterBuilder.AddRoute()` overloads
