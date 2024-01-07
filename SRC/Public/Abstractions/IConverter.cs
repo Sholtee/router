@@ -33,8 +33,11 @@ namespace Solti.Utils.Router
         /// </summary>
         /// <param name="input">The input string.</param>
         /// <param name="value">The converted value if the conversion was successful.</param>
+#if NETSTANDARD2_1_OR_GREATER
+        bool ConvertToValue(ReadOnlySpan<char> input, out object? value);
+#else
         bool ConvertToValue(string input, out object? value);
-
+#endif
         /// <summary>
         /// Tries to convert the input value to its string representation.
         /// </summary>

@@ -28,11 +28,18 @@ namespace Solti.Utils.Router.Internals
             value = str;
             return true;
         }
-
+#if NETSTANDARD2_1_OR_GREATER
+        public override bool ConvertToValue(ReadOnlySpan<char> input, out object? value)
+        {
+            value = new string(input);
+            return true;
+        }
+#else
         public override bool ConvertToValue(string input, out object? value)
         {
             value = input;
             return true;
         }
+#endif
     }
 }

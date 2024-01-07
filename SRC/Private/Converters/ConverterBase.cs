@@ -34,7 +34,10 @@ namespace Solti.Utils.Router.Internals
         public override int GetHashCode() => Id.GetHashCode();
 
         public abstract bool ConvertToString(object? input, out string? value);
-
+#if NETSTANDARD2_1_OR_GREATER
+        public abstract bool ConvertToValue(ReadOnlySpan<char> input, out object? value);
+#else
         public abstract bool ConvertToValue(string input, out object? value);
+#endif
     }
 }

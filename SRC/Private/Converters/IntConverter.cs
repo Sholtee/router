@@ -35,8 +35,11 @@ namespace Solti.Utils.Router.Internals
             value = num.ToString(Style);
             return true;
         }
-
+#if NETSTANDARD2_1_OR_GREATER
+        public override bool ConvertToValue(ReadOnlySpan<char> input, out object? value)
+#else
         public override bool ConvertToValue(string input, out object? value)
+#endif
         {
             if (int.TryParse(input, StyleFlag, null, out int parsed))
             {

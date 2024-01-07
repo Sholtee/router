@@ -278,9 +278,10 @@ namespace Solti.Utils.Router.Tests
         {
             object? ret;
 
+            /*
             Mock<IConverter> intConverter = new(MockBehavior.Strict);
             intConverter
-                .Setup(x => x.ConvertToValue("16", out ret))
+                .Setup(x => x.ConvertToValue("16", out ret))  // It seems Moq doesn't support ref structs =(
                 .Returns(true);
             intConverter
                 .SetupGet(x => x.Id)
@@ -288,11 +289,14 @@ namespace Solti.Utils.Router.Tests
             intConverter
                 .SetupGet(x => x.Type)
                 .Returns(typeof(int));
+            */
+
+            MockIntConverter mockIntConverter = new();
 
             Mock<ConverterFactory> intConverterFactory = new(MockBehavior.Strict);
             intConverterFactory
                 .Setup(x => x.Invoke(userData))
-                .Returns(intConverter.Object);
+                .Returns(mockIntConverter);
 
             IConverter wrapper = RouteTemplate
                 .Parse
@@ -309,7 +313,49 @@ namespace Solti.Utils.Router.Tests
 
             Assert.That(wrapper, Is.InstanceOf<ConverterWrapper>());
             Assert.That(wrapper!.ConvertToValue(test, out ret), Is.EqualTo(shouldCallOriginal));
-            intConverter.Verify(x => x.ConvertToValue("16", out ret), shouldCallOriginal ? Times.Once : Times.Never);
+
+            if (shouldCallOriginal)
+            {
+                Assert.That(mockIntConverter.Calls.Count, Is.EqualTo(1));
+                Assert.That(mockIntConverter.Calls.Single(), Is.EqualTo("16"));
+            }
+            else
+            {
+                Assert.That(mockIntConverter.Calls, Is.Empty);
+            }
+        }
+
+        private sealed class MockIntConverter : ConverterBase
+        {
+            public MockIntConverter() : base("", typeof(int))
+            {
+            }
+
+            public List<string> Calls { get; } = [];
+
+            public override bool ConvertToString(object? input, out string? value)
+            {
+                throw new NotImplementedException();
+            }
+
+#if !NETFRAMEWORK
+            public override bool ConvertToValue(ReadOnlySpan<char> input, out object? value)
+            {
+                Calls.Add(new string(input));
+#else
+            public override bool ConvertToValue(string input, out object? value)
+            {
+                Calls.Add(input);
+#endif
+                if (!int.TryParse(input, out int result))
+                {
+                    value = null;
+                    return false;
+                }
+
+                value = result;
+                return true;
+            }
         }
     }
 }

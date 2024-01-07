@@ -105,12 +105,17 @@ namespace Solti.Utils.Router
             FMoveNext = MethodInfoExtractor.Extract<PathSplitter>(static parts => parts.MoveNext()),
             FSplit    = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
             FAddParam = MethodInfoExtractor.Extract<StaticDictionary>(static dict => dict.Add(null!, null)),
-            FEquals   = MethodInfoExtractor.Extract<string>(static s => s.Equals(null!, default(StringComparison))),
+            FEquals   = MethodInfoExtractor.Extract(static () => Equals(string.Empty, string.Empty, default)),
             FConvert  = MethodInfoExtractor.Extract<IConverter, object?>(static (c, output) => c.ConvertToValue(null!, out output));
 
-        private static readonly PropertyInfo
-            FCurrent = PropertyInfoExtractor.Extract<PathSplitter, string>(static parts => parts.Current);
+        private static bool Equals(string left, string right, StringComparison comparison) => left.Equals(right, comparison);
 
+        private static readonly PropertyInfo FCurrent = typeof(PathSplitter).GetProperty(nameof(PathSplitter.Current)); // PropertyInfoExtractor.Extract<PathSplitter, ReadOnlySpan<string>>(static parts => parts.Current);
+#if NETSTANDARD2_1_OR_GREATER
+        private static readonly MethodInfo FMemoryEquals = MethodInfoExtractor.Extract(static () => MemoryEquals(string.Empty, string.Empty, default));
+
+        private static bool MemoryEquals(ReadOnlySpan<char> left, string right, StringComparison comparison) => left.Equals(right, comparison);
+#endif
         private readonly Junction FRoot = new();
 
         private readonly StaticDictionaryBuilder FParameters = new();
@@ -143,7 +148,12 @@ namespace Solti.Utils.Router
                     Equals
                     (
                         Expression.Property(FSegments, FCurrent),
-                        Expression.Constant(junction.Segment.Name)
+                        Expression.Constant(junction.Segment.Name),
+#if NETSTANDARD2_1_OR_GREATER
+                        FMemoryEquals
+#else
+                        FEquals
+#endif
                     ),
                     Expression.Block
                     (
@@ -221,7 +231,7 @@ namespace Solti.Utils.Router
                     yield return Expression.IfThen
                     (
                         handlerGroup
-                            .Select(handler => Equals(FMethod, Expression.Constant(handler.Key)))
+                            .Select(handler => Equals(FMethod, Expression.Constant(handler.Key), FEquals))
                             .Aggregate(static (accu, curr) => Expression.Or(accu, curr)),
                         Return
                         (
@@ -249,10 +259,10 @@ namespace Solti.Utils.Router
                 );
             }
 
-            static Expression Equals(Expression left, Expression right) => Expression.Call
+            static Expression Equals(Expression left, Expression right, MethodInfo method) => Expression.Call
             (
+                method,
                 left,
-                FEquals,
                 right,
                 Expression.Constant(StringComparison.OrdinalIgnoreCase)
             );
@@ -269,7 +279,7 @@ namespace Solti.Utils.Router
             ),
             typeof(object)
         );
-        #endregion
+#endregion
 
         /// <summary>
         /// Creates a new <see cref="RouterBuilder"/> instance.
