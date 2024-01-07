@@ -799,15 +799,15 @@ references:
   commentId: Overload:Solti.Utils.Router.IConverter.ConvertToString
   fullName: Solti.Utils.Router.IConverter.ConvertToString
   nameWithType: IConverter.ConvertToString
-- uid: Solti.Utils.Router.IConverter.ConvertToValue(System.String,System.Object@)
-  name: ConvertToValue(String, out Object)
-  href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_ConvertToValue_System_String_System_Object__
-  commentId: M:Solti.Utils.Router.IConverter.ConvertToValue(System.String,System.Object@)
-  name.vb: ConvertToValue(String, ByRef Object)
-  fullName: Solti.Utils.Router.IConverter.ConvertToValue(System.String, out System.Object)
-  fullName.vb: Solti.Utils.Router.IConverter.ConvertToValue(System.String, ByRef System.Object)
-  nameWithType: IConverter.ConvertToValue(String, out Object)
-  nameWithType.vb: IConverter.ConvertToValue(String, ByRef Object)
+- uid: Solti.Utils.Router.IConverter.ConvertToValue(System.ReadOnlySpan{System.Char},System.Object@)
+  name: ConvertToValue(ReadOnlySpan<Char>, out Object)
+  href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_ConvertToValue_System_ReadOnlySpan_System_Char__System_Object__
+  commentId: M:Solti.Utils.Router.IConverter.ConvertToValue(System.ReadOnlySpan{System.Char},System.Object@)
+  name.vb: ConvertToValue(ReadOnlySpan(Of Char), ByRef Object)
+  fullName: Solti.Utils.Router.IConverter.ConvertToValue(System.ReadOnlySpan<System.Char>, out System.Object)
+  fullName.vb: Solti.Utils.Router.IConverter.ConvertToValue(System.ReadOnlySpan(Of System.Char), ByRef System.Object)
+  nameWithType: IConverter.ConvertToValue(ReadOnlySpan<Char>, out Object)
+  nameWithType.vb: IConverter.ConvertToValue(ReadOnlySpan(Of Char), ByRef Object)
 - uid: Solti.Utils.Router.IConverter.ConvertToValue*
   name: ConvertToValue
   href: Solti.Utils.Router.IConverter.html#Solti_Utils_Router_IConverter_ConvertToValue_
