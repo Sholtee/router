@@ -110,7 +110,7 @@ namespace Solti.Utils.Router
 
         private static bool Equals(string left, string right, StringComparison comparison) => left.Equals(right, comparison);
 
-        private static readonly PropertyInfo FCurrent = typeof(PathSplitter).GetProperty(nameof(PathSplitter.Current)); // PropertyInfoExtractor.Extract<PathSplitter, ReadOnlySpan<string>>(static parts => parts.Current);
+        private static readonly PropertyInfo FCurrent = typeof(PathSplitter).GetProperty(nameof(PathSplitter.Current)); // PropertyInfoExtractor.Extract<PathSplitter, ReadOnlySpan<char>>(static parts => parts.Current);
 #if NETSTANDARD2_1_OR_GREATER
         private static readonly MethodInfo FMemoryEquals = MethodInfoExtractor.Extract(static () => MemoryEquals(string.Empty, string.Empty, default));
 
