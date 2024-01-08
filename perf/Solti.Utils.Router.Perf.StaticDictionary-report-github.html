@@ -38,11 +38,11 @@
             <article class="content wrap" id="_content" data-uid="">
 
 <pre><code>
-BenchmarkDotNet v0.13.9+228a464e8be6c580ad9408e98f18813f6407fb5a, Windows 10 (10.0.17763.4720/1809/October2018Update/Redstone5) (Hyper-V)
+BenchmarkDotNet v0.13.12, Windows 10 (10.0.17763.5122/1809/October2018Update/Redstone5) (Hyper-V)
 Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
-.NET SDK 7.0.400
-  [Host]     : .NET 7.0.10 (7.0.1023.36312), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.10 (7.0.1023.36312), X64 RyuJIT AVX2
+.NET SDK 8.0.100
+  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 </code></pre><table>
 <thead>
@@ -59,193 +59,193 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <tr>
 <td><strong>RegularDictGet</strong></td>
 <td><strong>1</strong></td>
-<td style="text-align:right"><strong>18.84 ns</strong></td>
-<td style="text-align:right"><strong>0.384 ns</strong></td>
-<td style="text-align:right"><strong>0.359 ns</strong></td>
+<td style="text-align:right"><strong>24.11 ns</strong></td>
+<td style="text-align:right"><strong>0.564 ns</strong></td>
+<td style="text-align:right"><strong>1.608 ns</strong></td>
 <td style="text-align:right"><strong>-</strong></td>
 </tr>
 <tr>
 <td>RegularDictAdd</td>
 <td>1</td>
-<td style="text-align:right">25.29 ns</td>
-<td style="text-align:right">0.239 ns</td>
-<td style="text-align:right">0.224 ns</td>
+<td style="text-align:right">28.88 ns</td>
+<td style="text-align:right">0.615 ns</td>
+<td style="text-align:right">0.778 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td>StaticDictGet</td>
 <td>1</td>
-<td style="text-align:right">11.47 ns</td>
-<td style="text-align:right">0.135 ns</td>
-<td style="text-align:right">0.126 ns</td>
+<td style="text-align:right">11.05 ns</td>
+<td style="text-align:right">0.213 ns</td>
+<td style="text-align:right">0.189 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td>StaticDictAdd</td>
 <td>1</td>
-<td style="text-align:right">11.35 ns</td>
-<td style="text-align:right">0.221 ns</td>
-<td style="text-align:right">0.206 ns</td>
+<td style="text-align:right">12.91 ns</td>
+<td style="text-align:right">0.298 ns</td>
+<td style="text-align:right">0.608 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td><strong>RegularDictGet</strong></td>
 <td><strong>2</strong></td>
-<td style="text-align:right"><strong>32.77 ns</strong></td>
-<td style="text-align:right"><strong>0.450 ns</strong></td>
-<td style="text-align:right"><strong>0.421 ns</strong></td>
+<td style="text-align:right"><strong>22.01 ns</strong></td>
+<td style="text-align:right"><strong>0.520 ns</strong></td>
+<td style="text-align:right"><strong>0.964 ns</strong></td>
 <td style="text-align:right"><strong>-</strong></td>
 </tr>
 <tr>
 <td>RegularDictAdd</td>
 <td>2</td>
-<td style="text-align:right">28.67 ns</td>
-<td style="text-align:right">0.460 ns</td>
-<td style="text-align:right">0.430 ns</td>
+<td style="text-align:right">35.13 ns</td>
+<td style="text-align:right">0.745 ns</td>
+<td style="text-align:right">1.665 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td>StaticDictGet</td>
 <td>2</td>
-<td style="text-align:right">20.77 ns</td>
-<td style="text-align:right">0.243 ns</td>
-<td style="text-align:right">0.227 ns</td>
+<td style="text-align:right">21.02 ns</td>
+<td style="text-align:right">0.444 ns</td>
+<td style="text-align:right">0.436 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td>StaticDictAdd</td>
 <td>2</td>
-<td style="text-align:right">21.44 ns</td>
-<td style="text-align:right">0.425 ns</td>
-<td style="text-align:right">0.397 ns</td>
+<td style="text-align:right">19.74 ns</td>
+<td style="text-align:right">0.426 ns</td>
+<td style="text-align:right">0.378 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td><strong>RegularDictGet</strong></td>
 <td><strong>5</strong></td>
-<td style="text-align:right"><strong>38.11 ns</strong></td>
-<td style="text-align:right"><strong>0.780 ns</strong></td>
-<td style="text-align:right"><strong>0.730 ns</strong></td>
+<td style="text-align:right"><strong>27.38 ns</strong></td>
+<td style="text-align:right"><strong>0.604 ns</strong></td>
+<td style="text-align:right"><strong>0.565 ns</strong></td>
 <td style="text-align:right"><strong>-</strong></td>
 </tr>
 <tr>
 <td>RegularDictAdd</td>
 <td>5</td>
-<td style="text-align:right">51.58 ns</td>
-<td style="text-align:right">0.703 ns</td>
-<td style="text-align:right">0.658 ns</td>
+<td style="text-align:right">30.20 ns</td>
+<td style="text-align:right">0.453 ns</td>
+<td style="text-align:right">0.401 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td>StaticDictGet</td>
 <td>5</td>
-<td style="text-align:right">32.83 ns</td>
-<td style="text-align:right">0.320 ns</td>
-<td style="text-align:right">0.284 ns</td>
+<td style="text-align:right">24.11 ns</td>
+<td style="text-align:right">0.390 ns</td>
+<td style="text-align:right">0.346 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td>StaticDictAdd</td>
 <td>5</td>
-<td style="text-align:right">34.58 ns</td>
-<td style="text-align:right">0.376 ns</td>
-<td style="text-align:right">0.333 ns</td>
+<td style="text-align:right">25.32 ns</td>
+<td style="text-align:right">0.406 ns</td>
+<td style="text-align:right">0.380 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td><strong>RegularDictGet</strong></td>
 <td><strong>10</strong></td>
-<td style="text-align:right"><strong>35.85 ns</strong></td>
-<td style="text-align:right"><strong>0.761 ns</strong></td>
-<td style="text-align:right"><strong>0.675 ns</strong></td>
+<td style="text-align:right"><strong>26.67 ns</strong></td>
+<td style="text-align:right"><strong>0.612 ns</strong></td>
+<td style="text-align:right"><strong>0.511 ns</strong></td>
 <td style="text-align:right"><strong>-</strong></td>
 </tr>
 <tr>
 <td>RegularDictAdd</td>
 <td>10</td>
-<td style="text-align:right">40.80 ns</td>
-<td style="text-align:right">0.404 ns</td>
-<td style="text-align:right">0.358 ns</td>
+<td style="text-align:right">34.98 ns</td>
+<td style="text-align:right">0.694 ns</td>
+<td style="text-align:right">0.649 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td>StaticDictGet</td>
 <td>10</td>
-<td style="text-align:right">37.54 ns</td>
-<td style="text-align:right">0.379 ns</td>
-<td style="text-align:right">0.355 ns</td>
+<td style="text-align:right">30.49 ns</td>
+<td style="text-align:right">0.569 ns</td>
+<td style="text-align:right">0.532 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td>StaticDictAdd</td>
 <td>10</td>
-<td style="text-align:right">38.62 ns</td>
-<td style="text-align:right">0.418 ns</td>
-<td style="text-align:right">0.371 ns</td>
+<td style="text-align:right">30.18 ns</td>
+<td style="text-align:right">0.607 ns</td>
+<td style="text-align:right">0.810 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td><strong>RegularDictGet</strong></td>
 <td><strong>20</strong></td>
-<td style="text-align:right"><strong>37.51 ns</strong></td>
-<td style="text-align:right"><strong>0.368 ns</strong></td>
-<td style="text-align:right"><strong>0.344 ns</strong></td>
+<td style="text-align:right"><strong>31.76 ns</strong></td>
+<td style="text-align:right"><strong>0.685 ns</strong></td>
+<td style="text-align:right"><strong>0.733 ns</strong></td>
 <td style="text-align:right"><strong>-</strong></td>
 </tr>
 <tr>
 <td>RegularDictAdd</td>
 <td>20</td>
-<td style="text-align:right">50.57 ns</td>
-<td style="text-align:right">0.463 ns</td>
-<td style="text-align:right">0.411 ns</td>
+<td style="text-align:right">36.41 ns</td>
+<td style="text-align:right">0.768 ns</td>
+<td style="text-align:right">1.941 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td>StaticDictGet</td>
 <td>20</td>
-<td style="text-align:right">43.43 ns</td>
-<td style="text-align:right">0.631 ns</td>
-<td style="text-align:right">0.559 ns</td>
+<td style="text-align:right">36.98 ns</td>
+<td style="text-align:right">0.784 ns</td>
+<td style="text-align:right">0.992 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td>StaticDictAdd</td>
 <td>20</td>
-<td style="text-align:right">45.99 ns</td>
-<td style="text-align:right">0.593 ns</td>
-<td style="text-align:right">0.555 ns</td>
+<td style="text-align:right">35.87 ns</td>
+<td style="text-align:right">0.757 ns</td>
+<td style="text-align:right">0.957 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td><strong>RegularDictGet</strong></td>
 <td><strong>30</strong></td>
-<td style="text-align:right"><strong>30.32 ns</strong></td>
-<td style="text-align:right"><strong>0.672 ns</strong></td>
-<td style="text-align:right"><strong>0.825 ns</strong></td>
+<td style="text-align:right"><strong>28.38 ns</strong></td>
+<td style="text-align:right"><strong>0.650 ns</strong></td>
+<td style="text-align:right"><strong>0.774 ns</strong></td>
 <td style="text-align:right"><strong>-</strong></td>
 </tr>
 <tr>
 <td>RegularDictAdd</td>
 <td>30</td>
-<td style="text-align:right">39.59 ns</td>
-<td style="text-align:right">0.319 ns</td>
-<td style="text-align:right">0.283 ns</td>
+<td style="text-align:right">35.32 ns</td>
+<td style="text-align:right">0.595 ns</td>
+<td style="text-align:right">0.528 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td>StaticDictGet</td>
 <td>30</td>
-<td style="text-align:right">40.22 ns</td>
-<td style="text-align:right">0.851 ns</td>
-<td style="text-align:right">0.836 ns</td>
+<td style="text-align:right">40.25 ns</td>
+<td style="text-align:right">0.756 ns</td>
+<td style="text-align:right">0.631 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 <tr>
 <td>StaticDictAdd</td>
 <td>30</td>
-<td style="text-align:right">39.48 ns</td>
-<td style="text-align:right">0.756 ns</td>
-<td style="text-align:right">0.671 ns</td>
+<td style="text-align:right">39.45 ns</td>
+<td style="text-align:right">0.817 ns</td>
+<td style="text-align:right">1.272 ns</td>
 <td style="text-align:right">-</td>
 </tr>
 </tbody>

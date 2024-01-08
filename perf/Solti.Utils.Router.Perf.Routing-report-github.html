@@ -38,11 +38,11 @@
             <article class="content wrap" id="_content" data-uid="">
 
 <pre><code>
-BenchmarkDotNet v0.13.9+228a464e8be6c580ad9408e98f18813f6407fb5a, Windows 10 (10.0.17763.4720/1809/October2018Update/Redstone5) (Hyper-V)
+BenchmarkDotNet v0.13.12, Windows 10 (10.0.17763.5122/1809/October2018Update/Redstone5) (Hyper-V)
 Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
-.NET SDK 7.0.400
-  [Host]     : .NET 7.0.10 (7.0.1023.36312), X64 RyuJIT AVX2
-  DefaultJob : .NET 7.0.10 (7.0.1023.36312), X64 RyuJIT AVX2
+.NET SDK 8.0.100
+  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
 
 </code></pre><table>
 <thead>
@@ -62,161 +62,161 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Route</strong></td>
 <td><strong>1</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>105.0 ns</strong></td>
-<td style="text-align:right"><strong>2.09 ns</strong></td>
-<td style="text-align:right"><strong>1.74 ns</strong></td>
-<td style="text-align:right"><strong>0.0135</strong></td>
-<td style="text-align:right"><strong>248 B</strong></td>
+<td style="text-align:right"><strong>84.20 ns</strong></td>
+<td style="text-align:right"><strong>1.712 ns</strong></td>
+<td style="text-align:right"><strong>2.715 ns</strong></td>
+<td style="text-align:right"><strong>0.0108</strong></td>
+<td style="text-align:right"><strong>200 B</strong></td>
 </tr>
 <tr>
 <td>AsyncRoute</td>
 <td>1</td>
 <td>False</td>
-<td style="text-align:right">228.0 ns</td>
-<td style="text-align:right">4.50 ns</td>
-<td style="text-align:right">4.21 ns</td>
-<td style="text-align:right">0.0253</td>
-<td style="text-align:right">464 B</td>
+<td style="text-align:right">163.90 ns</td>
+<td style="text-align:right">3.357 ns</td>
+<td style="text-align:right">7.226 ns</td>
+<td style="text-align:right">0.0226</td>
+<td style="text-align:right">416 B</td>
 </tr>
 <tr>
 <td><strong>Route</strong></td>
 <td><strong>1</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>115.2 ns</strong></td>
-<td style="text-align:right"><strong>1.78 ns</strong></td>
-<td style="text-align:right"><strong>1.67 ns</strong></td>
-<td style="text-align:right"><strong>0.0143</strong></td>
-<td style="text-align:right"><strong>264 B</strong></td>
+<td style="text-align:right"><strong>102.78 ns</strong></td>
+<td style="text-align:right"><strong>1.524 ns</strong></td>
+<td style="text-align:right"><strong>2.709 ns</strong></td>
+<td style="text-align:right"><strong>0.0139</strong></td>
+<td style="text-align:right"><strong>256 B</strong></td>
 </tr>
 <tr>
 <td>AsyncRoute</td>
 <td>1</td>
 <td>True</td>
-<td style="text-align:right">237.9 ns</td>
-<td style="text-align:right">4.68 ns</td>
-<td style="text-align:right">5.39 ns</td>
+<td style="text-align:right">198.05 ns</td>
+<td style="text-align:right">3.795 ns</td>
+<td style="text-align:right">3.727 ns</td>
+<td style="text-align:right">0.0257</td>
+<td style="text-align:right">472 B</td>
+</tr>
+<tr>
+<td><strong>Route</strong></td>
+<td><strong>2</strong></td>
+<td><strong>False</strong></td>
+<td style="text-align:right"><strong>117.18 ns</strong></td>
+<td style="text-align:right"><strong>2.289 ns</strong></td>
+<td style="text-align:right"><strong>2.895 ns</strong></td>
+<td style="text-align:right"><strong>0.0118</strong></td>
+<td style="text-align:right"><strong>216 B</strong></td>
+</tr>
+<tr>
+<td>AsyncRoute</td>
+<td>2</td>
+<td>False</td>
+<td style="text-align:right">219.62 ns</td>
+<td style="text-align:right">4.462 ns</td>
+<td style="text-align:right">5.480 ns</td>
+<td style="text-align:right">0.0236</td>
+<td style="text-align:right">432 B</td>
+</tr>
+<tr>
+<td><strong>Route</strong></td>
+<td><strong>2</strong></td>
+<td><strong>True</strong></td>
+<td style="text-align:right"><strong>134.76 ns</strong></td>
+<td style="text-align:right"><strong>2.660 ns</strong></td>
+<td style="text-align:right"><strong>4.062 ns</strong></td>
+<td style="text-align:right"><strong>0.0148</strong></td>
+<td style="text-align:right"><strong>272 B</strong></td>
+</tr>
+<tr>
+<td>AsyncRoute</td>
+<td>2</td>
+<td>True</td>
+<td style="text-align:right">225.37 ns</td>
+<td style="text-align:right">4.216 ns</td>
+<td style="text-align:right">3.944 ns</td>
+<td style="text-align:right">0.0265</td>
+<td style="text-align:right">488 B</td>
+</tr>
+<tr>
+<td><strong>Route</strong></td>
+<td><strong>5</strong></td>
+<td><strong>False</strong></td>
+<td style="text-align:right"><strong>191.79 ns</strong></td>
+<td style="text-align:right"><strong>3.762 ns</strong></td>
+<td style="text-align:right"><strong>3.335 ns</strong></td>
+<td style="text-align:right"><strong>0.0143</strong></td>
+<td style="text-align:right"><strong>264 B</strong></td>
+</tr>
+<tr>
+<td>AsyncRoute</td>
+<td>5</td>
+<td>False</td>
+<td style="text-align:right">287.51 ns</td>
+<td style="text-align:right">5.798 ns</td>
+<td style="text-align:right">8.498 ns</td>
 <td style="text-align:right">0.0262</td>
 <td style="text-align:right">480 B</td>
 </tr>
 <tr>
 <td><strong>Route</strong></td>
-<td><strong>2</strong></td>
-<td><strong>False</strong></td>
-<td style="text-align:right"><strong>151.4 ns</strong></td>
-<td style="text-align:right"><strong>2.33 ns</strong></td>
-<td style="text-align:right"><strong>2.18 ns</strong></td>
-<td style="text-align:right"><strong>0.0165</strong></td>
-<td style="text-align:right"><strong>304 B</strong></td>
-</tr>
-<tr>
-<td>AsyncRoute</td>
-<td>2</td>
-<td>False</td>
-<td style="text-align:right">273.7 ns</td>
-<td style="text-align:right">5.52 ns</td>
-<td style="text-align:right">4.89 ns</td>
-<td style="text-align:right">0.0281</td>
-<td style="text-align:right">520 B</td>
-</tr>
-<tr>
-<td><strong>Route</strong></td>
-<td><strong>2</strong></td>
-<td><strong>True</strong></td>
-<td style="text-align:right"><strong>163.1 ns</strong></td>
-<td style="text-align:right"><strong>3.19 ns</strong></td>
-<td style="text-align:right"><strong>3.28 ns</strong></td>
-<td style="text-align:right"><strong>0.0174</strong></td>
-<td style="text-align:right"><strong>320 B</strong></td>
-</tr>
-<tr>
-<td>AsyncRoute</td>
-<td>2</td>
-<td>True</td>
-<td style="text-align:right">282.7 ns</td>
-<td style="text-align:right">4.89 ns</td>
-<td style="text-align:right">4.57 ns</td>
-<td style="text-align:right">0.0291</td>
-<td style="text-align:right">536 B</td>
-</tr>
-<tr>
-<td><strong>Route</strong></td>
-<td><strong>5</strong></td>
-<td><strong>False</strong></td>
-<td style="text-align:right"><strong>286.9 ns</strong></td>
-<td style="text-align:right"><strong>3.69 ns</strong></td>
-<td style="text-align:right"><strong>3.45 ns</strong></td>
-<td style="text-align:right"><strong>0.0257</strong></td>
-<td style="text-align:right"><strong>472 B</strong></td>
-</tr>
-<tr>
-<td>AsyncRoute</td>
-<td>5</td>
-<td>False</td>
-<td style="text-align:right">406.0 ns</td>
-<td style="text-align:right">6.17 ns</td>
-<td style="text-align:right">11.89 ns</td>
-<td style="text-align:right">0.0372</td>
-<td style="text-align:right">688 B</td>
-</tr>
-<tr>
-<td><strong>Route</strong></td>
 <td><strong>5</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>331.3 ns</strong></td>
-<td style="text-align:right"><strong>5.18 ns</strong></td>
-<td style="text-align:right"><strong>4.85 ns</strong></td>
-<td style="text-align:right"><strong>0.0281</strong></td>
-<td style="text-align:right"><strong>520 B</strong></td>
+<td style="text-align:right"><strong>271.95 ns</strong></td>
+<td style="text-align:right"><strong>5.151 ns</strong></td>
+<td style="text-align:right"><strong>4.818 ns</strong></td>
+<td style="text-align:right"><strong>0.0234</strong></td>
+<td style="text-align:right"><strong>432 B</strong></td>
 </tr>
 <tr>
 <td>AsyncRoute</td>
 <td>5</td>
 <td>True</td>
-<td style="text-align:right">462.5 ns</td>
-<td style="text-align:right">8.87 ns</td>
-<td style="text-align:right">9.86 ns</td>
-<td style="text-align:right">0.0401</td>
-<td style="text-align:right">736 B</td>
+<td style="text-align:right">376.81 ns</td>
+<td style="text-align:right">7.307 ns</td>
+<td style="text-align:right">7.177 ns</td>
+<td style="text-align:right">0.0353</td>
+<td style="text-align:right">648 B</td>
 </tr>
 <tr>
 <td><strong>Route</strong></td>
 <td><strong>10</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>507.6 ns</strong></td>
-<td style="text-align:right"><strong>6.85 ns</strong></td>
-<td style="text-align:right"><strong>6.41 ns</strong></td>
-<td style="text-align:right"><strong>0.0410</strong></td>
-<td style="text-align:right"><strong>752 B</strong></td>
+<td style="text-align:right"><strong>312.06 ns</strong></td>
+<td style="text-align:right"><strong>6.254 ns</strong></td>
+<td style="text-align:right"><strong>9.737 ns</strong></td>
+<td style="text-align:right"><strong>0.0186</strong></td>
+<td style="text-align:right"><strong>344 B</strong></td>
 </tr>
 <tr>
 <td>AsyncRoute</td>
 <td>10</td>
 <td>False</td>
-<td style="text-align:right">655.7 ns</td>
-<td style="text-align:right">12.80 ns</td>
-<td style="text-align:right">13.14 ns</td>
-<td style="text-align:right">0.0525</td>
-<td style="text-align:right">968 B</td>
+<td style="text-align:right">410.71 ns</td>
+<td style="text-align:right">7.990 ns</td>
+<td style="text-align:right">9.812 ns</td>
+<td style="text-align:right">0.0305</td>
+<td style="text-align:right">560 B</td>
 </tr>
 <tr>
 <td><strong>Route</strong></td>
 <td><strong>10</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>597.6 ns</strong></td>
-<td style="text-align:right"><strong>7.53 ns</strong></td>
-<td style="text-align:right"><strong>6.67 ns</strong></td>
-<td style="text-align:right"><strong>0.0448</strong></td>
-<td style="text-align:right"><strong>832 B</strong></td>
+<td style="text-align:right"><strong>468.96 ns</strong></td>
+<td style="text-align:right"><strong>9.164 ns</strong></td>
+<td style="text-align:right"><strong>9.000 ns</strong></td>
+<td style="text-align:right"><strong>0.0339</strong></td>
+<td style="text-align:right"><strong>624 B</strong></td>
 </tr>
 <tr>
 <td>AsyncRoute</td>
 <td>10</td>
 <td>True</td>
-<td style="text-align:right">732.1 ns</td>
-<td style="text-align:right">14.19 ns</td>
-<td style="text-align:right">13.28 ns</td>
-<td style="text-align:right">0.0572</td>
-<td style="text-align:right">1048 B</td>
+<td style="text-align:right">570.69 ns</td>
+<td style="text-align:right">11.471 ns</td>
+<td style="text-align:right">24.693 ns</td>
+<td style="text-align:right">0.0458</td>
+<td style="text-align:right">840 B</td>
 </tr>
 </tbody>
 </table>
