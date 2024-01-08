@@ -47,21 +47,6 @@ namespace Solti.Utils.Router.Extensions
         /// </summary>
         /// <param name="self"><see cref="AsyncRouterBuilder"/> instance.</param>
         /// <param name="route">Route to be registered.</param>
-        /// <param name="handlerExpr">Function accepting requests on the given route. You may pass async and sync callbacks as well.</param>
-        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
-        /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public static void AddRoute<TService, TResult>(this AsyncRouterBuilder self, ParsedRoute route, Expression<Func<TService, TResult>> handlerExpr, params string[] methods) => self.AddRoute
-        (
-            route,
-            MethodInfoExtractor.Extract(handlerExpr),
-            methods
-        );
-
-        /// <summary>
-        /// Registers a new route.
-        /// </summary>
-        /// <param name="self"><see cref="AsyncRouterBuilder"/> instance.</param>
-        /// <param name="route">Route to be registered.</param>
         /// <param name="handlerExpr">Function accepting requests on the given route.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
@@ -69,23 +54,6 @@ namespace Solti.Utils.Router.Extensions
         (
             route,
             handler: MethodInfoExtractor.Extract(handlerExpr),
-            methods
-        );
-
-        /// <summary>
-        /// Registers a new route.
-        /// </summary>
-        /// <param name="self"><see cref="AsyncRouterBuilder"/> instance.</param>
-        /// <param name="route">Route to be registered.</param>
-        /// <param name="handlerExpr">Function accepting requests on the given route. You may pass async and sync callbacks as well.</param>
-        /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
-        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
-        /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public static void AddRoute<TService, TResult>(this AsyncRouterBuilder self, string route, Expression<Func<TService, TResult>> handlerExpr, SplitOptions splitOptions, params string[] methods) => AddRoute
-        (
-            self,
-            RouteTemplate.Parse(route, self.Converters, splitOptions),
-            handlerExpr,
             methods
         );
 
@@ -103,23 +71,6 @@ namespace Solti.Utils.Router.Extensions
             self,
             RouteTemplate.Parse(route, self.Converters, splitOptions),
             handlerExpr,
-            methods
-        );
-
-        /// <summary>
-        /// Registers a new route.
-        /// </summary>
-        /// <param name="self"><see cref="AsyncRouterBuilder"/> instance.</param>
-        /// <param name="route">Route to be registered.</param>
-        /// <param name="handlerExpr">Function accepting requests on the given route. You may pass async and sync callbacks as well.</param>
-        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
-        /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public static void AddRoute<TService, TResult>(this AsyncRouterBuilder self, string route, Expression<Func<TService, TResult>> handlerExpr, params string[] methods) => AddRoute
-        (
-            self,
-            route,
-            handlerExpr,
-            SplitOptions.Default,
             methods
         );
 

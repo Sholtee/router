@@ -107,8 +107,7 @@ namespace Solti.Utils.Router.Tests
                 (
                     HttpStatusCode.OK,
                     (int) paramz["a"]! + (int) paramz["op"]! * (int) paramz["b"]!
-                ),
-                SplitOptions.Default with { ConvertSpaces = false }
+                )
             );
 
             return routerBuilder.Build();
@@ -147,8 +146,7 @@ namespace Solti.Utils.Router.Tests
         {
             RouteTemplateCompiler getRoute = Utils.Router.RouteTemplate.CreateCompiler
             (
-                "http://localhost:8080/" + RouteTemplate,
-                splitOptions: SplitOptions.Default with { ConvertSpaces = false }
+                "http://localhost:8080/" + RouteTemplate
             );
 
             HttpResponseMessage resp = await Client.PostAsync
@@ -175,8 +173,7 @@ namespace Solti.Utils.Router.Tests
         {
             RouteTemplateCompiler getRoute = Utils.Router.RouteTemplate.CreateCompiler
             (
-                "http://localhost:8080/" + RouteTemplate,
-                splitOptions: SplitOptions.Default with { ConvertSpaces = false }
+                "http://localhost:8080/" + RouteTemplate
             );
 
             HttpResponseMessage resp = await Client.GetAsync
@@ -292,11 +289,10 @@ namespace Solti.Utils.Router.Tests
                 handler: static (object? state, HttpStatusCode reason) => new ResponseData(reason, reason.ToString())
             );
 
-            routerBuilder.AddRoute<CalculatorService, int>
+            routerBuilder.AddRoute<CalculatorService>
             (
                 RouteTemplate,
-                calc => calc.Calculate(0, default, 0),
-                SplitOptions.Default with { ConvertSpaces = false }
+                calc => calc.Calculate(0, default, 0)
             );
             routerBuilder.AddRoute<CalculatorService>("/error", calc => calc.ErrorMethod());
             routerBuilder.RegisterExceptionHandler<Exception, ResponseData>(handler: (_, exc) => new ResponseData(HttpStatusCode.InternalServerError, exc.Message));
@@ -360,11 +356,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public async Task Calculator_InvalidMethod()
         {
-            RouteTemplateCompiler getRoute = Utils.Router.RouteTemplate.CreateCompiler
-            (
-                "http://localhost:8080/" + RouteTemplate,
-                splitOptions: SplitOptions.Default with { ConvertSpaces = false }
-            );
+            RouteTemplateCompiler getRoute = Utils.Router.RouteTemplate.CreateCompiler("http://localhost:8080/" + RouteTemplate);
 
             HttpResponseMessage resp = await Client.PostAsync
             (
@@ -388,11 +380,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public async Task Calculator()
         {
-            RouteTemplateCompiler getRoute = Utils.Router.RouteTemplate.CreateCompiler
-            (
-                "http://localhost:8080/" + RouteTemplate,
-                splitOptions: SplitOptions.Default with { ConvertSpaces = false }
-            );
+            RouteTemplateCompiler getRoute = Utils.Router.RouteTemplate.CreateCompiler("http://localhost:8080/" + RouteTemplate);
 
             HttpResponseMessage resp = await Client.GetAsync
             (

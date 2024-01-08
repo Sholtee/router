@@ -217,7 +217,7 @@ The `Solti.Utils.Router.Extensions` namespace aims to simplify the route registr
 using Solti.Utils.Router;
 using Solti.Utils.Router.Extensions;
 
-routerBuilder.AddRoute<PictureStore, Task<object>>
+routerBuilder.AddRoute<PictureStore>
 (
     "/get/picture-{id:int}",
     store => store.GetPicture(default)  // GetPicture() should have only one parameter named "id" 
