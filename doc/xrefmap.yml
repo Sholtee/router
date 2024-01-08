@@ -580,6 +580,24 @@ references:
   fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder, Solti.Utils.Router.ParsedRoute, System.Reflection.MethodInfo, System.String())
   nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute(AsyncRouterBuilder, ParsedRoute, MethodInfo, String[])
   nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(AsyncRouterBuilder, ParsedRoute, MethodInfo, String())
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Reflection.MethodInfo,Solti.Utils.Router.SplitOptions,System.String[])
+  name: AddRoute(AsyncRouterBuilder, String, MethodInfo, SplitOptions, String[])
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute_Solti_Utils_Router_AsyncRouterBuilder_System_String_System_Reflection_MethodInfo_Solti_Utils_Router_SplitOptions_System_String___
+  commentId: M:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Reflection.MethodInfo,Solti.Utils.Router.SplitOptions,System.String[])
+  name.vb: AddRoute(AsyncRouterBuilder, String, MethodInfo, SplitOptions, String())
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Reflection.MethodInfo, Solti.Utils.Router.SplitOptions, System.String[])
+  fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Reflection.MethodInfo, Solti.Utils.Router.SplitOptions, System.String())
+  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute(AsyncRouterBuilder, String, MethodInfo, SplitOptions, String[])
+  nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(AsyncRouterBuilder, String, MethodInfo, SplitOptions, String())
+- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Reflection.MethodInfo,System.String[])
+  name: AddRoute(AsyncRouterBuilder, String, MethodInfo, String[])
+  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute_Solti_Utils_Router_AsyncRouterBuilder_System_String_System_Reflection_MethodInfo_System_String___
+  commentId: M:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Reflection.MethodInfo,System.String[])
+  name.vb: AddRoute(AsyncRouterBuilder, String, MethodInfo, String())
+  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Reflection.MethodInfo, System.String[])
+  fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Reflection.MethodInfo, System.String())
+  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute(AsyncRouterBuilder, String, MethodInfo, String[])
+  nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(AsyncRouterBuilder, String, MethodInfo, String())
 - uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute*
   name: AddRoute
   href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute_
