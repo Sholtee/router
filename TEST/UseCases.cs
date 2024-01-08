@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 namespace Solti.Utils.Router.Tests
@@ -26,7 +27,7 @@ namespace Solti.Utils.Router.Tests
 
     using ResponseData = (HttpStatusCode Status, object? Body);
 
-    internal enum ArithmeticalOperation
+    public enum ArithmeticalOperation
     {
         Add = 1,
         Subtract = -1
@@ -195,24 +196,10 @@ namespace Solti.Utils.Router.Tests
         }
     }
 
-    [TestFixture]
-    public class UseCaseIOC
+    public abstract class UseCaseIOCBase<TRootScope, TScope> where TRootScope: IDisposable
     {
         #region Helpers
-        private sealed class InjectorDotNetRequestHandlerBuilder: RequestHandlerBuilder
-        {
-            protected override MethodInfo CreateServiceMethod { get; } = MethodInfoExtractor.Extract<IInjector>(i => i.Get(null!, null));
-
-            protected internal override Expression GetCreateServiceArgument(ParameterInfo param, Type serviceType, object? userData)
-            {
-                if (param.Position is 1)
-                    return Expression.Constant(null, typeof(string));
-
-                return base.GetCreateServiceArgument(param, serviceType, userData);
-            }
-        }
-
-        private sealed class CalculatorService
+        protected sealed class CalculatorService
         {
             public int Calculate(int a, ArithmeticalOperation op, int b) => a + (int) op * b;
 
@@ -220,8 +207,6 @@ namespace Solti.Utils.Router.Tests
         }
 
         private const string RouteTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.ArithmeticalOperation}/{b:int}";
-
-        private RequestHandlerBuilder OldBuilder { get; set; } = null!;
 
         private HttpListener Listener { get; set; } = null!;
 
@@ -235,41 +220,42 @@ namespace Solti.Utils.Router.Tests
 
             Task.Factory.StartNew(() =>
             {
-                using IScopeFactory scopeFactory = ScopeFactory.Create(svcs => svcs.Service<CalculatorService>(Lifetime.Scoped));
+                using TRootScope root = CreateRootScope();
 
                 while (Listener.IsListening)
                 {
                     try
                     {
-                        using IInjector scope = scopeFactory.CreateScope();
-
-                        HttpListenerContext context = Listener.GetContext();
-
-                        object? response = router
-                        (
-                            scope,
-                            context.Request.Url!.AbsolutePath,
-                            context.Request.HttpMethod
-                        ).GetAwaiter().GetResult()!;
-
-                        context.Response.ContentType = "application/json";
-
-                        if (response is ResponseData responseData)
+                        using (CreateScope(root, out TScope scope))
                         {
-                            context.Response.StatusCode = (int) responseData.Status;
-                            response = responseData.Body;
-                        }
-                        else
-                        {
-                            context.Response.StatusCode = (int) HttpStatusCode.OK;
-                        }
+                            HttpListenerContext context = Listener.GetContext();
 
-                        using (StreamWriter streamWriter = new(context.Response.OutputStream))
-                        {
-                            streamWriter.Write(JsonSerializer.Serialize(response));
-                        }
+                            object? response = router
+                            (
+                                scope,
+                                context.Request.Url!.AbsolutePath,
+                                context.Request.HttpMethod
+                            ).GetAwaiter().GetResult()!;
 
-                        context.Response.Close();
+                            context.Response.ContentType = "application/json";
+
+                            if (response is ResponseData responseData)
+                            {
+                                context.Response.StatusCode = (int)responseData.Status;
+                                response = responseData.Body;
+                            }
+                            else
+                            {
+                                context.Response.StatusCode = (int)HttpStatusCode.OK;
+                            }
+
+                            using (StreamWriter streamWriter = new(context.Response.OutputStream))
+                            {
+                                streamWriter.Write(JsonSerializer.Serialize(response));
+                            }
+
+                            context.Response.Close();
+                        }
                     }
                     catch (HttpListenerException e)
                     {
@@ -299,28 +285,27 @@ namespace Solti.Utils.Router.Tests
 
             return routerBuilder.Build();
         }
+
+        protected abstract TRootScope CreateRootScope();
+
+        protected abstract IDisposable CreateScope(TRootScope root, out TScope scope);
         #endregion
 
         [OneTimeSetUp]
-        public void SetupFixture()
+        public virtual void SetupFixture()
         {
-            OldBuilder = AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder;
-            AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = new InjectorDotNetRequestHandlerBuilder();
-
             SetupServer(SetupRouter());
             Client = new HttpClient();
         }
 
         [OneTimeTearDown]
-        public void TearDownFixture()
+        public virtual void TearDownFixture()
         {
             Listener?.Close();
             Listener = null!;
 
             Client?.Dispose();
             Client = null!;
-
-            AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = OldBuilder;
         }
 
         [Test]
@@ -398,6 +383,64 @@ namespace Solti.Utils.Router.Tests
 
             using Stream stm = await resp.Content.ReadAsStreamAsync();
             Assert.That(await JsonSerializer.DeserializeAsync<int>(stm), Is.EqualTo(3));
+        }
+    }
+
+    [TestFixture]
+    public class UseCaseIOC_MsDI : UseCaseIOCBase<ServiceProvider, IServiceProvider>
+    {
+        protected override ServiceProvider CreateRootScope()
+        {
+            Microsoft.Extensions.DependencyInjection.ServiceCollection services = new();
+            services.AddScoped<CalculatorService>();
+            return services.BuildServiceProvider();
+        }
+
+        protected override IDisposable CreateScope(ServiceProvider root, out IServiceProvider scope)
+        {
+            IServiceScope serviceScope = root.CreateScope();
+            scope = serviceScope.ServiceProvider;
+            return serviceScope;
+        }
+    }
+
+    [TestFixture]
+    public class UseCaseIOC_InjectorDotNet: UseCaseIOCBase<IScopeFactory, IInjector>
+    {
+        private sealed class InjectorDotNetRequestHandlerBuilder : RequestHandlerBuilder
+        {
+            protected override MethodInfo CreateServiceMethod { get; } = MethodInfoExtractor.Extract<IInjector>(i => i.Get(null!, null));
+
+            protected internal override Expression GetCreateServiceArgument(ParameterInfo param, Type serviceType, object? userData)
+            {
+                if (param.Position is 1)
+                    return Expression.Constant(null, typeof(string));
+
+                return base.GetCreateServiceArgument(param, serviceType, userData);
+            }
+        }
+
+        private RequestHandlerBuilder OldBuilder { get; set; } = null!;
+
+        public override void SetupFixture()
+        {
+            OldBuilder = AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder;
+            AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = new InjectorDotNetRequestHandlerBuilder();
+            base.SetupFixture();
+        }
+
+        public override void TearDownFixture()
+        {
+            base.TearDownFixture();
+            AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = OldBuilder;
+        }
+
+        protected override IScopeFactory CreateRootScope() => ScopeFactory.Create(svcs => svcs.Service<CalculatorService>(Lifetime.Scoped));
+
+        protected override IDisposable CreateScope(IScopeFactory root, out IInjector scope)
+        {
+            scope = root.CreateScope();
+            return scope;
         }
     }
 }
