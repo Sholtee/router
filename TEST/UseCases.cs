@@ -37,7 +37,7 @@ namespace Solti.Utils.Router.Tests
     public class UseCaseBasic
     {
         #region Helpers
-        private string RouteTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.ArithmeticalOperation}/{b:int}";
+        private const string RouteTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.ArithmeticalOperation}/{b:int}";
 
         private HttpListener Listener { get; set; } = null!;
 
@@ -94,7 +94,7 @@ namespace Solti.Utils.Router.Tests
             }, TaskCreationOptions.LongRunning);
         }
 
-        private Router SetupRouter()
+        private static Router SetupRouter()
         {
             RouterBuilder routerBuilder = new
             (
@@ -268,7 +268,7 @@ namespace Solti.Utils.Router.Tests
             }, TaskCreationOptions.LongRunning);
         }
 
-        private AsyncRouter SetupRouter()
+        private static AsyncRouter SetupRouter()
         {
             AsyncRouterBuilder routerBuilder = AsyncRouterBuilder.Create
             (
