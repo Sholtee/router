@@ -613,33 +613,6 @@ references:
   fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService)(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression(Of System.Action(Of TService)), System.String())
   nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute<TService>(AsyncRouterBuilder, String, Expression<Action<TService>>, String[])
   nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService)(AsyncRouterBuilder, String, Expression(Of Action(Of TService)), String())
-- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``2(Solti.Utils.Router.AsyncRouterBuilder,Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.String[])
-  name: AddRoute<TService, TResult>(AsyncRouterBuilder, ParsedRoute, Expression<Func<TService, TResult>>, String[])
-  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute__2_Solti_Utils_Router_AsyncRouterBuilder_Solti_Utils_Router_ParsedRoute_System_Linq_Expressions_Expression_System_Func___0___1___System_String___
-  commentId: M:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``2(Solti.Utils.Router.AsyncRouterBuilder,Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.String[])
-  name.vb: AddRoute(Of TService, TResult)(AsyncRouterBuilder, ParsedRoute, Expression(Of Func(Of TService, TResult)), String())
-  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute<TService, TResult>(Solti.Utils.Router.AsyncRouterBuilder, Solti.Utils.Router.ParsedRoute, System.Linq.Expressions.Expression<System.Func<TService, TResult>>, System.String[])
-  fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService, TResult)(Solti.Utils.Router.AsyncRouterBuilder, Solti.Utils.Router.ParsedRoute, System.Linq.Expressions.Expression(Of System.Func(Of TService, TResult)), System.String())
-  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute<TService, TResult>(AsyncRouterBuilder, ParsedRoute, Expression<Func<TService, TResult>>, String[])
-  nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService, TResult)(AsyncRouterBuilder, ParsedRoute, Expression(Of Func(Of TService, TResult)), String())
-- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``2(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Func{``0,``1}},Solti.Utils.Router.SplitOptions,System.String[])
-  name: AddRoute<TService, TResult>(AsyncRouterBuilder, String, Expression<Func<TService, TResult>>, SplitOptions, String[])
-  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute__2_Solti_Utils_Router_AsyncRouterBuilder_System_String_System_Linq_Expressions_Expression_System_Func___0___1___Solti_Utils_Router_SplitOptions_System_String___
-  commentId: M:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``2(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Func{``0,``1}},Solti.Utils.Router.SplitOptions,System.String[])
-  name.vb: AddRoute(Of TService, TResult)(AsyncRouterBuilder, String, Expression(Of Func(Of TService, TResult)), SplitOptions, String())
-  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute<TService, TResult>(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression<System.Func<TService, TResult>>, Solti.Utils.Router.SplitOptions, System.String[])
-  fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService, TResult)(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression(Of System.Func(Of TService, TResult)), Solti.Utils.Router.SplitOptions, System.String())
-  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute<TService, TResult>(AsyncRouterBuilder, String, Expression<Func<TService, TResult>>, SplitOptions, String[])
-  nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService, TResult)(AsyncRouterBuilder, String, Expression(Of Func(Of TService, TResult)), SplitOptions, String())
-- uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``2(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.String[])
-  name: AddRoute<TService, TResult>(AsyncRouterBuilder, String, Expression<Func<TService, TResult>>, String[])
-  href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute__2_Solti_Utils_Router_AsyncRouterBuilder_System_String_System_Linq_Expressions_Expression_System_Func___0___1___System_String___
-  commentId: M:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``2(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.String[])
-  name.vb: AddRoute(Of TService, TResult)(AsyncRouterBuilder, String, Expression(Of Func(Of TService, TResult)), String())
-  fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute<TService, TResult>(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression<System.Func<TService, TResult>>, System.String[])
-  fullName.vb: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService, TResult)(Solti.Utils.Router.AsyncRouterBuilder, System.String, System.Linq.Expressions.Expression(Of System.Func(Of TService, TResult)), System.String())
-  nameWithType: AsyncRouterBuilderAddRouteExtensions.AddRoute<TService, TResult>(AsyncRouterBuilder, String, Expression<Func<TService, TResult>>, String[])
-  nameWithType.vb: AsyncRouterBuilderAddRouteExtensions.AddRoute(Of TService, TResult)(AsyncRouterBuilder, String, Expression(Of Func(Of TService, TResult)), String())
 - uid: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder
   name: RequestHandlerBuilder
   href: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.html#Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_RequestHandlerBuilder
