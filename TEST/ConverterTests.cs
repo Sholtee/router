@@ -110,6 +110,40 @@ namespace Solti.Utils.Router.Tests
             Assert.That(str, Is.Null);
         }
 
+        private static readonly DateTime TestDate = DateTime.ParseExact("2009-06-15T13:45:30", "s", null);
+
+        [TestCase("2009-06-15T13:45:30", "s")]
+        [TestCase("2009-06-15 13:45:30Z", "u")]
+        [TestCase("2009-06-15T13:45:30", null)]
+        public void DateCoverterShouldParse(string input, string? style)
+        {
+            Assert.That(new DateConverter(style).ConvertToValue(input, out object? val));
+            Assert.That(val, Is.EqualTo(TestDate).Using<DateTime>(DateTime.Compare));
+        }
+
+        [TestCase("2009-06-15T13:45:30", "s")]
+        [TestCase("2009-06-15 13:45:30Z", "u")]
+        [TestCase("2009-06-15T13:45:30", null)]
+        public void DateCoverterShouldStringify(string expected, string? style)
+        {
+            Assert.That(new DateConverter(style).ConvertToString(TestDate, out string? val));
+            Assert.That(val, Is.EqualTo(expected));
+        }
+
+        [TestCase("INVALID", null)]
+        [TestCase("INVALID", "s")]
+        [TestCase("INVALID", "u")]
+        public void DateConverterShouldRejectInvalidValues(string input, string? style)
+        {
+            IConverter converter = new DateConverter(style);
+
+            Assert.False(converter.ConvertToValue(input, out object? val));
+            Assert.That(val, Is.Null);
+
+            Assert.False(converter.ConvertToString(input, out string? str));
+            Assert.That(str, Is.Null);
+        }
+
         [Test]
         public void GuidConverterFactoryShouldThrowOnInvalidConfig() =>
             Assert.Throws<ArgumentException>(() => new GuidConverter("INVALID"), Resources.INVALID_FORMAT_STYLE);

@@ -1,19 +1,20 @@
 ﻿/********************************************************************************
-* GuidConverter.cs                                                              *
+* DateConverter.cs                                                              *
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.Globalization;
 
 namespace Solti.Utils.Router.Internals
 {
     using static Properties.Resources;
 
-    internal sealed class GuidConverter : ConverterBase
+    internal sealed class DateConverter : ConverterBase
     {
-        private static readonly string[] FValidStyles = ["N", "D", "B", "P", "X"];
+        private static readonly string[] FValidStyles = ["s", "u"];
 
-        public GuidConverter(string? style): base(style ?? "N", typeof(Guid))
+        public DateConverter(string? style): base(style ?? "s", typeof(DateTime))
         {
             if (Array.IndexOf(FValidStyles, Style!) is -1)
                 throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style));
@@ -21,13 +22,13 @@ namespace Solti.Utils.Router.Internals
 
         public override bool ConvertToString(object? input, out string? value)
         {
-            if (input is not Guid guid)
+            if (input is not DateTime date)
             {
                 value = null;
                 return false;
             }
 
-            value = guid.ToString(Style);
+            value = date.ToString(Style);
             return true;
         }
 #if NETSTANDARD2_1_OR_GREATER
@@ -36,7 +37,7 @@ namespace Solti.Utils.Router.Internals
         public override bool ConvertToValue(string input, out object? value)
 #endif
         {
-            if (Guid.TryParseExact(input, Style, out Guid parsed))
+            if (DateTime.TryParseExact(input, Style, null, DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal, out DateTime parsed))
             {
                 value = parsed;
                 return true;

@@ -20,6 +20,7 @@ namespace Solti.Utils.Router
             Add("guid", static style => new GuidConverter(style));
             Add("int",  static stlye => new IntConverter(stlye));
             Add("str",  static style => new StrConverter(style));
+            Add("date", static style => new DateConverter(style));
         }
 
         /// <summary>

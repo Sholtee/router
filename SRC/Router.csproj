@@ -6,7 +6,7 @@
 	<Configurations>Debug;Release</Configurations>
 	<OutputPath>..\BIN\$(Configuration)</OutputPath>
     <Nullable>enable</Nullable>
-	<LangVersion>11</LangVersion>
+	<LangVersion>12</LangVersion>
 	<AnalysisMode>AllEnabledByDefault</AnalysisMode>
 	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	<AssemblyName>Solti.Utils.Router</AssemblyName>
