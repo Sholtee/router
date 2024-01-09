@@ -58,7 +58,7 @@ This library comes with an extremely simple API set (consits of a few methods on
 For a more comprehensive example check out the [use cases](https://github.com/Sholtee/router/blob/main/TEST/UseCases.cs ) fixture
 
 ## Converters
-Converters are used to parse variable value coming from the request path. Default converters (`int`, `guid`, `str` and `enum`) can be accessed via the `DefaultConverters.Instance` property.
+Converters are used to parse variable value coming from the request path. Default converters (`int`, `guid`, `date`, `str` and `enum`) can be accessed via the `DefaultConverters.Instance` property.
 ```csharp
 using System.Collections.Generic;
 
@@ -222,7 +222,16 @@ routerBuilder.AddRoute<PictureStore>
     "/get/picture-{id:int}",
     store => store.GetPicture(default)  // GetPicture() should have only one parameter named "id" 
 );
+
+// OR
+
+routerBuilder.AddRoute<PictureStore>
+(
+    "/get/picture-{id:int}",
+    method  // MethodInfo object pointing to GetPicture() 
+);
 ```
+For a more comprehensive example check out the [use cases](https://github.com/Sholtee/router/blob/main/TEST/UseCases.cs ) fixture
 
 ### Error handling
 You can register your own (even `async`) exception handler to be built into the router delegate

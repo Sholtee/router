@@ -38,3 +38,6 @@
   - *improved:* Routing performance
   - *introduced:* `Solti.Utils.Router.Extensions` namespace
   - *introduced:* `[Async]RouterBuilder.AddRoute()` overloads
+- 3.0.0:
+  - *introduced:* Some `AsyncRouterBuilderAddRouteExtensions.AddRoute()` overloads
+  - *introduced:* `DateConverter` converter
