@@ -28,7 +28,7 @@ namespace Solti.Utils.Router.Internals
                 return false;
             }
 
-            value = date.ToString(Style);
+            value = date.ToString(Style, CultureInfo.InvariantCulture);
             return true;
         }
 
@@ -43,7 +43,10 @@ namespace Solti.Utils.Router.Internals
 #else
                     input.AsString(),
 #endif
-                    Style, null, DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal, out DateTime parsed
+                    Style,
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal,
+                    out DateTime parsed
                 )
             )
             {

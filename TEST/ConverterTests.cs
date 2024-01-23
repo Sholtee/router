@@ -51,6 +51,39 @@ namespace Solti.Utils.Router.Tests
         public void IntConverterFactoryShouldThrowOnInvalidConfig() =>
             Assert.Throws<ArgumentException>(() => new IntConverter("INVALID"), Resources.INVALID_FORMAT_STYLE);
 
+        [TestCase("1986", 1986.0)]
+        [TestCase("1986.1", 1986.1)]
+        [TestCase("-1986.1", -1986.1)]
+        public void FloatCoverterShouldParse(string input, double value)
+        {
+            Assert.That(new FloatConverter(null).ConvertToValue(input.AsSpan(), out object? val));
+            Assert.That(val, Is.EqualTo(value));
+        }
+
+        [TestCase("1986.1", 1986.1)]
+        [TestCase("-1986.1", -1986.1)]
+        public void FloatCoverterShouldStringify(string value, double input)
+        {
+            Assert.That(new FloatConverter(null).ConvertToString(input, out string? val));
+            Assert.That(val, Is.EqualTo(value));
+        }
+
+        [TestCase("INVALID")]
+        public void FloatConverterShouldRejectInvalidValues(string input)
+        {
+            IConverter converter = new FloatConverter(null);
+
+            Assert.False(converter.ConvertToValue(input.AsSpan(), out object? val));
+            Assert.That(val, Is.Null);
+
+            Assert.False(converter.ConvertToString(input, out string? str));
+            Assert.That(str, Is.Null);
+        }
+
+        [Test]
+        public void FloatConverterFactoryShouldThrowOnInvalidConfig() =>
+            Assert.Throws<ArgumentException>(() => new FloatConverter("INVALID"), Resources.INVALID_FORMAT_STYLE);
+
         [Test]
         public void StrCoverterShouldParse([Values("1986")] string input)
         {

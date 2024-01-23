@@ -16,11 +16,12 @@ namespace Solti.Utils.Router
     {
         private DefaultConverters()
         {
-            Add("enum", static style => new EnumConverter(style));
-            Add("guid", static style => new GuidConverter(style));
-            Add("int",  static stlye => new IntConverter(stlye));
-            Add("str",  static style => new StrConverter(style));
-            Add("date", static style => new DateConverter(style));
+            Add("enum",  static style => new EnumConverter(style));
+            Add("guid",  static style => new GuidConverter(style));
+            Add("int",   static stlye => new IntConverter(stlye));
+            Add("float", static stlye => new FloatConverter(stlye));
+            Add("str",   static style => new StrConverter(style));
+            Add("date",  static style => new DateConverter(style));
         }
 
         /// <summary>

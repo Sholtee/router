@@ -1,5 +1,5 @@
 ﻿/********************************************************************************
-* IntConverter.cs                                                               *
+* FloatConverter.cs                                                             *
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
@@ -10,29 +10,23 @@ namespace Solti.Utils.Router.Internals
 {
     using static Properties.Resources;
 
-    internal sealed class IntConverter : ConverterBase
+    internal sealed class FloatConverter : ConverterBase
     {
-        public NumberStyles StyleFlag { get; }
-
-        public IntConverter(string? style): base(style, typeof(int))
+        public FloatConverter(string? style): base(style, typeof(int))
         {
-            StyleFlag = style switch
-            {
-                "X" or "x" => NumberStyles.HexNumber,
-                null => NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowLeadingSign,
-                _ => throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style))
-            };
+            if (style is not null)
+                throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style));
         }
 
         public override bool ConvertToString(object? input, out string? value)
         {
-            if (input is not int num)
+            if (input is not double num)
             {
                 value = null;
                 return false;
             }
 
-            value = num.ToString(Style, CultureInfo.InvariantCulture);
+            value = num.ToString(CultureInfo.InvariantCulture);
             return true;
         }
 
@@ -40,16 +34,16 @@ namespace Solti.Utils.Router.Internals
         {
             if 
             (
-                int.TryParse
+                double.TryParse
                 (
 #if NETSTANDARD2_1_OR_GREATER
                     input,
 #else
                     input.AsString(),
 #endif
-                    StyleFlag,
+                    NumberStyles.Float,
                     CultureInfo.InvariantCulture,
-                    out int parsed
+                    out double parsed
                 )
             )
             {

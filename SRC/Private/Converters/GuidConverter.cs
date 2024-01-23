@@ -42,7 +42,8 @@ namespace Solti.Utils.Router.Internals
 #else
                     input.AsString(),
 #endif
-                    Style, out Guid parsed
+                    Style,
+                    out Guid parsed
                 )
             )
             {

@@ -1,7 +1,7 @@
 # Compass.NET [![Build status](https://ci.appveyor.com/api/projects/status/uq0ep9idk7rw8ogr?svg=true)](https://ci.appveyor.com/project/Sholtee/router) ![AppVeyor tests](https://img.shields.io/appveyor/tests/sholtee/router/main) [![Coverage Status](https://coveralls.io/repos/github/Sholtee/router/badge.svg?branch=main)](https://coveralls.io/github/Sholtee/router?branch=main) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/sholtee/router/main) [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/compass.net)](https://www.nuget.org/packages/compass.net)
 > Simple HTTP request router for .NET backends
 
-**This documentation refers the v3.X of the library**
+**This documentation refers the v4.X of the library**
 
 ## How to use
 This library comes with an extremely simple API set (consits of a few methods only)
@@ -58,7 +58,7 @@ This library comes with an extremely simple API set (consits of a few methods on
 For a more comprehensive example check out the [use cases](https://github.com/Sholtee/router/blob/main/TEST/UseCases.cs ) fixture
 
 ## Converters
-Converters are used to parse variable value coming from the request path. Default converters (`int`, `guid`, `date`, `str` and `enum`) can be accessed via the `DefaultConverters.Instance` property.
+Converters are used to parse variable value coming from the request path. Default converters (`int`, `float`, `guid`, `date`, `str` and `enum`) can be accessed via the `DefaultConverters.Instance` property.
 ```csharp
 using System.Collections.Generic;
 
@@ -77,7 +77,7 @@ class MyTypeConverter: IConverter
 {
     public string Id { get; }
     public string? Style { get; }
-    public bool ConvertToValue(string|ReadOnySpan<char> input, out object? value) { ... }
+    public bool ConvertToValue(ReadOnySpan<char> input, out object? value) { ... }
     public bool bool ConvertToString(object? input, out string? value) { ... }
     public MyTypeConverter(string? style)
     {
