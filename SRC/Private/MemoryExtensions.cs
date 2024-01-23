@@ -25,8 +25,5 @@ namespace Solti.Utils.Router.Internals
             }
 #endif
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string AsString(this Span<char> self) => ((ReadOnlySpan<char>) self).AsString();
     }
 }
