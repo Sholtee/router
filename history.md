@@ -41,3 +41,6 @@
 - 3.0.0:
   - *introduced:* Some `AsyncRouterBuilderAddRouteExtensions.AddRoute()` overloads
   - *introduced:* `DateConverter` converter
+- 4.0.0:
+  - *breaking:* `IConverter.ConvertToValue()` now expects the input as `ReadOnylSpan<char>` under `netstandard2.0`, too
+  - *introduced:* `FloatConverter` converter
