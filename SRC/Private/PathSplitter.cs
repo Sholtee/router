@@ -90,7 +90,7 @@ namespace Solti.Utils.Router.Internals
                 FOutput[FOutputPosition++] = c;
             }
         }
-#if NETSTANDARD2_1_OR_GREATER
+
         public ReadOnlySpan<char> Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -99,16 +99,7 @@ namespace Solti.Utils.Router.Internals
                 return FOutput.AsSpan(0, FOutputPosition);
             }
         }
-#else
-        public string Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                return new(FOutput, 0, FOutputPosition);
-            }
-        }
-#endif
+
         public void Reset() => FInputPosition = FOutputPosition = 0;
 
         public IEnumerable<string> AsEnumerable()
@@ -117,11 +108,7 @@ namespace Solti.Utils.Router.Internals
 
             while (MoveNext())
             {
-#if NETSTANDARD2_1_OR_GREATER
-                yield return new string(Current);
-#else
-                yield return Current;
-#endif
+                yield return Current.AsString();
             }
         }
 

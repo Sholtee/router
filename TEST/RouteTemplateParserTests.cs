@@ -312,7 +312,7 @@ namespace Solti.Utils.Router.Tests
                 .Converter!;
 
             Assert.That(wrapper, Is.InstanceOf<ConverterWrapper>());
-            Assert.That(wrapper!.ConvertToValue(test, out ret), Is.EqualTo(shouldCallOriginal));
+            Assert.That(wrapper!.ConvertToValue(test.AsSpan(), out ret), Is.EqualTo(shouldCallOriginal));
 
             if (shouldCallOriginal)
             {
@@ -338,16 +338,11 @@ namespace Solti.Utils.Router.Tests
                 throw new NotImplementedException();
             }
 
-#if !NETFRAMEWORK
             public override bool ConvertToValue(ReadOnlySpan<char> input, out object? value)
             {
-                Calls.Add(new string(input));
-#else
-            public override bool ConvertToValue(string input, out object? value)
-            {
-                Calls.Add(input);
-#endif
-                if (!int.TryParse(input, out int result))
+                Calls.Add(input.AsString());
+
+                if (!int.TryParse(input.AsString(), out int result))
                 {
                     value = null;
                     return false;

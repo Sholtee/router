@@ -112,10 +112,12 @@ namespace Solti.Utils.Router.Internals
             value = @enum.ToString("g").ToLower();
             return true;
         }
+
+        public override bool ConvertToValue(ReadOnlySpan<char> input, out object? value) =>
 #if NETSTANDARD2_1_OR_GREATER
-        public override bool ConvertToValue(ReadOnlySpan<char> input, out object? value) => Enum.TryParse(Type, new string(input), ignoreCase: true, out value);
+            Enum.TryParse(Type, input.AsString(), ignoreCase: true, out value);
 #else
-        public override bool ConvertToValue(string input, out object? value) => FTryParse(input, out value);
+            FTryParse(input.AsString(), out value);
 #endif
     }
 }

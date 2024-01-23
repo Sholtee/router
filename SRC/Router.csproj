@@ -15,6 +15,7 @@
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditLevel>moderate</NuGetAuditLevel>
     <NuGetAuditMode>all</NuGetAuditMode>
+    <AllowUnsafeBlocks Condition="'$(TargetFramework)'=='netstandard2.0'">True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -51,11 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="PublicAPI/$(TargetFramework)/PublicAPI.Shipped.txt" />
-    <AdditionalFiles Include="PublicAPI/$(TargetFramework)/PublicAPI.Unshipped.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
       <_Parameter1>Solti.Utils.Router.Tests</_Parameter1>
     </AssemblyAttribute>
@@ -77,6 +73,7 @@
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
 	<PackageReference Include="Solti.Utils.Primitives" Version="8.*" />
+    <PackageReference Include="System.Memory" Version="4.5.5" Condition="'$(TargetFramework)'=='netstandard2.0'" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -31,25 +31,18 @@ namespace Solti.Utils.Router.Internals
             }
             return false;
         }
-#if NETSTANDARD2_1_OR_GREATER
+
         public override bool ConvertToValue(ReadOnlySpan<char> input, out object? value)
-#else
-        public override bool ConvertToValue(string input, out object? value)
-#endif
         {
             if 
             (
                 input.Length > Prefix.Length + Suffix.Length &&
-                input.StartsWith(Prefix, StringComparison.OrdinalIgnoreCase) &&
-                input.EndsWith(Suffix, StringComparison.OrdinalIgnoreCase)
+                input.StartsWith(Prefix.AsSpan(), StringComparison.OrdinalIgnoreCase) &&
+                input.EndsWith(Suffix.AsSpan(), StringComparison.OrdinalIgnoreCase)
             )
                 return Wrapped.ConvertToValue
                 (
-#if NETSTANDARD2_1_OR_GREATER
                     input.Slice(Prefix.Length, input.Length - Prefix.Length - Suffix.Length),
-#else
-                    input.Substring(Prefix.Length, input.Length - Prefix.Length - Suffix.Length),
-#endif
                     out value
                 );
 

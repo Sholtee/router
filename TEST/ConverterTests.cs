@@ -20,7 +20,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("7C2", "x", 1986)]
         public void IntCoverterShouldParse(string input, string? style, int value)
         {
-            Assert.That(new IntConverter(style).ConvertToValue(input, out object? val));
+            Assert.That(new IntConverter(style).ConvertToValue(input.AsSpan(), out object? val));
             Assert.That(val, Is.EqualTo(value));
         }
 
@@ -40,7 +40,7 @@ namespace Solti.Utils.Router.Tests
         {
             IConverter converter = new IntConverter(style);
 
-            Assert.False(converter.ConvertToValue(input, out object? val));
+            Assert.False(converter.ConvertToValue(input.AsSpan(), out object? val));
             Assert.That(val, Is.Null);
 
             Assert.False(converter.ConvertToString(input, out string? str));
@@ -54,7 +54,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void StrCoverterShouldParse([Values("1986")] string input)
         {
-            Assert.That(new StrConverter(null).ConvertToValue(input, out object? val));
+            Assert.That(new StrConverter(null).ConvertToValue(input.AsSpan(), out object? val));
             Assert.That(val, Is.EqualTo(input));
         }
 
@@ -83,7 +83,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("D6B6D5B5826E4362A19A219997E6D693", null)]
         public void GuidCoverterShouldParse(string input, string? style)
         {
-            Assert.That(new GuidConverter(style).ConvertToValue(input, out object? val));
+            Assert.That(new GuidConverter(style).ConvertToValue(input.AsSpan(), out object? val));
             Assert.That(val, Is.EqualTo(TestGuid));
         }
 
@@ -103,7 +103,7 @@ namespace Solti.Utils.Router.Tests
         {
             IConverter converter = new GuidConverter(style);
 
-            Assert.False(converter.ConvertToValue(input, out object? val));
+            Assert.False(converter.ConvertToValue(input.AsSpan(), out object? val));
             Assert.That(val, Is.Null);
 
             Assert.False(converter.ConvertToString(input, out string? str));
@@ -117,7 +117,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("2009-06-15T13:45:30", null)]
         public void DateCoverterShouldParse(string input, string? style)
         {
-            Assert.That(new DateConverter(style).ConvertToValue(input, out object? val));
+            Assert.That(new DateConverter(style).ConvertToValue(input.AsSpan(), out object? val));
             Assert.That(val, Is.EqualTo(TestDate).Using<DateTime>(DateTime.Compare));
         }
 
@@ -137,7 +137,7 @@ namespace Solti.Utils.Router.Tests
         {
             IConverter converter = new DateConverter(style);
 
-            Assert.False(converter.ConvertToValue(input, out object? val));
+            Assert.False(converter.ConvertToValue(input.AsSpan(), out object? val));
             Assert.That(val, Is.Null);
 
             Assert.False(converter.ConvertToString(input, out string? str));
@@ -158,7 +158,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("Default", MyEnum.Default)]
         public void EnumCoverterShouldParse(string input, MyEnum value)
         {
-            Assert.That(new EnumConverter(typeof(MyEnum).FullName).ConvertToValue(input, out object? val));
+            Assert.That(new EnumConverter(typeof(MyEnum).FullName).ConvertToValue(input.AsSpan(), out object? val));
             Assert.That(val, Is.EqualTo(value));
         }
 
@@ -175,7 +175,7 @@ namespace Solti.Utils.Router.Tests
         {
             IConverter converter = new EnumConverter(typeof(MyEnum).FullName);
 
-            Assert.False(converter.ConvertToValue("INVALID", out object? val));
+            Assert.False(converter.ConvertToValue("INVALID".AsSpan(), out object? val));
             Assert.That(val, Is.Null);
 
             Assert.False(converter.ConvertToString("INVALID", out string? str));

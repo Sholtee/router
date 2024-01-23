@@ -101,21 +101,18 @@ namespace Solti.Utils.Router
             public List<Junction> Children { get; } = new();
         }
 
-        private static readonly MethodInfo
-            FMoveNext = MethodInfoExtractor.Extract<PathSplitter>(static parts => parts.MoveNext()),
-            FSplit    = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
-            FAddParam = MethodInfoExtractor.Extract<StaticDictionary>(static dict => dict.Add(null!, null)),
-            FEquals   = MethodInfoExtractor.Extract(static () => Equals(string.Empty, string.Empty, default)),
-            FConvert  = MethodInfoExtractor.Extract<IConverter, object?>(static (c, output) => c.ConvertToValue(null!, out output));
+        private delegate bool MemoryEqualsDelegate(ReadOnlySpan<char> left, string right, StringComparison comparison);
 
-        private static bool Equals(string left, string right, StringComparison comparison) => left.Equals(right, comparison);
+        private static readonly MethodInfo
+            FMoveNext     = MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.MoveNext()),
+            FSplit        = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
+            FAddParam     = MethodInfoExtractor.Extract<StaticDictionary>(static dict => dict.Add(null!, null)),
+            FEquals       = MethodInfoExtractor.Extract(static () => Equals(string.Empty, string.Empty, default)),
+            FMemoryEquals = ((MemoryEqualsDelegate) MemoryEquals).Method, // MethodInfoExtractor.Extract(static () => MemoryEquals(default, string.Empty, default)),
+            FConvert      = MethodInfoExtractor.Extract<IConverter, object?>(static (c, output) => c.ConvertToValue(null!, out output));
 
         private static readonly PropertyInfo FCurrent = typeof(PathSplitter).GetProperty(nameof(PathSplitter.Current)); // PropertyInfoExtractor.Extract<PathSplitter, ReadOnlySpan<char>>(static parts => parts.Current);
-#if NETSTANDARD2_1_OR_GREATER
-        private static readonly MethodInfo FMemoryEquals = MethodInfoExtractor.Extract(static () => MemoryEquals(string.Empty, string.Empty, default));
 
-        private static bool MemoryEquals(ReadOnlySpan<char> left, string right, StringComparison comparison) => left.Equals(right, comparison);
-#endif
         private readonly Junction FRoot = new();
 
         private readonly StaticDictionaryBuilder FParameters = new();
@@ -134,6 +131,10 @@ namespace Solti.Utils.Router
 
         private readonly LabelTarget FExit = Expression.Label(typeof(object), "exit");
 
+        private static bool Equals(string left, string right, StringComparison comparison) => left.Equals(right, comparison);
+
+        private static bool MemoryEquals(ReadOnlySpan<char> left, string right, StringComparison comparison) => left.Equals(right.AsSpan(), comparison);
+
         private Expression BuildJunction(Junction junction)
         {
             if (junction.Segment is null)  // root node, no segment
@@ -149,11 +150,7 @@ namespace Solti.Utils.Router
                     (
                         Expression.Property(FSegments, FCurrent),
                         Expression.Constant(junction.Segment.Name),
-#if NETSTANDARD2_1_OR_GREATER
                         FMemoryEquals
-#else
-                        FEquals
-#endif
                     ),
                     Expression.Block
                     (

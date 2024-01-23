@@ -31,13 +31,21 @@ namespace Solti.Utils.Router.Internals
             value = date.ToString(Style);
             return true;
         }
-#if NETSTANDARD2_1_OR_GREATER
+
         public override bool ConvertToValue(ReadOnlySpan<char> input, out object? value)
-#else
-        public override bool ConvertToValue(string input, out object? value)
-#endif
         {
-            if (DateTime.TryParseExact(input, Style, null, DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal, out DateTime parsed))
+            if 
+            (
+                DateTime.TryParseExact
+                (
+#if NETSTANDARD2_1_OR_GREATER
+                    input,
+#else
+                    input.AsString(),
+#endif
+                    Style, null, DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal, out DateTime parsed
+                )
+            )
             {
                 value = parsed;
                 return true;
