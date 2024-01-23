@@ -44,3 +44,5 @@
 - 4.0.0:
   - *breaking:* `IConverter.ConvertToValue()` now expects the input as `ReadOnylSpan<char>` under `netstandard2.0`, too
   - *introduced:* `FloatConverter` converter
+- 4.0.1:
+  - *fixed:* Wrong `Type` reported by `FloatConverter`
