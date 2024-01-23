@@ -10,6 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Solti.Utils.Router
 {
@@ -131,8 +132,10 @@ namespace Solti.Utils.Router
 
         private readonly LabelTarget FExit = Expression.Label(typeof(object), "exit");
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool Equals(string left, string right, StringComparison comparison) => left.Equals(right, comparison);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool MemoryEquals(ReadOnlySpan<char> left, string right, StringComparison comparison) => left.Equals(right.AsSpan(), comparison);
 
         private Expression BuildJunction(Junction junction)
