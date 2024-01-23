@@ -12,7 +12,7 @@ namespace Solti.Utils.Router.Internals
 
     internal sealed class FloatConverter : ConverterBase
     {
-        public FloatConverter(string? style): base(style, typeof(int))
+        public FloatConverter(string? style): base(style, typeof(double))
         {
             if (style is not null)
                 throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style));
