@@ -21,15 +21,15 @@ namespace Solti.Utils.Router.Internals
             static cmp => cmp.Compare(null!, null!)
         );
 
+        private static readonly ParameterExpression
+            FOrder = Expression.Variable(typeof(int), "order"),
+            FKey = Expression.Parameter(typeof(string), "key");
+
+        private static readonly LabelTarget FFound = Expression.Label(type: typeof(int), "found");
+
         private readonly IComparer<string> FComparer;
 
         private readonly RedBlackTree<string> FTree;
-
-        private readonly ParameterExpression
-            FOrder,
-            FKey;
-
-        private readonly LabelTarget FFound;
 
         private Expression ProcessNode(RedBlackTreeNode<string>? node, ref int index)
         {
@@ -65,10 +65,7 @@ namespace Solti.Utils.Router.Internals
 
         public LookupBuilder(IComparer<string> comparer)
         {
-            FTree  = new RedBlackTree<string>(FComparer = comparer);
-            FKey   = Expression.Parameter(typeof(string), "key");
-            FOrder = Expression.Variable(typeof(int), "order");
-            FFound = Expression.Label(type: typeof(int), "found");
+            FTree = new RedBlackTree<string>(FComparer = comparer);
         }
 
         public bool CreateSlot(string name) => FTree.Add(name);
