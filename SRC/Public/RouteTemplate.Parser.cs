@@ -45,7 +45,7 @@ namespace Solti.Utils.Router
                              throw new ArgumentException(INVALID_TEMPLATE, nameof(template));
 
                         string name = parsed.GetGroup("name")!;
-                        if (!paramz.Add(name!))
+                        if (!paramz.Add(name))
                             throw new ArgumentException(Format(Culture, DUPLICATE_PARAMETER, name), nameof(template));
 
                         string converter = parsed.GetGroup("converter")!;
