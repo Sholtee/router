@@ -498,7 +498,7 @@ namespace Solti.Utils.Router
             }
 
             if (methods.Length is 0)
-                methods = new string[] { "GET" };
+                methods = ["GET"];
 
             foreach (string method in methods)
             {
