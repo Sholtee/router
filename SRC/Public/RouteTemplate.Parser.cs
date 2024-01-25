@@ -44,15 +44,15 @@ namespace Solti.Utils.Router
                         if (!parsed.Success)
                              throw new ArgumentException(INVALID_TEMPLATE, nameof(template));
 
-                        string name = GetProperty(nameof(name))!;
+                        string name = parsed.GetGroup(nameof(name))!;
                         if (!paramz.Add(name!))
                             throw new ArgumentException(Format(Culture, DUPLICATE_PARAMETER, name), nameof(template));
 
-                        string converter = GetProperty(nameof(converter))!;
+                        string converter = parsed.GetGroup(nameof(converter))!;
                         if (!converters.TryGetValue(converter, out ConverterFactory converterFactory))
                             throw new ArgumentException(Format(Culture, CONVERTER_NOT_FOUND, converter), nameof(template));
 
-                        string? param = GetProperty(nameof(param));
+                        string? param = parsed.GetGroup(nameof(param));
                         IConverter converterInst = converterFactory(param);
 
                         string templateStr = parsedSegment[0].ToString();
@@ -71,13 +71,7 @@ namespace Solti.Utils.Router
                         }
 
                         yield return new RouteSegment(name, converterInst);
-                        break;
-
-                        string? GetProperty(string name)
-                        {
-                            Group group = parsed.Groups[name];
-                            return group.Success ? group.Value : null;
-                        }
+                        break;     
                     default:
                         throw new ArgumentException(TOO_MANY_PARAM_DESCRIPTOR, nameof(template));
                 }
