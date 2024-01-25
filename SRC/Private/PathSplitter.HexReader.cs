@@ -4,6 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
@@ -61,7 +62,7 @@ namespace Solti.Utils.Router.Internals
                 // %XX
                 //
 
-                FBytes ??= new byte[FInput.Length / 3]; // 3 == "%XX".Length 
+                FBytes ??= MemoryPool<byte>.Get(FInput.Length / 3); // 3 == "%XX".Length 
 
                 if 
                 (
@@ -96,6 +97,8 @@ namespace Solti.Utils.Router.Internals
         {
             if (FByteCount > 0)
             {
+                Debug.Assert(FBytes is not null, "Buffer must have value assigned");
+
                 FOutputPosition += FOptions.Encoding.GetChars
                 (
                     FBytes,

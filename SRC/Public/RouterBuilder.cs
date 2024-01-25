@@ -25,7 +25,7 @@ namespace Solti.Utils.Router
     /// { 
     ///     [try]
     ///     {
-    ///         PathSplitter segments = PathSplitter.Split(path, splitOptions);
+    ///         using PathSplitter segments = PathSplitter.Split(path, splitOptions);
     ///         StaticDictionary paramz = createParamzDict();
     ///         object converted;
     ///    
@@ -106,6 +106,7 @@ namespace Solti.Utils.Router
 
         private static readonly MethodInfo
             FMoveNext     = MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.MoveNext()),
+            FDispose      = MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.Dispose()),
             FSplit        = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
             FAddParam     = MethodInfoExtractor.Extract<StaticDictionary>(static dict => dict.Add(null!, null)),
             FEquals       = MethodInfoExtractor.Extract(static () => Equals(string.Empty, string.Empty, default)),
@@ -114,13 +115,7 @@ namespace Solti.Utils.Router
 
         private static readonly PropertyInfo FCurrent = typeof(PathSplitter).GetProperty(nameof(PathSplitter.Current)); // PropertyInfoExtractor.Extract<PathSplitter, ReadOnlySpan<char>>(static parts => parts.Current);
 
-        private readonly Junction FRoot = new();
-
-        private readonly StaticDictionaryBuilder FParameters = new();
-
-        private readonly List<LambdaExpression> FExceptionHandlers = new();
-
-        private readonly ParameterExpression
+        private static readonly ParameterExpression
             FUserData     = Expression.Parameter(typeof(object), "userData"),
             FPath         = Expression.Parameter(typeof(string), "path"),
             FMethod       = Expression.Parameter(typeof(string), "method"),
@@ -130,7 +125,13 @@ namespace Solti.Utils.Router
             FParams    = Expression.Variable(typeof(StaticDictionary), "params"),
             FConverted = Expression.Variable(typeof(object), "converted");
 
-        private readonly LabelTarget FExit = Expression.Label(typeof(object), "exit");
+        private static  readonly LabelTarget FExit = Expression.Label(typeof(object), "exit");
+
+        private readonly Junction FRoot = new();
+
+        private readonly StaticDictionaryBuilder FParameters = new();
+
+        private readonly List<LambdaExpression> FExceptionHandlers = new();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool Equals(string left, string right, StringComparison comparison) => left.Equals(right, comparison);
@@ -269,7 +270,7 @@ namespace Solti.Utils.Router
 
         }
 
-        private Expression Return(LambdaExpression lambda, params Expression[] paramz) => Expression.Return
+        private static Expression Return(LambdaExpression lambda, params Expression[] paramz) => Expression.Return
         (
             FExit,
             UnfoldedLambda.Create
@@ -330,15 +331,22 @@ namespace Solti.Utils.Router
                     FSegments,
                     Expression.Call(FSplit, FPath, FSplitOptions)
                 ),
-                Expression.Assign
+                Expression.TryFinally
                 (
-                    FParams,
-                    Expression.Invoke
+                    Expression.Block
                     (
-                        Expression.Constant(createParamzDict)
-                    )
-                ),
-                BuildJunction(FRoot)
+                        Expression.Assign
+                        (
+                            FParams,
+                            Expression.Invoke
+                            (
+                                Expression.Constant(createParamzDict)
+                            )
+                        ),
+                        BuildJunction(FRoot)
+                    ),
+                    @finally: Expression.Call(FSegments, FDispose)
+                )
             );
             if (FExceptionHandlers.Count > 0) route = Expression.TryCatch
             (

@@ -11,13 +11,13 @@ namespace Solti.Utils.Router.Internals
 {
     using static Properties.Resources;
 
-    internal sealed partial class PathSplitter
+    internal sealed partial class PathSplitter: IDisposable
     {
         private readonly string FInput;
 
         private int FInputPosition;
 
-        private readonly char[] FOutput;
+        private char[] FOutput;
 
         private int FOutputPosition;
 
@@ -27,7 +27,7 @@ namespace Solti.Utils.Router.Internals
         {
             FInput   = path;
             FOptions = options;
-            FOutput  = new char[path.Length];
+            FOutput  = MemoryPool<char>.Get(path.Length);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -112,10 +112,25 @@ namespace Solti.Utils.Router.Internals
             }
         }
 
+        public void Dispose()
+        {
+            Return(ref FOutput!);
+            Return(ref FBytes);
+
+            static void Return<T>(ref T[]? buffer)
+            {
+                if (buffer is not null)
+                {
+                    MemoryPool<T>.Return(buffer);
+                    buffer = null;
+                }
+            }
+        }
+
         /// <summary>
         /// Splits the given path converting hex values if necessary.
         /// </summary>
-        /// <remarks>Due to performance considerations, this method intentionally doesn't return an <see cref="IEnumerable{String}"/>.</remarks>
+        /// <remarks>Due to performance considerations and since <see cref="ReadOnlySpan{T}"/> cannot be a generic parameter, this method intentionally doesn't return an <see cref="IEnumerable{T}"/>.</remarks>
         public static PathSplitter Split(string path, SplitOptions? options = null) => new(path, options ?? SplitOptions.Default);
     }
 }
