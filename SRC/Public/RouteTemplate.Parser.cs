@@ -44,16 +44,15 @@ namespace Solti.Utils.Router
                         if (!parsed.Success)
                              throw new ArgumentException(INVALID_TEMPLATE, nameof(template));
 
-                        string name = parsed.GetGroup(nameof(name))!;
+                        string name = parsed.GetGroup("name")!;
                         if (!paramz.Add(name!))
                             throw new ArgumentException(Format(Culture, DUPLICATE_PARAMETER, name), nameof(template));
 
-                        string converter = parsed.GetGroup(nameof(converter))!;
+                        string converter = parsed.GetGroup("converter")!;
                         if (!converters.TryGetValue(converter, out ConverterFactory converterFactory))
                             throw new ArgumentException(Format(Culture, CONVERTER_NOT_FOUND, converter), nameof(template));
 
-                        string? param = parsed.GetGroup(nameof(param));
-                        IConverter converterInst = converterFactory(param);
+                        IConverter converterInst = converterFactory(parsed.GetGroup("param"));
 
                         string templateStr = parsedSegment[0].ToString();
                         if (templateStr != segment)
