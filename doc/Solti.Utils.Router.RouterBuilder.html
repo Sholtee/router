@@ -47,7 +47,7 @@
 { 
     [try]
     {
-        PathSplitter segments = PathSplitter.Split(path, splitOptions);
+        using PathSplitter segments = PathSplitter.Split(path, splitOptions);
         StaticDictionary paramz = createParamzDict();
         object converted;
 
