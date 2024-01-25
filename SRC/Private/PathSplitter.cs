@@ -107,6 +107,7 @@ namespace Solti.Utils.Router.Internals
             Return(ref FOutput!);
             Return(ref FBytes);
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             static void Return<T>(ref T[]? buffer)
             {
                 if (buffer is not null)
