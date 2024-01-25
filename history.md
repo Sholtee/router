@@ -48,3 +48,5 @@
   - *fixed:* Wrong `Type` reported by `FloatConverter`
 - 4.0.2:
   - *improved:* Routing performance
+- 4.0.3:
+  - *improved:* Code optimizations
