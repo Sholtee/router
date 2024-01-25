@@ -40,7 +40,7 @@ namespace Solti.Utils.Router
                         yield return new RouteSegment(segment, null);
                         break;
                     case 1:
-                        Match parsed = FTemplateParser.Match(parsedSegment[0].Groups["content"].Value);
+                        Match parsed = FTemplateParser.Match(parsedSegment[0].GetGroup("content"));
                         if (!parsed.Success)
                              throw new ArgumentException(INVALID_TEMPLATE, nameof(template));
 
@@ -60,10 +60,10 @@ namespace Solti.Utils.Router
                         {
                             string[] extra = segment.Split
                             (
-#if !NETSTANDARD2_1_OR_GREATER
-                                new string[] { templateStr },
+#if NETSTANDARD2_1_OR_GREATER
+                                templateStr,                          
 #else
-                                templateStr,
+                                new string[] { templateStr },
 #endif
                                 StringSplitOptions.None
                             );
