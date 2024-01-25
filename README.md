@@ -73,13 +73,13 @@ RouterBuilder routerBuilder = new
 	}
 );
 
-class MyTypeConverter: IConverter 
+class MyConverter: IConverter 
 {
     public string Id { get; }
     public string? Style { get; }
     public bool ConvertToValue(ReadOnySpan<char> input, out object? value) { ... }
     public bool bool ConvertToString(object? input, out string? value) { ... }
-    public MyTypeConverter(string? style)
+    public MyConverter(string? style)
     {
         Id = $"{GetType().Name}:{style}";
         Style = style;
