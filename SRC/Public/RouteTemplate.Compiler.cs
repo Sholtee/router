@@ -41,7 +41,13 @@ namespace Solti.Utils.Router
         public static RouteTemplateCompiler CreateCompiler(string template, IReadOnlyDictionary<string, ConverterFactory>? converters = null, SplitOptions? splitOptions = null)
         {
             Match preProcessedTemplate = FFirstTierParser.Match(template ?? throw new ArgumentNullException(nameof(template)));
-            if (!preProcessedTemplate.Success || preProcessedTemplate.Groups.Cast<Group>().All(static grp => string.IsNullOrEmpty(grp.Value)))
+            bool valid = preProcessedTemplate.Success && preProcessedTemplate
+                .Groups
+#if NETSTANDARD2_0
+                .Cast<Group>()
+#endif
+                .Any(static grp => !string.IsNullOrEmpty(grp.Value));
+            if (!valid)
                 throw new ArgumentException(Resources.INVALID_TEMPLATE, nameof(template));
 
             using StringBuilder sb = new();
