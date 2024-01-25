@@ -26,8 +26,12 @@ namespace Solti.Utils.Router
         {
             HashSet<string> paramz = new();
 
-            foreach (string segment in PathSplitter.Split(template, splitOptions).AsEnumerable())
+            using PathSplitter segments = PathSplitter.Split(template, splitOptions);
+
+            while (segments.MoveNext())
             {
+                string segment = segments.Current.AsString();
+
                 MatchCollection parsedSegment = FTemplateMatcher.Matches(segment);
 
                 switch (parsedSegment.Count)

@@ -4,6 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using NUnit.Framework;
@@ -11,6 +12,19 @@ using NUnit.Framework;
 namespace Solti.Utils.Router.Tests
 {
     using Internals;
+
+    internal static class PathSplitterExtensions
+    {
+        public static IEnumerable<string> AsEnumerable(this PathSplitter self)
+        {
+            self.Reset();
+
+            while (self.MoveNext())
+            {
+                yield return self.Current.AsString();
+            }
+        }
+    }
 
     [TestFixture]
     public class PathSplitterTests

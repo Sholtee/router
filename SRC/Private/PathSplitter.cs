@@ -102,16 +102,6 @@ namespace Solti.Utils.Router.Internals
 
         public void Reset() => FInputPosition = FOutputPosition = 0;
 
-        public IEnumerable<string> AsEnumerable()
-        {
-            Reset();
-
-            while (MoveNext())
-            {
-                yield return Current.AsString();
-            }
-        }
-
         public void Dispose()
         {
             Return(ref FOutput!);
