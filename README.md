@@ -69,7 +69,7 @@ RouterBuilder routerBuilder = new
 	defaultHandler: (object? state) => {...},
 	converters: new Dictionary<string, ConverterFactory>(DefaultConverters.Instance)
 	{
-		{"mytype", (string? style) => new MyConverter(style)}
+		{"mytype", static (string? style) => new MyConverter(style)}
 	}
 );
 
