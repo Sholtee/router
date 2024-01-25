@@ -44,9 +44,11 @@ namespace Solti.Utils.Router
             if (!preProcessedTemplate.Success || preProcessedTemplate.Groups.Cast<Group>().All(static grp => string.IsNullOrEmpty(grp.Value)))
                 throw new ArgumentException(Resources.INVALID_TEMPLATE, nameof(template));
 
-            StringBuilder sb = new();
-            if (preProcessedTemplate.Groups["baseUrl"].Success)
-                sb.Append(preProcessedTemplate.Groups["baseUrl"].Value);
+            using StringBuilder sb = new();
+
+            string? baseUrl = preProcessedTemplate.GetGroup(nameof(baseUrl));
+            if (baseUrl is not null)
+                sb.Append(baseUrl);
 
             List<Expression> arrayInitializers = new();
 
@@ -55,9 +57,10 @@ namespace Solti.Utils.Router
             splitOptions ??= SplitOptions.Default;
             converters ??= DefaultConverters.Instance;
 
-            if (preProcessedTemplate.Groups["path"].Success)
+            string? path = preProcessedTemplate.GetGroup(nameof(path));
+            if (path is not null)
             {
-                foreach(RouteSegment segment in ParseInternal(preProcessedTemplate.Groups["path"].Value, converters, splitOptions))
+                foreach(RouteSegment segment in ParseInternal(path, converters, splitOptions))
                 {
                     sb.Append('/');
 

@@ -3,7 +3,6 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
-using System;
 using System.Text;
 
 namespace Solti.Utils.Router.Internals
@@ -14,8 +13,7 @@ namespace Solti.Utils.Router.Internals
         {
             encoding ??= Encoding.UTF8;
 
-            char[] output = new char[value.Length * 2];
-            int charsWritten = 0;
+            using StringBuilder stringBuilder = new(value.Length * 2);
 
             for (int i = 0; i < value.Length; i++)
             {
@@ -23,43 +21,28 @@ namespace Solti.Utils.Router.Internals
 
                 if (chr.IsArbitraryUnicode())
                 {
-                    AppendChar('%');
-                    AppendChar('u');
-                    AppendOrdinal(chr);
+                    stringBuilder.Append('%');
+                    stringBuilder.Append('u');
+                    stringBuilder.Append((int)chr);
                 }
                 else
                 {
                     if (chr.IsUrlSafe())
-                        AppendChar(chr);
+                        stringBuilder.Append(chr);
                     else if (chr == ' ')
-                        AppendChar('+');
+                        stringBuilder.Append('+');
                     else
                     {
-                        AppendChar('%');
+                        stringBuilder.Append('%');
 
-                        byte[] bytes = encoding.GetBytes(new char[] { chr });          
+                        byte[] bytes = encoding.GetBytes(new char[] { chr });
                         for (int j = 0; j < bytes.Length; j++)
-                            AppendOrdinal(bytes[j]);
+                            stringBuilder.Append(bytes[j]);
                     }
                 }
             }
 
-            return new string(output, 0, charsWritten);
-
-            void AppendChar(char chr)
-            {
-                if (charsWritten == output.Length)
-                    Array.Resize(ref output, output.Length * 2);
-
-                output[charsWritten++] = chr;
-            }
-
-            void AppendOrdinal(int i)
-            {
-                string hex = i.ToString("X");
-                for (i = 0; i < hex.Length; i++)
-                    AppendChar(hex[i]);
-            }
+            return stringBuilder.ToString();
         }
     }
 }
