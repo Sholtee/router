@@ -36,12 +36,12 @@ namespace Solti.Utils.Router.Extensions
         /// <summary>
         /// Expression reflecting the "userData" parameter of <see cref="RequestHandler{TResult}.Invoke(IReadOnlyDictionary{string, object?}, object?)"/>
         /// </summary>
-        protected ParameterExpression UserData { get; } = Expression.Parameter(typeof(object), "userData");
+        protected ParameterExpression UserData { get; } = Expression.Parameter(typeof(object), "userData");  // TODO: make this property static in the next major version
 
         /// <summary>
         /// Expression reflecting the "paramz" parameter of <see cref="RequestHandler{TResult}.Invoke(IReadOnlyDictionary{string, object?}, object?)"/>
         /// </summary>
-        protected ParameterExpression ParamsDict { get; } = Expression.Parameter(typeof(IReadOnlyDictionary<string, object?>), "paramz");
+        protected ParameterExpression ParamsDict { get; } = Expression.Parameter(typeof(IReadOnlyDictionary<string, object?>), "paramz");  // TODO: make this property static in the next major version
 
         /// <summary>
         /// Specifies how to create the service instance. The default implementation uses the <see cref="IServiceProvider"/> interface.
