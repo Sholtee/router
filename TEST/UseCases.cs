@@ -43,11 +43,13 @@ namespace Solti.Utils.Router.Tests
 
         private HttpClient Client { get; set; } = null!;
 
-        private void SetupServer(Router router)
+        private HttpListener SetupServer()
         {
-            Listener = new HttpListener();
-            Listener.Prefixes.Add("http://localhost:8080/");
-            Listener.Start();
+            HttpListener listener = new();
+            listener.Prefixes.Add("http://localhost:8080/");
+            listener.Start();
+
+            Router router = SetupRouter();
 
             Task.Factory.StartNew(() =>
             {
@@ -55,7 +57,7 @@ namespace Solti.Utils.Router.Tests
                 {
                     try
                     {
-                        HttpListenerContext context = Listener.GetContext();
+                        HttpListenerContext context = listener.GetContext();
 
                         ResponseData data;
 
@@ -92,6 +94,8 @@ namespace Solti.Utils.Router.Tests
                     }
                 }
             }, TaskCreationOptions.LongRunning);
+
+            return listener;
         }
 
         private static Router SetupRouter()
@@ -118,7 +122,7 @@ namespace Solti.Utils.Router.Tests
         [OneTimeSetUp]
         public void SetupFixture()
         {
-            SetupServer(SetupRouter());
+            Listener = SetupServer();
             Client = new HttpClient();
         }
 
@@ -212,24 +216,26 @@ namespace Solti.Utils.Router.Tests
 
         private HttpClient Client { get; set; } = null!;
 
-        private void SetupServer(AsyncRouter router)
+        private HttpListener SetupServer()
         {
-            Listener = new HttpListener();
-            Listener.Prefixes.Add("http://localhost:8080/");
-            Listener.Start();
+            HttpListener listener = new();
+            listener.Prefixes.Add("http://localhost:8080/");
+            listener.Start();
+
+            AsyncRouter router = SetupRouter();
 
             Task.Factory.StartNew(() =>
             {
                 using TRootScope root = CreateRootScope();
 
-                while (Listener.IsListening)
+                while (listener.IsListening)
                 {
                     try
                     {
+                        HttpListenerContext context = listener.GetContext();
+
                         using (CreateScope(root, out TScope scope))
                         {
-                            HttpListenerContext context = Listener.GetContext();
-
                             object? response = router
                             (
                                 scope,
@@ -241,12 +247,12 @@ namespace Solti.Utils.Router.Tests
 
                             if (response is ResponseData responseData)
                             {
-                                context.Response.StatusCode = (int)responseData.Status;
+                                context.Response.StatusCode = (int) responseData.Status;
                                 response = responseData.Body;
                             }
                             else
                             {
-                                context.Response.StatusCode = (int)HttpStatusCode.OK;
+                                context.Response.StatusCode = (int) HttpStatusCode.OK;
                             }
 
                             using (StreamWriter streamWriter = new(context.Response.OutputStream))
@@ -266,6 +272,8 @@ namespace Solti.Utils.Router.Tests
                     }
                 }
             }, TaskCreationOptions.LongRunning);
+
+            return listener;
         }
 
         private static AsyncRouter SetupRouter()
@@ -294,7 +302,7 @@ namespace Solti.Utils.Router.Tests
         [OneTimeSetUp]
         public virtual void SetupFixture()
         {
-            SetupServer(SetupRouter());
+            Listener = SetupServer();
             Client = new HttpClient();
         }
 
@@ -441,6 +449,171 @@ namespace Solti.Utils.Router.Tests
         {
             scope = root.CreateScope();
             return scope;
+        }
+    }
+
+    [TestFixture]
+    public class UseCaseIOC_BodyParameter
+    {
+        #region Helpers
+        private sealed class RequestHandlerBuilderSupportsBodyParameter : RequestHandlerBuilder
+        {
+            protected override MethodInfo CreateServiceMethod { get; } = MethodInfoExtractor.Extract<IInjector>(i => i.Get(null!, null));
+
+            protected internal override Expression GetCreateServiceArgument(ParameterInfo param, Type serviceType, object? userData)
+            {
+                if (param.Position is 1)
+                    return Expression.Constant(null, typeof(string));
+
+                return base.GetCreateServiceArgument(param, serviceType, userData);
+            }
+
+            protected internal override Expression GetInvokeServiceArgument(ParameterInfo param, ParsedRoute route, object? userData)
+            {
+                return param.Name == "body"
+                    ? Expression.Invoke(Expression.Constant((Func<object, string>) GetBody), UserData)
+                    : base.GetInvokeServiceArgument(param, route, userData);
+
+                static string GetBody(object userData)
+                {
+                    IInjector scope = (IInjector) userData;
+
+                    using StreamReader rdr = new(scope.Get<HttpListenerContext>().Request.InputStream);
+                    return rdr.ReadToEnd();
+                }
+            }
+        }
+
+        private sealed class ConverterService
+        {
+            public string ToUpperCase(string body) => body.ToUpper();
+        }
+
+        private RequestHandlerBuilder OldBuilder { get; set; } = null!;
+
+        private HttpListener Listener { get; set; } = null!;
+
+        private HttpClient Client { get; set; } = null!;
+
+        private static HttpListener StartServer()
+        {
+            HttpListener listener = new();
+            listener.Prefixes.Add("http://localhost:8080/");
+            listener.Start();
+
+            AsyncRouter router = SetupRouter();
+
+            Task.Factory.StartNew(() =>
+            {
+                using IScopeFactory scopeFactory = SetupIOC();
+
+                while (listener.IsListening)
+                {
+                    try
+                    {
+                        HttpListenerContext context = listener.GetContext();
+
+                        using IInjector scope = scopeFactory.CreateScope();
+                        scope.AssignScopeLocal(context);
+
+                        object? response = router
+                        (
+                            scope,
+                            context.Request.Url!.AbsolutePath,
+                            context.Request.HttpMethod
+                        ).GetAwaiter().GetResult()!;
+
+                        context.Response.ContentType = "text/html";
+
+                        if (response is ResponseData responseData)
+                        {
+                            context.Response.StatusCode = (int) responseData.Status;
+                            response = responseData.Body;
+                        }
+                        else
+                        {
+                            context.Response.StatusCode = (int) HttpStatusCode.OK;
+                        }
+
+                        using (StreamWriter streamWriter = new(context.Response.OutputStream))
+                        {
+                            streamWriter.Write((string) response!);
+                        }
+
+                        context.Response.Close();
+                    }
+                    catch (HttpListenerException e)
+                    {
+                        if (e.ErrorCode == 995) // listener.Stop() has been called
+                            return;
+
+                        Debug.WriteLine(e);
+                    }
+                }
+            }, TaskCreationOptions.LongRunning);
+
+            return listener;
+        }
+
+        private static AsyncRouter SetupRouter()
+        {
+            AsyncRouterBuilder routerBuilder = AsyncRouterBuilder.Create
+            (
+                handler: static (object? state, HttpStatusCode reason) => new ResponseData(reason, reason.ToString())
+            );
+
+            routerBuilder.AddRoute<ConverterService>("/upper", conv => conv.ToUpperCase(default!), "POST");
+            routerBuilder.RegisterExceptionHandler<Exception, ResponseData>(handler: (_, exc) => new ResponseData(HttpStatusCode.InternalServerError, exc.Message));
+
+            return routerBuilder.Build();
+        }
+
+        private static IScopeFactory SetupIOC() => ScopeFactory.Create
+        (
+            svcs => svcs
+                .Service<ConverterService>(Lifetime.Scoped)
+                .SetupScopeLocal<HttpListenerContext>()
+        );
+        #endregion
+
+        [OneTimeSetUp]
+        public void SetupFixture()
+        {
+            OldBuilder = AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder;
+            AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = new RequestHandlerBuilderSupportsBodyParameter();
+
+            Listener = StartServer();
+            Client = new HttpClient();
+        }
+
+        [OneTimeTearDown]
+        public void TearDownFixture()
+        {
+            AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = OldBuilder;
+
+            Listener?.Close();
+            Listener = null!;
+
+            Client?.Dispose();
+            Client = null!;
+        }
+
+        [Test]
+        public async Task ToUpper()
+        {
+            using MemoryStream input = new();
+            using StreamWriter sw = new(input);
+            sw.Write("cica");
+            sw.Flush();
+
+            input.Seek(0, SeekOrigin.Begin);
+
+            HttpResponseMessage resp = await Client.PostAsync("http://localhost:8080/upper", new StreamContent(input));
+            Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+
+            using Stream output = await resp.Content.ReadAsStreamAsync();
+            using StreamReader sr = new(output);
+            Assert.That(sr.ReadToEnd(), Is.EqualTo("CICA"));
         }
     }
 }
