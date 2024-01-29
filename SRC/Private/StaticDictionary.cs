@@ -18,37 +18,25 @@ namespace Solti.Utils.Router.Internals
     /// <summary>
     /// Dictionary having predefined keys
     /// </summary>
-    internal sealed class StaticDictionary: IReadOnlyDictionary<string, object?>, IElementAccessByInternalId
+    internal sealed class StaticDictionary(IReadOnlyList<string> keys, LookupDelegate<StaticDictionary.ValueWrapper> lookup) : IReadOnlyDictionary<string, object?>, IElementAccessByInternalId
     {
         public struct ValueWrapper
         {
             public bool Assigned;
             public object? Value;
         }
-#if !DEBUG  // inspecting all keys can be confusing
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-#endif
-        private readonly IReadOnlyList<string> FKeys;
 
-        private readonly LookupDelegate<ValueWrapper> FLookup;
-#if !DEBUG
+        #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-#endif
-        private readonly ValueWrapper[] FValues;
-
-        public StaticDictionary(IReadOnlyList<string> keys, LookupDelegate<ValueWrapper> lookup)
-        {
-            FKeys   = keys;
-            FLookup = lookup;
-            FValues = new ValueWrapper[keys.Count];
-        }
+        #endif
+        private readonly ValueWrapper[] FValues = new ValueWrapper[keys.Count];
 
         public object? this[string key]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                ref ValueWrapper val = ref FLookup(FValues, key);
+                ref ValueWrapper val = ref lookup(FValues, key);
                 if (!val.Assigned)
                     throw new KeyNotFoundException(key);
 
@@ -60,9 +48,9 @@ namespace Solti.Utils.Router.Internals
         {
             get
             {
-                foreach (string key in FKeys)
+                foreach (string key in keys)
                 {
-                    if (FLookup(FValues, key).Assigned)
+                    if (lookup(FValues, key).Assigned)
                         yield return key;
                 }
             }
