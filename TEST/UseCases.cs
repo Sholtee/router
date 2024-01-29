@@ -33,9 +33,13 @@ namespace Solti.Utils.Router.Tests
         Subtract = -1
     }
 
-    internal static class HttpListenerFactory
+    public abstract class UseCaseTestsBase
     {
-        public static HttpListener Create(Action<HttpListenerContext> callback)
+        protected HttpListener Listener { get; private set; } = null!;
+
+        protected HttpClient Client { get; private set; } = null!;
+
+        protected static HttpListener CreateListener(Action<HttpListenerContext> callback)
         {
             HttpListener listener = new();
             listener.Prefixes.Add("http://localhost:8080/");
@@ -63,23 +67,38 @@ namespace Solti.Utils.Router.Tests
 
             return listener;
         }
+
+        protected abstract HttpListener SetupServer();
+
+        [OneTimeSetUp]
+        public virtual void SetupFixture()
+        {
+            Listener = SetupServer();
+            Client = new HttpClient();
+        }
+
+        [OneTimeTearDown]
+        public virtual void TearDownFixture()
+        {
+            Listener?.Close();
+            Listener = null!;
+
+            Client?.Dispose();
+            Client = null!;
+        }
     }
 
     [TestFixture]
-    public class UseCaseBasic
+    public class UseCaseBasic: UseCaseTestsBase
     {
         #region Helpers
         private const string RouteTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.ArithmeticalOperation}/{b:int}";
 
-        private HttpListener Listener { get; set; } = null!;
-
-        private HttpClient Client { get; set; } = null!;
-
-        private HttpListener SetupServer()
+        protected override HttpListener SetupServer()
         {
             Router router = SetupRouter();
 
-            return HttpListenerFactory.Create(context =>
+            return CreateListener(context =>
             {
                 ResponseData data;
 
@@ -120,23 +139,6 @@ namespace Solti.Utils.Router.Tests
             return routerBuilder.Build();
         }
         #endregion
-
-        [OneTimeSetUp]
-        public void SetupFixture()
-        {
-            Listener = SetupServer();
-            Client = new HttpClient();
-        }
-
-        [OneTimeTearDown]
-        public void TearDownFixture()
-        {
-            Listener?.Close();
-            Listener = null!;
-
-            Client?.Dispose();
-            Client = null!;
-        }
 
         [Test]
         public async Task Calculator_InvalidRoute()
@@ -202,7 +204,7 @@ namespace Solti.Utils.Router.Tests
         }
     }
 
-    public abstract class UseCaseIOCBase<TRootScope, TScope> where TRootScope: class, IDisposable
+    public abstract class UseCaseIOCBase<TRootScope, TScope>: UseCaseTestsBase where TRootScope: class, IDisposable
     {
         #region Helpers
         protected sealed class CalculatorService
@@ -214,17 +216,13 @@ namespace Solti.Utils.Router.Tests
 
         private const string RouteTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.ArithmeticalOperation}/{b:int}";
 
-        protected HttpListener Listener { get; private set; } = null!;
-
-        protected HttpClient Client { get; private set; } = null!;
-
         protected TRootScope RootScope { get; private set; } = null!;
 
-        private HttpListener SetupServer()
+        protected override HttpListener SetupServer()
         {
             AsyncRouter router = SetupRouter();
 
-            return HttpListenerFactory.Create(context =>
+            return CreateListener(context =>
             {
                 using (CreateScope(out TScope scope))
                 {
@@ -271,28 +269,23 @@ namespace Solti.Utils.Router.Tests
         protected abstract TRootScope SetupIOC();
 
         protected abstract IDisposable CreateScope(out TScope scope);
-        #endregion
 
         [OneTimeSetUp]
-        public virtual void SetupFixture()
+        public override void SetupFixture()
         {
             RootScope = SetupIOC();
-            Listener = SetupServer();
-            Client = new HttpClient();
+            base.SetupFixture();
         }
 
         [OneTimeTearDown]
-        public virtual void TearDownFixture()
+        public override void TearDownFixture()
         {
-            Listener?.Close();
-            Listener = null!;
-
-            Client?.Dispose();
-            Client = null!;
+            base.TearDownFixture();
 
             RootScope?.Dispose();
             RootScope = null!;
         }
+        #endregion
 
         [Test]
         public async Task Calculator_InvalidRoute()
@@ -431,7 +424,7 @@ namespace Solti.Utils.Router.Tests
     }
 
     [TestFixture]
-    public class UseCaseIOC_BodyParameter
+    public class UseCaseIOC_BodyParameter: UseCaseTestsBase
     {
         #region Helpers
         private sealed class RequestHandlerBuilderSupportsBodyParameter : RequestHandlerBuilder
@@ -469,17 +462,13 @@ namespace Solti.Utils.Router.Tests
 
         private RequestHandlerBuilder OldBuilder { get; set; } = null!;
 
-        private HttpListener Listener { get; set; } = null!;
-
-        private HttpClient Client { get; set; } = null!;
-
         private IScopeFactory RootScope { get; set; } = null!;
 
-        private HttpListener StartServer()
+        protected override HttpListener SetupServer()
         {
             AsyncRouter router = SetupRouter();
 
-            return HttpListenerFactory.Create(context =>
+            return CreateListener(context =>
             {
                 using IInjector scope = RootScope.CreateScope();
                 scope.AssignScopeLocal(context);
@@ -537,33 +526,28 @@ namespace Solti.Utils.Router.Tests
 
             return await Client.PostAsync("http://localhost:8080/upper", new StreamContent(input));
         }
-        #endregion
-
+      
         [OneTimeSetUp]
-        public void SetupFixture()
+        public override void SetupFixture()
         {
             OldBuilder = AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder;
             AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = new RequestHandlerBuilderSupportsBodyParameter();
 
             RootScope = SetupIOC();
-            Listener = StartServer();
-            Client = new HttpClient();
+            base.SetupFixture();
         }
 
         [OneTimeTearDown]
-        public void TearDownFixture()
+        public override void TearDownFixture()
         {
+            base.TearDownFixture();
+
             AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = OldBuilder;
-
-            Listener?.Close();
-            Listener = null!;
-
-            Client?.Dispose();
-            Client = null!;
 
             RootScope?.Dispose();
             RootScope = null!;
         }
+        #endregion
 
         [Test]
         public async Task ToUpper()
