@@ -132,11 +132,12 @@ namespace Solti.Utils.Router.Tests
         public void TryGet_ShouldReturnTheCorrectValue()
         {
             StaticDictionaryBuilder builder = new();
-            builder.RegisterKey("key");
+            builder.RegisterKey("key1");
+            builder.RegisterKey("key2");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
-            dict.SetElementByInternalId(shortcuts["key"], "value");
-            Assert.That(dict.TryGetValue("key", out object? val));
+            dict.SetElementByInternalId(shortcuts["key1"], "value");
+            Assert.That(dict.TryGetValue("key1", out object? val));
             Assert.That(val, Is.EqualTo("value"));
         }
 
@@ -144,11 +145,26 @@ namespace Solti.Utils.Router.Tests
         public void Keys_ShouldReturnAssignedKeys()
         {
             StaticDictionaryBuilder builder = new();
-            builder.RegisterKey("key");
+            builder.RegisterKey("key1");
+            builder.RegisterKey("key2");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
-            dict.SetElementByInternalId(shortcuts["key"], "value");
-            Assert.That(dict.Keys.Single(), Is.EqualTo("key"));
+            dict.SetElementByInternalId(shortcuts["key1"], "value");
+            Assert.That(dict.Keys.Single(), Is.EqualTo("key1"));
+        }
+
+        [Test]
+        public void ContainsKey_ShouldReturnTrueIfTheKeyExists()
+        {
+            StaticDictionaryBuilder builder = new();
+            builder.RegisterKey("key1");
+            builder.RegisterKey("key2");
+            StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
+            Compiler.Compile();
+            dict.SetElementByInternalId(shortcuts["key1"], "value");
+            Assert.False(dict.ContainsKey("invalid"));
+            Assert.False(dict.ContainsKey("key2"));
+            Assert.True(dict.ContainsKey("key1"));
         }
 
         [Test]
