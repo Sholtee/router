@@ -322,7 +322,7 @@ namespace Solti.Utils.Router
 
         internal FutureDelegate<Router> Build(DelegateCompiler compiler)
         {
-            StaticDictionaryFactory createParamzDict = FParameters.CreateFactory(compiler);
+            StaticDictionaryFactory createParamzDict = FParameters.CreateFactory(compiler, out _);
 
             Expression route = Expression.Block
             (

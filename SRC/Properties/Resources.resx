@@ -147,6 +147,9 @@
   <data name="INVALID_HEX" xml:space="preserve">
     <value>Invalid HEX value</value>
   </data>
+  <data name="INVALID_ID" xml:space="preserve">
+    <value>Invalid ID.</value>
+  </data>
   <data name="INVALID_PATH" xml:space="preserve">
     <value>The given path is not valid: "{0}"</value>
   </data>

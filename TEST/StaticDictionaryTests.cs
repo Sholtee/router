@@ -25,7 +25,7 @@ namespace Solti.Utils.Router.Tests
         public void Get_ShouldThrowOnMissingKey()
         {
             StaticDictionaryBuilder builder = new();
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             Assert.Throws<KeyNotFoundException>(() => _ = dict["key"]);
         }
@@ -34,7 +34,7 @@ namespace Solti.Utils.Router.Tests
         public void TryGet_ShouldFailOnMissingKey()
         {
             StaticDictionaryBuilder builder = new();
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             Assert.False(dict.TryGetValue("key", out _));
         }
@@ -44,7 +44,7 @@ namespace Solti.Utils.Router.Tests
         {
             StaticDictionaryBuilder builder = new();
             builder.RegisterKey("key");
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             Assert.Throws<KeyNotFoundException>(() => _ = dict["key"]);
         }
@@ -54,7 +54,7 @@ namespace Solti.Utils.Router.Tests
         {
             StaticDictionaryBuilder builder = new();
             builder.RegisterKey("key");
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             Assert.False(dict.TryGetValue("key", out _));
         }
@@ -64,7 +64,7 @@ namespace Solti.Utils.Router.Tests
         {
             StaticDictionaryBuilder builder = new();
             builder.RegisterKey("key");
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             Assert.That(dict.Keys, Is.Empty);
         }
@@ -74,7 +74,7 @@ namespace Solti.Utils.Router.Tests
         {
             StaticDictionaryBuilder builder = new();
             builder.RegisterKey("key");
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             Assert.That(dict.Values, Is.Empty);
         }
@@ -84,7 +84,7 @@ namespace Solti.Utils.Router.Tests
         {
             StaticDictionaryBuilder builder = new();
             builder.RegisterKey("key");
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             Assert.That(dict.Count, Is.Zero);
         }
@@ -94,7 +94,7 @@ namespace Solti.Utils.Router.Tests
         {
             StaticDictionaryBuilder builder = new();
             builder.RegisterKey("key");
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             Assert.That(dict.ToList(), Is.Empty);
         }
@@ -103,11 +103,44 @@ namespace Solti.Utils.Router.Tests
         public void Get_ShouldReturnTheCorrectValue()
         {
             StaticDictionaryBuilder builder = new();
-            builder.RegisterKey("key");
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            builder.RegisterKey("key1");
+            builder.RegisterKey("key2");
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
-            dict.Add("key", "value");
-            Assert.That(dict["key"], Is.EqualTo("value"));
+            dict.Add("key1", "value1");
+            dict.Add("key2", 1986);
+            Assert.That(dict["key1"], Is.EqualTo("value1"));
+            Assert.That(dict["key2"], Is.EqualTo(1986));
+        }
+
+        [Test]
+        public void GetById_ShouldReturnTheCorrectValue()
+        {
+            StaticDictionaryBuilder builder = new();
+            builder.RegisterKey("key1");
+            builder.RegisterKey("key2");
+            StaticDictionary dict = builder.CreateFactory(Compiler, out IDictionary<string, int> shortcuts).Invoke();
+            Compiler.Compile();
+            dict.Add("key1", "value1");
+            dict.Add("key2", 1986);
+
+            Assert.That(dict.GetElementByInternalId(shortcuts["key1"]), Is.EqualTo("value1"));
+            Assert.That(dict.GetElementByInternalId(shortcuts["key2"]), Is.EqualTo(1986));
+        }
+
+        [Test]
+        public void SetById_ShouldReturnTheCorrectValue()
+        {
+            StaticDictionaryBuilder builder = new();
+            builder.RegisterKey("key1");
+            builder.RegisterKey("key2");
+            StaticDictionary dict = builder.CreateFactory(Compiler, out IDictionary<string, int> shortcuts).Invoke();
+            Compiler.Compile();
+            dict.SetElementByInternalId(shortcuts["key1"], "value1");
+            dict.SetElementByInternalId(shortcuts["key2"], 1986);
+
+            Assert.That(dict["key1"], Is.EqualTo("value1"));
+            Assert.That(dict["key2"], Is.EqualTo(1986));
         }
 
         [Test]
@@ -115,7 +148,7 @@ namespace Solti.Utils.Router.Tests
         {
             StaticDictionaryBuilder builder = new();
             builder.RegisterKey("key");
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             dict.Add("key", "value");
             Assert.That(dict.TryGetValue("key", out object? val));
@@ -127,18 +160,18 @@ namespace Solti.Utils.Router.Tests
         {
             StaticDictionaryBuilder builder = new();
             builder.RegisterKey("key");
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             dict.Add("key", "value");
             Assert.That(dict.Keys.Single(), Is.EqualTo("key"));
         }
 
         [Test]
-        public void VAlues_ShouldReturnAssignedValues()
+        public void Values_ShouldReturnAssignedValues()
         {
             StaticDictionaryBuilder builder = new();
             builder.RegisterKey("key");
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             dict.Add("key", "value");
             Assert.That(dict.Values.Single(), Is.EqualTo("value"));
@@ -149,7 +182,7 @@ namespace Solti.Utils.Router.Tests
         {
             StaticDictionaryBuilder builder = new();
             builder.RegisterKey("key");
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             dict.Add("key", "value");
             Assert.That(dict.Count, Is.EqualTo(1));
@@ -160,7 +193,7 @@ namespace Solti.Utils.Router.Tests
         {
             StaticDictionaryBuilder builder = new();
             builder.RegisterKey("key");
-            StaticDictionary dict = builder.CreateFactory(Compiler).Invoke();
+            StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             dict.Add("key", "value");
             Assert.That(dict.SequenceEqual(new[] { new KeyValuePair<string, object?>("key", "value") }));

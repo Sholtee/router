@@ -17,12 +17,12 @@ namespace Solti.Utils.Router.Internals
 
         public bool RegisterKey(string key) => FLookupBuilder.CreateSlot(key);
 
-        public StaticDictionaryFactory CreateFactory(DelegateCompiler compiler)
+        public StaticDictionaryFactory CreateFactory(DelegateCompiler compiler, out IDictionary<string, int> shortcuts)
         {
             List<string> keys = new(FLookupBuilder.Slots);
-            LookupDelegate<StaticDictionary.ValueWrapper> lookup = FLookupBuilder.Build(compiler, out int arSize);
+            LookupDelegate<StaticDictionary.ValueWrapper> lookup = FLookupBuilder.Build(compiler, out shortcuts);
 
-            Debug.Assert(arSize == keys.Count, "Size mismatch");
+            Debug.Assert(shortcuts.Count == keys.Count, "Size mismatch");
 
             return CreateDict;
 

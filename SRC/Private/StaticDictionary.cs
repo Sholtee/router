@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
 using System.Collections;
 using System.Collections.Generic;
 #if !DEBUG
@@ -12,10 +13,12 @@ using System.Runtime.CompilerServices;
 
 namespace Solti.Utils.Router.Internals
 {
+    using Properties;
+
     /// <summary>
     /// Dictionary having predefined keys
     /// </summary>
-    internal sealed class StaticDictionary: IReadOnlyDictionary<string, object?>
+    internal sealed class StaticDictionary: IReadOnlyDictionary<string, object?>, IElementAccessByInternalId
     {
         public struct ValueWrapper
         {
@@ -116,5 +119,31 @@ namespace Solti.Utils.Router.Internals
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public object? GetElementByInternalId(int internalId)
+        {
+            if (internalId >= 0 && internalId < FValues.Length)
+            {
+                ValueWrapper val = FValues[internalId];
+                if (val.Assigned)
+                    return val.Value;
+            }
+            throw new ArgumentException(Resources.INVALID_ID, nameof(internalId));
+        }
+
+        public void SetElementByInternalId(int internalId, object? value)
+        {
+            if (internalId < 0 || internalId >= FValues.Length)
+                throw new ArgumentException(Resources.INVALID_ID, nameof(internalId));
+
+            ref ValueWrapper val = ref FValues[internalId];
+            val.Value = value;
+
+            if (!val.Assigned)
+            {
+                val.Assigned = true;
+                Count++;
+            }
+        }
     }
 }

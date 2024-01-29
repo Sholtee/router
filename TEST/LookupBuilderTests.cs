@@ -31,10 +31,10 @@ namespace Solti.Utils.Router.Tests
                 Assert.That(bldr.CreateSlot(i.ToString()));
             }
 
-            int arSize = 0;
+            IDictionary<string, int> shortcuts = null!;
 
-            Assert.DoesNotThrow(() => bldr.Build(Compiler, out arSize));
-            Assert.That(arSize, Is.EqualTo(keys));
+            Assert.DoesNotThrow(() => bldr.Build(Compiler, out shortcuts));
+            Assert.That(shortcuts.Count, Is.EqualTo(keys));
         }
 
         [Test]
@@ -47,10 +47,10 @@ namespace Solti.Utils.Router.Tests
                 Assert.That(bldr.CreateSlot(i.ToString()));
             }
 
-            LookupDelegate<string> lookup = bldr.Build(Compiler, out int arSize);
+            LookupDelegate<string> lookup = bldr.Build(Compiler, out IDictionary<string, int> shortcuts);
             Compiler.Compile();
 
-            string[] ar = new string[arSize];
+            string[] ar = new string[shortcuts.Count];
 
             for (int i = 0; i < keys; i++)
             {
@@ -64,7 +64,7 @@ namespace Solti.Utils.Router.Tests
         public void Lookup_ShouldThrowOnMissingItem()
         {
             LookupBuilder<string> bldr = new(StringComparer.OrdinalIgnoreCase);
-            LookupDelegate<string> lookup = bldr.Build(Compiler, out int arSize);
+            LookupDelegate<string> lookup = bldr.Build(Compiler, out _);
             Compiler.Compile();
             Assert.Throws<KeyNotFoundException>(() => lookup(Array.Empty<string>(), "cica"));
         }

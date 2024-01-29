@@ -67,7 +67,7 @@ namespace Solti.Utils.Router.Perf
             }
 
             DelegateCompiler compiler = new();
-            StaticDictInst = bldr.CreateFactory(compiler).Invoke();
+            StaticDictInst = bldr.CreateFactory(compiler, out _).Invoke();
             compiler.Compile();
 
             for (int i = 0; i < ItemCount; i++)
@@ -90,7 +90,7 @@ namespace Solti.Utils.Router.Perf
             }
 
             DelegateCompiler compiler = new();
-            StaticDictInst = bldr.CreateFactory(compiler).Invoke();
+            StaticDictInst = bldr.CreateFactory(compiler, out _).Invoke();
             compiler.Compile();
         }
 
