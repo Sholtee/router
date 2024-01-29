@@ -88,9 +88,9 @@ namespace Solti.Utils.Router.Internals
             }
         }
 
-        public LookupDelegate<TData> Build(DelegateCompiler compiler, out IDictionary<string, int> shortcuts)
+        public LookupDelegate<TData> Build(DelegateCompiler compiler, out IReadOnlyDictionary<string, int> shortcuts)
         {
-            shortcuts = new Dictionary<string, int>();
+            Dictionary<string, int> dict = [];
 
             Expression<Func<string, int>> getIndexExpr = Expression.Lambda<Func<string, int>>
             (
@@ -98,15 +98,16 @@ namespace Solti.Utils.Router.Internals
                 (
                     type: typeof(int),
                     variables: new ParameterExpression[] { FOrder },
-                    ProcessNode(FTree.Root, shortcuts),
+                    ProcessNode(FTree.Root, dict),
                     Expression.Label(FFound, Expression.Constant(-1))
                 ),
                 FKey
             );
 
             Debug.WriteLine(getIndexExpr.GetDebugView());
-
             FutureDelegate<Func<string, int>> getIndex = compiler.Register(getIndexExpr);
+
+            shortcuts = dict;
             return GetValue;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]

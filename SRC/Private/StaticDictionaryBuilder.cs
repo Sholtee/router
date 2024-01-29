@@ -17,7 +17,7 @@ namespace Solti.Utils.Router.Internals
 
         public bool RegisterKey(string key) => FLookupBuilder.CreateSlot(key);
 
-        public StaticDictionaryFactory CreateFactory(DelegateCompiler compiler, out IDictionary<string, int> shortcuts)
+        public StaticDictionaryFactory CreateFactory(DelegateCompiler compiler, out IReadOnlyDictionary<string, int> shortcuts)
         {
             List<string> keys = new(FLookupBuilder.Slots);
             LookupDelegate<StaticDictionary.ValueWrapper> lookup = FLookupBuilder.Build(compiler, out shortcuts);

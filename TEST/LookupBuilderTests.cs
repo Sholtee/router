@@ -31,7 +31,7 @@ namespace Solti.Utils.Router.Tests
                 Assert.That(bldr.CreateSlot(i.ToString()));
             }
 
-            IDictionary<string, int> shortcuts = null!;
+            IReadOnlyDictionary<string, int> shortcuts = null!;
 
             Assert.DoesNotThrow(() => bldr.Build(Compiler, out shortcuts));
             Assert.That(shortcuts.Count, Is.EqualTo(keys));
@@ -47,7 +47,7 @@ namespace Solti.Utils.Router.Tests
                 Assert.That(bldr.CreateSlot(i.ToString()));
             }
 
-            LookupDelegate<string> lookup = bldr.Build(Compiler, out IDictionary<string, int> shortcuts);
+            LookupDelegate<string> lookup = bldr.Build(Compiler, out IReadOnlyDictionary<string, int> shortcuts);
             Compiler.Compile();
 
             string[] ar = new string[shortcuts.Count];

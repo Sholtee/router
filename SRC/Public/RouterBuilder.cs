@@ -17,6 +17,7 @@ namespace Solti.Utils.Router
     using Internals;
     using Primitives;
     using Properties;
+    using System.Collections.ObjectModel;
 
     /// <summary>
     /// Builds the <see cref="Router"/> delegate that does the actual routing.
@@ -108,7 +109,7 @@ namespace Solti.Utils.Router
             FMoveNext     = MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.MoveNext()),
             FDispose      = MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.Dispose()),
             FSplit        = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
-            FAddParam     = MethodInfoExtractor.Extract<StaticDictionary>(static dict => dict.Add(null!, null)),
+            FAddParam     = MethodInfoExtractor.Extract<StaticDictionary>(static dict => dict.SetElementByInternalId(default, null)),
             FEquals       = MethodInfoExtractor.Extract(static () => Equals(string.Empty, string.Empty, default)),
             FMemoryEquals = ((MemoryEqualsDelegate) MemoryEquals).Method, // MethodInfoExtractor.Extract(static () => MemoryEquals(default, string.Empty, default)),
             FConvert      = MethodInfoExtractor.Extract<IConverter, object?>(static (c, output) => c.ConvertToValue(null!, out output));
@@ -139,7 +140,7 @@ namespace Solti.Utils.Router
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool MemoryEquals(ReadOnlySpan<char> left, string right, StringComparison comparison) => left.Equals(right.AsSpan(), comparison);
 
-        private Expression BuildJunction(Junction junction)
+        private Expression BuildJunction(Junction junction, IReadOnlyDictionary<string, int> shortcuts)
         {
             if (junction.Segment is null)  // root node, no segment
                 return Expression.Block
@@ -179,7 +180,7 @@ namespace Solti.Utils.Router
                         (
                             FParams,
                             FAddParam,
-                            Expression.Constant(junction.Segment.Name),
+                            Expression.Constant(shortcuts[junction.Segment.Name]),
                             FConverted
                         )
                     }.Concat
@@ -206,7 +207,7 @@ namespace Solti.Utils.Router
                     (
                         junction
                             .Children
-                            .Select(BuildJunction)
+                            .Select(child => BuildJunction(child, shortcuts))
                             .Append
                             (
                                 Return
@@ -322,7 +323,7 @@ namespace Solti.Utils.Router
 
         internal FutureDelegate<Router> Build(DelegateCompiler compiler)
         {
-            StaticDictionaryFactory createParamzDict = FParameters.CreateFactory(compiler, out _);
+            StaticDictionaryFactory createParamzDict = FParameters.CreateFactory(compiler, out IReadOnlyDictionary<string, int> shortcuts);
 
             Expression route = Expression.Block
             (
@@ -343,7 +344,7 @@ namespace Solti.Utils.Router
                                 Expression.Constant(createParamzDict)
                             )
                         ),
-                        BuildJunction(FRoot)
+                        BuildJunction(FRoot, shortcuts)
                     ),
                     @finally: Expression.Call(FSegments, FDispose)
                 )

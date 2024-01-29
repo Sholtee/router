@@ -81,19 +81,6 @@ namespace Solti.Utils.Router.Internals
 
         public int Count { get; private set; }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Add(string key, object? value)
-        {
-            ref ValueWrapper val = ref FLookup(FValues, key);
-            val.Value = value;
-
-            if (!val.Assigned)
-            {
-                val.Assigned = true;
-                Count++;
-            }
-        }
-
         public bool ContainsKey(string key) => TryGetValue(key, out _);
 
         public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
