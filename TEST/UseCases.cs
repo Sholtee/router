@@ -33,56 +33,22 @@ namespace Solti.Utils.Router.Tests
         Subtract = -1
     }
 
-    [TestFixture]
-    public class UseCaseBasic
+    internal static class HttpListenerFactory
     {
-        #region Helpers
-        private const string RouteTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.ArithmeticalOperation}/{b:int}";
-
-        private HttpListener Listener { get; set; } = null!;
-
-        private HttpClient Client { get; set; } = null!;
-
-        private HttpListener SetupServer()
+        public static HttpListener Create(Action<HttpListenerContext> callback)
         {
             HttpListener listener = new();
             listener.Prefixes.Add("http://localhost:8080/");
             listener.Start();
 
-            Router router = SetupRouter();
-
             Task.Factory.StartNew(() =>
             {
-                while (Listener.IsListening)
+                while (listener.IsListening)
                 {
                     try
                     {
                         HttpListenerContext context = listener.GetContext();
-
-                        ResponseData data;
-
-                        try
-                        {
-                            data = (ResponseData) router
-                            (
-                                context.Request,
-                                context.Request.Url!.AbsolutePath,
-                                context.Request.HttpMethod
-                            )!;
-                        }
-                        catch (Exception e)
-                        {
-                            data = new ResponseData(HttpStatusCode.InternalServerError, e.Message);
-                        }
-
-                        context.Response.StatusCode = (int) data.Status;
-                        context.Response.ContentType = "application/json";
-
-                        using (StreamWriter streamWriter = new(context.Response.OutputStream))
-                        {
-                            streamWriter.Write(JsonSerializer.Serialize(data.Body));
-                        }
-
+                        callback(context);
                         context.Response.Close();
                     }
                     catch (HttpListenerException e)
@@ -96,6 +62,42 @@ namespace Solti.Utils.Router.Tests
             }, TaskCreationOptions.LongRunning);
 
             return listener;
+        }
+    }
+
+    [TestFixture]
+    public class UseCaseBasic
+    {
+        #region Helpers
+        private const string RouteTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.ArithmeticalOperation}/{b:int}";
+
+        private HttpListener Listener { get; set; } = null!;
+
+        private HttpClient Client { get; set; } = null!;
+
+        private HttpListener SetupServer()
+        {
+            Router router = SetupRouter();
+
+            return HttpListenerFactory.Create(context =>
+            {
+                ResponseData data;
+
+                try
+                {
+                    data = (ResponseData) router(context.Request, context.Request.Url!.AbsolutePath, context.Request.HttpMethod)!;
+                }
+                catch (Exception e)
+                {
+                    data = new ResponseData(HttpStatusCode.InternalServerError, e.Message);
+                }
+
+                context.Response.StatusCode = (int)data.Status;
+                context.Response.ContentType = "application/json";
+
+                using StreamWriter streamWriter = new(context.Response.OutputStream);
+                streamWriter.Write(JsonSerializer.Serialize(data.Body));
+            });
         }
 
         private static Router SetupRouter()
@@ -139,7 +141,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public async Task Calculator_InvalidRoute()
         {
-            HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/");
+            using HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
 
             using Stream stm = await resp.Content.ReadAsStreamAsync();
@@ -154,7 +156,7 @@ namespace Solti.Utils.Router.Tests
                 "http://localhost:8080/" + RouteTemplate
             );
 
-            HttpResponseMessage resp = await Client.PostAsync
+            using HttpResponseMessage resp = await Client.PostAsync
             (
                 getRoute
                 (
@@ -181,7 +183,7 @@ namespace Solti.Utils.Router.Tests
                 "http://localhost:8080/" + RouteTemplate
             );
 
-            HttpResponseMessage resp = await Client.GetAsync
+            using HttpResponseMessage resp = await Client.GetAsync
             (
                 getRoute
                 (
@@ -200,7 +202,7 @@ namespace Solti.Utils.Router.Tests
         }
     }
 
-    public abstract class UseCaseIOCBase<TRootScope, TScope> where TRootScope: IDisposable
+    public abstract class UseCaseIOCBase<TRootScope, TScope> where TRootScope: class, IDisposable
     {
         #region Helpers
         protected sealed class CalculatorService
@@ -212,68 +214,40 @@ namespace Solti.Utils.Router.Tests
 
         private const string RouteTemplate = "{a:int}/{op:enum:Solti.Utils.Router.Tests.ArithmeticalOperation}/{b:int}";
 
-        private HttpListener Listener { get; set; } = null!;
+        protected HttpListener Listener { get; private set; } = null!;
 
-        private HttpClient Client { get; set; } = null!;
+        protected HttpClient Client { get; private set; } = null!;
+
+        protected TRootScope RootScope { get; private set; } = null!;
 
         private HttpListener SetupServer()
         {
-            HttpListener listener = new();
-            listener.Prefixes.Add("http://localhost:8080/");
-            listener.Start();
-
             AsyncRouter router = SetupRouter();
 
-            Task.Factory.StartNew(() =>
+            return HttpListenerFactory.Create(context =>
             {
-                using TRootScope root = CreateRootScope();
-
-                while (listener.IsListening)
+                using (CreateScope(out TScope scope))
                 {
-                    try
+                    object? response = router(scope, context.Request.Url!.AbsolutePath, context.Request.HttpMethod)
+                        .GetAwaiter()
+                        .GetResult()!;
+
+                    context.Response.ContentType = "application/json";
+
+                    if (response is ResponseData responseData)
                     {
-                        HttpListenerContext context = listener.GetContext();
-
-                        using (CreateScope(root, out TScope scope))
-                        {
-                            object? response = router
-                            (
-                                scope,
-                                context.Request.Url!.AbsolutePath,
-                                context.Request.HttpMethod
-                            ).GetAwaiter().GetResult()!;
-
-                            context.Response.ContentType = "application/json";
-
-                            if (response is ResponseData responseData)
-                            {
-                                context.Response.StatusCode = (int) responseData.Status;
-                                response = responseData.Body;
-                            }
-                            else
-                            {
-                                context.Response.StatusCode = (int) HttpStatusCode.OK;
-                            }
-
-                            using (StreamWriter streamWriter = new(context.Response.OutputStream))
-                            {
-                                streamWriter.Write(JsonSerializer.Serialize(response));
-                            }
-
-                            context.Response.Close();
-                        }
+                        context.Response.StatusCode = (int) responseData.Status;
+                        response = responseData.Body;
                     }
-                    catch (HttpListenerException e)
+                    else
                     {
-                        if (e.ErrorCode == 995) // listener.Stop() has been called
-                            return;
-
-                        Debug.WriteLine(e);
+                        context.Response.StatusCode = (int) HttpStatusCode.OK;
                     }
+
+                    using StreamWriter streamWriter = new(context.Response.OutputStream);
+                    streamWriter.Write(JsonSerializer.Serialize(response));
                 }
-            }, TaskCreationOptions.LongRunning);
-
-            return listener;
+            });
         }
 
         private static AsyncRouter SetupRouter()
@@ -294,14 +268,15 @@ namespace Solti.Utils.Router.Tests
             return routerBuilder.Build();
         }
 
-        protected abstract TRootScope CreateRootScope();
+        protected abstract TRootScope SetupIOC();
 
-        protected abstract IDisposable CreateScope(TRootScope root, out TScope scope);
+        protected abstract IDisposable CreateScope(out TScope scope);
         #endregion
 
         [OneTimeSetUp]
         public virtual void SetupFixture()
         {
+            RootScope = SetupIOC();
             Listener = SetupServer();
             Client = new HttpClient();
         }
@@ -314,24 +289,27 @@ namespace Solti.Utils.Router.Tests
 
             Client?.Dispose();
             Client = null!;
+
+            RootScope?.Dispose();
+            RootScope = null!;
         }
 
         [Test]
         public async Task Calculator_InvalidRoute()
         {
-            HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/");
-            Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
-
-            using (Stream stm = await resp.Content.ReadAsStreamAsync())
+            using (HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/"))
             {
+                Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+
+                using Stream stm = await resp.Content.ReadAsStreamAsync();
                 Assert.That(await JsonSerializer.DeserializeAsync<string>(stm), Is.EqualTo("NotFound"));
             }
 
-            resp = await Client.GetAsync("http://localhost:8080/10");
-            Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
-
-            using (Stream stm = await resp.Content.ReadAsStreamAsync())
+            using (HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/10"))
             {
+                Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+
+                Stream stm = await resp.Content.ReadAsStreamAsync();
                 Assert.That(await JsonSerializer.DeserializeAsync<string>(stm), Is.EqualTo("NotFound"));
             }
         }
@@ -339,7 +317,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public async Task Calculator_InternalError()
         {
-            HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/error");
+            using HttpResponseMessage resp = await Client.GetAsync("http://localhost:8080/error");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.InternalServerError));
 
             using Stream stm = await resp.Content.ReadAsStreamAsync();
@@ -351,7 +329,7 @@ namespace Solti.Utils.Router.Tests
         {
             RouteTemplateCompiler getRoute = Utils.Router.RouteTemplate.CreateCompiler("http://localhost:8080/" + RouteTemplate);
 
-            HttpResponseMessage resp = await Client.PostAsync
+            using HttpResponseMessage resp = await Client.PostAsync
             (
                 getRoute
                 (
@@ -375,7 +353,7 @@ namespace Solti.Utils.Router.Tests
         {
             RouteTemplateCompiler getRoute = Utils.Router.RouteTemplate.CreateCompiler("http://localhost:8080/" + RouteTemplate);
 
-            HttpResponseMessage resp = await Client.GetAsync
+            using HttpResponseMessage resp = await Client.GetAsync
             (
                 getRoute
                 (
@@ -397,16 +375,16 @@ namespace Solti.Utils.Router.Tests
     [TestFixture]
     public class UseCaseIOC_MsDI : UseCaseIOCBase<ServiceProvider, IServiceProvider>
     {
-        protected override ServiceProvider CreateRootScope()
+        protected override ServiceProvider SetupIOC()
         {
             Microsoft.Extensions.DependencyInjection.ServiceCollection services = new();
             services.AddScoped<CalculatorService>();
             return services.BuildServiceProvider();
         }
 
-        protected override IDisposable CreateScope(ServiceProvider root, out IServiceProvider scope)
+        protected override IDisposable CreateScope(out IServiceProvider scope)
         {
-            IServiceScope serviceScope = root.CreateScope();
+            IServiceScope serviceScope = RootScope.CreateScope();
             scope = serviceScope.ServiceProvider;
             return serviceScope;
         }
@@ -443,11 +421,11 @@ namespace Solti.Utils.Router.Tests
             AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = OldBuilder;
         }
 
-        protected override IScopeFactory CreateRootScope() => ScopeFactory.Create(svcs => svcs.Service<CalculatorService>(Lifetime.Scoped));
+        protected override IScopeFactory SetupIOC() => ScopeFactory.Create(svcs => svcs.Service<CalculatorService>(Lifetime.Scoped));
 
-        protected override IDisposable CreateScope(IScopeFactory root, out IInjector scope)
+        protected override IDisposable CreateScope(out IInjector scope)
         {
-            scope = root.CreateScope();
+            scope = RootScope.CreateScope();
             return scope;
         }
     }
@@ -495,64 +473,36 @@ namespace Solti.Utils.Router.Tests
 
         private HttpClient Client { get; set; } = null!;
 
-        private static HttpListener StartServer()
-        {
-            HttpListener listener = new();
-            listener.Prefixes.Add("http://localhost:8080/");
-            listener.Start();
+        private IScopeFactory RootScope { get; set; } = null!;
 
+        private HttpListener StartServer()
+        {
             AsyncRouter router = SetupRouter();
 
-            Task.Factory.StartNew(() =>
+            return HttpListenerFactory.Create(context =>
             {
-                using IScopeFactory scopeFactory = SetupIOC();
+                using IInjector scope = RootScope.CreateScope();
+                scope.AssignScopeLocal(context);
 
-                while (listener.IsListening)
+                object? response = router(scope, context.Request.Url!.AbsolutePath, context.Request.HttpMethod)
+                    .GetAwaiter()
+                    .GetResult()!;
+
+                context.Response.ContentType = "text/html";
+
+                if (response is ResponseData responseData)
                 {
-                    try
-                    {
-                        HttpListenerContext context = listener.GetContext();
-
-                        using IInjector scope = scopeFactory.CreateScope();
-                        scope.AssignScopeLocal(context);
-
-                        object? response = router
-                        (
-                            scope,
-                            context.Request.Url!.AbsolutePath,
-                            context.Request.HttpMethod
-                        ).GetAwaiter().GetResult()!;
-
-                        context.Response.ContentType = "text/html";
-
-                        if (response is ResponseData responseData)
-                        {
-                            context.Response.StatusCode = (int) responseData.Status;
-                            response = responseData.Body;
-                        }
-                        else
-                        {
-                            context.Response.StatusCode = (int) HttpStatusCode.OK;
-                        }
-
-                        using (StreamWriter streamWriter = new(context.Response.OutputStream))
-                        {
-                            streamWriter.Write((string) response!);
-                        }
-
-                        context.Response.Close();
-                    }
-                    catch (HttpListenerException e)
-                    {
-                        if (e.ErrorCode == 995) // listener.Stop() has been called
-                            return;
-
-                        Debug.WriteLine(e);
-                    }
+                    context.Response.StatusCode = (int) responseData.Status;
+                    response = responseData.Body;
                 }
-            }, TaskCreationOptions.LongRunning);
+                else
+                {
+                    context.Response.StatusCode = (int) HttpStatusCode.OK;
+                }
 
-            return listener;
+                using StreamWriter streamWriter = new(context.Response.OutputStream);
+                streamWriter.Write((string) response!);
+            });
         }
 
         private static AsyncRouter SetupRouter()
@@ -574,6 +524,19 @@ namespace Solti.Utils.Router.Tests
                 .Service<ConverterService>(Lifetime.Scoped)
                 .SetupScopeLocal<HttpListenerContext>()
         );
+
+        private async Task<HttpResponseMessage> PostRequest(string msg)
+        {
+            using MemoryStream input = new();
+            using StreamWriter sw = new(input);
+
+            sw.Write("cica");
+            sw.Flush();
+
+            input.Seek(0, SeekOrigin.Begin);
+
+            return await Client.PostAsync("http://localhost:8080/upper", new StreamContent(input));
+        }
         #endregion
 
         [OneTimeSetUp]
@@ -582,6 +545,7 @@ namespace Solti.Utils.Router.Tests
             OldBuilder = AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder;
             AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder = new RequestHandlerBuilderSupportsBodyParameter();
 
+            RootScope = SetupIOC();
             Listener = StartServer();
             Client = new HttpClient();
         }
@@ -596,19 +560,15 @@ namespace Solti.Utils.Router.Tests
 
             Client?.Dispose();
             Client = null!;
+
+            RootScope?.Dispose();
+            RootScope = null!;
         }
 
         [Test]
         public async Task ToUpper()
         {
-            using MemoryStream input = new();
-            using StreamWriter sw = new(input);
-            sw.Write("cica");
-            sw.Flush();
-
-            input.Seek(0, SeekOrigin.Begin);
-
-            HttpResponseMessage resp = await Client.PostAsync("http://localhost:8080/upper", new StreamContent(input));
+            using HttpResponseMessage resp = await PostRequest("cica");
             Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
             using Stream output = await resp.Content.ReadAsStreamAsync();
