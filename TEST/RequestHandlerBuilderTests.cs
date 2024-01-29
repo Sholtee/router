@@ -74,7 +74,7 @@ namespace Solti.Utils.Router.Extensions.Tests
         {
             ParameterInfo para = MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)).GetParameters()[0];
 
-            Assert.Throws<ArgumentException>(() => DefaultBuilder.GetInvokeServiceArgument(para, RouteTemplate.Parse("/{para:str}"), null), PARAM_NOT_DEFINED);
+            Assert.Throws<ArgumentException>(() => DefaultBuilder.GetInvokeServiceArgument(para, RouteTemplate.Parse("/{para:str}"), null), PARAM_TYPE_NOT_COMPATIBLE);
         }
 
         [Test]
