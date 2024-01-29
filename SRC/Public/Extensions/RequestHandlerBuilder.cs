@@ -105,10 +105,18 @@ namespace Solti.Utils.Router.Extensions
 
             string name = GetArgumentName(param);
 
-            if (!route.Parameters.ContainsKey(name))
+            if (!route.Parameters.TryGetValue(name, out Type paramType))
             {
                 ArgumentException ex = new(PARAM_NOT_DEFINED, param.Name);
                 ex.Data["actualName"] = name;
+                throw ex;
+            }
+
+            if (!param.ParameterType.IsAssignableFrom(paramType))
+            {
+                ArgumentException ex = new(PARAM_TYPE_NOT_COMPATIBLE, param.Name);
+                ex.Data["actualName"] = name;
+                ex.Data["requiredType"] = param.ParameterType;
                 throw ex;
             }
 

@@ -156,6 +156,9 @@
   <data name="PARAM_NOT_DEFINED" xml:space="preserve">
     <value>Parameter must be defined in the route template.</value>
   </data>
+  <data name="PARAM_TYPE_NOT_COMPATIBLE" xml:space="preserve">
+    <value>Incompatible parameter type.</value>
+  </data>
   <data name="ROUTE_ALREADY_REGISTERED" xml:space="preserve">
     <value>Route already registered:" {0}"</value>
   </data>

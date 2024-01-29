@@ -70,6 +70,14 @@ namespace Solti.Utils.Router.Extensions.Tests
         }
 
         [Test]
+        public void GetInvokeServiceArgumentShouldThrowOnIncompatibleParameterType()
+        {
+            ParameterInfo para = MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)).GetParameters()[0];
+
+            Assert.Throws<ArgumentException>(() => DefaultBuilder.GetInvokeServiceArgument(para, RouteTemplate.Parse("/{para:str}"), null), PARAM_NOT_DEFINED);
+        }
+
+        [Test]
         public void CreateLambdaThrowOnOpenGenericMethod()
         {
             Assert.Throws<ArgumentException>(() => DefaultBuilder.CreateLambda(RouteTemplate.Parse("/{para:int}"), MethodInfoExtractor.Extract<IMyService>(svc => svc.Generic<int>(0)).GetGenericMethodDefinition(), null), INVALID_HANDLER);

@@ -178,6 +178,15 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incompatible parameter type..
+        /// </summary>
+        internal static string PARAM_TYPE_NOT_COMPATIBLE {
+            get {
+                return ResourceManager.GetString("PARAM_TYPE_NOT_COMPATIBLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Route already registered:&quot; {0}&quot;.
         /// </summary>
         internal static string ROUTE_ALREADY_REGISTERED {
