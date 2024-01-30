@@ -270,7 +270,6 @@ namespace Solti.Utils.Router
                 right,
                 Expression.Constant(StringComparison.OrdinalIgnoreCase)
             );
-
         }
 
         private static Expression Return(LambdaExpression lambda, params Expression[] paramz) => Expression.Return
@@ -356,7 +355,7 @@ namespace Solti.Utils.Router
                 route,
                 FExceptionHandlers.Select
                 (
-                    (LambdaExpression exceptionHandler) =>
+                    static (LambdaExpression exceptionHandler) =>
                     {
                         Type excType = exceptionHandler.Parameters.Last().Type;
                         Debug.Assert(typeof(Exception).IsAssignableFrom(excType), "Not an exception handler");
