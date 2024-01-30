@@ -5,6 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -61,6 +62,13 @@ namespace Solti.Utils.Router
     /// <param name="userData">User provided custom data.</param>
     /// <returns>The response object.</returns>
     public delegate object? RequestHandler(IReadOnlyDictionary<string, object?> paramz, object? userData);
+
+    /// <summary>
+    /// Creates a handler for a particular route.
+    /// </summary>
+    /// <param name="route">The route which is the create handler created for.</param>
+    /// <param name="shortcuts">Shortcuts for parameters (to get them by id rather than name)</param>
+    public delegate Expression<RequestHandler> RequestHandlerFactory(ParsedRoute route, IReadOnlyDictionary<string, int> shortcuts);
 
     /// <summary>
     /// Handler for known routes.

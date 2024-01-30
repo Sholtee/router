@@ -1,1 +1,5 @@
-﻿
+﻿Solti.Utils.Router.IElementAccessByInternalId
+Solti.Utils.Router.IElementAccessByInternalId.GetElementByInternalId(int internalId) -> object?
+Solti.Utils.Router.IElementAccessByInternalId.SetElementByInternalId(int internalId, object? value) -> void
+Solti.Utils.Router.RequestHandlerFactory
+Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute! route, Solti.Utils.Router.RequestHandlerFactory! handlerFactory, params string![]! methods) -> void

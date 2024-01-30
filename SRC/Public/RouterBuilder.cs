@@ -95,11 +95,13 @@ namespace Solti.Utils.Router
     public sealed class RouterBuilder
     {
         #region Private
+        private delegate Expression<RequestHandler> SimpleRequestHandlerFactory(IReadOnlyDictionary<string, int> shortcuts);
+
         private sealed class Junction
         {
             public RouteSegment? Segment { get; init; }  // null at "/"
             // order doesn't matter
-            public Dictionary<string, Expression<RequestHandler>> Handlers { get; } = new(StringComparer.OrdinalIgnoreCase);
+            public Dictionary<string, SimpleRequestHandlerFactory> Handlers { get; } = new(StringComparer.OrdinalIgnoreCase);
             public List<Junction> Children { get; } = new();
         }
 
@@ -228,16 +230,16 @@ namespace Solti.Utils.Router
                 //    return XyzHandler(...);
                 //
 
-                foreach (IGrouping<Expression<RequestHandler>, KeyValuePair<string, Expression<RequestHandler>>> handlerGroup in junction.Handlers.GroupBy(static handler => handler.Value))
+                foreach (IGrouping<SimpleRequestHandlerFactory, string> handlerGroup in junction.Handlers.GroupBy(static fact => fact.Value, static fact => fact.Key))
                 {
                     yield return Expression.IfThen
                     (
                         handlerGroup
-                            .Select(handler => Equals(FMethod, Expression.Constant(handler.Key), FEquals))
+                            .Select(static supportedMethod => Equals(FMethod, Expression.Constant(supportedMethod), FEquals))
                             .Aggregate(static (accu, curr) => Expression.Or(accu, curr)),
                         Return
                         (
-                            handlerGroup.Key,
+                            handlerGroup.Key(shortcuts),
                             FParams,
                             FUserData
                         )
@@ -245,7 +247,7 @@ namespace Solti.Utils.Router
                 }
 
                 //
-                // return DEfaultHandler(state, HttpStatusCode.[xXx]);
+                // return DefaultHandler(state, HttpStatusCode.[xXx]);
                 //
 
                 yield return Return
@@ -454,16 +456,16 @@ namespace Solti.Utils.Router
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered.</param>
-        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
+        /// <param name="handlerFactory">Delegate responsible for creating the handler function.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(ParsedRoute route, Expression<RequestHandler> handlerExpr, params string[] methods)
+        public void AddRoute(ParsedRoute route, RequestHandlerFactory handlerFactory, params string[] methods)
         {
             if (route is null)
                 throw new ArgumentNullException(nameof(route));
 
-            if (handlerExpr is null)
-                throw new ArgumentNullException(nameof(handlerExpr));
+            if (handlerFactory is null)
+                throw new ArgumentNullException(nameof(handlerFactory));
 
             if (methods is null)
                 throw new ArgumentNullException(nameof(methods));
@@ -506,12 +508,12 @@ namespace Solti.Utils.Router
                 if (string.IsNullOrEmpty(method))
                     throw new ArgumentException(Resources.EMPTY_METHOD, nameof(methods));
 #if NETSTANDARD2_1_OR_GREATER
-                if (target.Handlers.TryAdd(method, handlerExpr))
+                if (target.Handlers.TryAdd(method, shortcuts => handlerFactory(route, shortcuts)))
                     continue;
 #else
                 if (!target.Handlers.ContainsKey(method))
                 {
-                    target.Handlers.Add(method, handlerExpr);
+                    target.Handlers.Add(method, shortcuts => handlerFactory(route, shortcuts));
                     continue;
                 }
 #endif
@@ -522,6 +524,21 @@ namespace Solti.Utils.Router
             {
                 FParameters.RegisterKey(variable);
             }
+        }
+
+        /// <summary>
+        /// Registers a new route.
+        /// </summary>
+        /// <param name="route">Route to be registered.</param>
+        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
+        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
+        /// <exception cref="ArgumentException">If the route already registered.</exception>
+        public void AddRoute(ParsedRoute route, Expression<RequestHandler> handlerExpr, params string[] methods)
+        {
+            if (handlerExpr is null)
+                throw new ArgumentNullException(nameof(handlerExpr));
+
+            AddRoute(route, (_, _) => handlerExpr, methods);
         }
 
         /// <summary>
