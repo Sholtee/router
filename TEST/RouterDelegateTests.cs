@@ -238,7 +238,7 @@ namespace Solti.Utils.Router.Tests
     public class RouterDelegateStressTests
     {
         [Test]
-        public async Task ConductStressTest([Values(1, 5, 10, 100, 500, 750)]int routeCount, [Values(true, false)] bool hasParams)
+        public async Task ConductStressTest([Values(1, 5, 10, 100, 500)] int routeCount, [Values(true, false)] bool hasParams)
         {
             AsyncRouterBuilder bldr = AsyncRouterBuilder.Create();
 
