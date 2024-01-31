@@ -32,18 +32,18 @@ namespace Solti.Utils.Router.Perf
                 "/",
                 Enumerable
                     .Repeat("segment", SegmentCount)
-                    .Select((segment, i) => HasParams && i % 2 == 0 ? $"{{param{paramIndex++}:str}}" : segment)
+                    .Select((segment, i) => HasParams && i % 2 == 0 ? $"{{param{paramIndex++}:str}}" : segment + i)
             );
         }
 
-        private void SetInput() => Input = "/" + string.Join("/", Enumerable.Repeat("segment", SegmentCount));
+        private void SetInput() => Input = "/" + string.Join("/", Enumerable.Repeat("segment", SegmentCount).Select(static (segment, i) => segment + i));
 
         [GlobalSetup(Target = nameof(Route))]
         public void SetupRoute()
         {
-            RouterBuilder bldr = new(handler: (_, _) => true);
+            RouterBuilder bldr = new();
 
-            bldr.AddRoute(CreateTemplate(), handler: (_, _) => true);
+            bldr.AddRoute(CreateTemplate(), handler: static (_, _) => true);
 
             Router = bldr.Build();
 
@@ -58,9 +58,9 @@ namespace Solti.Utils.Router.Perf
         [GlobalSetup(Target = nameof(AsyncRoute))]
         public void SetupAsyncRoute()
         {
-            AsyncRouterBuilder bldr = AsyncRouterBuilder.Create(handler: (_, _) => Task.FromResult(true));
+            AsyncRouterBuilder bldr = AsyncRouterBuilder.Create();
 
-            bldr.AddRoute(CreateTemplate(), handler: (_, _) => Task.FromResult(true));
+            bldr.AddRoute(CreateTemplate(), handler: static (_, _) => Task.FromResult(true));
 
             AsyncRouter = bldr.Build();
 
