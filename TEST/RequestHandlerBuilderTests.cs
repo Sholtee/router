@@ -58,7 +58,7 @@ namespace Solti.Utils.Router.Extensions.Tests
         {
             ParameterInfo para = MethodInfoExtractor.Extract<IMyService, int>((svc, val) => svc.RefMethod(ref val)).GetParameters()[0];
 
-            Assert.Throws<ArgumentException>(() => DefaultBuilder.GetInvokeServiceArgument(para, RouteTemplate.Parse("/{para:int}"), null), BY_REF_PARAMETER);
+            Assert.Throws<ArgumentException>(() => DefaultBuilder.GetInvokeServiceArgument(para, RouteTemplate.Parse("/{para:int}"), new Dictionary<string, int> { { "para", 0} }, null), BY_REF_PARAMETER);
         }
 
         [Test]
@@ -66,7 +66,15 @@ namespace Solti.Utils.Router.Extensions.Tests
         {
             ParameterInfo para = MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)).GetParameters()[0];
 
-            Assert.Throws<ArgumentException>(() => DefaultBuilder.GetInvokeServiceArgument(para, RouteTemplate.Parse("/"), null), PARAM_NOT_DEFINED);
+            Assert.Throws<ArgumentException>(() => DefaultBuilder.GetInvokeServiceArgument(para, RouteTemplate.Parse("/"), new Dictionary<string, int> { { "para", 0 } }, null), PARAM_NOT_DEFINED);
+        }
+
+        [Test]
+        public void GetInvokeServiceArgumentShouldThrowOnUndefinedShortcut()
+        {
+            ParameterInfo para = MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)).GetParameters()[0];
+
+            Assert.Throws<ArgumentException>(() => DefaultBuilder.GetInvokeServiceArgument(para, RouteTemplate.Parse("/{para:int}"), new Dictionary<string, int> { }, null), PARAM_NOT_DEFINED);
         }
 
         [Test]
@@ -74,28 +82,30 @@ namespace Solti.Utils.Router.Extensions.Tests
         {
             ParameterInfo para = MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)).GetParameters()[0];
 
-            Assert.Throws<ArgumentException>(() => DefaultBuilder.GetInvokeServiceArgument(para, RouteTemplate.Parse("/{para:str}"), null), PARAM_TYPE_NOT_COMPATIBLE);
+            Assert.Throws<ArgumentException>(() => DefaultBuilder.GetInvokeServiceArgument(para, RouteTemplate.Parse("/{para:str}"), new Dictionary<string, int> { { "para", 0 } }, null), PARAM_TYPE_NOT_COMPATIBLE);
         }
 
         [Test]
-        public void CreateLambdaThrowOnOpenGenericMethod()
+        public void CreateFactoryThrowOnOpenGenericMethod()
         {
-            Assert.Throws<ArgumentException>(() => DefaultBuilder.CreateLambda(RouteTemplate.Parse("/{para:int}"), MethodInfoExtractor.Extract<IMyService>(svc => svc.Generic<int>(0)).GetGenericMethodDefinition(), null), INVALID_HANDLER);
-            Assert.DoesNotThrow(() => DefaultBuilder.CreateLambda(RouteTemplate.Parse("/{para:int}"), MethodInfoExtractor.Extract<IMyService>(svc => svc.Generic<int>(0)), null));
+            Assert.Throws<ArgumentException>(() => DefaultBuilder.CreateFactory(MethodInfoExtractor.Extract<IMyService>(svc => svc.Generic<int>(0)).GetGenericMethodDefinition(), null), INVALID_HANDLER);
+            Assert.DoesNotThrow(() => DefaultBuilder.CreateFactory(MethodInfoExtractor.Extract<IMyService>(svc => svc.Generic<int>(0)), null));
         }
 
         [Test]
-        public void CreateLambdaShouldBeNullChecked()
+        public void CreateFactoryShouldBeNullChecked()
         {
-            Assert.Throws<ArgumentNullException>(() => DefaultBuilder.CreateLambda(null!, MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)), null));
-            Assert.Throws<ArgumentNullException>(() => DefaultBuilder.CreateLambda(RouteTemplate.Parse("/"), null!, null));
+            Assert.Throws<ArgumentNullException>(() => DefaultBuilder.CreateFactory(null!, null));
         }
 
+        public interface IParamzDict : IReadOnlyDictionary<string, object?>, IParamAccessByInternalId { }
+
         [Test]
-        public void CreateLambdaShouldSupportRegularMethods()
+        public void CreateFactoryShouldSupportRegularMethods()
         {
             RequestHandler<int> lambda = (RequestHandler<int>) DefaultBuilder
-                .CreateLambda(RouteTemplate.Parse("/{para:int}"), MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)), null)
+                .CreateFactory(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)), null)
+                .Invoke(RouteTemplate.Parse("/{para:int}"), new Dictionary<string, int> { { "para", 0 } })
                 .Compile();
 
             Mock<IMyService> mockService = new(MockBehavior.Strict);
@@ -108,23 +118,24 @@ namespace Solti.Utils.Router.Extensions.Tests
                 .Setup(p => p.GetService(typeof(IMyService)))
                 .Returns(mockService.Object);
 
-            Mock<IReadOnlyDictionary<string, object?>> mockParamz = new(MockBehavior.Strict);
+            Mock<IParamzDict> mockParamz = new(MockBehavior.Strict);
             mockParamz
-                .Setup(p => p["para"])
+                .Setup(p => p[0])
                 .Returns(1986);
 
             Assert.That(lambda(mockParamz.Object, mockServicePrivder.Object), Is.EqualTo(1990));
 
             mockServicePrivder.Verify(p => p.GetService(typeof(IMyService)), Times.Once);
             mockService.Verify(svc => svc.Method(1986), Times.Once);
-            mockParamz.Verify(p => p["para"], Times.Once);
+            mockParamz.Verify(p => p[0], Times.Once);
         }
 
         [Test]
-        public void CreateLambdaShouldSupportVoidMethods()
+        public void CreateFactoryShouldSupportVoidMethods()
         {
             RequestHandler<object?> lambda = (RequestHandler<object?>) DefaultBuilder
-                .CreateLambda(RouteTemplate.Parse("/"), MethodInfoExtractor.Extract<IMyService>(svc => svc.VoidMethod()), null)
+                .CreateFactory(MethodInfoExtractor.Extract<IMyService>(svc => svc.VoidMethod()), null)
+                .Invoke(RouteTemplate.Parse("/"), new Dictionary<string, int>())
                 .Compile();
 
             Mock<IMyService> mockService = new(MockBehavior.Strict);
@@ -135,7 +146,7 @@ namespace Solti.Utils.Router.Extensions.Tests
                 .Setup(p => p.GetService(typeof(IMyService)))
                 .Returns(mockService.Object);
 
-            Mock<IReadOnlyDictionary<string, object?>> mockParamz = new(MockBehavior.Strict);
+            Mock<IParamzDict> mockParamz = new(MockBehavior.Strict);
 
             Assert.That(lambda(mockParamz.Object, mockServicePrivder.Object), Is.Null);
 
@@ -161,7 +172,8 @@ namespace Solti.Utils.Router.Extensions.Tests
         public void BuilderCanBeCustomized()
         {
             RequestHandler<int> lambda = (RequestHandler<int>) new InjectorDotNetRequestHandlerBuilder()
-                .CreateLambda(RouteTemplate.Parse("/{para:int}"), MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)), null)
+                .CreateFactory(MethodInfoExtractor.Extract<IMyService>(svc => svc.Method(0)), null)
+                .Invoke(RouteTemplate.Parse("/{para:int}"), new Dictionary<string, int> { { "para", 0 } })
                 .Compile();
 
             Mock<IMyService> mockService = new(MockBehavior.Strict);
@@ -174,16 +186,16 @@ namespace Solti.Utils.Router.Extensions.Tests
                 .Setup(p => p.Get(typeof(IMyService), null))
                 .Returns(mockService.Object);
 
-            Mock<IReadOnlyDictionary<string, object?>> mockParamz = new(MockBehavior.Strict);
+            Mock<IParamzDict> mockParamz = new(MockBehavior.Strict);
             mockParamz
-                .Setup(p => p["para"])
+                .Setup(p => p[0])
                 .Returns(1986);
 
             Assert.That(lambda(mockParamz.Object, mockServicePrivder.Object), Is.EqualTo(1990));
 
             mockServicePrivder.Verify(p => p.Get(typeof(IMyService), null), Times.Once);
             mockService.Verify(svc => svc.Method(1986), Times.Once);
-            mockParamz.Verify(p => p["para"], Times.Once);
+            mockParamz.Verify(p => p[0], Times.Once);
         }
     }
 }

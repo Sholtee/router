@@ -156,6 +156,9 @@
   <data name="INVALID_TEMPLATE" xml:space="preserve">
     <value>Invalid template.</value>
   </data>
+  <data name="NO_SHORTCUT" xml:space="preserve">
+    <value>There is no shortcut defined.</value>
+  </data>
   <data name="PARAM_NOT_DEFINED" xml:space="preserve">
     <value>Parameter must be defined in the route template.</value>
   </data>

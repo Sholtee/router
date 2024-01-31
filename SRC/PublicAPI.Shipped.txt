@@ -19,9 +19,7 @@ Solti.Utils.Router.ExceptionHandler<TException, TResult>
 Solti.Utils.Router.ExceptionHandler<TException>
 Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions
 Solti.Utils.Router.Extensions.RequestHandlerBuilder
-Solti.Utils.Router.Extensions.RequestHandlerBuilder.ParamsDict.get -> System.Linq.Expressions.ParameterExpression
 Solti.Utils.Router.Extensions.RequestHandlerBuilder.RequestHandlerBuilder() -> void
-Solti.Utils.Router.Extensions.RequestHandlerBuilder.UserData.get -> System.Linq.Expressions.ParameterExpression
 Solti.Utils.Router.IConverter
 Solti.Utils.Router.IConverter.ConvertToString(object input, out string value) -> bool
 Solti.Utils.Router.IConverter.ConvertToValue(System.ReadOnlySpan<char> input, out object value) -> bool
@@ -80,10 +78,7 @@ static Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.Reques
 static Solti.Utils.Router.RouteTemplate.CreateCompiler(string template, System.Collections.Generic.IReadOnlyDictionary<string, Solti.Utils.Router.ConverterFactory> converters = null, Solti.Utils.Router.SplitOptions splitOptions = null) -> Solti.Utils.Router.RouteTemplateCompiler
 static Solti.Utils.Router.RouteTemplate.Parse(string template, System.Collections.Generic.IReadOnlyDictionary<string, Solti.Utils.Router.ConverterFactory> converters = null, Solti.Utils.Router.SplitOptions splitOptions = null) -> Solti.Utils.Router.ParsedRoute
 static Solti.Utils.Router.SplitOptions.Default.get -> Solti.Utils.Router.SplitOptions
-virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateLambda(Solti.Utils.Router.ParsedRoute route, System.Reflection.MethodInfo invokeServiceMethod, object userData) -> System.Linq.Expressions.LambdaExpression
 virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateService(System.Type serviceType, object userData) -> System.Linq.Expressions.Expression
 virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod.get -> System.Reflection.MethodInfo
 virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetArgumentName(System.Reflection.ParameterInfo arg) -> string
 virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo param, System.Type serviceType, object userData) -> System.Linq.Expressions.Expression
-virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo param, Solti.Utils.Router.ParsedRoute route, object userData) -> System.Linq.Expressions.Expression
-virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute route, System.Reflection.MethodInfo invokeServiceMethod, object userData) -> System.Linq.Expressions.Expression

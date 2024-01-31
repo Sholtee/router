@@ -71,6 +71,13 @@ namespace Solti.Utils.Router
     public delegate Expression<RequestHandler> RequestHandlerFactory(ParsedRoute route, IReadOnlyDictionary<string, int> shortcuts);
 
     /// <summary>
+    /// Creates a handler for a particular route.
+    /// </summary>
+    /// <param name="route">The route which is the create handler created for.</param>
+    /// <param name="shortcuts">Shortcuts for parameters (to get them by id rather than name)</param>
+    public delegate LambdaExpression UntypedRequestHandlerFactory(ParsedRoute route, IReadOnlyDictionary<string, int> shortcuts);
+
+    /// <summary>
     /// Handler for known routes.
     /// </summary>
     /// <param name="paramz">The request parameters.</param>

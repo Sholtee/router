@@ -18,7 +18,7 @@ namespace Solti.Utils.Router.Internals
     /// <summary>
     /// Dictionary having predefined keys
     /// </summary>
-    internal sealed class StaticDictionary(IReadOnlyList<string> keys, LookupDelegate<StaticDictionary.ValueWrapper> lookup) : IReadOnlyDictionary<string, object?>, IElementAccessByInternalId
+    internal sealed class StaticDictionary(IReadOnlyList<string> keys, LookupDelegate<StaticDictionary.ValueWrapper> lookup) : IReadOnlyDictionary<string, object?>, IParamAccessByInternalId
     {
         public struct ValueWrapper
         {
@@ -95,29 +95,31 @@ namespace Solti.Utils.Router.Internals
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public object? GetElementByInternalId(int internalId)
+        public object? this[int internalId]
         {
-            if (internalId >= 0 && internalId < FValues.Length)
+            get
             {
-                ValueWrapper val = FValues[internalId];
-                if (val.Assigned)
-                    return val.Value;
-            }
-            throw new ArgumentException(Resources.INVALID_ID, nameof(internalId));
-        }
-
-        public void SetElementByInternalId(int internalId, object? value)
-        {
-            if (internalId < 0 || internalId >= FValues.Length)
+                if (internalId >= 0 && internalId < FValues.Length)
+                {
+                    ValueWrapper val = FValues[internalId];
+                    if (val.Assigned)
+                        return val.Value;
+                }
                 throw new ArgumentException(Resources.INVALID_ID, nameof(internalId));
-
-            ref ValueWrapper val = ref FValues[internalId];
-            val.Value = value;
-
-            if (!val.Assigned)
+            }
+            set
             {
-                val.Assigned = true;
-                Count++;
+                if (internalId < 0 || internalId >= FValues.Length)
+                    throw new ArgumentException(Resources.INVALID_ID, nameof(internalId));
+
+                ref ValueWrapper val = ref FValues[internalId];
+                val.Value = value;
+
+                if (!val.Assigned)
+                {
+                    val.Assigned = true;
+                    Count++;
+                }
             }
         }
     }

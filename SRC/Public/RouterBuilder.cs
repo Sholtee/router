@@ -111,7 +111,7 @@ namespace Solti.Utils.Router
             FMoveNext     = MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.MoveNext()),
             FDispose      = MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.Dispose()),
             FSplit        = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
-            FAddParam     = MethodInfoExtractor.Extract<StaticDictionary>(static dict => dict.SetElementByInternalId(default, null)),
+            FAddParam     = MethodInfoExtractor.Extract(static () => AddParam(null!, 0, null)),
             FEquals       = MethodInfoExtractor.Extract(static () => Equals(string.Empty, string.Empty, default)),
             FMemoryEquals = ((MemoryEqualsDelegate) MemoryEquals).Method, // MethodInfoExtractor.Extract(static () => MemoryEquals(default, string.Empty, default)),
             FConvert      = MethodInfoExtractor.Extract<IConverter, object?>(static (c, output) => c.ConvertToValue(null!, out output));
@@ -141,6 +141,9 @@ namespace Solti.Utils.Router
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool MemoryEquals(ReadOnlySpan<char> left, string right, StringComparison comparison) => left.Equals(right.AsSpan(), comparison);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void AddParam(StaticDictionary paramz, int id, object? value) => paramz[id] = value;
 
         private Expression BuildJunction(Junction junction, IReadOnlyDictionary<string, int> shortcuts)
         {
@@ -180,8 +183,8 @@ namespace Solti.Utils.Router
                     {
                         Expression.Call
                         (
-                            FParams,
                             FAddParam,
+                            FParams,
                             Expression.Constant(shortcuts[junction.Segment.Name]),
                             FConverted
                         )
@@ -355,7 +358,7 @@ namespace Solti.Utils.Router
                 route,
                 FExceptionHandlers.Select
                 (
-                    static (LambdaExpression exceptionHandler) =>
+                    static exceptionHandler =>
                     {
                         Type excType = exceptionHandler.Parameters.Last().Type;
                         Debug.Assert(typeof(Exception).IsAssignableFrom(excType), "Not an exception handler");

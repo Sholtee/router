@@ -178,6 +178,15 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no shortcut defined..
+        /// </summary>
+        internal static string NO_SHORTCUT {
+            get {
+                return ResourceManager.GetString("NO_SHORTCUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameter must be defined in the route template..
         /// </summary>
         internal static string PARAM_NOT_DEFINED {

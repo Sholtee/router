@@ -1,23 +1,21 @@
 ﻿/********************************************************************************
-* IElementAccessByInternalId.cs                                                 *
+* IParamAccessByInternalId.cs                                                   *
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 namespace Solti.Utils.Router
 {
     /// <summary>
-    /// Provides quick access to elements by id rather than name.
+    /// Provides quick access to parameters by id rather than name.
     /// </summary>
-    public interface IElementAccessByInternalId
+    public interface IParamAccessByInternalId
     {
-        /// <summary>
-        /// Sets the element by its <paramref name="internalId"/>.
-        /// </summary>
-        void SetElementByInternalId(int internalId, object? value);
-
         /// <summary>
         /// Gets the element by its <paramref name="internalId"/>.
         /// </summary>
-        object? GetElementByInternalId(int internalId);
+        object? this[int internalId]
+        {
+            get; internal set;
+        }
     }
 }

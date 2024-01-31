@@ -107,8 +107,8 @@ namespace Solti.Utils.Router.Tests
             builder.RegisterKey("key2");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
-            dict.SetElementByInternalId(shortcuts["key1"], "value");
-            dict.SetElementByInternalId(shortcuts["key2"], 1986);
+            dict[shortcuts["key1"]] = "value";
+            dict[shortcuts["key2"]] = 1986;
             Assert.That(dict["key1"], Is.EqualTo("value"));
             Assert.That(dict["key2"], Is.EqualTo(1986));
         }
@@ -121,11 +121,11 @@ namespace Solti.Utils.Router.Tests
             builder.RegisterKey("key2");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
-            dict.SetElementByInternalId(shortcuts["key1"], "value");
-            dict.SetElementByInternalId(shortcuts["key2"], 1986);
+            dict[shortcuts["key1"]] = "value";
+            dict[shortcuts["key2"]] = 1986;
 
-            Assert.That(dict.GetElementByInternalId(shortcuts["key1"]), Is.EqualTo("value"));
-            Assert.That(dict.GetElementByInternalId(shortcuts["key2"]), Is.EqualTo(1986));
+            Assert.That(dict[shortcuts["key1"]], Is.EqualTo("value"));
+            Assert.That(dict[shortcuts["key2"]], Is.EqualTo(1986));
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace Solti.Utils.Router.Tests
             builder.RegisterKey("key2");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
-            dict.SetElementByInternalId(shortcuts["key1"], "value");
+            dict[shortcuts["key1"]] = "value";
             Assert.That(dict.TryGetValue("key1", out object? val));
             Assert.That(val, Is.EqualTo("value"));
         }
@@ -149,7 +149,7 @@ namespace Solti.Utils.Router.Tests
             builder.RegisterKey("key2");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
-            dict.SetElementByInternalId(shortcuts["key1"], "value");
+            dict[shortcuts["key1"]] = "value";
             Assert.That(dict.Keys.Single(), Is.EqualTo("key1"));
         }
 
@@ -161,7 +161,7 @@ namespace Solti.Utils.Router.Tests
             builder.RegisterKey("key2");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
-            dict.SetElementByInternalId(shortcuts["key1"], "value");
+            dict[shortcuts["key1"]] = "value";
             Assert.False(dict.ContainsKey("invalid"));
             Assert.False(dict.ContainsKey("key2"));
             Assert.True(dict.ContainsKey("key1"));
@@ -174,7 +174,7 @@ namespace Solti.Utils.Router.Tests
             builder.RegisterKey("key");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
-            dict.SetElementByInternalId(shortcuts["key"], "value");
+            dict[shortcuts["key"]] = "value";
             Assert.That(dict.Values.Single(), Is.EqualTo("value"));
         }
 
@@ -185,7 +185,7 @@ namespace Solti.Utils.Router.Tests
             builder.RegisterKey("key");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
-            dict.SetElementByInternalId(shortcuts["key"], "value");
+            dict[shortcuts["key"]] = "value";
             Assert.That(dict.Count, Is.EqualTo(1));
         }
 
@@ -196,7 +196,7 @@ namespace Solti.Utils.Router.Tests
             builder.RegisterKey("key");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
-            dict.SetElementByInternalId(shortcuts["key"], "value");
+            dict[shortcuts["key"]] = "value";
             Assert.That(dict.SequenceEqual(new[] { new KeyValuePair<string, object?>("key", "value") }));
         }
     }
