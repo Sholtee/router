@@ -100,32 +100,55 @@ namespace Solti.Utils.Router.Tests
         }
 
         [Test]
-        public void Get_ShouldReturnTheCorrectValue()
+        public void Get_ShouldReturnTheCorrectValue([Values(0, 1, 2, 5, 10, 20, 100)]int keyCount)
         {
             StaticDictionaryBuilder builder = new();
-            builder.RegisterKey("key1");
-            builder.RegisterKey("key2");
+            for (int i = 0; i < keyCount; i++)
+            {
+                builder.RegisterKey($"key{i}");
+            }
+
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
+            Assert.That(shortcuts.Count, Is.EqualTo(keyCount));
+
             Compiler.Compile();
-            dict[shortcuts["key1"]] = "value";
-            dict[shortcuts["key2"]] = 1986;
-            Assert.That(dict["key1"], Is.EqualTo("value"));
-            Assert.That(dict["key2"], Is.EqualTo(1986));
+
+            for (int i = 0; i < keyCount; i++)
+            {
+                Assert.That(shortcuts.TryGetValue($"key{i}", out int id));
+                dict[id] = $"value{i}";
+            }
+
+            for (int i = 0; i < keyCount; i++)
+            {
+                Assert.That(dict[$"key{i}"], Is.EqualTo($"value{i}"));
+            }
         }
 
         [Test]
-        public void GetById_ShouldReturnTheCorrectValue()
+        public void GetById_ShouldReturnTheCorrectValue([Values(0, 1, 2, 5, 10, 20, 100)] int keyCount)
         {
             StaticDictionaryBuilder builder = new();
-            builder.RegisterKey("key1");
-            builder.RegisterKey("key2");
-            StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
-            Compiler.Compile();
-            dict[shortcuts["key1"]] = "value";
-            dict[shortcuts["key2"]] = 1986;
+            for (int i = 0; i < keyCount; i++)
+            {
+                builder.RegisterKey($"key{i}");
+            }
 
-            Assert.That(dict[shortcuts["key1"]], Is.EqualTo("value"));
-            Assert.That(dict[shortcuts["key2"]], Is.EqualTo(1986));
+            StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
+            Assert.That(shortcuts.Count, Is.EqualTo(keyCount));
+
+            Compiler.Compile();
+
+            for (int i = 0; i < keyCount; i++)
+            {
+                Assert.That(shortcuts.TryGetValue($"key{i}", out int id));
+                dict[id] = $"value{i}";
+            }
+
+            for (int i = 0; i < keyCount; i++)
+            {
+                Assert.That(dict[shortcuts[$"key{i}"]], Is.EqualTo($"value{i}"));
+            }
         }
 
         [Test]
