@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using BenchmarkDotNet.Attributes;
 
@@ -13,7 +14,6 @@ namespace Solti.Utils.Router.Perf
 {
     using Internals;
     using Primitives;
-    using System.Linq;
 
     [MemoryDiagnoser]
     public class StaticDictionary

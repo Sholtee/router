@@ -6,11 +6,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 #if NETFRAMEWORK
 using System.Linq;
 #endif
 using System.Net;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 using Moq;
 using NUnit.Framework;
@@ -229,6 +231,48 @@ namespace Solti.Utils.Router.Tests
             Router router = bldr.Build();
             Assert.That(router(userData, "/cica", "POST") is true);
             mockDefaultHandler.Verify(h => h.Invoke(userData, HttpStatusCode.MethodNotAllowed), Times.Once);
+        }
+    }
+
+    [TestFixture]
+    public class RouterDelegateStressTests
+    {
+        [Test]
+        public async Task ConductStressTest([Values(1, 5, 10, 100, 500, 750)]int routeCount, [Values(true, false)] bool hasParams)
+        {
+            AsyncRouterBuilder bldr = AsyncRouterBuilder.Create();
+
+            for (int i = 0; i < routeCount; i++)
+            {
+                int paramIndex = 0;
+                string route = "/" + string.Join
+                (
+                    "/",
+                    Enumerable
+                        .Repeat("segment", i)
+                        .Select((segment, i) => hasParams && i % 2 == 0 ? $"{{param{paramIndex++}:str}}" : segment + i)
+                );
+
+                int capture = i;
+
+                bldr.AddRoute(route, handler: (paramz, _) => $"result{capture}");
+            }
+
+            AsyncRouter router = bldr.Build();
+
+            for (int i = 0; i < routeCount; i++)
+            {
+                string route = "/" + string.Join
+                (
+                    "/",
+                    Enumerable.Repeat("segment", i).Select((segment, i) => segment + i)
+                );
+                object? result = await router(null, route);
+
+                int capture = i;
+
+                Assert.That(result, Is.EqualTo($"result{capture}"));
+            }
         }
     }
 }
