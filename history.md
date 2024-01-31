@@ -50,3 +50,8 @@
   - *improved:* Routing performance
 - 4.0.3:
   - *improved:* Code optimizations
+- 5.0.0:
+  - *breaking*: Slightly modified `RequestHandlerBuilder` layout
+  - *improved:* Parameter processing
+  - *introduced:* `IParamAccessByInternalId` interface
+  - *introduced:* Request parameters can be accessed by their internal id
