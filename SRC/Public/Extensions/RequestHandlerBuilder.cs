@@ -23,7 +23,8 @@ namespace Solti.Utils.Router.Extensions
     /// <code>
     /// (IReadOnlyDictionary&lt;string, object?&gt; paramz, object? userData) =>
     /// {
-    ///     return ((IserviceProvider) userData).GetService(typeof(IMyService)).MyHandler((TArg1) paramz["arg1"], (TArg2) paramz["arg2"]);
+    ///     IElementAccessByInternalId elementAccess = (IElementAccessByInternalId) paramz;
+    ///     return ((IserviceProvider) userData).GetService(typeof(IMyService)).MyHandler((TArg1) elementAccess[internalId_1], (TArg2) elementAccess[internalId_2]);
     /// }
     /// </code>
     /// </remarks>
@@ -149,12 +150,12 @@ namespace Solti.Utils.Router.Extensions
         /// <remarks>
         /// <code>
         /// IElementAccessByInternalId elementAccess = (IElementAccessByInternalId) paramz;
-        /// MyHandler((TArg1) elementAccess.GetElementByInternalId(...), (TArg2) elementAccess.GetElementByInternalId(...))
+        /// MyHandler((TArg1) elementAccess[internalId_1], (TArg2) elementAccess[internalId_2])
         /// </code>
         /// </remarks>
-        #if DEBUG
+#if DEBUG
         internal
-        #endif
+#endif
         protected virtual Expression InvokeService(ParsedRoute route, MethodInfo invokeServiceMethod, IReadOnlyDictionary<string, int> shortcuts, object? userData)
         {
             List<Expression> block =
@@ -206,7 +207,7 @@ namespace Solti.Utils.Router.Extensions
         /// (IReadOnlyDictionary&lt;string, object?&gt; paramz, object? userData) =>
         /// {
         ///     IElementAccessByInternalId elementAccess = (IElementAccessByInternalId) paramz;
-        ///     return ((IserviceProvider) userData).GetService((TArg1) elementAccess.GetElementByInternalId(...), (TArg2) elementAccess.GetElementByInternalId(...));
+        ///     return ((IserviceProvider) userData).GetService(typeof(IMyService)).MyHandler((TArg1) elementAccess[internalId_1], (TArg2) elementAccess[internalId_2]);
         /// }
         /// </code>
         /// </remarks>
