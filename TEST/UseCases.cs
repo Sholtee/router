@@ -439,11 +439,11 @@ namespace Solti.Utils.Router.Tests
                 return base.GetCreateServiceArgument(param, serviceType, userData);
             }
 
-            protected internal override Expression GetInvokeServiceArgument(ParameterInfo param, ParsedRoute route, object? userData)
+            protected internal override Expression GetInvokeServiceArgument(ParameterInfo param, ParsedRoute route, IReadOnlyDictionary<string, int> shortcuts, object? userData)
             {
                 return param.Name == "body"
                     ? Expression.Invoke(Expression.Constant((Func<object, string>) GetBody), UserData)
-                    : base.GetInvokeServiceArgument(param, route, userData);
+                    : base.GetInvokeServiceArgument(param, route, shortcuts, userData);
 
                 static string GetBody(object userData)
                 {

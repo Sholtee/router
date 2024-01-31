@@ -13,6 +13,7 @@ namespace Solti.Utils.Router.Perf
 {
     using Internals;
     using Primitives;
+    using System.Linq;
 
     [MemoryDiagnoser]
     public class StaticDictionary
@@ -21,6 +22,8 @@ namespace Solti.Utils.Router.Perf
         public int ItemCount { get; set; }
 
         private string[] Keys = null!;
+
+        private int[] Ids = null!;
 
         private readonly Random Random = new();
 
@@ -55,9 +58,8 @@ namespace Solti.Utils.Router.Perf
         public void RegularDictAdd() => RegularDictInst[Keys[Random.Next(ItemCount)]] = null;
 
         private Internals.StaticDictionary StaticDictInst = null!;
-
-        [GlobalSetup(Target = nameof(StaticDictGet))]
-        public void SetupStaticDictGet()
+    
+        private void SetupStaticDictGet()
         {
             StaticDictionaryBuilder bldr = new();
             Keys = new string[ItemCount];
@@ -67,17 +69,28 @@ namespace Solti.Utils.Router.Perf
             }
 
             DelegateCompiler compiler = new();
-            StaticDictInst = bldr.CreateFactory(compiler).Invoke();
+            StaticDictInst = bldr.CreateFactory(compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();     
             compiler.Compile();
+
+            Ids = shortcuts.Values.ToArray();
 
             for (int i = 0; i < ItemCount; i++)
             {
-                StaticDictInst.Add(Keys[i], null);
+                StaticDictInst[shortcuts[Keys[i]]] = null;
             }
         }
 
+        [GlobalSetup(Target = nameof(StaticDictGetByName))]
+        public void SetupStaticDictGetByName() => SetupStaticDictGet();
+
         [Benchmark]
-        public object? StaticDictGet() => StaticDictInst[Keys[Random.Next(ItemCount)]];
+        public object? StaticDictGetByName() => StaticDictInst[Keys[Random.Next(ItemCount)]];
+
+        [GlobalSetup(Target = nameof(StaticDictGetById))]
+        public void SetupStaticDictGetById() => SetupStaticDictGet();
+
+        [Benchmark]
+        public object? StaticDictGetById() => StaticDictInst[Ids[Random.Next(ItemCount)]];
 
         [GlobalSetup(Target = nameof(StaticDictAdd))]
         public void SetupStaticDictAdd()
@@ -88,13 +101,15 @@ namespace Solti.Utils.Router.Perf
             {
                 bldr.RegisterKey(Keys[i] = Path.GetRandomFileName());
             }
-
+ 
             DelegateCompiler compiler = new();
-            StaticDictInst = bldr.CreateFactory(compiler).Invoke();
+            StaticDictInst = bldr.CreateFactory(compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
+
+            Ids = shortcuts.Values.ToArray();
             compiler.Compile();
         }
 
         [Benchmark]
-        public void StaticDictAdd() => StaticDictInst.Add(Keys[Random.Next(ItemCount)], null);
+        public void StaticDictAdd() => StaticDictInst[Ids[Random.Next(ItemCount)]] = null;
     }
 }

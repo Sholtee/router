@@ -151,6 +151,15 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid ID..
+        /// </summary>
+        internal static string INVALID_ID {
+            get {
+                return ResourceManager.GetString("INVALID_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The given path is not valid: &quot;{0}&quot;.
         /// </summary>
         internal static string INVALID_PATH {
@@ -165,6 +174,15 @@ namespace Solti.Utils.Router.Properties {
         internal static string INVALID_TEMPLATE {
             get {
                 return ResourceManager.GetString("INVALID_TEMPLATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no shortcut defined..
+        /// </summary>
+        internal static string NO_SHORTCUT {
+            get {
+                return ResourceManager.GetString("NO_SHORTCUT", resourceCulture);
             }
         }
         

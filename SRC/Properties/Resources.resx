@@ -147,11 +147,17 @@
   <data name="INVALID_HEX" xml:space="preserve">
     <value>Invalid HEX value</value>
   </data>
+  <data name="INVALID_ID" xml:space="preserve">
+    <value>Invalid ID.</value>
+  </data>
   <data name="INVALID_PATH" xml:space="preserve">
     <value>The given path is not valid: "{0}"</value>
   </data>
   <data name="INVALID_TEMPLATE" xml:space="preserve">
     <value>Invalid template.</value>
+  </data>
+  <data name="NO_SHORTCUT" xml:space="preserve">
+    <value>There is no shortcut defined.</value>
   </data>
   <data name="PARAM_NOT_DEFINED" xml:space="preserve">
     <value>Parameter must be defined in the route template.</value>

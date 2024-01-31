@@ -31,17 +31,22 @@ namespace Solti.Utils.Router.Extensions
     {
         private static readonly MethodInfo
             FGetService = MethodInfoExtractor.Extract<IServiceProvider>(static sp => sp.GetService(null)),
-            FGetParam   = MethodInfoExtractor.Extract<IReadOnlyDictionary<string, object?>, object?>(static dict => dict[null!]);
+            FGetParam   = MethodInfoExtractor.Extract<IParamAccessByInternalId, object?>(static dict => dict[0]);
 
         /// <summary>
         /// Expression reflecting the "userData" parameter of <see cref="RequestHandler{TResult}.Invoke(IReadOnlyDictionary{string, object?}, object?)"/>
         /// </summary>
-        protected ParameterExpression UserData { get; } = Expression.Parameter(typeof(object), "userData");  // TODO: make this property static in the next major version
+        protected static ParameterExpression UserData { get; } = Expression.Parameter(typeof(object), "userData");
 
         /// <summary>
         /// Expression reflecting the "paramz" parameter of <see cref="RequestHandler{TResult}.Invoke(IReadOnlyDictionary{string, object?}, object?)"/>
         /// </summary>
-        protected ParameterExpression ParamsDict { get; } = Expression.Parameter(typeof(IReadOnlyDictionary<string, object?>), "paramz");  // TODO: make this property static in the next major version
+        protected static ParameterExpression ParamsDict { get; } = Expression.Parameter(typeof(IReadOnlyDictionary<string, object?>), "paramz");
+
+        /// <summary>
+        /// Expression reflecting the <see cref="IParamAccessByInternalId"/> variable.
+        /// </summary>
+        protected static ParameterExpression ElementAccess { get; } = Expression.Variable(typeof(IParamAccessByInternalId), "elementAccess");
 
         /// <summary>
         /// Specifies how to create the service instance. The default implementation uses the <see cref="IServiceProvider"/> interface.
@@ -98,7 +103,7 @@ namespace Solti.Utils.Router.Extensions
         #if DEBUG
         internal
         #endif
-        protected virtual Expression GetInvokeServiceArgument(ParameterInfo param, ParsedRoute route, object? userData)
+        protected virtual Expression GetInvokeServiceArgument(ParameterInfo param, ParsedRoute route, IReadOnlyDictionary<string, int> shortcuts, object? userData)
         {
             if (param.ParameterType.IsByRef)
                 throw new ArgumentException(BY_REF_PARAMETER, param.Name);
@@ -120,13 +125,19 @@ namespace Solti.Utils.Router.Extensions
                 throw ex;
             }
 
+            if (!shortcuts.TryGetValue(name, out int id))
+            {
+                ArgumentException ex = new(NO_SHORTCUT, param.Name);
+                throw ex;
+            }
+
             return Expression.Convert
             (
                 Expression.Call
                 (
-                    ParamsDict,
+                    ElementAccess,
                     FGetParam,
-                    Expression.Constant(name)
+                    Expression.Constant(id)
                 ),
                 param.ParameterType
             );
@@ -137,28 +148,54 @@ namespace Solti.Utils.Router.Extensions
         /// </summary>
         /// <remarks>
         /// <code>
-        /// MyHandler((TArg1) paramz["arg1"], (TArg2) paramz["arg2"])
+        /// IElementAccessByInternalId elementAccess = (IElementAccessByInternalId) paramz;
+        /// MyHandler((TArg1) elementAccess.GetElementByInternalId(...), (TArg2) elementAccess.GetElementByInternalId(...))
         /// </code>
         /// </remarks>
         #if DEBUG
         internal
         #endif
-        protected virtual Expression InvokeService(ParsedRoute route, MethodInfo invokeServiceMethod, object? userData)
+        protected virtual Expression InvokeService(ParsedRoute route, MethodInfo invokeServiceMethod, IReadOnlyDictionary<string, int> shortcuts, object? userData)
         {
-            Expression call = Expression.Call
-            (
-                CreateService(invokeServiceMethod.ReflectedType, userData),
-                invokeServiceMethod,
-                invokeServiceMethod.GetParameters().Select(arg => GetInvokeServiceArgument(arg, route, userData))
-            );
-            return invokeServiceMethod.ReturnType != typeof(void)
-                ? call
-                : Expression.Block
+            List<Expression> block =
+            [
+                Expression.Assign
                 (
-                   type: typeof(object),
-                   call,
-                   Expression.Constant(null, typeof(object))
+                    ElementAccess,
+                    Expression.Convert
+                    (
+                        ParamsDict,
+                        typeof(IParamAccessByInternalId)
+                    )
+                ),
+                Expression.Call
+                (
+                    CreateService(invokeServiceMethod.ReflectedType, userData),
+                    invokeServiceMethod,
+                    invokeServiceMethod
+                        .GetParameters()
+                        .Select(arg => GetInvokeServiceArgument(arg, route, shortcuts, userData))
+                )
+            ];
+
+            Type blockType;
+
+            if (invokeServiceMethod.ReturnType == typeof(void))
+            {
+                blockType = typeof(object);
+                block.Add
+                (
+                    Expression.Constant(null, typeof(object))
                 );
+            }
+            else blockType = invokeServiceMethod.ReturnType;
+
+            return Expression.Block
+            (
+                type: blockType,
+                variables: new ParameterExpression[] { ElementAccess },
+                block
+            );
         }
 
         /// <summary>
@@ -168,36 +205,37 @@ namespace Solti.Utils.Router.Extensions
         /// <code>
         /// (IReadOnlyDictionary&lt;string, object?&gt; paramz, object? userData) =>
         /// {
-        ///     return ((IserviceProvider) userData).GetService(typeof(IMyService)).MyHandler((TArg1) paramz["arg1"], (TArg2) paramz["arg2"]);
+        ///     IElementAccessByInternalId elementAccess = (IElementAccessByInternalId) paramz;
+        ///     return ((IserviceProvider) userData).GetService((TArg1) elementAccess.GetElementByInternalId(...), (TArg2) elementAccess.GetElementByInternalId(...));
         /// }
         /// </code>
         /// </remarks>
-        public virtual LambdaExpression CreateLambda(ParsedRoute route, MethodInfo invokeServiceMethod, object? userData)
+        public virtual UntypedRequestHandlerFactory CreateFactory(MethodInfo invokeServiceMethod, object? userData)
         {
-            if (route is null)
-                throw new ArgumentNullException(nameof(route));
-
             if (invokeServiceMethod is null)
                 throw new ArgumentNullException(nameof(invokeServiceMethod));
 
             if (invokeServiceMethod.IsGenericMethodDefinition || invokeServiceMethod.IsStatic || (!invokeServiceMethod.ReflectedType.IsInterface && invokeServiceMethod.IsAbstract))
                 throw new ArgumentException(INVALID_HANDLER, nameof(invokeServiceMethod));
 
-            LambdaExpression lambda = Expression.Lambda
-            (
-                typeof(RequestHandler<>).MakeGenericType
+            return (route, shortcuts) =>
+            {
+                LambdaExpression lambda = Expression.Lambda
                 (
-                    invokeServiceMethod.ReturnType != typeof(void)
-                        ? invokeServiceMethod.ReturnType
-                        : typeof(object)
-                ),
-                InvokeService(route, invokeServiceMethod, userData),
-                ParamsDict,
-                UserData
-            );
-            Debug.WriteLine(lambda.GetDebugView());
+                    typeof(RequestHandler<>).MakeGenericType
+                    (
+                        invokeServiceMethod.ReturnType != typeof(void)
+                            ? invokeServiceMethod.ReturnType
+                            : typeof(object)
+                    ),
+                    InvokeService(route, invokeServiceMethod, shortcuts, userData),
+                    ParamsDict,
+                    UserData
+                );
+                Debug.WriteLine(lambda.GetDebugView());
 
-            return lambda;
+                return lambda;
+            };
         }
     }
 }

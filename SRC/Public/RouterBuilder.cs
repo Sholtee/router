@@ -17,6 +17,7 @@ namespace Solti.Utils.Router
     using Internals;
     using Primitives;
     using Properties;
+    using System.Collections.ObjectModel;
 
     /// <summary>
     /// Builds the <see cref="Router"/> delegate that does the actual routing.
@@ -94,11 +95,13 @@ namespace Solti.Utils.Router
     public sealed class RouterBuilder
     {
         #region Private
+        private delegate Expression<RequestHandler> SimpleRequestHandlerFactory(IReadOnlyDictionary<string, int> shortcuts);
+
         private sealed class Junction
         {
             public RouteSegment? Segment { get; init; }  // null at "/"
             // order doesn't matter
-            public Dictionary<string, Expression<RequestHandler>> Handlers { get; } = new(StringComparer.OrdinalIgnoreCase);
+            public Dictionary<string, SimpleRequestHandlerFactory> Handlers { get; } = new(StringComparer.OrdinalIgnoreCase);
             public List<Junction> Children { get; } = new();
         }
 
@@ -108,7 +111,7 @@ namespace Solti.Utils.Router
             FMoveNext     = MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.MoveNext()),
             FDispose      = MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.Dispose()),
             FSplit        = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
-            FAddParam     = MethodInfoExtractor.Extract<StaticDictionary>(static dict => dict.Add(null!, null)),
+            FAddParam     = MethodInfoExtractor.Extract(static () => AddParam(null!, 0, null)),
             FEquals       = MethodInfoExtractor.Extract(static () => Equals(string.Empty, string.Empty, default)),
             FMemoryEquals = ((MemoryEqualsDelegate) MemoryEquals).Method, // MethodInfoExtractor.Extract(static () => MemoryEquals(default, string.Empty, default)),
             FConvert      = MethodInfoExtractor.Extract<IConverter, object?>(static (c, output) => c.ConvertToValue(null!, out output));
@@ -139,7 +142,10 @@ namespace Solti.Utils.Router
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool MemoryEquals(ReadOnlySpan<char> left, string right, StringComparison comparison) => left.Equals(right.AsSpan(), comparison);
 
-        private Expression BuildJunction(Junction junction)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void AddParam(StaticDictionary paramz, int id, object? value) => paramz[id] = value;
+
+        private Expression BuildJunction(Junction junction, IReadOnlyDictionary<string, int> shortcuts)
         {
             if (junction.Segment is null)  // root node, no segment
                 return Expression.Block
@@ -177,9 +183,9 @@ namespace Solti.Utils.Router
                     {
                         Expression.Call
                         (
-                            FParams,
                             FAddParam,
-                            Expression.Constant(junction.Segment.Name),
+                            FParams,
+                            Expression.Constant(shortcuts[junction.Segment.Name]),
                             FConverted
                         )
                     }.Concat
@@ -206,7 +212,7 @@ namespace Solti.Utils.Router
                     (
                         junction
                             .Children
-                            .Select(BuildJunction)
+                            .Select(child => BuildJunction(child, shortcuts))
                             .Append
                             (
                                 Return
@@ -227,16 +233,16 @@ namespace Solti.Utils.Router
                 //    return XyzHandler(...);
                 //
 
-                foreach (IGrouping<Expression<RequestHandler>, KeyValuePair<string, Expression<RequestHandler>>> handlerGroup in junction.Handlers.GroupBy(static handler => handler.Value))
+                foreach (IGrouping<SimpleRequestHandlerFactory, string> handlerGroup in junction.Handlers.GroupBy(static fact => fact.Value, static fact => fact.Key))
                 {
                     yield return Expression.IfThen
                     (
                         handlerGroup
-                            .Select(handler => Equals(FMethod, Expression.Constant(handler.Key), FEquals))
+                            .Select(static supportedMethod => Equals(FMethod, Expression.Constant(supportedMethod), FEquals))
                             .Aggregate(static (accu, curr) => Expression.Or(accu, curr)),
                         Return
                         (
-                            handlerGroup.Key,
+                            handlerGroup.Key(shortcuts),
                             FParams,
                             FUserData
                         )
@@ -244,7 +250,7 @@ namespace Solti.Utils.Router
                 }
 
                 //
-                // return DEfaultHandler(state, HttpStatusCode.[xXx]);
+                // return DefaultHandler(state, HttpStatusCode.[xXx]);
                 //
 
                 yield return Return
@@ -267,7 +273,6 @@ namespace Solti.Utils.Router
                 right,
                 Expression.Constant(StringComparison.OrdinalIgnoreCase)
             );
-
         }
 
         private static Expression Return(LambdaExpression lambda, params Expression[] paramz) => Expression.Return
@@ -322,7 +327,7 @@ namespace Solti.Utils.Router
 
         internal FutureDelegate<Router> Build(DelegateCompiler compiler)
         {
-            StaticDictionaryFactory createParamzDict = FParameters.CreateFactory(compiler);
+            StaticDictionaryFactory createParamzDict = FParameters.CreateFactory(compiler, out IReadOnlyDictionary<string, int> shortcuts);
 
             Expression route = Expression.Block
             (
@@ -343,7 +348,7 @@ namespace Solti.Utils.Router
                                 Expression.Constant(createParamzDict)
                             )
                         ),
-                        BuildJunction(FRoot)
+                        BuildJunction(FRoot, shortcuts)
                     ),
                     @finally: Expression.Call(FSegments, FDispose)
                 )
@@ -353,7 +358,7 @@ namespace Solti.Utils.Router
                 route,
                 FExceptionHandlers.Select
                 (
-                    (LambdaExpression exceptionHandler) =>
+                    static exceptionHandler =>
                     {
                         Type excType = exceptionHandler.Parameters.Last().Type;
                         Debug.Assert(typeof(Exception).IsAssignableFrom(excType), "Not an exception handler");
@@ -453,16 +458,16 @@ namespace Solti.Utils.Router
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered.</param>
-        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
+        /// <param name="handlerFactory">Delegate responsible for creating the handler function.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(ParsedRoute route, Expression<RequestHandler> handlerExpr, params string[] methods)
+        public void AddRoute(ParsedRoute route, RequestHandlerFactory handlerFactory, params string[] methods)
         {
             if (route is null)
                 throw new ArgumentNullException(nameof(route));
 
-            if (handlerExpr is null)
-                throw new ArgumentNullException(nameof(handlerExpr));
+            if (handlerFactory is null)
+                throw new ArgumentNullException(nameof(handlerFactory));
 
             if (methods is null)
                 throw new ArgumentNullException(nameof(methods));
@@ -505,12 +510,12 @@ namespace Solti.Utils.Router
                 if (string.IsNullOrEmpty(method))
                     throw new ArgumentException(Resources.EMPTY_METHOD, nameof(methods));
 #if NETSTANDARD2_1_OR_GREATER
-                if (target.Handlers.TryAdd(method, handlerExpr))
+                if (target.Handlers.TryAdd(method, shortcuts => handlerFactory(route, shortcuts)))
                     continue;
 #else
                 if (!target.Handlers.ContainsKey(method))
                 {
-                    target.Handlers.Add(method, handlerExpr);
+                    target.Handlers.Add(method, shortcuts => handlerFactory(route, shortcuts));
                     continue;
                 }
 #endif
@@ -521,6 +526,21 @@ namespace Solti.Utils.Router
             {
                 FParameters.RegisterKey(variable);
             }
+        }
+
+        /// <summary>
+        /// Registers a new route.
+        /// </summary>
+        /// <param name="route">Route to be registered.</param>
+        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
+        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
+        /// <exception cref="ArgumentException">If the route already registered.</exception>
+        public void AddRoute(ParsedRoute route, Expression<RequestHandler> handlerExpr, params string[] methods)
+        {
+            if (handlerExpr is null)
+                throw new ArgumentNullException(nameof(handlerExpr));
+
+            AddRoute(route, (_, _) => handlerExpr, methods);
         }
 
         /// <summary>

@@ -41,11 +41,11 @@ namespace Solti.Utils.Router
 
         private static readonly MethodInfo
             #pragma warning disable CS4014
-            FConvertSingleTask = MethodInfoExtractor.Extract(static () => Convert((Task) null!)), 
-            FConvertTypedTask  = MethodInfoExtractor.Extract(static () => Convert((Task<object>) null!)).GetGenericMethodDefinition(),
+            FConvertSingleTask = MethodInfoExtractor.Extract(static () => Convert((Task)null!)),
+            FConvertTypedTask = MethodInfoExtractor.Extract(static () => Convert((Task<object>)null!)).GetGenericMethodDefinition(),
             #pragma warning restore CS4014
-            FGetType           = MethodInfoExtractor.Extract<object>(static o => o.GetType()),
-            FTaskFromResult    = MethodInfoExtractor.Extract(static () => Task.FromResult((object?) null));
+            FGetType = MethodInfoExtractor.Extract<object>(static o => o.GetType()),
+            FTaskFromResult = MethodInfoExtractor.Extract(static () => Task.FromResult((object?)null));
 
         private readonly RouterBuilder FUnderlyingBuilder;
 
@@ -54,7 +54,7 @@ namespace Solti.Utils.Router
         private static LambdaExpression Wrap(LambdaExpression sourceDelegate, Type destinationDelegate)
         {
             Type originalReturnType = sourceDelegate.ReturnType;
-            
+
             ParameterExpression[] paramz = destinationDelegate
                 .GetMethod(nameof(Action.Invoke))
                 .GetParameters()
@@ -117,7 +117,7 @@ namespace Solti.Utils.Router
                         Expression.Call(exc, FGetType),
                         FExceptionHandlers.Select
                         (
-                            (LambdaExpression exceptionHandler) =>
+                            exceptionHandler =>
                             {
                                 Type excType = exceptionHandler.Parameters.Last().Type;
                                 Debug.Assert(typeof(Exception).IsAssignableFrom(excType), "Not an exception handler");
@@ -230,19 +230,40 @@ namespace Solti.Utils.Router
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
+        /// <param name="handlerFactory">Delegate responsible for creating the handler function.</param>
+        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
+        /// <exception cref="ArgumentException">If the route already registered.</exception>
+        public void AddRoute(ParsedRoute route, UntypedRequestHandlerFactory handlerFactory, params string[] methods)
+        {
+            if (handlerFactory is null)
+                throw new ArgumentNullException(nameof(handlerFactory));
+
+            FUnderlyingBuilder.AddRoute
+            (
+                route ?? throw new ArgumentNullException(nameof(route)),
+                (route, shortcuts) =>
+                {
+                    LambdaExpression handlerExpr = handlerFactory(route, shortcuts);
+                    CheckHandler(handlerExpr, typeof(RequestHandler<>));
+                    return Wrap<RequestHandler>(handlerExpr);
+                },
+                methods ?? throw new ArgumentNullException(nameof(methods))
+            );
+        }
+
+        /// <summary>
+        /// Registers a new route.
+        /// </summary>
+        /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
         /// <param name="handlerExpr">Function accepting requests on the given route. You may pass async and sync callbacks as well.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
         public void AddRoute(ParsedRoute route, LambdaExpression handlerExpr, params string[] methods)
         {
-            CheckHandler(handlerExpr, typeof(RequestHandler<>));
+            if (handlerExpr is null)
+                throw new ArgumentNullException(nameof(handlerExpr));
 
-            FUnderlyingBuilder.AddRoute
-            (
-                route ?? throw new ArgumentNullException(nameof(route)),
-                Wrap<RequestHandler>(handlerExpr),
-                methods ?? throw new ArgumentNullException(nameof(methods))
-            );
+            AddRoute(route, (_, _) => handlerExpr, methods);
         }
 
         /// <summary>

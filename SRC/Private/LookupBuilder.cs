@@ -31,7 +31,7 @@ namespace Solti.Utils.Router.Internals
 
         private readonly RedBlackTree<string> FTree;
 
-        private Expression ProcessNode(RedBlackTreeNode<string>? node, ref int index)
+        private Expression ProcessNode(RedBlackTreeNode<string>? node, IDictionary<string, int> shortcuts)
         {
             if (node is null)
                 return Expression.Goto(FFound, Expression.Constant(-1));
@@ -52,15 +52,22 @@ namespace Solti.Utils.Router.Internals
                 Expression.IfThen
                 (
                     Expression.LessThan(FOrder, Expression.Constant(0)),
-                    ProcessNode(node.Left, ref index)
+                    ProcessNode(node.Left, shortcuts)
                 ),
                 Expression.IfThen
                 (
                     Expression.GreaterThan(FOrder, Expression.Constant(0)),
-                    ProcessNode(node.Right, ref index)
+                    ProcessNode(node.Right, shortcuts)
                 ),
-                Expression.Goto(FFound, Expression.Constant(index++))
+                Expression.Goto(FFound, Expression.Constant(CreateEntry()))
             );
+
+            int CreateEntry()
+            {
+                int id = shortcuts.Count;
+                shortcuts.Add(node!.Data, id);
+                return id;
+            }
         }
 
         public LookupBuilder(IComparer<string> comparer)
@@ -81,9 +88,9 @@ namespace Solti.Utils.Router.Internals
             }
         }
 
-        public LookupDelegate<TData> Build(DelegateCompiler compiler, out int arSize)
+        public LookupDelegate<TData> Build(DelegateCompiler compiler, out IReadOnlyDictionary<string, int> shortcuts)
         {
-            arSize = 0;
+            Dictionary<string, int> dict = [];
 
             Expression<Func<string, int>> getIndexExpr = Expression.Lambda<Func<string, int>>
             (
@@ -91,15 +98,16 @@ namespace Solti.Utils.Router.Internals
                 (
                     type: typeof(int),
                     variables: new ParameterExpression[] { FOrder },
-                    ProcessNode(FTree.Root, ref arSize),
+                    ProcessNode(FTree.Root, dict),
                     Expression.Label(FFound, Expression.Constant(-1))
                 ),
                 FKey
             );
 
             Debug.WriteLine(getIndexExpr.GetDebugView());
-
             FutureDelegate<Func<string, int>> getIndex = compiler.Register(getIndexExpr);
+
+            shortcuts = dict;
             return GetValue;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]

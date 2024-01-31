@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
 using System.Collections;
 using System.Collections.Generic;
 #if !DEBUG
@@ -12,40 +13,30 @@ using System.Runtime.CompilerServices;
 
 namespace Solti.Utils.Router.Internals
 {
+    using Properties;
+
     /// <summary>
     /// Dictionary having predefined keys
     /// </summary>
-    internal sealed class StaticDictionary: IReadOnlyDictionary<string, object?>
+    internal sealed class StaticDictionary(IReadOnlyList<string> keys, LookupDelegate<StaticDictionary.ValueWrapper> lookup) : IReadOnlyDictionary<string, object?>, IParamAccessByInternalId
     {
         public struct ValueWrapper
         {
             public bool Assigned;
             public object? Value;
         }
-#if !DEBUG  // inspecting all keys can be confusing
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-#endif
-        private readonly IReadOnlyList<string> FKeys;
 
-        private readonly LookupDelegate<ValueWrapper> FLookup;
-#if !DEBUG
+        #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-#endif
-        private readonly ValueWrapper[] FValues;
-
-        public StaticDictionary(IReadOnlyList<string> keys, LookupDelegate<ValueWrapper> lookup)
-        {
-            FKeys   = keys;
-            FLookup = lookup;
-            FValues = new ValueWrapper[keys.Count];
-        }
+        #endif
+        private readonly ValueWrapper[] FValues = new ValueWrapper[keys.Count];
 
         public object? this[string key]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                ref ValueWrapper val = ref FLookup(FValues, key);
+                ref ValueWrapper val = ref lookup(FValues, key);
                 if (!val.Assigned)
                     throw new KeyNotFoundException(key);
 
@@ -57,9 +48,9 @@ namespace Solti.Utils.Router.Internals
         {
             get
             {
-                foreach (string key in FKeys)
+                foreach (string key in keys)
                 {
-                    if (FLookup(FValues, key).Assigned)
+                    if (lookup(FValues, key).Assigned)
                         yield return key;
                 }
             }
@@ -77,19 +68,6 @@ namespace Solti.Utils.Router.Internals
         }
 
         public int Count { get; private set; }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Add(string key, object? value)
-        {
-            ref ValueWrapper val = ref FLookup(FValues, key);
-            val.Value = value;
-
-            if (!val.Assigned)
-            {
-                val.Assigned = true;
-                Count++;
-            }
-        }
 
         public bool ContainsKey(string key) => TryGetValue(key, out _);
 
@@ -116,5 +94,33 @@ namespace Solti.Utils.Router.Internals
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public object? this[int internalId]
+        {
+            get
+            {
+                if (internalId >= 0 && internalId < FValues.Length)
+                {
+                    ValueWrapper val = FValues[internalId];
+                    if (val.Assigned)
+                        return val.Value;
+                }
+                throw new ArgumentException(Resources.INVALID_ID, nameof(internalId));
+            }
+            set
+            {
+                if (internalId < 0 || internalId >= FValues.Length)
+                    throw new ArgumentException(Resources.INVALID_ID, nameof(internalId));
+
+                ref ValueWrapper val = ref FValues[internalId];
+                val.Value = value;
+
+                if (!val.Assigned)
+                {
+                    val.Assigned = true;
+                    Count++;
+                }
+            }
+        }
     }
 }
