@@ -1,12 +1,1 @@
-﻿Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute! route, Solti.Utils.Router.UntypedRequestHandlerFactory! handlerFactory, params string![]! methods) -> void
-Solti.Utils.Router.IParamAccessByInternalId
-Solti.Utils.Router.IParamAccessByInternalId.this[int internalId].get -> object?
-Solti.Utils.Router.RequestHandlerFactory
-Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute! route, Solti.Utils.Router.RequestHandlerFactory! handlerFactory, params string![]! methods) -> void
-Solti.Utils.Router.UntypedRequestHandlerFactory
-static Solti.Utils.Router.Extensions.RequestHandlerBuilder.ElementAccess.get -> System.Linq.Expressions.ParameterExpression!
-static Solti.Utils.Router.Extensions.RequestHandlerBuilder.ParamsDict.get -> System.Linq.Expressions.ParameterExpression!
-static Solti.Utils.Router.Extensions.RequestHandlerBuilder.UserData.get -> System.Linq.Expressions.ParameterExpression!
-virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateFactory(System.Reflection.MethodInfo! invokeServiceMethod, object? userData) -> Solti.Utils.Router.UntypedRequestHandlerFactory!
-virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo! param, Solti.Utils.Router.ParsedRoute! route, System.Collections.Generic.IReadOnlyDictionary<string!, int>! shortcuts, object? userData) -> System.Linq.Expressions.Expression!
-virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute! route, System.Reflection.MethodInfo! invokeServiceMethod, System.Collections.Generic.IReadOnlyDictionary<string!, int>! shortcuts, object? userData) -> System.Linq.Expressions.Expression!
+﻿
