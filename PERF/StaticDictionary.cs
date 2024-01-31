@@ -76,7 +76,7 @@ namespace Solti.Utils.Router.Perf
 
             for (int i = 0; i < ItemCount; i++)
             {
-                StaticDictInst.SetElementByInternalId(shortcuts[Keys[i]], null);
+                StaticDictInst[shortcuts[Keys[i]]] = null;
             }
         }
 
@@ -90,7 +90,7 @@ namespace Solti.Utils.Router.Perf
         public void SetupStaticDictGetById() => SetupStaticDictGet();
 
         [Benchmark]
-        public object? StaticDictGetById() => StaticDictInst.GetElementByInternalId(Ids[Random.Next(ItemCount)]);
+        public object? StaticDictGetById() => StaticDictInst[Ids[Random.Next(ItemCount)]];
 
         [GlobalSetup(Target = nameof(StaticDictAdd))]
         public void SetupStaticDictAdd()
@@ -110,6 +110,6 @@ namespace Solti.Utils.Router.Perf
         }
 
         [Benchmark]
-        public void StaticDictAdd() => StaticDictInst.SetElementByInternalId(Ids[Random.Next(ItemCount)], null);
+        public void StaticDictAdd() => StaticDictInst[Ids[Random.Next(ItemCount)]] = null;
     }
 }

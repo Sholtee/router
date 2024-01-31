@@ -43,14 +43,6 @@ namespace Solti.Utils.Router.Tests
             Assert.Throws<ArgumentException>(() => builder.AddRoute(b, DummyHandler));
         }
 
-        [Test]
-        public void AddRouteShouldThrowOnInvalidHandler()
-        {
-            AsyncRouterBuilder builder = AsyncRouterBuilder.Create<Task<object?>>(handler: (_, _) => { Assert.Fail(); return null!; }, DefaultConverters.Instance);
-
-            Assert.Throws<ArgumentException>(() => builder.AddRoute(RouteTemplate.Parse("/"), () => Console.WriteLine("")), Resources.INVALID_HANDLER);
-        }
-
         [TestCase("/{param:int}/cica", "/{param:int}/cica")]
         [TestCase("/{param:int}/cica", "/{param2:int}/cica")]
         [TestCase("/cica/{param:int}", "/cica/{param2:int}")]
@@ -190,6 +182,15 @@ namespace Solti.Utils.Router.Tests
 
             routes.ForEach((route, _) => registrar(route, builder));
             Assert.DoesNotThrow(() => builder.Build());
+        }
+
+        [Test]
+        public void BuildShouldThrowOnInvalidHandler()
+        {
+            AsyncRouterBuilder builder = AsyncRouterBuilder.Create<Task<object?>>(handler: (_, _) => { Assert.Fail(); return null!; }, DefaultConverters.Instance);
+            builder.AddRoute(RouteTemplate.Parse("/"), () => Console.WriteLine(""));
+
+            Assert.Throws<ArgumentException>(() => builder.Build(), Resources.INVALID_HANDLER);
         }
     }
 }
