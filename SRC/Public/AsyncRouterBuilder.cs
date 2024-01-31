@@ -42,10 +42,10 @@ namespace Solti.Utils.Router
         private static readonly MethodInfo
             #pragma warning disable CS4014
             FConvertSingleTask = MethodInfoExtractor.Extract(static () => Convert((Task)null!)),
-            FConvertTypedTask = MethodInfoExtractor.Extract(static () => Convert((Task<object>)null!)).GetGenericMethodDefinition(),
+            FConvertTypedTask  = MethodInfoExtractor.Extract(static () => Convert((Task<object>)null!)).GetGenericMethodDefinition(),
             #pragma warning restore CS4014
-            FGetType = MethodInfoExtractor.Extract<object>(static o => o.GetType()),
-            FTaskFromResult = MethodInfoExtractor.Extract(static () => Task.FromResult((object?)null));
+            FGetType           = MethodInfoExtractor.Extract<object>(static o => o.GetType()),
+            FTaskFromResult    = MethodInfoExtractor.Extract(static () => Task.FromResult((object?)null));
 
         private readonly RouterBuilder FUnderlyingBuilder;
 

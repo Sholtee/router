@@ -17,7 +17,6 @@ namespace Solti.Utils.Router
     using Internals;
     using Primitives;
     using Properties;
-    using System.Collections.ObjectModel;
 
     /// <summary>
     /// Builds the <see cref="Router"/> delegate that does the actual routing.
