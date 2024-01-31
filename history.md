@@ -54,4 +54,5 @@
   - *breaking*: Slightly modified `RequestHandlerBuilder` layout
   - *improved:* Parameter processing
   - *introduced:* `IParamAccessByInternalId` interface
+  - *introduced:* `[Async]RouterBuilder.AddRoute()` overloads
   - *introduced:* Request parameters can be accessed by their internal id
