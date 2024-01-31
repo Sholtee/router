@@ -269,9 +269,8 @@ namespace Solti.Utils.Router.Tests
                 );
                 object? result = await router(null, route);
 
-                int capture = i;
-
-                Assert.That(result, Is.EqualTo($"result{capture}"));
+      
+                Assert.That(result, Is.EqualTo($"result{i}"));
             }
         }
     }
