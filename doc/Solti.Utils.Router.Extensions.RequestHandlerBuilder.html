@@ -59,7 +59,8 @@
   <h5 id="Solti_Utils_Router_Extensions_RequestHandlerBuilder_remarks"><strong>Remarks</strong></h5>
   <div class="markdown level0 remarks"><pre><code>(IReadOnlyDictionary&lt;string, object?> paramz, object? userData) =>
 {
-    return ((IserviceProvider) userData).GetService(typeof(IMyService)).MyHandler((TArg1) paramz[&quot;arg1&quot;], (TArg2) paramz[&quot;arg2&quot;]);
+    IElementAccessByInternalId elementAccess = (IElementAccessByInternalId) paramz;
+    return ((IserviceProvider) userData).GetService(typeof(IMyService)).MyHandler((TArg1) elementAccess[internalId_1], (TArg2) elementAccess[internalId_2]);
 }</code></pre>
 </div>
   <h3 id="constructors">Constructors
@@ -222,7 +223,7 @@
   <div class="markdown level1 remarks"><pre><code>(IReadOnlyDictionary&lt;string, object?> paramz, object? userData) =>
 {
     IElementAccessByInternalId elementAccess = (IElementAccessByInternalId) paramz;
-    return ((IserviceProvider) userData).GetService((TArg1) elementAccess.GetElementByInternalId(...), (TArg2) elementAccess.GetElementByInternalId(...));
+    return ((IserviceProvider) userData).GetService(typeof(IMyService)).MyHandler((TArg1) elementAccess[internalId_1], (TArg2) elementAccess[internalId_2]);
 }</code></pre>
 </div>
   <a id="Solti_Utils_Router_Extensions_RequestHandlerBuilder_CreateService_" data-uid="Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateService*"></a>
@@ -483,7 +484,7 @@
   </table>
   <h5 id="Solti_Utils_Router_Extensions_RequestHandlerBuilder_InvokeService_Solti_Utils_Router_ParsedRoute_System_Reflection_MethodInfo_System_Collections_Generic_IReadOnlyDictionary_System_String_System_Int32__System_Object__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><pre><code>IElementAccessByInternalId elementAccess = (IElementAccessByInternalId) paramz;
-MyHandler((TArg1) elementAccess.GetElementByInternalId(...), (TArg2) elementAccess.GetElementByInternalId(...))</code></pre>
+MyHandler((TArg1) elementAccess[internalId_1], (TArg2) elementAccess[internalId_2])</code></pre>
 </div>
 </article>
           </div>
