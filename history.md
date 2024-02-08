@@ -51,8 +51,10 @@
 - 4.0.3:
   - *improved:* Code optimizations
 - 5.0.0:
-  - *breaking*: Slightly modified `RequestHandlerBuilder` layout
+  - *breaking:* Slightly modified `RequestHandlerBuilder` layout
   - *improved:* Parameter processing
   - *introduced:* `IParamAccessByInternalId` interface
   - *introduced:* `[Async]RouterBuilder.AddRoute()` overloads
   - *introduced:* Request parameters can be accessed by their internal id
+- 5.0.1:
+  - *fixed:* `UrlEncode` could produce invalid output
