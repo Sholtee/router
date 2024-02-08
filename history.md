@@ -60,3 +60,5 @@
   - *fixed:* `UrlEncode` could produce invalid output
 - 5.0.2:
   - *fixed:* Use proper format provider in `UrlEncode`
+- 5.0.3:
+  - *fixed:* Use proper format provider in `PathSplitter`
