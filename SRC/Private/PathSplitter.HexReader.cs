@@ -43,7 +43,7 @@ namespace Solti.Utils.Router.Internals
                         FInput.Substring(pos, 4),
 #endif
                         NumberStyles.HexNumber,
-                        null,
+                        CultureInfo.InvariantCulture,
                         out ushort chr
                     )
                 )
@@ -74,7 +74,7 @@ namespace Solti.Utils.Router.Internals
                         FInput.Substring(pos, 2),
 #endif
                         NumberStyles.HexNumber,
-                        null,
+                        CultureInfo.InvariantCulture,
                         out FBytes[FByteCount]  // do not increment FByteCount till it is sure that everything was allright
                     )
                 )
