@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System.Globalization;
 using System.Text;
 
 namespace Solti.Utils.Router.Internals
@@ -23,7 +24,7 @@ namespace Solti.Utils.Router.Internals
                 {
                     stringBuilder.Append('%');
                     stringBuilder.Append('u');
-                    stringBuilder.Append(((int) chr).ToString("X4"));
+                    stringBuilder.Append(((int) chr).ToString("X4", CultureInfo.InvariantCulture));
                 }
                 else
                 {
@@ -37,7 +38,7 @@ namespace Solti.Utils.Router.Internals
 
                         byte[] bytes = encoding.GetBytes(new char[] { chr });
                         for (int j = 0; j < bytes.Length; j++)
-                            stringBuilder.Append(bytes[j].ToString("X2"));
+                            stringBuilder.Append(bytes[j].ToString("X2", CultureInfo.InvariantCulture));
                     }
                 }
             }
