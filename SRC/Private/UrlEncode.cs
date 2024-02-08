@@ -23,7 +23,7 @@ namespace Solti.Utils.Router.Internals
                 {
                     stringBuilder.Append('%');
                     stringBuilder.Append('u');
-                    stringBuilder.Append((int)chr);
+                    stringBuilder.Append(((int) chr).ToString("X4"));
                 }
                 else
                 {
@@ -37,7 +37,7 @@ namespace Solti.Utils.Router.Internals
 
                         byte[] bytes = encoding.GetBytes(new char[] { chr });
                         for (int j = 0; j < bytes.Length; j++)
-                            stringBuilder.Append(bytes[j]);
+                            stringBuilder.Append(bytes[j].ToString("X2"));
                     }
                 }
             }

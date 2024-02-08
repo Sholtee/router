@@ -45,11 +45,6 @@ namespace Solti.Utils.Router.Internals
             FBuffer[Length++] = chr;
         }
 
-        public void Append(int ordinal) => Append
-        (
-            ordinal.ToString("X")
-        );
-
         public override string ToString() => new(FBuffer, 0, Length);
 
         public void Clear() => Length = 0;
