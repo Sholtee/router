@@ -58,3 +58,5 @@
   - *introduced:* Request parameters can be accessed by their internal id
 - 5.0.1:
   - *fixed:* `UrlEncode` could produce invalid output
+- 5.0.2:
+  - *fixed:* Use proper format provider in `UrlEncode`
