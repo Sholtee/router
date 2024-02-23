@@ -5,32 +5,113 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Linq;
-
-#if !NETSTANDARD2_1_OR_GREATER
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-#endif
 
 namespace Solti.Utils.Router.Internals
 {
-#if !NETSTANDARD2_1_OR_GREATER
     using Primitives;
-#endif
+
     using static Properties.Resources;
 
     internal sealed class EnumConverter : ConverterBase
     {
-#if !NETSTANDARD2_1_OR_GREATER
-        private static readonly MethodInfo FTryParseGen = MethodInfoExtractor
-            .Extract<int>(static i => Enum.TryParse(null!, true, out i))
-            .GetGenericMethodDefinition();
+        #region Helpers
+        private delegate bool ConvertStringDelegate(ReadOnlySpan<char> str, out object ret);
 
-        private delegate bool TryParse(string input, out object? value);
+        private delegate string AsStringDelegate(ReadOnlySpan<char> input);
 
-        private readonly TryParse FTryParse;
-#endif
+        private static ConvertStringDelegate CreateConverter(Type type)
+        {
+            ParameterExpression
+                input  = Expression.Parameter(typeof(ReadOnlySpan<char>), nameof(input)),
+                result = Expression.Parameter(typeof(object).MakeByRefType(), nameof(result)),
+                ret    = Expression.Parameter(type, nameof(ret));
+
+            MethodCallExpression tryParseExpr;
+
+            MethodInfo? tryParse = typeof(Enum)
+                .GetMethods(BindingFlags.Public | BindingFlags.Static)
+                .SingleOrDefault
+                (
+                    static m =>
+                    {
+                        if (m.Name != nameof(Enum.TryParse) || !m.ContainsGenericParameters)
+                            return false;
+
+                        ParameterInfo[] paramz = m.GetParameters();
+                        if (paramz.Length != 3)
+                            return false;
+
+                        return
+                            paramz[0].ParameterType == typeof(ReadOnlySpan<char>) &&
+                            paramz[1].ParameterType == typeof(bool) &&
+                            paramz[2].ParameterType == m.GetGenericArguments()[0].MakeByRefType();
+                    }
+                );
+            if (tryParse is not null)
+            {
+                tryParseExpr = Expression.Call
+                (
+                    tryParse.MakeGenericMethod(type),
+                    input,
+                    Expression.Constant(true),
+                    ret
+                );
+            }
+            else
+            {
+                tryParse = MethodInfoExtractor
+                    .Extract<int>(static val => Enum.TryParse(default, false, out val))
+                    .GetGenericMethodDefinition()
+                    .MakeGenericMethod(type);
+
+                tryParseExpr = Expression.Call
+                (
+                    tryParse,
+                    Expression.Invoke
+                    (
+                        Expression.Constant((AsStringDelegate) MemoryExtensions.AsString),
+                        input
+                    ),
+                    Expression.Constant(true),
+                    ret
+                );
+            }
+
+            Expression<ConvertStringDelegate> convertStringExpr = Expression.Lambda<ConvertStringDelegate>
+            (
+                Expression.Block
+                (
+                    type: typeof(bool),
+                    [ret],
+                    Expression.Condition
+                    (
+                        tryParseExpr,
+                        ifTrue: Expression.Block
+                        (
+                            type: typeof(bool),
+                            Expression.Assign
+                            (
+                                result,
+                                Expression.Convert(ret, typeof(object))
+                            ),
+                            Expression.Constant(true)
+                        ),
+                        ifFalse: Expression.Constant(false)
+                    )
+                ),
+                input,
+                result
+            );
+            Debug.WriteLine(convertStringExpr.GetDebugView());
+            return convertStringExpr.Compile();
+        }
+
+        private readonly ConvertStringDelegate FConvert;
+
         private static Type GetEnumType(string qualifiedName)
         {
             //
@@ -52,6 +133,7 @@ namespace Solti.Utils.Router.Internals
 
             return hits[0];
         }
+        #endregion
 
         public EnumConverter(string? style): base
         (
@@ -60,46 +142,7 @@ namespace Solti.Utils.Router.Internals
             (
                 style ?? throw new ArgumentException(string.Format(Culture, INVALID_FORMAT_STYLE, style), nameof(style))
             )
-        )
-        {
-#if !NETSTANDARD2_1_OR_GREATER
-            ParameterExpression
-                input  = Expression.Parameter(typeof(string), nameof(input)),
-                output = Expression.Parameter(typeof(object).MakeByRefType(), nameof(output)),
-                ret    = Expression.Variable(Type, nameof(ret));
-
-            LabelTarget exit = Expression.Label(typeof(bool), nameof(exit));
-
-            Expression<TryParse> tryParseExpr = Expression.Lambda<TryParse>
-            (
-                Expression.Block
-                (
-                    variables: new ParameterExpression[] { ret },
-                    Expression.IfThen
-                    (
-                        Expression.Call
-                        (
-                            FTryParseGen.MakeGenericMethod(Type),
-                            input,
-                            Expression.Constant(true),  // ignoreCase
-                            ret
-                        ),
-                        ifTrue: Expression.Block
-                        (
-                            Expression.Assign(output, Expression.Convert(ret, typeof(object))),
-                            Expression.Goto(exit, Expression.Constant(true))
-                        )
-                    ),
-                    Expression.Label(exit, Expression.Constant(false))
-                ),
-                input,
-                output
-            );
-            Debug.WriteLine(tryParseExpr.GetDebugView());
-
-            FTryParse = tryParseExpr.Compile();
-#endif
-        }
+        ) => FConvert = CreateConverter(Type);
 
         public override bool ConvertToString(object? input, out string? value)
         {
@@ -113,11 +156,6 @@ namespace Solti.Utils.Router.Internals
             return true;
         }
 
-        public override bool ConvertToValue(ReadOnlySpan<char> input, out object? value) =>
-#if NETSTANDARD2_1_OR_GREATER
-            Enum.TryParse(Type, input.AsString(), ignoreCase: true, out value);
-#else
-            FTryParse(input.AsString(), out value);
-#endif
+        public override bool ConvertToValue(ReadOnlySpan<char> input, out object? value) => FConvert(input, out value);
     }
 }
