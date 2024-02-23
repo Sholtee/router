@@ -62,3 +62,5 @@
   - *fixed:* Use proper format provider in `UrlEncode`
 - 5.0.3:
   - *fixed:* Use proper format provider in `PathSplitter`
+- 5.0.4:
+  - *improved:* `EnumConverter` performance
