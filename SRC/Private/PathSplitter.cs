@@ -41,18 +41,35 @@ namespace Solti.Utils.Router.Internals
 
         public bool MoveNext()
         {
+            if (FInputPosition == FInput.Length)
+                return false;
+
             FOutputPosition = 0;
 
             for (; ; FInputPosition++)
             {
-                if (FInputPosition == FInput.Length)
-                {
+                ReadOnlySpan<char> chunk = FInput.AsSpan(FInputPosition);
+
+                int chrIndex = chunk.IndexOfAny('/', '%', '+');
+                if (chrIndex != 0 || chunk[chrIndex] != '%')
                     FlushHexChars();
+
+                if (chrIndex == -1)
+                {
+                    chunk.CopyTo(FOutput.AsSpan(FOutputPosition));
+
+                    FOutputPosition += chunk.Length;
+                    FInputPosition += chunk.Length;
+
                     return FOutputPosition > 0;
                 }
 
-                char c = FInput[FInputPosition];
-                switch (c)
+                chunk.Slice(0, chrIndex).CopyTo(FOutput.AsSpan().Slice(FOutputPosition));
+
+                FInputPosition += chrIndex;
+                FOutputPosition += chrIndex;
+
+                switch (chunk[chrIndex])
                 {
                     case '/':
                         //
@@ -66,7 +83,6 @@ namespace Solti.Utils.Router.Internals
                         // Ensure the chunk is not empty
                         //
 
-                        FlushHexChars();
                         if (FOutputPosition is 0)
                             throw InvalidPath(EMPTY_CHUNK);
 
@@ -77,17 +93,14 @@ namespace Solti.Utils.Router.Internals
                             throw InvalidPath(INVALID_HEX);
 
                         //
-                        // FResultBuffer remains untouched until the next FHexReader.Flush() call
+                        // FOutput remains untouched until the next FlushHexChars() call
                         //
 
-                        continue;
+                        break;
                     case '+' when FOptions.ConvertSpaces:
-                        c = ' ';
+                        FOutput[FOutputPosition++] = ' ';
                         break;
                 }
-
-                FlushHexChars();
-                FOutput[FOutputPosition++] = c;
             }
         }
 
