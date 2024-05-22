@@ -1,4 +1,4 @@
-[
+﻿[
 	// empty
 	{
 		"routes": {},
@@ -133,6 +133,26 @@
 			"a": null,
 			"a/b/c/d": null,
 			"a/b/d": null
+		}
+	},
+	// real-life
+	{
+		"routes": {
+			"/{user:str}/{repo:str}/commits/{branch:str}": "cb_1"
+		},
+		"cases": {
+			"sholtee/router/commits/main": {
+				"@callback": "cb_1",
+				"user": "sholtee",
+				"repo": "router",
+				"branch": "main"
+			},
+			"d%c3%a9nes/router/commits/main": {
+				"@callback": "cb_1",
+				"user": "dénes",
+				"repo": "router",
+				"branch": "main"
+			}
 		}
 	}
 ]
