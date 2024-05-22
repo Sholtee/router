@@ -66,3 +66,4 @@
   - *improved:* `EnumConverter` performance
 - 5.0.5:
   - *improved:* `PathSplitter` performance
+  - *removed:* Unsafe codes
