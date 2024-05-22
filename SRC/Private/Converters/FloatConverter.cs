@@ -36,11 +36,11 @@ namespace Solti.Utils.Router.Internals
             (
                 double.TryParse
                 (
-#if NETSTANDARD2_1_OR_GREATER
-                    input,
-#else
-                    input.AsString(),
+                    input
+#if !NETSTANDARD2_1_OR_GREATER
+                        .ToString()
 #endif
+                    ,
                     NumberStyles.Float,
                     CultureInfo.InvariantCulture,
                     out double parsed

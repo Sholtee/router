@@ -38,11 +38,11 @@ namespace Solti.Utils.Router.Internals
             (
                 DateTime.TryParseExact
                 (
-#if NETSTANDARD2_1_OR_GREATER
-                    input,
-#else
-                    input.AsString(),
+                    input
+#if !NETSTANDARD2_1_OR_GREATER
+                        .ToString()
 #endif
+                    ,
                     Style,
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal,

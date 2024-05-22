@@ -21,7 +21,7 @@ namespace Solti.Utils.Router.Tests
 
             while (self.MoveNext())
             {
-                yield return self.Current.AsString();
+                yield return self.Current.ToString();
             }
         }
     }

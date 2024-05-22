@@ -23,6 +23,8 @@ namespace Solti.Utils.Router.Internals
 
         private delegate string AsStringDelegate(ReadOnlySpan<char> input);
 
+        private static string SpanToString(ReadOnlySpan<char> span) => span.ToString();
+
         private static ConvertStringDelegate CreateConverter(Type type)
         {
             ParameterExpression
@@ -73,7 +75,7 @@ namespace Solti.Utils.Router.Internals
                     tryParse,
                     Expression.Invoke
                     (
-                        Expression.Constant((AsStringDelegate) MemoryExtensions.AsString),
+                        Expression.Constant((AsStringDelegate) SpanToString),
                         input
                     ),
                     Expression.Constant(true),

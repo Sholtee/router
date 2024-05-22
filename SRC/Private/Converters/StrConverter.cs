@@ -31,7 +31,7 @@ namespace Solti.Utils.Router.Internals
 
         public override bool ConvertToValue(ReadOnlySpan<char> input, out object? value)
         {
-            value = input.AsString();
+            value = input.ToString();
             return true;
         }
     }

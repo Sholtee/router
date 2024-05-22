@@ -340,9 +340,9 @@ namespace Solti.Utils.Router.Tests
 
             public override bool ConvertToValue(ReadOnlySpan<char> input, out object? value)
             {
-                Calls.Add(input.AsString());
+                Calls.Add(input.ToString());
 
-                if (!int.TryParse(input.AsString(), out int result))
+                if (!int.TryParse(input.ToString(), out int result))
                 {
                     value = null;
                     return false;

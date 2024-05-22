@@ -42,11 +42,11 @@ namespace Solti.Utils.Router.Internals
             (
                 int.TryParse
                 (
-#if NETSTANDARD2_1_OR_GREATER
-                    input,
-#else
-                    input.AsString(),
+                    input
+#if !NETSTANDARD2_1_OR_GREATER
+                        .ToString()
 #endif
+                    ,
                     StyleFlag,
                     CultureInfo.InvariantCulture,
                     out int parsed

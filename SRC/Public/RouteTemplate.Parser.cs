@@ -30,7 +30,7 @@ namespace Solti.Utils.Router
 
             while (segments.MoveNext())
             {
-                string segment = segments.Current.AsString();
+                string segment = segments.Current.ToString();
 
                 MatchCollection parsedSegment = FTemplateMatcher.Matches(segment);
 
