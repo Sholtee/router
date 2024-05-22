@@ -36,7 +36,7 @@ namespace Solti.Utils.Router.Internals
                     {
                         stringBuilder.Append('%');
 
-                        byte[] bytes = encoding.GetBytes([chr]);
+                        byte[] bytes = encoding.GetBytes(chars: [chr]);
                         for (int j = 0; j < bytes.Length; j++)
                             stringBuilder.Append(bytes[j].ToString("X2", CultureInfo.InvariantCulture));
                     }
