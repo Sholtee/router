@@ -94,11 +94,7 @@ namespace Solti.Utils.Router
                                 Expression.Block
                                 (
                                     type: typeof(string),
-                                    variables: new ParameterExpression[]
-                                    {
-                                        objValue,
-                                        strValue
-                                    },
+                                    variables: [objValue, strValue],
                                     Expression.IfThen
                                     (
                                         Expression.Or

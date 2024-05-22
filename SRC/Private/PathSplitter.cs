@@ -51,10 +51,10 @@ namespace Solti.Utils.Router.Internals
                 ReadOnlySpan<char> chunk = FInput.AsSpan(FInputPosition);
 
                 int chrIndex = chunk.IndexOfAny('/', '%', '+');
-                if (chrIndex != 0 || chunk[chrIndex] != '%')
+                if (chrIndex is not 0 || chunk[chrIndex] is not '%')
                     FlushHexChars();
 
-                if (chrIndex == -1)
+                if (chrIndex is -1)
                 {
                     chunk.CopyTo(FOutput.AsSpan(FOutputPosition));
 
