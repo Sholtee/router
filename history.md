@@ -64,3 +64,5 @@
   - *fixed:* Use proper format provider in `PathSplitter`
 - 5.0.4:
   - *improved:* `EnumConverter` performance
+- 5.0.5:
+  - *improved:* `PathSplitter` performance
