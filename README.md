@@ -291,4 +291,4 @@ void Validate(ParameterInfo[] expected, string route)
 - [Version History](https://github.com/Sholtee/router/blob/main/history.md )
 
 ## Supported frameworks
-This project currently targets *.NET Standard* 2.0 and 2.1.
+This project currently targets *.NET Standard* 2.0 and 2.1. and had been tested against `net472`, `netcoreapp3.1`, `net5.0`, `net6.0`, `net7.0` and `net8.0`.
