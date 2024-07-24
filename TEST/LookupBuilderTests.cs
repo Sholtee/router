@@ -5,6 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using NUnit.Framework;
 
@@ -61,12 +62,12 @@ namespace Solti.Utils.Router.Tests
         }
 
         [Test]
-        public void Lookup_ShouldThrowOnMissingItem()
+        public void Lookup_ShouldReturnNullOnMissingItem()
         {
             LookupBuilder<string> bldr = new(StringComparer.OrdinalIgnoreCase);
             LookupDelegate<string> lookup = bldr.Build(Compiler, out _);
             Compiler.Compile();
-            Assert.Throws<KeyNotFoundException>(() => lookup(Array.Empty<string>(), "cica"));
+            Assert.That(Unsafe.IsNullRef(ref lookup(Array.Empty<string>(), "cica")));
         }
     }
 }

@@ -36,11 +36,10 @@ namespace Solti.Utils.Router.Internals
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                ref ValueWrapper val = ref lookup(FValues, key);
-                if (!val.Assigned)
+                if (!TryGetValue(key, out object? value))
                     throw new KeyNotFoundException(key);
 
-                return val.Value;
+                return value;
             }
         }
 
@@ -81,16 +80,15 @@ namespace Solti.Utils.Router.Internals
 
         public bool TryGetValue(string key, out object? value)
         {
-            try
-            {
-                value = this[key];
-                return true;
-            }
-            catch (KeyNotFoundException)
+            ref ValueWrapper val = ref lookup(FValues, key);
+            if (Unsafe.IsNullRef(ref val) || !val.Assigned)
             {
                 value = null;
                 return false;
             }
+
+            value = val.Value;
+            return true;
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

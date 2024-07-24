@@ -115,7 +115,7 @@ namespace Solti.Utils.Router.Internals
             {
                 int index = getIndex.Value(key);
                 if (index < 0)
-                    throw new KeyNotFoundException(key);
+                    return ref Unsafe.NullRef<TData>();
 
                 Debug.Assert(index < dataArray.Length, "Miscalculated index");
 
