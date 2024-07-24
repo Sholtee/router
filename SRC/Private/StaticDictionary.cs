@@ -49,7 +49,7 @@ namespace Solti.Utils.Router.Internals
             {
                 foreach (string key in keys)
                 {
-                    if (lookup(FValues, key).Assigned)
+                    if (lookup(FValues, key.AsSpan()).Assigned)
                         yield return key;
                 }
             }
@@ -78,7 +78,7 @@ namespace Solti.Utils.Router.Internals
             }
         }
 
-        public bool TryGetValue(string key, out object? value)
+        public bool TryGetValue(ReadOnlySpan<char> key, out object? value)
         {
             ref ValueWrapper val = ref lookup(FValues, key);
             if (Unsafe.IsNullRef(ref val) || !val.Assigned)
@@ -90,6 +90,10 @@ namespace Solti.Utils.Router.Internals
             value = val.Value;
             return true;
         }
+
+
+        public bool TryGetValue(string key, out object? value) =>
+            TryGetValue(key.AsSpan(), out value);
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

@@ -10,24 +10,30 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
+using static System.StringComparer;
+
 namespace Solti.Utils.Router.Internals
 {
     using Primitives;
 
     internal sealed class LookupBuilder<TData>
     {
-        private static readonly MethodInfo FCompareTo = MethodInfoExtractor.Extract<IComparer<string>>
-        (
-            static cmp => cmp.Compare(null!, null!)
-        );
+        private delegate int GetIndexDelegate(ReadOnlySpan<char> key);
+
+        private delegate int CompareDelegate(string a, ReadOnlySpan<char> b, StringComparison comparison);
+
+        private static int Compare(string a, ReadOnlySpan<char> b, StringComparison comparison) =>
+            b.CompareTo(a.AsSpan(), comparison);
+
+        private static readonly MethodInfo FCompare = ((CompareDelegate) Compare).Method;
 
         private static readonly ParameterExpression
             FOrder = Expression.Variable(typeof(int), "order"),
-            FKey = Expression.Parameter(typeof(string), "key");
+            FKey = Expression.Parameter(typeof(ReadOnlySpan<char>), "key");
 
         private static readonly LabelTarget FFound = Expression.Label(type: typeof(int), "found");
 
-        private readonly IComparer<string> FComparer;
+        private readonly ConstantExpression FComparison;
 
         private readonly RedBlackTree<string> FTree;
 
@@ -43,10 +49,10 @@ namespace Solti.Utils.Router.Internals
                     FOrder,
                     Expression.Call
                     (
-                        Expression.Constant(FComparer),
-                        FCompareTo,
+                        FCompare,
+                        Expression.Constant(node.Data),
                         FKey,
-                        Expression.Constant(node.Data)
+                        FComparison
                     )
                 ),
                 Expression.IfThen
@@ -70,9 +76,19 @@ namespace Solti.Utils.Router.Internals
             }
         }
 
-        public LookupBuilder(IComparer<string> comparer)
+        public LookupBuilder(StringComparison comparison)
         {
-            FTree = new RedBlackTree<string>(FComparer = comparer);
+            FTree = new RedBlackTree<string>(comparison switch
+            {
+                StringComparison.CurrentCulture => CurrentCulture,
+                StringComparison.CurrentCultureIgnoreCase => CurrentCultureIgnoreCase,
+                StringComparison.InvariantCulture => InvariantCulture,
+                StringComparison.InvariantCultureIgnoreCase => InvariantCultureIgnoreCase,
+                StringComparison.Ordinal => Ordinal,
+                StringComparison.OrdinalIgnoreCase => OrdinalIgnoreCase,
+                _ => throw new NotSupportedException()
+            });
+            FComparison = Expression.Constant(comparison);
         }
 
         public bool CreateSlot(string name) => FTree.Add(name);
@@ -92,7 +108,7 @@ namespace Solti.Utils.Router.Internals
         {
             Dictionary<string, int> dict = [];
 
-            Expression<Func<string, int>> getIndexExpr = Expression.Lambda<Func<string, int>>
+            Expression<GetIndexDelegate> getIndexExpr = Expression.Lambda<GetIndexDelegate>
             (
                 Expression.Block
                 (
@@ -105,13 +121,13 @@ namespace Solti.Utils.Router.Internals
             );
 
             Debug.WriteLine(getIndexExpr.GetDebugView());
-            FutureDelegate<Func<string, int>> getIndex = compiler.Register(getIndexExpr);
+            FutureDelegate<GetIndexDelegate> getIndex = compiler.Register(getIndexExpr);
 
             shortcuts = dict;
             return GetValue;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            ref TData GetValue(TData[] dataArray, string key)
+            ref TData GetValue(TData[] dataArray, ReadOnlySpan<char> key)
             {
                 int index = getIndex.Value(key);
                 if (index < 0)

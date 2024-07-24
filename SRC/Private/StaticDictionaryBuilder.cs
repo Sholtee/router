@@ -13,7 +13,7 @@ namespace Solti.Utils.Router.Internals
 
     internal sealed class StaticDictionaryBuilder
     {
-        private readonly LookupBuilder<StaticDictionary.ValueWrapper> FLookupBuilder = new(StringComparer.Ordinal);
+        private readonly LookupBuilder<StaticDictionary.ValueWrapper> FLookupBuilder = new(StringComparison.Ordinal);
 
         public bool RegisterKey(string key) => FLookupBuilder.CreateSlot(key);
 
