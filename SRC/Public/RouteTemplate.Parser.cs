@@ -18,13 +18,13 @@ namespace Solti.Utils.Router
     public static partial class RouteTemplate
     {
         private static readonly Regex
-            FBaseUrlMatcher  = new("^(\\w+://)?(\\w+(\\.\\w+)+|localhost)(:\\d+)?", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+            FBaseUrlMatcher  = new("^(\\w+:\\/\\/)?(\\w+(\\.\\w+)+|localhost)(:\\d+)?", RegexOptions.Compiled | RegexOptions.IgnoreCase),
             FTemplateMatcher = new("{(?<content>.*)}", RegexOptions.Compiled), 
             FTemplateParser  = new("^(?<name>\\w+):(?<converter>\\w+)(?::(?<param>[\\w+.-]+)?)?$", RegexOptions.Compiled);
 
         private static IEnumerable<RouteSegment> ParseInternal(string template, IReadOnlyDictionary<string, ConverterFactory> converters, SplitOptions splitOptions)
         {
-            HashSet<string> paramz = new();
+            HashSet<string> paramz = [];
 
             using PathSplitter segments = PathSplitter.Split(template, splitOptions);
 
