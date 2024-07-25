@@ -18,15 +18,14 @@ namespace Solti.Utils.Router.Internals
         #region Private
         private readonly ReadOnlySpan<char> FInput;
 
-        private int FInputPosition;
+        private int
+            FInputPosition,
+            FByteCount,
+            FOutputPosition;
 
         private char[] FOutput;
 
-        private int FOutputPosition;
-
         private byte[]? FBytes;
-
-        private int FByteCount;
 
         private readonly SplitOptions FOptions;
 
@@ -38,7 +37,7 @@ namespace Solti.Utils.Router.Internals
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private InvalidOperationException InvalidPath(string err)
+        private readonly InvalidOperationException InvalidPath(string err)
         {
             InvalidOperationException ex = new(string.Format(Culture, INVALID_PATH, err));
             ex.Data["Path"] = FInput.ToString();
@@ -69,7 +68,7 @@ namespace Solti.Utils.Router.Internals
                     (
                         FInput.Slice(pos, 4)
 #if !NETSTANDARD2_1_OR_GREATER
-                        .ToString()
+                            .ToString()
 #endif
                         ,
                         NumberStyles.HexNumber,
@@ -102,7 +101,7 @@ namespace Solti.Utils.Router.Internals
                     (
                         FInput.Slice(pos, 2)
 #if !NETSTANDARD2_1_OR_GREATER
-                        .ToString()
+                            .ToString()
 #endif
                         ,
                         NumberStyles.HexNumber,
