@@ -25,7 +25,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void LookupBuilder_ShouldAssembleTheDesiredDelegate([Values(0, 1, 2, 3, 10, 20, 30)] int keys)
         {
-            LookupBuilder<string> bldr = new(StringComparison.OrdinalIgnoreCase);
+            LookupBuilder<string> bldr = new(ignoreCase: true);
 
             for (int i = 0; i < keys; i++)
             {
@@ -41,7 +41,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Lookup_ShouldFindItemByKey([Values(1, 2, 3, 10, 20, 30)] int keys)
         {
-            LookupBuilder<string> bldr = new(StringComparison.OrdinalIgnoreCase);
+            LookupBuilder<string> bldr = new(ignoreCase: true);
 
             for (int i = 0; i < keys; i++)
             {
@@ -64,7 +64,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Lookup_ShouldReturnNullOnMissingItem()
         {
-            LookupBuilder<string> bldr = new(StringComparison.OrdinalIgnoreCase);
+            LookupBuilder<string> bldr = new(ignoreCase: true);
             LookupDelegate<string> lookup = bldr.Build(Compiler, out _);
             Compiler.Compile();
             Assert.That(Unsafe.IsNullRef(ref lookup(Array.Empty<string>(), "cica".AsSpan())));
