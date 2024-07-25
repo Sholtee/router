@@ -75,7 +75,7 @@ namespace Solti.Utils.Router.Internals
 #endif
                         NumberStyles.HexNumber,
                         CultureInfo.InvariantCulture,
-                        out FBytes[FByteCount]  // do not increment FByteCount till it is sure that everything was allright
+                        out FBytes[FByteCount]  // do not increment FByteCount as long as it is sure that everything was allright
                     )
                 )
                     return false;
