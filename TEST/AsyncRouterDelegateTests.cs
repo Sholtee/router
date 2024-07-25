@@ -43,15 +43,15 @@ namespace Solti.Utils.Router.Tests
 
             AsyncRouter router = builder.Build();
 
-            Assert.That(await router(null, "/"), Is.False);
-            Assert.That(await router(null, "/cica"), Is.EqualTo(@case.Epxected));
+            Assert.That(await router(null, "/".AsSpan(), "GET".AsSpan()), Is.False);
+            Assert.That(await router(null, "/cica".AsSpan(), "GET".AsSpan()), Is.EqualTo(@case.Epxected));
         }
 
         [Test]
         public void DelegateShouldThrowOnUnregisteredRoute()
         {
             AsyncRouter router = AsyncRouterBuilder.Create().Build();
-            Assert.ThrowsAsync<InvalidOperationException>(async () => await router(null, "/cica"), Resources.ROUTE_NOT_REGISTERED);
+            Assert.ThrowsAsync<InvalidOperationException>(async () => await router(null, "/cica".AsSpan(), "GET".AsSpan()), Resources.ROUTE_NOT_REGISTERED);
         }
 
         public static IEnumerable<object> Exceptions
@@ -84,7 +84,7 @@ namespace Solti.Utils.Router.Tests
 
             AsyncRouter router = bldr.Build();
 
-            Assert.That(await router(userData, "/fail") is true);
+            Assert.That(await router(userData, "/fail".AsSpan(), "GET".AsSpan()) is true);
             mockExceptionHandler.Verify(h => h.Invoke(userData, ex), Times.Once);
             mockExceptionHandler.VerifyNoOtherCalls();
         }

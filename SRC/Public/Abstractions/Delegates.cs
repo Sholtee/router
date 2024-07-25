@@ -90,18 +90,18 @@ namespace Solti.Utils.Router
     /// </summary>
     /// <param name="userData">Custom user data to be passed to handlers.</param>
     /// <param name="path">Path where to route the request. Must NOT include the base URL.</param>
-    /// <param name="method">Method(s) to be accepted. "GET" is the default.</param>
+    /// <param name="method">Method(s) to be accepted.</param>
     /// <param name="splitOptions">Specifies how to split the <paramref name="path"/>.</param>
     /// <returns>The response object.</returns>
-    public delegate object? Router(object? userData, string path, string method = "GET", SplitOptions? splitOptions = null);
+    public delegate object? Router(object? userData, ReadOnlySpan<char> path, ReadOnlySpan<char> method, SplitOptions? splitOptions = null);
 
     /// <summary>
     /// Async router delegate.
     /// </summary>
     /// <param name="userData">Custom user data to be passed to handlers.</param>
     /// <param name="path">Path where to route the request. Must NOT include the base URL.</param>
-    /// <param name="method">Method(s) to be accepted. "GET" is the default.</param>
+    /// <param name="method">Method(s) to be accepted.</param>
     /// <param name="splitOptions">Specifies how to split the <paramref name="path"/>.</param>
     /// <returns>The response object.</returns>
-    public delegate Task<object?> AsyncRouter(object? userData, string path, string method = "GET", SplitOptions? splitOptions = null);
+    public delegate Task<object?> AsyncRouter(object? userData, ReadOnlySpan<char> path, ReadOnlySpan<char> method, SplitOptions? splitOptions = null);
 }

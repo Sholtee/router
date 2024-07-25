@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,7 +52,7 @@ namespace Solti.Utils.Router.Perf
         }
 
         [Benchmark]
-        public void Route() => Router(null, Input);
+        public void Route() => Router(null, Input.AsSpan(), "GET".AsSpan());
 
         public AsyncRouter AsyncRouter { get; set; } = null!;
 
@@ -68,6 +69,6 @@ namespace Solti.Utils.Router.Perf
         }
 
         [Benchmark]
-        public async Task<object?> AsyncRoute() => await AsyncRouter(null, Input);
+        public async Task<object?> AsyncRoute() => await AsyncRouter(null, Input.AsSpan(), "GET".AsSpan());
     }
 }

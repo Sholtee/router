@@ -22,22 +22,23 @@ namespace Solti.Utils.Router
             FTemplateMatcher = new("{(?<content>.*)}", RegexOptions.Compiled), 
             FTemplateParser  = new("^(?<name>\\w+):(?<converter>\\w+)(?::(?<param>[\\w+.-]+)?)?$", RegexOptions.Compiled);
 
-        private static IEnumerable<RouteSegment> ParseInternal(string template, IReadOnlyDictionary<string, ConverterFactory> converters, SplitOptions splitOptions)
+        private static IReadOnlyList<RouteSegment> ParseInternal(string template, IReadOnlyDictionary<string, ConverterFactory> converters, SplitOptions splitOptions)
         {
             HashSet<string> paramz = [];
+            List<RouteSegment> segments = [];
 
-            using PathSplitter segments = PathSplitter.Split(template, splitOptions);
+            using PathSplitter pathSplitter = PathSplitter.Split(template.AsSpan(), splitOptions);
 
-            while (segments.MoveNext())
+            while (pathSplitter.MoveNext())
             {
-                string segment = segments.Current.ToString();
+                string segment = pathSplitter.Current.ToString();
 
                 MatchCollection parsedSegment = FTemplateMatcher.Matches(segment);
 
                 switch (parsedSegment.Count)
                 {
                     case 0:
-                        yield return new RouteSegment(segment, null);
+                        segments.Add(new RouteSegment(segment, null));
                         break;
                     case 1:
                         Match parsed = FTemplateParser.Match(parsedSegment[0].GetGroup("content"));
@@ -69,12 +70,14 @@ namespace Solti.Utils.Router
                             converterInst = new ConverterWrapper(converterInst, prefix: extra[0], suffix: extra[1]);
                         }
 
-                        yield return new RouteSegment(name, converterInst);
+                        segments.Add(new RouteSegment(name, converterInst));
                         break;     
                     default:
                         throw new ArgumentException(TOO_MANY_PARAM_DESCRIPTOR, nameof(template));
                 }
             }
+
+            return segments;
         }
 
         /// <summary>

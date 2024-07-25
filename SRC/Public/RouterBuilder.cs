@@ -21,7 +21,7 @@ namespace Solti.Utils.Router
     /// <summary>
     /// Builds the <see cref="Router"/> delegate that does the actual routing.
     /// <code>
-    /// object Route(object? userData, string path, string method = "GET", SplitOptions? splitOptions = null)
+    /// object Route(object? userData, ReadOnlySpan&lt;char&gt; path, ReadOnlySpan&lt;char&gt; method, SplitOptions? splitOptions = null)
     /// { 
     ///     [try]
     ///     {
@@ -104,23 +104,27 @@ namespace Solti.Utils.Router
             public List<Junction> Children { get; } = new();
         }
 
-        private delegate bool MemoryEqualsDelegate(ReadOnlySpan<char> left, string right, StringComparison comparison);
+        private delegate bool MemoryEqualsDelegate(ReadOnlySpan<char> left, ReadOnlySpan<char> right, StringComparison comparison);
+
+        private delegate ReadOnlySpan<char> AsSpanDelegate(string s);
+
+        private delegate PathSplitter SplitDelegate(ReadOnlySpan<char> path, SplitOptions? options);
 
         private static readonly MethodInfo
-            FMoveNext     = MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.MoveNext()),
-            FDispose      = MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.Dispose()),
-            FSplit        = MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
+            FMoveNext     = typeof(PathSplitter).GetMethod(nameof(PathSplitter.MoveNext)), // MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.MoveNext()),
+            FDispose      = typeof(PathSplitter).GetMethod(nameof(PathSplitter.Dispose)), // MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.Dispose()),
+            FSplit        = ((SplitDelegate) PathSplitter.Split).Method, // MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
             FAddParam     = MethodInfoExtractor.Extract(static () => AddParam(null!, 0, null)),
-            FEquals       = MethodInfoExtractor.Extract(static () => Equals(string.Empty, string.Empty, default)),
-            FMemoryEquals = ((MemoryEqualsDelegate) MemoryEquals).Method, // MethodInfoExtractor.Extract(static () => MemoryEquals(default, string.Empty, default)),
+            FMemoryEquals = ((MemoryEqualsDelegate) MemoryExtensions.Equals).Method, // MethodInfoExtractor.Extract(static () => MemoryEquals(default, string.Empty, default)),
+            FAsSpan       = ((AsSpanDelegate) MemoryExtensions.AsSpan).Method,
             FConvert      = MethodInfoExtractor.Extract<IConverter, object?>(static (c, output) => c.ConvertToValue(null!, out output));
 
         private static readonly PropertyInfo FCurrent = typeof(PathSplitter).GetProperty(nameof(PathSplitter.Current)); // PropertyInfoExtractor.Extract<PathSplitter, ReadOnlySpan<char>>(static parts => parts.Current);
 
         private static readonly ParameterExpression
             FUserData     = Expression.Parameter(typeof(object), "userData"),
-            FPath         = Expression.Parameter(typeof(string), "path"),
-            FMethod       = Expression.Parameter(typeof(string), "method"),
+            FPath         = Expression.Parameter(typeof(ReadOnlySpan<char>), "path"),
+            FMethod       = Expression.Parameter(typeof(ReadOnlySpan<char>), "method"),
             FSplitOptions = Expression.Parameter(typeof(SplitOptions), "splitOptions"),
 
             FSegments  = Expression.Variable(typeof(PathSplitter), "segments"),
@@ -134,12 +138,6 @@ namespace Solti.Utils.Router
         private readonly StaticDictionaryBuilder FParameters = new();
 
         private readonly List<LambdaExpression> FExceptionHandlers = new();
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool Equals(string left, string right, StringComparison comparison) => left.Equals(right, comparison);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool MemoryEquals(ReadOnlySpan<char> left, string right, StringComparison comparison) => left.Equals(right.AsSpan(), comparison);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void AddParam(StaticDictionary paramz, int id, object? value) => paramz[id] = value;
@@ -158,8 +156,7 @@ namespace Solti.Utils.Router
                     Equals
                     (
                         Expression.Property(FSegments, FCurrent),
-                        Expression.Constant(junction.Segment.Name),
-                        FMemoryEquals
+                        junction.Segment.Name
                     ),
                     Expression.Block
                     (
@@ -237,7 +234,7 @@ namespace Solti.Utils.Router
                     yield return Expression.IfThen
                     (
                         handlerGroup
-                            .Select(static supportedMethod => Equals(FMethod, Expression.Constant(supportedMethod), FEquals))
+                            .Select(static supportedMethod => Equals(FMethod, supportedMethod))
                             .Aggregate(static (accu, curr) => Expression.Or(accu, curr)),
                         Return
                         (
@@ -265,11 +262,15 @@ namespace Solti.Utils.Router
                 );
             }
 
-            static Expression Equals(Expression left, Expression right, MethodInfo method) => Expression.Call
+            static Expression Equals(Expression left, string right) => Expression.Call
             (
-                method,
+                FMemoryEquals,
                 left,
-                right,
+                Expression.Call
+                (
+                    FAsSpan,
+                    Expression.Constant(right)
+                ),
                 Expression.Constant(StringComparison.OrdinalIgnoreCase)
             );
         }
@@ -388,8 +389,8 @@ namespace Solti.Utils.Router
                         FParams,
                         FConverted
                     },
-                    EnsureNotNull(FPath),
-                    EnsureNotNull(FMethod),
+                    FPath,
+                    FMethod,
                     route,
                     Expression.Label
                     (
@@ -412,18 +413,6 @@ namespace Solti.Utils.Router
             Debug.WriteLine(routerExpr.GetDebugView());
 
             return compiler.Register(routerExpr);
-
-            static Expression EnsureNotNull(ParameterExpression parameter)
-            {
-                return Expression.IfThen
-                (
-                    Expression.Equal(parameter, Expression.Constant(null, parameter.Type)),
-                    Expression.Throw
-                    (
-                        Expression.Constant(new ArgumentNullException(parameter.Name))
-                    )
-                );
-            }
 
             static object? Disaster()
             {
