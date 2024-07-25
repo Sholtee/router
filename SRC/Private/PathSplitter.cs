@@ -13,7 +13,7 @@ namespace Solti.Utils.Router.Internals
 {
     using static Properties.Resources;
 
-    internal ref partial struct PathSplitter
+    internal ref struct PathSplitter
     {
         #region Private
         private readonly ReadOnlySpan<char> FInput;
