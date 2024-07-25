@@ -10,13 +10,11 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-using static System.StringComparer;
-
 namespace Solti.Utils.Router.Internals
 {
     using Primitives;
 
-    internal sealed class LookupBuilder<TData>
+    internal sealed class LookupBuilder<TData>(bool ignoreCase)
     {
         private delegate int GetIndexDelegate(ReadOnlySpan<char> key);
 
@@ -33,9 +31,9 @@ namespace Solti.Utils.Router.Internals
 
         private static readonly LabelTarget FFound = Expression.Label(type: typeof(int), "found");
 
-        private readonly ConstantExpression FComparison;
+        private readonly ConstantExpression FComparison = Expression.Constant(ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
 
-        private readonly RedBlackTree<string> FTree;
+        private readonly RedBlackTree<string> FTree = new(ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
 
         private Expression ProcessNode(RedBlackTreeNode<string>? node, IDictionary<string, int> shortcuts)
         {
@@ -74,21 +72,6 @@ namespace Solti.Utils.Router.Internals
                 shortcuts.Add(node!.Data, id);
                 return id;
             }
-        }
-
-        public LookupBuilder(StringComparison comparison)
-        {
-            FTree = new RedBlackTree<string>(comparison switch
-            {
-                StringComparison.CurrentCulture => CurrentCulture,
-                StringComparison.CurrentCultureIgnoreCase => CurrentCultureIgnoreCase,
-                StringComparison.InvariantCulture => InvariantCulture,
-                StringComparison.InvariantCultureIgnoreCase => InvariantCultureIgnoreCase,
-                StringComparison.Ordinal => Ordinal,
-                StringComparison.OrdinalIgnoreCase => OrdinalIgnoreCase,
-                _ => throw new NotSupportedException()
-            });
-            FComparison = Expression.Constant(comparison);
         }
 
         public bool CreateSlot(string name) => FTree.Add(name);

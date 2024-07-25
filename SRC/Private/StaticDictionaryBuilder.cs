@@ -3,7 +3,6 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -11,9 +10,9 @@ namespace Solti.Utils.Router.Internals
 {
     using Primitives;
 
-    internal sealed class StaticDictionaryBuilder
+    internal sealed class StaticDictionaryBuilder(bool ignoreCase = false)
     {
-        private readonly LookupBuilder<StaticDictionary.ValueWrapper> FLookupBuilder = new(StringComparison.Ordinal);
+        private readonly LookupBuilder<StaticDictionary.ValueWrapper> FLookupBuilder = new(ignoreCase);
 
         public bool RegisterKey(string key) => FLookupBuilder.CreateSlot(key);
 
