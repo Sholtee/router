@@ -23,14 +23,7 @@ namespace Solti.Utils.Router.Internals
                 Array.Resize(ref FBuffer, newLength * 2);
         }
 
-        public void Dispose()
-        {
-            if (FBuffer is not null)
-            {
-                MemoryPool<char>.Return(FBuffer);
-                FBuffer = null!;
-            }
-        }
+        public void Dispose() => MemoryPool<char>.Return(ref FBuffer!);
 
         public void Append(string str)
         {

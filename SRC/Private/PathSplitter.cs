@@ -117,18 +117,8 @@ namespace Solti.Utils.Router.Internals
 
         public void Dispose()
         {
-            Return(ref FOutput!);
-            Return(ref FBytes);
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            static void Return<T>(ref T[]? buffer)
-            {
-                if (buffer is not null)
-                {
-                    MemoryPool<T>.Return(buffer);
-                    buffer = null;
-                }
-            }
+            MemoryPool<char>.Return(ref FOutput!);
+            MemoryPool<byte>.Return(ref FBytes!);
         }
 
         /// <summary>
