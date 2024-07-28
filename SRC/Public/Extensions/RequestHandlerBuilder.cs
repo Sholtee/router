@@ -32,7 +32,7 @@ namespace Solti.Utils.Router.Extensions
     {
         private static readonly MethodInfo
             FGetService = MethodInfoExtractor.Extract<IServiceProvider>(static sp => sp.GetService(null)),
-            FGetParam   = MethodInfoExtractor.Extract<IParamAccessByInternalId, object?>(static dict => dict[0]);
+            FGetParam   = MethodInfoExtractor.Extract<IParamAccessByInternalId<object?>, object?>(static dict => dict[0]);
 
         /// <summary>
         /// Expression reflecting the "userData" parameter of <see cref="RequestHandler{TResult}.Invoke(IReadOnlyDictionary{string, object?}, object?)"/>
@@ -45,9 +45,9 @@ namespace Solti.Utils.Router.Extensions
         protected static ParameterExpression ParamsDict { get; } = Expression.Parameter(typeof(IReadOnlyDictionary<string, object?>), "paramz");
 
         /// <summary>
-        /// Expression reflecting the <see cref="IParamAccessByInternalId"/> variable.
+        /// Expression reflecting the <see cref="IParamAccessByInternalId{TData}"/> variable.
         /// </summary>
-        protected static ParameterExpression ElementAccess { get; } = Expression.Variable(typeof(IParamAccessByInternalId), "elementAccess");
+        protected static ParameterExpression ElementAccess { get; } = Expression.Variable(typeof(IParamAccessByInternalId<object?>), "elementAccess");
 
         /// <summary>
         /// Specifies how to create the service instance. The default implementation uses the <see cref="IServiceProvider"/> interface.
@@ -166,7 +166,7 @@ namespace Solti.Utils.Router.Extensions
                     Expression.Convert
                     (
                         ParamsDict,
-                        typeof(IParamAccessByInternalId)
+                        typeof(IParamAccessByInternalId<object?>)
                     )
                 ),
                 Expression.Call

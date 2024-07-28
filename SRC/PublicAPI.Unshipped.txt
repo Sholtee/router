@@ -1,1 +1,2 @@
-﻿
+﻿Solti.Utils.Router.IParamAccessByInternalId<TData>
+Solti.Utils.Router.IParamAccessByInternalId<TData>.this[int internalId].get -> TData?

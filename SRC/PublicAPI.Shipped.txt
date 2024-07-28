@@ -27,8 +27,6 @@ Solti.Utils.Router.IConverter.ConvertToValue(System.ReadOnlySpan<char> input, ou
 Solti.Utils.Router.IConverter.Id.get -> string!
 Solti.Utils.Router.IConverter.Style.get -> string?
 Solti.Utils.Router.IConverter.Type.get -> System.Type!
-Solti.Utils.Router.IParamAccessByInternalId
-Solti.Utils.Router.IParamAccessByInternalId.this[int internalId].get -> object?
 Solti.Utils.Router.ParsedRoute
 Solti.Utils.Router.ParsedRoute.Parameters.get -> System.Collections.Generic.IReadOnlyDictionary<string!, System.Type!>!
 Solti.Utils.Router.ParsedRoute.Segments.get -> System.Collections.Generic.IReadOnlyList<Solti.Utils.Router.RouteSegment!>!

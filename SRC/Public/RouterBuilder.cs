@@ -128,19 +128,19 @@ namespace Solti.Utils.Router
             FSplitOptions = Expression.Parameter(typeof(SplitOptions), "splitOptions"),
 
             FSegments  = Expression.Variable(typeof(PathSplitter), "segments"),
-            FParams    = Expression.Variable(typeof(StaticDictionary), "params"),
+            FParams    = Expression.Variable(typeof(StaticDictionary<object?>), "params"),
             FConverted = Expression.Variable(typeof(object), "converted");
 
         private static  readonly LabelTarget FExit = Expression.Label(typeof(object), "exit");
 
         private readonly Junction FRoot = new();
 
-        private readonly StaticDictionaryBuilder FParameters = new();
+        private readonly StaticDictionary<object?>.Builder FParameters = new();
 
         private readonly List<LambdaExpression> FExceptionHandlers = new();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void AddParam(StaticDictionary paramz, int id, object? value) => paramz[id] = value;
+        private static void AddParam(StaticDictionary<object?> paramz, int id, object? value) => paramz[id] = value;
 
         private Expression BuildJunction(Junction junction, IReadOnlyDictionary<string, int> shortcuts)
         {
@@ -327,7 +327,7 @@ namespace Solti.Utils.Router
 
         internal FutureDelegate<Router> Build(DelegateCompiler compiler)
         {
-            StaticDictionaryFactory createParamzDict = FParameters.CreateFactory(compiler, out IReadOnlyDictionary<string, int> shortcuts);
+            StaticDictionaryFactory<object?> createParamzDict = FParameters.CreateFactory(compiler, out IReadOnlyDictionary<string, int> shortcuts);
 
             Expression route = Expression.Block
             (

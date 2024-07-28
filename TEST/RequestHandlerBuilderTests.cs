@@ -98,7 +98,7 @@ namespace Solti.Utils.Router.Extensions.Tests
             Assert.Throws<ArgumentNullException>(() => DefaultBuilder.CreateFactory(null!, null));
         }
 
-        public interface IParamzDict : IReadOnlyDictionary<string, object?>, IParamAccessByInternalId { }
+        public interface IParamzDict : IReadOnlyDictionary<string, object?>, IParamAccessByInternalId<object?> { }
 
         [Test]
         public void CreateFactoryShouldSupportRegularMethods()
