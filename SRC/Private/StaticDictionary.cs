@@ -18,29 +18,42 @@ namespace Solti.Utils.Router.Internals
     /// <summary>
     /// Dictionary having predefined keys
     /// </summary>
-    internal sealed class StaticDictionary(IReadOnlyList<string> keys, LookupDelegate<StaticDictionary.ValueWrapper> lookup) : IReadOnlyDictionary<string, object?>, IParamAccessByInternalId
+    internal sealed partial class StaticDictionary<TData>: IReadOnlyDictionary<string, TData?>, IParamAccessByInternalId<TData>
     {
-        public struct ValueWrapper
+        private struct ValueWrapper
         {
             public bool Assigned;
-            public object? Value;
+            public TData? Value;
         }
 
-        #if !DEBUG
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        #endif
-        private readonly ValueWrapper[] FValues = new ValueWrapper[keys.Count];
+        private delegate ref ValueWrapper LookupDelegate(ValueWrapper[] ar, ReadOnlySpan<char> name);
 
-        public object? this[string key]
+        private readonly LookupDelegate FLookup;
+#if !DEBUG
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+#endif
+        private readonly IReadOnlyList<string> FKeys;
+#if !DEBUG
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+#endif
+        private readonly ValueWrapper[] FValues;
+
+        private StaticDictionary(IReadOnlyList<string> keys, LookupDelegate lookup)
+        {
+            FLookup = lookup;
+            FKeys = keys;
+            FValues = new ValueWrapper[keys.Count];
+        }
+
+        public TData? this[string key]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                ref ValueWrapper val = ref lookup(FValues, key);
-                if (!val.Assigned)
+                if (!TryGetValue(key, out TData? value))
                     throw new KeyNotFoundException(key);
 
-                return val.Value;
+                return value;
             }
         }
 
@@ -48,15 +61,15 @@ namespace Solti.Utils.Router.Internals
         {
             get
             {
-                foreach (string key in keys)
+                foreach (string key in FKeys)
                 {
-                    if (lookup(FValues, key).Assigned)
+                    if (FLookup(FValues, key.AsSpan()).Assigned)
                         yield return key;
                 }
             }
         }
 
-        public IEnumerable<object?> Values
+        public IEnumerable<TData?> Values
         {
             get
             {
@@ -71,31 +84,33 @@ namespace Solti.Utils.Router.Internals
 
         public bool ContainsKey(string key) => TryGetValue(key, out _);
 
-        public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, TData?>> GetEnumerator()
         {
             foreach (string key in Keys)
             {
-                yield return new KeyValuePair<string, object?>(key, this[key]);
+                yield return new KeyValuePair<string, TData?>(key, this[key]);
             }
         }
 
-        public bool TryGetValue(string key, out object? value)
+        public bool TryGetValue(ReadOnlySpan<char> key, out TData? value)
         {
-            try
+            ref ValueWrapper val = ref FLookup(FValues, key);
+            if (Unsafe.IsNullRef(ref val) || !val.Assigned)
             {
-                value = this[key];
-                return true;
-            }
-            catch (KeyNotFoundException)
-            {
-                value = null;
+                value = default;
                 return false;
             }
+
+            value = val.Value;
+            return true;
         }
+
+        public bool TryGetValue(string key, out TData? value) =>
+            TryGetValue(key.AsSpan(), out value);
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public object? this[int internalId]
+        public TData? this[int internalId]
         {
             get
             {

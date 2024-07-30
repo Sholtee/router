@@ -5,25 +5,31 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 
 namespace Solti.Utils.Router.Internals
 {
     using static Properties.Resources;
 
-    internal sealed partial class PathSplitter: IDisposable
+    internal ref struct PathSplitter
     {
-        private readonly string FInput;
+        #region Private
+        private readonly ReadOnlySpan<char> FInput;
 
-        private int FInputPosition;
+        private int
+            FInputPosition,
+            FByteCount,
+            FOutputPosition;
 
         private char[] FOutput;
 
-        private int FOutputPosition;
+        private byte[]? FBytes;
 
         private readonly SplitOptions FOptions;
 
-        private PathSplitter(string path, SplitOptions options)
+        private PathSplitter(ReadOnlySpan<char> path, SplitOptions options)
         {
             FInput   = path;
             FOptions = options;
@@ -31,13 +37,111 @@ namespace Solti.Utils.Router.Internals
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private InvalidOperationException InvalidPath(string err)
+        private readonly InvalidOperationException InvalidPath(string err)
         {
             InvalidOperationException ex = new(string.Format(Culture, INVALID_PATH, err));
-            ex.Data["Path"] = FInput;
+            ex.Data["Path"] = FInput.ToString();
             ex.Data["Position"] = FInputPosition;
             return ex;
         }
+
+        private bool ReadHexChar()
+        {
+            int pos = FInputPosition;
+
+            if (FInput.Length - pos <= 2 || FInput[pos++] != '%')
+                return false;
+
+            if (FInput[pos] == 'u')
+            {
+                //
+                // %uXXXX
+                //
+
+                pos++;
+                if (FInput.Length - pos < 4)
+                    return false;
+
+                if
+                (
+                    !ushort.TryParse
+                    (
+                        FInput.Slice(pos, 4)
+#if !NETSTANDARD2_1_OR_GREATER
+                            .ToString()
+#endif
+                        ,
+                        NumberStyles.HexNumber,
+                        CultureInfo.InvariantCulture,
+                        out ushort chr
+                    )
+                )
+                    return false;
+
+                pos += 3;
+                FlushHexChars();
+
+                //
+                // Already unicode so no Encoding.GetChars() call required
+                //
+
+                FOutput[FOutputPosition++] = (char)chr;
+            }
+            else
+            {
+                //
+                // %XX
+                //
+
+                FBytes ??= MemoryPool<byte>.Get(FInput.Length / 3); // 3 == "%XX".Length 
+
+                if
+                (
+                    !byte.TryParse
+                    (
+                        FInput.Slice(pos, 2)
+#if !NETSTANDARD2_1_OR_GREATER
+                            .ToString()
+#endif
+                        ,
+                        NumberStyles.HexNumber,
+                        CultureInfo.InvariantCulture,
+                        out FBytes[FByteCount]  // do not increment FByteCount as long as it is sure that everything was allright
+                    )
+                )
+                    return false;
+
+                pos += 1;
+                FByteCount++;
+            }
+
+            //
+            // Only set globals if everything was all right.
+            //
+
+            FInputPosition = pos;
+            return true;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void FlushHexChars()
+        {
+            if (FByteCount > 0)
+            {
+                Debug.Assert(FBytes is not null, "Buffer must have value assigned");
+
+                FOutputPosition += FOptions.Encoding.GetChars
+                (
+                    FBytes,
+                    0,
+                    FByteCount,
+                    FOutput,
+                    FOutputPosition
+                );
+                FByteCount = 0;
+            }
+        }
+        #endregion
 
         public bool MoveNext()
         {
@@ -48,7 +152,7 @@ namespace Solti.Utils.Router.Internals
 
             for (; ; FInputPosition++)
             {
-                ReadOnlySpan<char> chunk = FInput.AsSpan(FInputPosition);
+                ReadOnlySpan<char> chunk = FInput.Slice(FInputPosition);
 
                 int chrIndex = chunk.IndexOfAny('/', '%', '+');
                 if (chrIndex is not 0 || chunk[chrIndex] is not '%')
@@ -104,7 +208,7 @@ namespace Solti.Utils.Router.Internals
             }
         }
 
-        public ReadOnlySpan<char> Current
+        public readonly ReadOnlySpan<char> Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -117,24 +221,14 @@ namespace Solti.Utils.Router.Internals
 
         public void Dispose()
         {
-            Return(ref FOutput!);
-            Return(ref FBytes);
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            static void Return<T>(ref T[]? buffer)
-            {
-                if (buffer is not null)
-                {
-                    MemoryPool<T>.Return(buffer);
-                    buffer = null;
-                }
-            }
+            MemoryPool<char>.Return(ref FOutput!);
+            MemoryPool<byte>.Return(ref FBytes!);
         }
 
         /// <summary>
         /// Splits the given path converting hex values if necessary.
         /// </summary>
         /// <remarks>Due to performance considerations and since <see cref="ReadOnlySpan{T}"/> cannot be a generic parameter, this method intentionally doesn't return an <see cref="IEnumerable{T}"/>.</remarks>
-        public static PathSplitter Split(string path, SplitOptions? options = null) => new(path, options ?? SplitOptions.Default);
+        public static PathSplitter Split(ReadOnlySpan<char> path, SplitOptions? options = null) => new(path, options ?? SplitOptions.Default);
     }
 }

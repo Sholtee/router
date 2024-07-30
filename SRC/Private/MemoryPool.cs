@@ -28,6 +28,13 @@ namespace Solti.Utils.Router.Internals
             return result;
         }
 
-        public static void Return(T[] buffer) => FPool.Push(buffer);
+        public static void Return(ref T[]? buffer)
+        {
+            if (buffer is not null)
+            {
+                FPool.Push(buffer);
+                buffer = null;
+            }
+        }
     }
 }

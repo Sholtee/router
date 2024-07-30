@@ -104,7 +104,7 @@ namespace Solti.Utils.Router.Tests
 
                 try
                 {
-                    data = (ResponseData) router(context.Request, context.Request.Url!.AbsolutePath, context.Request.HttpMethod)!;
+                    data = (ResponseData) router(context.Request, context.Request.Url!.AbsolutePath.AsSpan(), context.Request.HttpMethod.AsSpan())!;
                 }
                 catch (Exception e)
                 {
@@ -226,7 +226,7 @@ namespace Solti.Utils.Router.Tests
             {
                 using (CreateScope(out TScope scope))
                 {
-                    object? response = router(scope, context.Request.Url!.AbsolutePath, context.Request.HttpMethod)
+                    object? response = router(scope, context.Request.Url!.AbsolutePath.AsSpan(), context.Request.HttpMethod.AsSpan())
                         .GetAwaiter()
                         .GetResult()!;
 
@@ -473,7 +473,7 @@ namespace Solti.Utils.Router.Tests
                 using IInjector scope = RootScope.CreateScope();
                 scope.AssignScopeLocal(context);
 
-                object? response = router(scope, context.Request.Url!.AbsolutePath, context.Request.HttpMethod)
+                object? response = router(scope, context.Request.Url!.AbsolutePath.AsSpan(), context.Request.HttpMethod.AsSpan())
                     .GetAwaiter()
                     .GetResult()!;
 

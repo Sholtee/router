@@ -75,8 +75,13 @@
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
+    <PackageReference Include="RequiredMemberAttribute" Version="1.0.*">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
 	<PackageReference Include="Solti.Utils.Primitives" Version="8.*" />
-    <PackageReference Include="System.Memory" Version="4.5.5" Condition="'$(TargetFramework)'=='netstandard2.0'" />
+    <PackageReference Include="System.Memory" Version="4.*" Condition="'$(TargetFramework)'=='netstandard2.0'" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.*" />
   </ItemGroup>
 
   <PropertyGroup>

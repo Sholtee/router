@@ -109,7 +109,7 @@ namespace Solti.Utils.Router.Tests
             }
             Router router = bldr.Build();
 
-            Assert.DoesNotThrow(() => router(userData, input));
+            Assert.DoesNotThrow(() => router(userData, input.AsSpan(), "GET".AsSpan()));
             if (expectedParams is null)
             {
                 mockDefaultHandler.Verify(h => h.Invoke(userData, HttpStatusCode.NotFound), Times.Once);
@@ -125,24 +125,10 @@ namespace Solti.Utils.Router.Tests
         }
 
         [Test]
-        public void DelegateShouldThrowOnNullPath()
-        {
-            Router router = new RouterBuilder(handler: (_, _) => false, DefaultConverters.Instance).Build();
-            Assert.Throws<ArgumentNullException>(() => router(null, null!));
-        }
-
-        [Test]
-        public void DelegateShouldThrowOnNullMethod()
-        {
-            Router router = new RouterBuilder(handler: (_, _) => false, DefaultConverters.Instance).Build();
-            Assert.Throws<ArgumentNullException>(() => router(null, "path", null!));
-        }
-
-        [Test]
         public void DelegateShouldThrowOnUnregisteredRoute()
         {
             Router router = new RouterBuilder().Build();
-            Assert.Throws<InvalidOperationException>(() => router(null, "/cica"), Resources.ROUTE_NOT_REGISTERED);
+            Assert.Throws<InvalidOperationException>(() => router(null, "/cica".AsSpan(), "GET".AsSpan()), Resources.ROUTE_NOT_REGISTERED);
         }
 
         [Test]
@@ -168,7 +154,7 @@ namespace Solti.Utils.Router.Tests
 
             Router router = bldr.Build();
 
-            Assert.That(router(userData, "/fail") is true);
+            Assert.That(router(userData, "/fail".AsSpan(), "GET".AsSpan()) is true);
             mockExceptionHandler.Verify(h => h.Invoke(userData, ex), Times.Once);
             mockExceptionHandler.VerifyNoOtherCalls();
         }
@@ -202,7 +188,7 @@ namespace Solti.Utils.Router.Tests
 
             Router router = bldr.Build();
 
-            Assert.That(router(userData, "/fail") is true);
+            Assert.That(router(userData, "/fail".AsSpan(), "GET".AsSpan()) is true);
             mockExceptionHandler.VerifyNoOtherCalls();
             mockArgExceptionHandler.Verify(h => h.Invoke(userData, ex), Times.Once);
             mockArgExceptionHandler.VerifyNoOtherCalls();
@@ -229,7 +215,7 @@ namespace Solti.Utils.Router.Tests
             bldr.AddRoute("/cica", mockHandler.Object, "GET");
 
             Router router = bldr.Build();
-            Assert.That(router(userData, "/cica", "POST") is true);
+            Assert.That(router(userData, "/cica".AsSpan(), "POST".AsSpan()) is true);
             mockDefaultHandler.Verify(h => h.Invoke(userData, HttpStatusCode.MethodNotAllowed), Times.Once);
         }
     }
@@ -267,7 +253,7 @@ namespace Solti.Utils.Router.Tests
                     "/",
                     Enumerable.Repeat("segment", i).Select((segment, i) => segment + i)
                 );
-                object? result = await router(null, route);
+                object? result = await router(null, route.AsSpan(), "GET".AsSpan());
 
       
                 Assert.That(result, Is.EqualTo($"result{i}"));

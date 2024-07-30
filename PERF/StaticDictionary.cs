@@ -57,11 +57,11 @@ namespace Solti.Utils.Router.Perf
         [Benchmark]
         public void RegularDictAdd() => RegularDictInst[Keys[Random.Next(ItemCount)]] = null;
 
-        private Internals.StaticDictionary StaticDictInst = null!;
+        private Internals.StaticDictionary<object?> StaticDictInst = null!;
     
         private void SetupStaticDictGet()
         {
-            StaticDictionaryBuilder bldr = new();
+            StaticDictionary<object?>.Builder bldr = new();
             Keys = new string[ItemCount];
             for (int i = 0; i < ItemCount; i++)
             {
@@ -95,7 +95,7 @@ namespace Solti.Utils.Router.Perf
         [GlobalSetup(Target = nameof(StaticDictAdd))]
         public void SetupStaticDictAdd()
         {
-            StaticDictionaryBuilder bldr = new();
+            StaticDictionary<object?>.Builder bldr = new();
             Keys = new string[ItemCount];
             for (int i = 0; i < ItemCount; i++)
             {

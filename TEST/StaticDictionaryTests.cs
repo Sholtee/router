@@ -10,8 +10,9 @@ using NUnit.Framework;
 
 namespace Solti.Utils.Router.Tests
 {
-    using Internals;
     using Primitives;
+
+    using StaticDictionary = Internals.StaticDictionary<object?>;
 
     [TestFixture]
     public class StaticDictionaryTests
@@ -24,7 +25,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Get_ShouldThrowOnMissingKey()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             Assert.Throws<KeyNotFoundException>(() => _ = dict["key"]);
@@ -33,7 +34,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void TryGet_ShouldFailOnMissingKey()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
             Assert.False(dict.TryGetValue("key", out _));
@@ -42,7 +43,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Get_ShouldThrowOnUnassignedKey()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             builder.RegisterKey("key");
             StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
@@ -52,7 +53,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void TryGet_ShouldFailOnUnassignedKey()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             builder.RegisterKey("key");
             StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
@@ -62,7 +63,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Keys_ShouldNotReturnUnassignedKeys()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             builder.RegisterKey("key");
             StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
@@ -72,7 +73,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Values_ShouldNotReturnUnassignedValues()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             builder.RegisterKey("key");
             StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
@@ -82,7 +83,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Count_ShouldNotTakeUnassignedValuesIntoAccount()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             builder.RegisterKey("key");
             StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
@@ -92,7 +93,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Enumerator_ShouldNotReturnUnassignedValues()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             builder.RegisterKey("key");
             StaticDictionary dict = builder.CreateFactory(Compiler, out _).Invoke();
             Compiler.Compile();
@@ -102,7 +103,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Get_ShouldReturnTheCorrectValue([Values(0, 1, 2, 5, 10, 20, 100)]int keyCount)
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             for (int i = 0; i < keyCount; i++)
             {
                 builder.RegisterKey($"key{i}");
@@ -128,7 +129,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void GetById_ShouldReturnTheCorrectValue([Values(0, 1, 2, 5, 10, 20, 100)] int keyCount)
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             for (int i = 0; i < keyCount; i++)
             {
                 builder.RegisterKey($"key{i}");
@@ -154,7 +155,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void TryGet_ShouldReturnTheCorrectValue()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             builder.RegisterKey("key1");
             builder.RegisterKey("key2");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
@@ -167,7 +168,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Keys_ShouldReturnAssignedKeys()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             builder.RegisterKey("key1");
             builder.RegisterKey("key2");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
@@ -179,7 +180,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void ContainsKey_ShouldReturnTrueIfTheKeyExists()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             builder.RegisterKey("key1");
             builder.RegisterKey("key2");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
@@ -193,7 +194,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Values_ShouldReturnAssignedValues()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             builder.RegisterKey("key");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
@@ -204,7 +205,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Count_ShouldTakeAssignedValuesIntoAccount()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             builder.RegisterKey("key");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
@@ -215,7 +216,7 @@ namespace Solti.Utils.Router.Tests
         [Test]
         public void Enumerator_ShouldReturnAssignedValues()
         {
-            StaticDictionaryBuilder builder = new();
+            StaticDictionary.Builder builder = new();
             builder.RegisterKey("key");
             StaticDictionary dict = builder.CreateFactory(Compiler, out IReadOnlyDictionary<string, int> shortcuts).Invoke();
             Compiler.Compile();
