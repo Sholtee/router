@@ -21,7 +21,10 @@ namespace Solti.Utils.Router.Internals
         {
             int newLength = Length + addition;
             if (newLength >= FBuffer.Length)
-                Array.Resize(ref FBuffer, newLength * 2);
+            {
+                ArrayPool<char>.Shared.Return(FBuffer);
+                FBuffer = ArrayPool<char>.Shared.Rent(newLength * 2);
+            }
         }
 
         public void Dispose() => ArrayPool<char>.Shared.Return(FBuffer);
