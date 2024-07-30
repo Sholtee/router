@@ -87,12 +87,12 @@
 </section>
       <h4><a class="xref" href="Solti.Utils.Router.RouterBuilder.html">RouterBuilder</a></h4>
       <section><p>Builds the <a class="xref" href="Solti.Utils.Router.Router.html">Router</a> delegate that does the actual routing.</p>
-<pre><code>object Route(object? userData, string path, string method = &quot;GET&quot;, SplitOptions? splitOptions = null)
+<pre><code>object Route(object? userData, ReadOnlySpan&lt;char> path, ReadOnlySpan&lt;char> method, SplitOptions? splitOptions = null)
 { 
     [try]
     {
         using PathSplitter segments = PathSplitter.Split(path, splitOptions);
-        StaticDictionary paramz = createParamzDict();
+        StaticDictionary&lt;object?> paramz = createParamzDict();
         object converted;
 
         if (segments.MoveNext())
@@ -176,7 +176,7 @@
       <h4><a class="xref" href="Solti.Utils.Router.IConverter.html">IConverter</a></h4>
       <section><p>Represents an abstract value converter.</p>
 </section>
-      <h4><a class="xref" href="Solti.Utils.Router.IParamAccessByInternalId.html">IParamAccessByInternalId</a></h4>
+      <h4><a class="xref" href="Solti.Utils.Router.IParamAccessByInternalId-1.html">IParamAccessByInternalId&lt;TData&gt;</a></h4>
       <section><p>Provides quick access to parameters by id rather than name.</p>
 </section>
 </article>

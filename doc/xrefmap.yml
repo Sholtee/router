@@ -25,12 +25,15 @@ references:
   commentId: Overload:Solti.Utils.Router.AsyncRouter.#ctor
   fullName: Solti.Utils.Router.AsyncRouter.AsyncRouter
   nameWithType: AsyncRouter.AsyncRouter
-- uid: Solti.Utils.Router.AsyncRouter.BeginInvoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
-  name: BeginInvoke(Object, String, String, SplitOptions, AsyncCallback, Object)
-  href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter_BeginInvoke_System_Object_System_String_System_String_Solti_Utils_Router_SplitOptions_System_AsyncCallback_System_Object_
-  commentId: M:Solti.Utils.Router.AsyncRouter.BeginInvoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
-  fullName: Solti.Utils.Router.AsyncRouter.BeginInvoke(System.Object, System.String, System.String, Solti.Utils.Router.SplitOptions, System.AsyncCallback, System.Object)
-  nameWithType: AsyncRouter.BeginInvoke(Object, String, String, SplitOptions, AsyncCallback, Object)
+- uid: Solti.Utils.Router.AsyncRouter.BeginInvoke(System.Object,System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
+  name: BeginInvoke(Object, ReadOnlySpan<Char>, ReadOnlySpan<Char>, SplitOptions, AsyncCallback, Object)
+  href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter_BeginInvoke_System_Object_System_ReadOnlySpan_System_Char__System_ReadOnlySpan_System_Char__Solti_Utils_Router_SplitOptions_System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Router.AsyncRouter.BeginInvoke(System.Object,System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
+  name.vb: BeginInvoke(Object, ReadOnlySpan(Of Char), ReadOnlySpan(Of Char), SplitOptions, AsyncCallback, Object)
+  fullName: Solti.Utils.Router.AsyncRouter.BeginInvoke(System.Object, System.ReadOnlySpan<System.Char>, System.ReadOnlySpan<System.Char>, Solti.Utils.Router.SplitOptions, System.AsyncCallback, System.Object)
+  fullName.vb: Solti.Utils.Router.AsyncRouter.BeginInvoke(System.Object, System.ReadOnlySpan(Of System.Char), System.ReadOnlySpan(Of System.Char), Solti.Utils.Router.SplitOptions, System.AsyncCallback, System.Object)
+  nameWithType: AsyncRouter.BeginInvoke(Object, ReadOnlySpan<Char>, ReadOnlySpan<Char>, SplitOptions, AsyncCallback, Object)
+  nameWithType.vb: AsyncRouter.BeginInvoke(Object, ReadOnlySpan(Of Char), ReadOnlySpan(Of Char), SplitOptions, AsyncCallback, Object)
 - uid: Solti.Utils.Router.AsyncRouter.BeginInvoke*
   name: BeginInvoke
   href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter_BeginInvoke_
@@ -49,12 +52,15 @@ references:
   commentId: Overload:Solti.Utils.Router.AsyncRouter.EndInvoke
   fullName: Solti.Utils.Router.AsyncRouter.EndInvoke
   nameWithType: AsyncRouter.EndInvoke
-- uid: Solti.Utils.Router.AsyncRouter.Invoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions)
-  name: Invoke(Object, String, String, SplitOptions)
-  href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter_Invoke_System_Object_System_String_System_String_Solti_Utils_Router_SplitOptions_
-  commentId: M:Solti.Utils.Router.AsyncRouter.Invoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions)
-  fullName: Solti.Utils.Router.AsyncRouter.Invoke(System.Object, System.String, System.String, Solti.Utils.Router.SplitOptions)
-  nameWithType: AsyncRouter.Invoke(Object, String, String, SplitOptions)
+- uid: Solti.Utils.Router.AsyncRouter.Invoke(System.Object,System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},Solti.Utils.Router.SplitOptions)
+  name: Invoke(Object, ReadOnlySpan<Char>, ReadOnlySpan<Char>, SplitOptions)
+  href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter_Invoke_System_Object_System_ReadOnlySpan_System_Char__System_ReadOnlySpan_System_Char__Solti_Utils_Router_SplitOptions_
+  commentId: M:Solti.Utils.Router.AsyncRouter.Invoke(System.Object,System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},Solti.Utils.Router.SplitOptions)
+  name.vb: Invoke(Object, ReadOnlySpan(Of Char), ReadOnlySpan(Of Char), SplitOptions)
+  fullName: Solti.Utils.Router.AsyncRouter.Invoke(System.Object, System.ReadOnlySpan<System.Char>, System.ReadOnlySpan<System.Char>, Solti.Utils.Router.SplitOptions)
+  fullName.vb: Solti.Utils.Router.AsyncRouter.Invoke(System.Object, System.ReadOnlySpan(Of System.Char), System.ReadOnlySpan(Of System.Char), Solti.Utils.Router.SplitOptions)
+  nameWithType: AsyncRouter.Invoke(Object, ReadOnlySpan<Char>, ReadOnlySpan<Char>, SplitOptions)
+  nameWithType.vb: AsyncRouter.Invoke(Object, ReadOnlySpan(Of Char), ReadOnlySpan(Of Char), SplitOptions)
 - uid: Solti.Utils.Router.AsyncRouter.Invoke*
   name: Invoke
   href: Solti.Utils.Router.AsyncRouter.html#Solti_Utils_Router_AsyncRouter_Invoke_
@@ -868,27 +874,32 @@ references:
   commentId: Overload:Solti.Utils.Router.IConverter.Type
   fullName: Solti.Utils.Router.IConverter.Type
   nameWithType: IConverter.Type
-- uid: Solti.Utils.Router.IParamAccessByInternalId
-  name: IParamAccessByInternalId
-  href: Solti.Utils.Router.IParamAccessByInternalId.html
-  commentId: T:Solti.Utils.Router.IParamAccessByInternalId
-  fullName: Solti.Utils.Router.IParamAccessByInternalId
-  nameWithType: IParamAccessByInternalId
-- uid: Solti.Utils.Router.IParamAccessByInternalId.Item(System.Int32)
+- uid: Solti.Utils.Router.IParamAccessByInternalId`1
+  name: IParamAccessByInternalId<TData>
+  href: Solti.Utils.Router.IParamAccessByInternalId-1.html
+  commentId: T:Solti.Utils.Router.IParamAccessByInternalId`1
+  name.vb: IParamAccessByInternalId(Of TData)
+  fullName: Solti.Utils.Router.IParamAccessByInternalId<TData>
+  fullName.vb: Solti.Utils.Router.IParamAccessByInternalId(Of TData)
+  nameWithType: IParamAccessByInternalId<TData>
+  nameWithType.vb: IParamAccessByInternalId(Of TData)
+- uid: Solti.Utils.Router.IParamAccessByInternalId`1.Item(System.Int32)
   name: Item[Int32]
-  href: Solti.Utils.Router.IParamAccessByInternalId.html#Solti_Utils_Router_IParamAccessByInternalId_Item_System_Int32_
-  commentId: P:Solti.Utils.Router.IParamAccessByInternalId.Item(System.Int32)
+  href: Solti.Utils.Router.IParamAccessByInternalId-1.html#Solti_Utils_Router_IParamAccessByInternalId_1_Item_System_Int32_
+  commentId: P:Solti.Utils.Router.IParamAccessByInternalId`1.Item(System.Int32)
   name.vb: Item(Int32)
-  fullName: Solti.Utils.Router.IParamAccessByInternalId.Item[System.Int32]
-  fullName.vb: Solti.Utils.Router.IParamAccessByInternalId.Item(System.Int32)
-  nameWithType: IParamAccessByInternalId.Item[Int32]
-  nameWithType.vb: IParamAccessByInternalId.Item(Int32)
-- uid: Solti.Utils.Router.IParamAccessByInternalId.Item*
+  fullName: Solti.Utils.Router.IParamAccessByInternalId<TData>.Item[System.Int32]
+  fullName.vb: Solti.Utils.Router.IParamAccessByInternalId(Of TData).Item(System.Int32)
+  nameWithType: IParamAccessByInternalId<TData>.Item[Int32]
+  nameWithType.vb: IParamAccessByInternalId(Of TData).Item(Int32)
+- uid: Solti.Utils.Router.IParamAccessByInternalId`1.Item*
   name: Item
-  href: Solti.Utils.Router.IParamAccessByInternalId.html#Solti_Utils_Router_IParamAccessByInternalId_Item_
-  commentId: Overload:Solti.Utils.Router.IParamAccessByInternalId.Item
-  fullName: Solti.Utils.Router.IParamAccessByInternalId.Item
-  nameWithType: IParamAccessByInternalId.Item
+  href: Solti.Utils.Router.IParamAccessByInternalId-1.html#Solti_Utils_Router_IParamAccessByInternalId_1_Item_
+  commentId: Overload:Solti.Utils.Router.IParamAccessByInternalId`1.Item
+  fullName: Solti.Utils.Router.IParamAccessByInternalId<TData>.Item
+  fullName.vb: Solti.Utils.Router.IParamAccessByInternalId(Of TData).Item
+  nameWithType: IParamAccessByInternalId<TData>.Item
+  nameWithType.vb: IParamAccessByInternalId(Of TData).Item
 - uid: Solti.Utils.Router.ParsedRoute
   name: ParsedRoute
   href: Solti.Utils.Router.ParsedRoute.html
@@ -1144,12 +1155,15 @@ references:
   commentId: Overload:Solti.Utils.Router.Router.#ctor
   fullName: Solti.Utils.Router.Router.Router
   nameWithType: Router.Router
-- uid: Solti.Utils.Router.Router.BeginInvoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
-  name: BeginInvoke(Object, String, String, SplitOptions, AsyncCallback, Object)
-  href: Solti.Utils.Router.Router.html#Solti_Utils_Router_Router_BeginInvoke_System_Object_System_String_System_String_Solti_Utils_Router_SplitOptions_System_AsyncCallback_System_Object_
-  commentId: M:Solti.Utils.Router.Router.BeginInvoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
-  fullName: Solti.Utils.Router.Router.BeginInvoke(System.Object, System.String, System.String, Solti.Utils.Router.SplitOptions, System.AsyncCallback, System.Object)
-  nameWithType: Router.BeginInvoke(Object, String, String, SplitOptions, AsyncCallback, Object)
+- uid: Solti.Utils.Router.Router.BeginInvoke(System.Object,System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
+  name: BeginInvoke(Object, ReadOnlySpan<Char>, ReadOnlySpan<Char>, SplitOptions, AsyncCallback, Object)
+  href: Solti.Utils.Router.Router.html#Solti_Utils_Router_Router_BeginInvoke_System_Object_System_ReadOnlySpan_System_Char__System_ReadOnlySpan_System_Char__Solti_Utils_Router_SplitOptions_System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Router.Router.BeginInvoke(System.Object,System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},Solti.Utils.Router.SplitOptions,System.AsyncCallback,System.Object)
+  name.vb: BeginInvoke(Object, ReadOnlySpan(Of Char), ReadOnlySpan(Of Char), SplitOptions, AsyncCallback, Object)
+  fullName: Solti.Utils.Router.Router.BeginInvoke(System.Object, System.ReadOnlySpan<System.Char>, System.ReadOnlySpan<System.Char>, Solti.Utils.Router.SplitOptions, System.AsyncCallback, System.Object)
+  fullName.vb: Solti.Utils.Router.Router.BeginInvoke(System.Object, System.ReadOnlySpan(Of System.Char), System.ReadOnlySpan(Of System.Char), Solti.Utils.Router.SplitOptions, System.AsyncCallback, System.Object)
+  nameWithType: Router.BeginInvoke(Object, ReadOnlySpan<Char>, ReadOnlySpan<Char>, SplitOptions, AsyncCallback, Object)
+  nameWithType.vb: Router.BeginInvoke(Object, ReadOnlySpan(Of Char), ReadOnlySpan(Of Char), SplitOptions, AsyncCallback, Object)
 - uid: Solti.Utils.Router.Router.BeginInvoke*
   name: BeginInvoke
   href: Solti.Utils.Router.Router.html#Solti_Utils_Router_Router_BeginInvoke_
@@ -1168,12 +1182,15 @@ references:
   commentId: Overload:Solti.Utils.Router.Router.EndInvoke
   fullName: Solti.Utils.Router.Router.EndInvoke
   nameWithType: Router.EndInvoke
-- uid: Solti.Utils.Router.Router.Invoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions)
-  name: Invoke(Object, String, String, SplitOptions)
-  href: Solti.Utils.Router.Router.html#Solti_Utils_Router_Router_Invoke_System_Object_System_String_System_String_Solti_Utils_Router_SplitOptions_
-  commentId: M:Solti.Utils.Router.Router.Invoke(System.Object,System.String,System.String,Solti.Utils.Router.SplitOptions)
-  fullName: Solti.Utils.Router.Router.Invoke(System.Object, System.String, System.String, Solti.Utils.Router.SplitOptions)
-  nameWithType: Router.Invoke(Object, String, String, SplitOptions)
+- uid: Solti.Utils.Router.Router.Invoke(System.Object,System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},Solti.Utils.Router.SplitOptions)
+  name: Invoke(Object, ReadOnlySpan<Char>, ReadOnlySpan<Char>, SplitOptions)
+  href: Solti.Utils.Router.Router.html#Solti_Utils_Router_Router_Invoke_System_Object_System_ReadOnlySpan_System_Char__System_ReadOnlySpan_System_Char__Solti_Utils_Router_SplitOptions_
+  commentId: M:Solti.Utils.Router.Router.Invoke(System.Object,System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},Solti.Utils.Router.SplitOptions)
+  name.vb: Invoke(Object, ReadOnlySpan(Of Char), ReadOnlySpan(Of Char), SplitOptions)
+  fullName: Solti.Utils.Router.Router.Invoke(System.Object, System.ReadOnlySpan<System.Char>, System.ReadOnlySpan<System.Char>, Solti.Utils.Router.SplitOptions)
+  fullName.vb: Solti.Utils.Router.Router.Invoke(System.Object, System.ReadOnlySpan(Of System.Char), System.ReadOnlySpan(Of System.Char), Solti.Utils.Router.SplitOptions)
+  nameWithType: Router.Invoke(Object, ReadOnlySpan<Char>, ReadOnlySpan<Char>, SplitOptions)
+  nameWithType.vb: Router.Invoke(Object, ReadOnlySpan(Of Char), ReadOnlySpan(Of Char), SplitOptions)
 - uid: Solti.Utils.Router.Router.Invoke*
   name: Invoke
   href: Solti.Utils.Router.Router.html#Solti_Utils_Router_Router_Invoke_
