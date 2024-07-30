@@ -6,9 +6,7 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Solti.Utils.Router.Internals
@@ -19,85 +17,35 @@ namespace Solti.Utils.Router.Internals
 
     internal sealed partial class StaticDictionary<TData>
     {
-        public sealed class Builder(bool ignoreCase = false)
+        public sealed class Builder()
         {
             #region Private
             private delegate int GetIndexDelegate(ReadOnlySpan<char> key);
 
-            private delegate ReadOnlySpan<char> AsSpanDelegate(string s);
-
-            private delegate int CompareDelegate(ReadOnlySpan<char> a, ReadOnlySpan<char> b, StringComparison comparison);
-
-            private static readonly MethodInfo
-                FCompareTo = ((CompareDelegate) MemoryExtensions.CompareTo).Method,
-                FAsSpan = ((AsSpanDelegate) MemoryExtensions.AsSpan).Method;
+            private static readonly LabelTarget FFound = Expression.Label(type: typeof(int), "found");
 
             private static readonly ParameterExpression
                 FOrder = Expression.Variable(typeof(int), "order"),
                 FKey = Expression.Parameter(typeof(ReadOnlySpan<char>), "key");
 
-            private static readonly LabelTarget FFound = Expression.Label(type: typeof(int), "found");
-
-            private readonly ConstantExpression FComparison = Expression.Constant
-            (
-                ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal
-            );
-
-            private readonly RedBlackTree<string> FTree = new
-            (
-                ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal
-            );
-
-            private Expression ProcessNode(RedBlackTreeNode<string>? node, IDictionary<string, int> shortcuts)
+            private readonly SwitchExpression FSwitchExpression = new(false)
             {
-                if (node is null)
-                    return Expression.Goto(FFound, Expression.Constant(-1));
+                Default = Expression.Goto(FFound, Expression.Constant(-1)),
+                Key = FKey,
+                Order = FOrder
+            };
 
-                return Expression.Block
-                (
-                    Expression.Assign
-                    (
-                        FOrder,
-                        Expression.Call
-                        (
-                            FCompareTo,
-                            FKey,
-                            Expression.Call(FAsSpan, Expression.Constant(node.Data)),   
-                            FComparison
-                        )
-                    ),
-                    Expression.IfThen
-                    (
-                        Expression.LessThan(FOrder, Expression.Constant(0)),
-                        ProcessNode(node.Left, shortcuts)
-                    ),
-                    Expression.IfThen
-                    (
-                        Expression.GreaterThan(FOrder, Expression.Constant(0)),
-                        ProcessNode(node.Right, shortcuts)
-                    ),
-                    Expression.Goto(FFound, Expression.Constant(CreateEntry()))
-                );
+            private readonly Dictionary<string, int> FShortcuts = [];
 
-                int CreateEntry()
-                {
-                    int id = shortcuts.Count;
-                    shortcuts.Add(node!.Data, id);
-                    return id;
-                }
-            }
-
-            private LookupDelegate Build(DelegateCompiler compiler, out IReadOnlyDictionary<string, int> shortcuts)
+            private LookupDelegate Build(DelegateCompiler compiler)
             {
-                Dictionary<string, int> dict = [];
-
                 Expression<GetIndexDelegate> getIndexExpr = Expression.Lambda<GetIndexDelegate>
                 (
                     Expression.Block
                     (
                         type: typeof(int),
                         variables: [FOrder],
-                        ProcessNode(FTree.Root, dict),
+                        FSwitchExpression.Expression,
                         Expression.Label(FFound, Expression.Constant(-1))
                     ),
                     FKey
@@ -106,7 +54,6 @@ namespace Solti.Utils.Router.Internals
                 Debug.WriteLine(getIndexExpr.GetDebugView());
                 FutureDelegate<GetIndexDelegate> getIndex = compiler.Register(getIndexExpr);
 
-                shortcuts = dict;
                 return GetValue;
 
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -123,15 +70,23 @@ namespace Solti.Utils.Router.Internals
             }
             #endregion
 
-            public bool RegisterKey(string key) => FTree.Add(key);
+            public bool RegisterKey(string key)
+            {
+                if (FSwitchExpression.AddCase(key, Expression.Goto(FFound, Expression.Constant(FShortcuts.Count))))
+                {
+                    FShortcuts.Add(key, FShortcuts.Count);
+                    return true;
+                }
+                return false;
+            }
 
             public StaticDictionaryFactory<TData> CreateFactory(DelegateCompiler compiler, out IReadOnlyDictionary<string, int> shortcuts)
             {
-                IReadOnlyList<string> keys = FTree.Select(static node => node.Data).ToList();
+                IReadOnlyList<string> keys = new List<string>(FShortcuts.Keys);  // copy the actual key list
 
-                LookupDelegate lookup = Build(compiler, out shortcuts);
+                shortcuts = new Dictionary<string, int>(FShortcuts);  // copy the actual shortcuts
 
-                Debug.Assert(shortcuts.Count == keys.Count, "Size mismatch");
+                LookupDelegate lookup = Build(compiler);
 
                 return () => new StaticDictionary<TData>(keys, lookup);
             }

@@ -26,7 +26,7 @@ namespace Solti.Utils.Router
     ///     [try]
     ///     {
     ///         using PathSplitter segments = PathSplitter.Split(path, splitOptions);
-    ///         StaticDictionary paramz = createParamzDict();
+    ///         StaticDictionary&lt;object?&gt; paramz = createParamzDict();
     ///         object converted;
     ///    
     ///         if (segments.MoveNext())
@@ -96,19 +96,19 @@ namespace Solti.Utils.Router
         #region Private
         private delegate Expression<RequestHandler> SimpleRequestHandlerFactory(IReadOnlyDictionary<string, int> shortcuts);
 
-        private sealed class Junction
-        {
-            public RouteSegment? Segment { get; init; }  // null at "/"
-            // order doesn't matter
-            public Dictionary<string, SimpleRequestHandlerFactory> Handlers { get; } = new(StringComparer.OrdinalIgnoreCase);
-            public List<Junction> Children { get; } = new();
-        }
-
         private delegate bool MemoryEqualsDelegate(ReadOnlySpan<char> left, ReadOnlySpan<char> right, StringComparison comparison);
 
         private delegate ReadOnlySpan<char> AsSpanDelegate(string s);
 
         private delegate PathSplitter SplitDelegate(ReadOnlySpan<char> path, SplitOptions? options);
+
+        private sealed class Junction
+        {
+            public RouteSegment? Segment { get; init; }  // null at "/"
+            // order doesn't matter
+            public Dictionary<string, SimpleRequestHandlerFactory> Methods { get; } = new(StringComparer.OrdinalIgnoreCase);
+            public List<Junction> Children { get; } = [];
+        }
 
         private static readonly MethodInfo
             FMoveNext     = typeof(PathSplitter).GetMethod(nameof(PathSplitter.MoveNext)), // MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.MoveNext()),
@@ -129,7 +129,8 @@ namespace Solti.Utils.Router
 
             FSegments  = Expression.Variable(typeof(PathSplitter), "segments"),
             FParams    = Expression.Variable(typeof(StaticDictionary<object?>), "params"),
-            FConverted = Expression.Variable(typeof(object), "converted");
+            FConverted = Expression.Variable(typeof(object), "converted"),
+            FOrder     = Expression.Variable(typeof(int), "order");
 
         private static  readonly LabelTarget FExit = Expression.Label(typeof(object), "exit");
 
@@ -144,54 +145,76 @@ namespace Solti.Utils.Router
 
         private Expression BuildJunction(Junction junction, IReadOnlyDictionary<string, int> shortcuts)
         {
-            if (junction.Segment is null)  // root node, no segment
-                return Expression.Block
-                (
-                    ProcessJunction()
-                );
-
-            if (junction.Segment.Converter is null)
-                return Expression.IfThen
-                (
-                    Equals
-                    (
-                        Expression.Property(FSegments, FCurrent),
-                        junction.Segment.Name
-                    ),
-                    Expression.Block
-                    (
-                        ProcessJunction()
-                    )
-                );
-
-            return Expression.IfThen
+            return Expression.Block
             (
-                Expression.Call
-                (
-                    Expression.Constant(junction.Segment.Converter),
-                    FConvert,
-                    Expression.Property(FSegments, FCurrent),
-                    FConverted
-                ),
-                Expression.Block
-                (
-                    new Expression[]
-                    {
-                        Expression.Call
-                        (
-                            FAddParam,
-                            FParams,
-                            Expression.Constant(shortcuts[junction.Segment.Name]),
-                            FConverted
-                        )
-                    }.Concat
-                    (
-                        ProcessJunction()
-                    )
-                )
+                ProcessJunction(junction)
             );
 
-            IEnumerable<Expression> ProcessJunction()
+            IEnumerable<Expression> ProcessStaticJunctions(IEnumerable<Junction> junctions)
+            {
+                if (!junctions.Any())
+                    yield break;
+
+                LabelTarget exit = Expression.Label(nameof(exit));
+
+                SwitchExpression @switch = new(ignoreCase: true)
+                {
+                    Order = FOrder,
+                    Default = Expression.Goto(exit),
+                    Key = Expression.Property(FSegments, FCurrent)
+                };
+
+                foreach (Junction junction in junctions)
+                {
+                    @switch.AddCase
+                    (
+                        junction.Segment!.Name,
+                        Expression.Block
+                        (
+                            ProcessJunction(junction)
+                        )
+                    );
+                }
+
+                yield return @switch.Expression;
+
+                yield return Expression.Label(exit);
+            }
+
+            IEnumerable<Expression> ProcessDynamicJunctions(IEnumerable<Junction> junctions)
+            {
+                foreach (Junction junction in junctions)
+                {
+                    yield return Expression.IfThen
+                    (
+                        Expression.Call
+                        (
+                            Expression.Constant(junction.Segment!.Converter),
+                            FConvert,
+                            Expression.Property(FSegments, FCurrent),
+                            FConverted
+                        ),
+                        Expression.Block
+                        (
+                            new Expression[]
+                            {
+                                Expression.Call
+                                (
+                                    FAddParam,
+                                    FParams,
+                                    Expression.Constant(shortcuts[junction.Segment.Name]),
+                                    FConverted
+                                )
+                            }.Concat
+                            (
+                                ProcessJunction(junction)
+                            )
+                        )
+                    );
+                }
+            }
+
+            IEnumerable<Expression> ProcessJunction(Junction junction)
             {
                 //
                 // if (segments.MoveNext())
@@ -205,20 +228,16 @@ namespace Solti.Utils.Router
                 (
                     Expression.Call(FSegments, FMoveNext),
                     Expression.Block
-                    (
-                        junction
-                            .Children
-                            .Select(child => BuildJunction(child, shortcuts))
-                            .Append
-                            (
-                                Return
-                                (
-                                    DefaultHandler,
-                                    FUserData,
-                                    Expression.Constant(HttpStatusCode.NotFound)
-                                )
-                            )
-                    )
+                    ([
+                        ..ProcessStaticJunctions(junction.Children.Where(static child => child.Segment!.Converter is null)),
+                        ..ProcessDynamicJunctions(junction.Children.Where(static child => child.Segment!.Converter is not null)),
+                        Return
+                        (
+                            DefaultHandler,
+                            FUserData,
+                            Expression.Constant(HttpStatusCode.NotFound)
+                        )
+                    ])
                 );
 
                 //
@@ -229,7 +248,7 @@ namespace Solti.Utils.Router
                 //    return XyzHandler(...);
                 //
 
-                foreach (IGrouping<SimpleRequestHandlerFactory, string> handlerGroup in junction.Handlers.GroupBy(static fact => fact.Value, static fact => fact.Key))
+                foreach (IGrouping<SimpleRequestHandlerFactory, string> handlerGroup in junction.Methods.GroupBy(static fact => fact.Value, static fact => fact.Key))
                 {
                     yield return Expression.IfThen
                     (
@@ -255,7 +274,7 @@ namespace Solti.Utils.Router
                     FUserData,
                     Expression.Constant
                     (
-                        junction.Handlers.Count is 0
+                        junction.Methods.Count is 0
                             ? HttpStatusCode.NotFound
                             : HttpStatusCode.MethodNotAllowed
                     )
@@ -383,12 +402,13 @@ namespace Solti.Utils.Router
             (
                 body: Expression.Block
                 (
-                    variables: new ParameterExpression[]
-                    {
+                    variables:
+                    [
                         FSegments,
                         FParams,
-                        FConverted
-                    },
+                        FConverted,
+                        FOrder
+                    ],
                     FPath,
                     FMethod,
                     route,
@@ -401,13 +421,13 @@ namespace Solti.Utils.Router
                         )
                     )
                 ),
-                parameters: new ParameterExpression[]
-                {
+                parameters:
+                [
                     FUserData,
                     FPath,
                     FMethod,
                     FSplitOptions
-                }
+                ]
             );
 
             Debug.WriteLine(routerExpr.GetDebugView());
@@ -497,17 +517,11 @@ namespace Solti.Utils.Router
             {
                 if (string.IsNullOrEmpty(method))
                     throw new ArgumentException(Resources.EMPTY_METHOD, nameof(methods));
-#if NETSTANDARD2_1_OR_GREATER
-                if (target.Handlers.TryAdd(method, shortcuts => handlerFactory(route, shortcuts)))
-                    continue;
-#else
-                if (!target.Handlers.ContainsKey(method))
-                {
-                    target.Handlers.Add(method, shortcuts => handlerFactory(route, shortcuts));
-                    continue;
-                }
-#endif
-                throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
+
+                if (target.Methods.ContainsKey(method))
+                    throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
+
+                target.Methods[method] = shortcuts => handlerFactory(route, shortcuts);          
             }
 
             foreach (string variable in route.Parameters.Keys)

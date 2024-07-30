@@ -366,6 +366,7 @@ namespace Solti.Utils.Router
 
             return AsyncRouter;
 
+            // methods having ref struct parameter cannot be async =(
             Task<object?> AsyncRouter(object? userData, ReadOnlySpan<char> path, ReadOnlySpan<char> method, SplitOptions? splitOptions)
             {
                 Task<object?> task;
