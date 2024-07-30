@@ -4,6 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.Buffers;
 using System.Runtime.CompilerServices;
 
 namespace Solti.Utils.Router.Internals
@@ -13,7 +14,7 @@ namespace Solti.Utils.Router.Internals
     /// </summary>
     internal sealed class StringBuilder(int initialLength = 128) : IDisposable
     {
-        private char[] FBuffer = MemoryPool<char>.Get(initialLength);
+        private char[] FBuffer = ArrayPool<char>.Shared.Rent(initialLength);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ResizeIfRequired(int addition)
@@ -23,7 +24,7 @@ namespace Solti.Utils.Router.Internals
                 Array.Resize(ref FBuffer, newLength * 2);
         }
 
-        public void Dispose() => MemoryPool<char>.Return(ref FBuffer!);
+        public void Dispose() => ArrayPool<char>.Shared.Return(FBuffer);
 
         public void Append(string str)
         {

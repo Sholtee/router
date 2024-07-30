@@ -4,6 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -23,9 +24,9 @@ namespace Solti.Utils.Router.Internals
             FByteCount,
             FOutputPosition;
 
-        private char[] FOutput;
+        private readonly char[] FOutput;
 
-        private byte[]? FBytes;
+        private readonly byte[] FBytes;
 
         private readonly SplitOptions FOptions;
 
@@ -33,7 +34,8 @@ namespace Solti.Utils.Router.Internals
         {
             FInput   = path;
             FOptions = options;
-            FOutput  = MemoryPool<char>.Get(path.Length);
+            FOutput  = ArrayPool<char>.Shared.Rent(path.Length);
+            FBytes   = ArrayPool<byte>.Shared.Rent(FInput.Length / 3); // 3 == "%XX".Length 
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -92,8 +94,6 @@ namespace Solti.Utils.Router.Internals
                 //
                 // %XX
                 //
-
-                FBytes ??= MemoryPool<byte>.Get(FInput.Length / 3); // 3 == "%XX".Length 
 
                 if
                 (
@@ -219,10 +219,10 @@ namespace Solti.Utils.Router.Internals
 
         public void Reset() => FInputPosition = FOutputPosition = 0;
 
-        public void Dispose()
+        public readonly void Dispose()
         {
-            MemoryPool<char>.Return(ref FOutput!);
-            MemoryPool<byte>.Return(ref FBytes!);
+            ArrayPool<char>.Shared.Return(FOutput);
+            ArrayPool<byte>.Shared.Return(FBytes);
         }
 
         /// <summary>

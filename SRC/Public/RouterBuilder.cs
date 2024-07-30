@@ -115,8 +115,8 @@ namespace Solti.Utils.Router
             FDispose      = typeof(PathSplitter).GetMethod(nameof(PathSplitter.Dispose)), // MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.Dispose()),
             FSplit        = ((SplitDelegate) PathSplitter.Split).Method, // MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
             FAddParam     = MethodInfoExtractor.Extract(static () => AddParam(null!, 0, null)),
-            FMemoryEquals = ((MemoryEqualsDelegate) MemoryExtensions.Equals).Method, // MethodInfoExtractor.Extract(static () => MemoryEquals(default, string.Empty, default)),
-            FAsSpan       = ((AsSpanDelegate) MemoryExtensions.AsSpan).Method,
+            FMemoryEquals = ((MemoryEqualsDelegate) System.MemoryExtensions.Equals).Method, // MethodInfoExtractor.Extract(static () => MemoryEquals(default, string.Empty, default)),
+            FAsSpan       = ((AsSpanDelegate) System.MemoryExtensions.AsSpan).Method,
             FConvert      = MethodInfoExtractor.Extract<IConverter, object?>(static (c, output) => c.ConvertToValue(null!, out output));
 
         private static readonly PropertyInfo FCurrent = typeof(PathSplitter).GetProperty(nameof(PathSplitter.Current)); // PropertyInfoExtractor.Extract<PathSplitter, ReadOnlySpan<char>>(static parts => parts.Current);

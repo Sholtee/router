@@ -20,8 +20,8 @@ namespace Solti.Utils.Router.Internals
         private delegate int CompareDelegate(ReadOnlySpan<char> a, ReadOnlySpan<char> b, StringComparison comparison);
 
         private static readonly MethodInfo
-            FCompareTo = ((CompareDelegate) MemoryExtensions.CompareTo).Method,
-            FAsSpan = ((AsSpanDelegate) MemoryExtensions.AsSpan).Method;
+            FCompareTo = ((CompareDelegate) System.MemoryExtensions.CompareTo).Method,
+            FAsSpan = ((AsSpanDelegate) System.MemoryExtensions.AsSpan).Method;
 
         private readonly ConstantExpression FComparison = Expression.Constant
         (
