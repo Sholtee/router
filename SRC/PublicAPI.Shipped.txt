@@ -60,11 +60,8 @@ Solti.Utils.Router.RouteTemplate
 Solti.Utils.Router.RouteTemplateCompiler
 Solti.Utils.Router.SplitOptions
 Solti.Utils.Router.SplitOptions.ConvertHexValues.get -> bool
-Solti.Utils.Router.SplitOptions.ConvertHexValues.set -> void
 Solti.Utils.Router.SplitOptions.ConvertSpaces.get -> bool
-Solti.Utils.Router.SplitOptions.ConvertSpaces.set -> void
 Solti.Utils.Router.SplitOptions.Encoding.get -> System.Text.Encoding!
-Solti.Utils.Router.SplitOptions.Encoding.set -> void
 Solti.Utils.Router.UntypedRequestHandlerFactory
 static Solti.Utils.Router.AsyncRouterBuilder.Create(System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> Solti.Utils.Router.AsyncRouterBuilder!
 static Solti.Utils.Router.AsyncRouterBuilder.Create(System.Linq.Expressions.LambdaExpression! handlerExpr, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> Solti.Utils.Router.AsyncRouterBuilder!

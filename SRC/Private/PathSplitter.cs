@@ -12,12 +12,26 @@ using System.Runtime.CompilerServices;
 
 namespace Solti.Utils.Router.Internals
 {
+    using Primitives;
+
     using static Properties.Resources;
 
     internal ref struct PathSplitter
     {
         #region Private
-        private readonly ReadOnlySpan<char> FInput;
+        private const string
+            UNRESERVED_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy0123456789-._~",
+            CONTROL_CHARS = "/%+";
+
+        private delegate int FindControlFn(ReadOnlySpan<char> input);
+
+        private static int FindControl(ReadOnlySpan<char> input) => input.IndexOfAny(CONTROL_CHARS.AsSpan());
+
+        private static int FindControlSafe(ReadOnlySpan<char> input) => input.IndexOfAnyExcept(UNRESERVED_CHARS.AsSpan());
+
+        private static readonly FindControlFn  // converting methods to delegates takes long so do it only once
+            FFindControl = FindControl,
+            FFindControlSafe = FindControlSafe;
 
         private int
             FInputPosition,
@@ -30,6 +44,8 @@ namespace Solti.Utils.Router.Internals
 
         private readonly SplitOptions FOptions;
 
+        private readonly ReadOnlySpan<char> FInput;
+
         private PathSplitter(ReadOnlySpan<char> path, SplitOptions options)
         {
             FInput   = path;
@@ -39,12 +55,12 @@ namespace Solti.Utils.Router.Internals
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private readonly InvalidOperationException InvalidPath(string err)
+        private readonly void InvalidPath(string err)
         {
             InvalidOperationException ex = new(string.Format(Culture, INVALID_PATH, err));
             ex.Data["Path"] = FInput.ToString();
             ex.Data["Position"] = FInputPosition;
-            return ex;
+            throw ex;
         }
 
         private bool ReadHexChar()
@@ -87,7 +103,7 @@ namespace Solti.Utils.Router.Internals
                 // Already unicode so no Encoding.GetChars() call required
                 //
 
-                FOutput[FOutputPosition++] = (char)chr;
+                FOutput[FOutputPosition++] = (char) chr;
             }
             else
             {
@@ -150,15 +166,17 @@ namespace Solti.Utils.Router.Internals
 
             FOutputPosition = 0;
 
+            FindControlFn findControl = FOptions.AllowUnsafeChars ? FFindControl : FFindControlSafe;
+
             for (; ; FInputPosition++)
             {
                 ReadOnlySpan<char> chunk = FInput.Slice(FInputPosition);
 
-                int chrIndex = chunk.IndexOfAny('/', '%', '+');
-                if (chrIndex is not 0 || chunk[chrIndex] is not '%')
+                int ctrlIndex = findControl(chunk);
+                if (ctrlIndex is not 0 || chunk[0] is not '%')
                     FlushHexChars();
 
-                if (chrIndex is -1)
+                if (ctrlIndex is -1)
                 {
                     chunk.CopyTo(FOutput.AsSpan(FOutputPosition));
 
@@ -168,12 +186,12 @@ namespace Solti.Utils.Router.Internals
                     return FOutputPosition > 0;
                 }
 
-                chunk.Slice(0, chrIndex).CopyTo(FOutput.AsSpan().Slice(FOutputPosition));
+                chunk.Slice(0, ctrlIndex).CopyTo(FOutput.AsSpan().Slice(FOutputPosition));
 
-                FInputPosition += chrIndex;
-                FOutputPosition += chrIndex;
+                FInputPosition += ctrlIndex;
+                FOutputPosition += ctrlIndex;
 
-                switch (chunk[chrIndex])
+                switch (chunk[ctrlIndex])
                 {
                     case '/':
                         //
@@ -188,13 +206,13 @@ namespace Solti.Utils.Router.Internals
                         //
 
                         if (FOutputPosition is 0)
-                            throw InvalidPath(EMPTY_CHUNK);
+                            InvalidPath(EMPTY_CHUNK);
 
                         FInputPosition++;
                         return true;
                     case '%' when FOptions.ConvertHexValues:
                         if (!ReadHexChar())
-                            throw InvalidPath(INVALID_HEX);
+                            InvalidPath(INVALID_HEX);
 
                         //
                         // FOutput remains untouched until the next FlushHexChars() call
@@ -203,6 +221,10 @@ namespace Solti.Utils.Router.Internals
                         break;
                     case '+' when FOptions.ConvertSpaces:
                         FOutput[FOutputPosition++] = ' ';
+                        break;
+                    default:
+                        if (!FOptions.AllowUnsafeChars)
+                            InvalidPath(UNSAFE_CHAR);
                         break;
                 }
             }

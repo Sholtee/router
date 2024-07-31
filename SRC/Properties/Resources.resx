@@ -174,4 +174,7 @@
   <data name="TOO_MANY_PARAM_DESCRIPTOR" xml:space="preserve">
     <value>A segment may contain one parameter descriptor only.</value>
   </data>
+  <data name="UNSAFE_CHAR" xml:space="preserve">
+    <value>Unsafe character</value>
+  </data>
 </root>

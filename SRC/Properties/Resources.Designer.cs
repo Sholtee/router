@@ -230,5 +230,14 @@ namespace Solti.Utils.Router.Properties {
                 return ResourceManager.GetString("TOO_MANY_PARAM_DESCRIPTOR", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsafe character.
+        /// </summary>
+        internal static string UNSAFE_CHAR {
+            get {
+                return ResourceManager.GetString("UNSAFE_CHAR", resourceCulture);
+            }
+        }
     }
 }

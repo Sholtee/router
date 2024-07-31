@@ -1,2 +1,7 @@
 ﻿Solti.Utils.Router.IParamAccessByInternalId<TData>
 Solti.Utils.Router.IParamAccessByInternalId<TData>.this[int internalId].get -> TData?
+Solti.Utils.Router.SplitOptions.AllowUnsafeChars.get -> bool
+Solti.Utils.Router.SplitOptions.AllowUnsafeChars.init -> void
+Solti.Utils.Router.SplitOptions.ConvertHexValues.init -> void
+Solti.Utils.Router.SplitOptions.ConvertSpaces.init -> void
+Solti.Utils.Router.SplitOptions.Encoding.init -> void

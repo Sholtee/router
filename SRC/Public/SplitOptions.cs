@@ -18,18 +18,23 @@ namespace Solti.Utils.Router
         public static SplitOptions Default { get; } = new SplitOptions();
 
         /// <summary>
+        /// Instruct the system to throw if it encounters 
+        /// </summary>
+        public bool AllowUnsafeChars { get; init; }
+
+        /// <summary>
         /// Resolve characters that are passed by their hexadecimal values
         /// </summary>
-        public bool ConvertHexValues { get; set; } = true;
+        public bool ConvertHexValues { get; init; } = true;
 
         /// <summary>
         /// Convert "+" characters to spaces
         /// </summary>
-        public bool ConvertSpaces { get; set; } = true;
+        public bool ConvertSpaces { get; init; } = true;
 
         /// <summary>
         /// <see cref="System.Text.Encoding"/> to be used when converting hex values. 
         /// </summary>
-        public Encoding Encoding { get; set; } = Encoding.UTF8;
+        public Encoding Encoding { get; init; } = Encoding.UTF8;
     }
 }

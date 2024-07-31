@@ -226,5 +226,26 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/cica/a+b/mica", arg2: new string[] { "cica", "a b", "mica" })]
         public void SplitShouldHandleSpaces(string input, string[] expected) =>
             Assert.That(PathSplitter.Split(input.AsSpan()).AsList().SequenceEqual(expected));
+
+        public static IEnumerable<object[]> SplitShouldThrowOnUnsafeChar_Cases
+        {
+            get
+            {
+                yield return ["cica\\", SplitOptions.Default, 4];
+                yield return ["/cica\\", SplitOptions.Default, 5];
+                yield return ["cica/mi\\ca", SplitOptions.Default, 7];
+                yield return ["/cica/mi\\ca", SplitOptions.Default, 8];
+                yield return ["cica/a+b", SplitOptions.Default with { ConvertSpaces = false }, 6];
+                yield return ["/cica/a+b", SplitOptions.Default with { ConvertSpaces = false}, 7];
+            }
+        }
+
+        [TestCaseSource(nameof(SplitShouldThrowOnUnsafeChar_Cases))]
+        public void SplitShouldThrowOnUnsafeChar(string input, SplitOptions opts, int errPos)
+        {
+            InvalidOperationException err = Assert.Throws<InvalidOperationException>(() => PathSplitter.Split(input.AsSpan(), opts).AsList())!;
+            Assert.That(err.Data, Does.ContainKey("Position"));
+            Assert.That(err.Data["Position"], Is.EqualTo(errPos));
+        }
     }
 }
