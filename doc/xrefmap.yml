@@ -1617,6 +1617,18 @@ references:
   commentId: Overload:Solti.Utils.Router.SplitOptions.{Clone}$
   fullName: Solti.Utils.Router.SplitOptions.<Clone>$
   nameWithType: SplitOptions.<Clone>$
+- uid: Solti.Utils.Router.SplitOptions.AllowUnsafeChars
+  name: AllowUnsafeChars
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_AllowUnsafeChars
+  commentId: P:Solti.Utils.Router.SplitOptions.AllowUnsafeChars
+  fullName: Solti.Utils.Router.SplitOptions.AllowUnsafeChars
+  nameWithType: SplitOptions.AllowUnsafeChars
+- uid: Solti.Utils.Router.SplitOptions.AllowUnsafeChars*
+  name: AllowUnsafeChars
+  href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_AllowUnsafeChars_
+  commentId: Overload:Solti.Utils.Router.SplitOptions.AllowUnsafeChars
+  fullName: Solti.Utils.Router.SplitOptions.AllowUnsafeChars
+  nameWithType: SplitOptions.AllowUnsafeChars
 - uid: Solti.Utils.Router.SplitOptions.ConvertHexValues
   name: ConvertHexValues
   href: Solti.Utils.Router.SplitOptions.html#Solti_Utils_Router_SplitOptions_ConvertHexValues
