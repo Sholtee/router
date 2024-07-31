@@ -19,15 +19,17 @@ namespace Solti.Utils.Router.Internals
     internal ref struct PathSplitter
     {
         #region Private
-        private const string
-            UNRESERVED_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy0123456789-._~",
-            CONTROL_CHARS = "/%+";
-
         private delegate int FindControlFn(ReadOnlySpan<char> input);
 
-        private static int FindControl(ReadOnlySpan<char> input) => input.IndexOfAny(CONTROL_CHARS.AsSpan());
+        private static int FindControl(ReadOnlySpan<char> input) => input.IndexOfAny
+        (
+            "/%+".AsSpan()
+        );
 
-        private static int FindControlSafe(ReadOnlySpan<char> input) => input.IndexOfAnyExcept(UNRESERVED_CHARS.AsSpan());
+        private static int FindControlSafe(ReadOnlySpan<char> input) => input.IndexOfAnyExcept
+        (
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy0123456789-._~".AsSpan()
+        );
 
         private static readonly FindControlFn  // converting methods to delegates takes long so do it only once
             FFindControl = FindControl,
