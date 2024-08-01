@@ -27,7 +27,7 @@ namespace Solti.Utils.Router
             HashSet<string> paramz = [];
             List<RouteSegment> segments = [];
 
-            using PathSplitter pathSplitter = PathSplitter.Split(template.AsSpan(), splitOptions with { AllowUnsafeChars = true });
+            using PathSplitter pathSplitter = new(template.AsSpan(), splitOptions with { AllowUnsafeChars = true });
 
             while (pathSplitter.MoveNext())
             {

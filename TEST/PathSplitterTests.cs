@@ -14,26 +14,23 @@ namespace Solti.Utils.Router.Tests
 {
     using Internals;
 
-    internal static class PathSplitterExtensions
+    [TestFixture]
+    public class PathSplitterTests
     {
-        public static IReadOnlyList<string> AsList(this PathSplitter self)
+        private static IReadOnlyList<string> Split(string path, SplitOptions? options = null)
         {
+            using PathSplitter pathSplitter = new(path.AsSpan(), options);
+
             List<string> result = [];
 
-            self.Reset();
-
-            while (self.MoveNext())
+            while (pathSplitter.MoveNext())
             {
-                result.Add(self.Current.ToString());
+                result.Add(pathSplitter.Current.ToString());
             }
 
             return result;
         }
-    }
 
-    [TestFixture]
-    public class PathSplitterTests
-    {
         [TestCase("/", arg2: new string[0])]
         [TestCase("/cica/", arg2: new string[] { "cica" })]
         [TestCase("/cica", arg2: new string[] { "cica" })]
@@ -42,12 +39,12 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/cica/mica", arg2: new string[] { "cica", "mica" })]
         [TestCase("cica/mica/", arg2: new string[] { "cica", "mica" })]
         public void SplitShouldNotTakeLeadingAndTrailingSeparatorsIntoAccount(string input, string[] expected) =>
-            Assert.That(PathSplitter.Split(input.AsSpan()).AsList().SequenceEqual(expected));
+            Assert.That(Split(input).SequenceEqual(expected));
 
         [TestCase("")]
         [TestCase("/")]
         public void SplitShouldHandleEmptyPath(string input) =>
-            Assert.That(!PathSplitter.Split(input.AsSpan()).AsList().Any());
+            Assert.That(Split(input), Is.Empty);
 
         // Too short hex
         [TestCase("%")]
@@ -131,7 +128,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("cica/%u00EŰ/")]
         [TestCase("cica/%u00EŰ/mica")]
         public void SplitShouldThrowOnInvalidHex(string input) =>
-            Assert.Throws<InvalidOperationException>(() => PathSplitter.Split(input.AsSpan()).AsList().ToList());
+            Assert.Throws<InvalidOperationException>(() => Split(input));
 
         [TestCase("//")]
         [TestCase("//mica")]
@@ -140,7 +137,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("cica//")]
         [TestCase("cica//mica")]
         public void SplitShouldThrowOnEmptyChunk(string input) =>
-            Assert.Throws<InvalidOperationException>(() => PathSplitter.Split(input.AsSpan()).AsList().ToList());
+            Assert.Throws<InvalidOperationException>(() => Split(input));
 
         [TestCase("%C3%A1", arg2: new string[] { "á" })]
         [TestCase("%C3%A1/", arg2: new string[] { "á" })]
@@ -198,7 +195,7 @@ namespace Solti.Utils.Router.Tests
 
         [TestCase("%uD83D%uDE01", arg2: new string[] { "😁" })]
         public void SplitShouldHandleHexChunks(string input, string[] expected) =>
-            Assert.That(PathSplitter.Split(input.AsSpan()).AsList().SequenceEqual(expected));
+            Assert.That(Split(input).SequenceEqual(expected));
 
         [TestCase("+", arg2: new string[] { " " })]
         [TestCase("+/", arg2: new string[] { " " })]
@@ -226,7 +223,7 @@ namespace Solti.Utils.Router.Tests
         [TestCase("/cica/a+b/", arg2: new string[] { "cica", "a b" })]
         [TestCase("/cica/a+b/mica", arg2: new string[] { "cica", "a b", "mica" })]
         public void SplitShouldHandleSpaces(string input, string[] expected) =>
-            Assert.That(PathSplitter.Split(input.AsSpan()).AsList().SequenceEqual(expected));
+            Assert.That(Split(input).SequenceEqual(expected));
 
         public static IEnumerable<object[]> SplitShouldThrowOnUnsafeChar_Cases
         {
@@ -244,7 +241,7 @@ namespace Solti.Utils.Router.Tests
         [TestCaseSource(nameof(SplitShouldThrowOnUnsafeChar_Cases))]
         public void SplitShouldThrowOnUnsafeChar(string input, SplitOptions opts, int errPos)
         {
-            InvalidOperationException err = Assert.Throws<InvalidOperationException>(() => PathSplitter.Split(input.AsSpan(), opts).AsList())!;
+            InvalidOperationException err = Assert.Throws<InvalidOperationException>(() => Split(input, opts))!;
             Assert.That(err.Data, Does.ContainKey("Position"));
             Assert.That(err.Data["Position"], Is.EqualTo(errPos));
         }
@@ -263,7 +260,7 @@ namespace Solti.Utils.Router.Tests
         [TestCaseSource(nameof(SplitShouldSplit_Cases))]
         public void SplitShouldSplit(string input)
         {
-            Assert.That(input.Split(['/'], StringSplitOptions.RemoveEmptyEntries).ToList(), Is.EquivalentTo(PathSplitter.Split(input.AsSpan()).AsList()));
+            Assert.That(input.Split(['/'], StringSplitOptions.RemoveEmptyEntries).ToList(), Is.EquivalentTo(Split(input)));
         }
     }
 }

@@ -16,7 +16,11 @@ namespace Solti.Utils.Router.Internals
 
     using static Properties.Resources;
 
-    internal ref struct PathSplitter
+    /// <summary>
+    /// Splits the given path converting hex values if necessary.
+    /// </summary>
+    /// <remarks>Due to performance considerations and since it is a ref struct, <see cref="PathSplitter"/> doesn't implement the <see cref="IEnumerable{T}"/> interface.</remarks>
+    internal ref struct PathSplitter(ReadOnlySpan<char> path, SplitOptions? options = null)
     {
         #region Private
         private delegate int FindControlFn(ReadOnlySpan<char> input);
@@ -40,27 +44,19 @@ namespace Solti.Utils.Router.Internals
             FByteCount,
             FOutputPosition;
 
-        private readonly char[] FOutput;
+        private readonly char[] FOutput = ArrayPool<char>.Shared.Rent(path.Length);
 
-        private readonly byte[] FBytes;
+        private readonly byte[] FBytes = ArrayPool<byte>.Shared.Rent(path.Length / 3); // 3 == "%XX".Length ;
 
-        private readonly SplitOptions FOptions;
+        private readonly ReadOnlySpan<char> FPath = path;  // cannot capture "path" as it is a ref struct
 
-        private readonly ReadOnlySpan<char> FInput;
-
-        private PathSplitter(ReadOnlySpan<char> path, SplitOptions options)
-        {
-            FInput   = path;
-            FOptions = options;
-            FOutput  = ArrayPool<char>.Shared.Rent(path.Length);
-            FBytes   = ArrayPool<byte>.Shared.Rent(FInput.Length / 3); // 3 == "%XX".Length 
-        }
+        private readonly SplitOptions FOptions = options ?? SplitOptions.Default;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private readonly void InvalidPath(string err)
         {
             InvalidOperationException ex = new(string.Format(Culture, INVALID_PATH, err));
-            ex.Data["Path"] = FInput.ToString();
+            ex.Data["Path"] = FPath.ToString();
             ex.Data["Position"] = FInputPosition;
             throw ex;
         }
@@ -69,24 +65,24 @@ namespace Solti.Utils.Router.Internals
         {
             int pos = FInputPosition;
 
-            if (FInput.Length - pos <= 2 || FInput[pos++] != '%')
+            if (FPath.Length - pos <= 2 || FPath[pos++] != '%')
                 return false;
 
-            if (FInput[pos] == 'u')
+            if (FPath[pos] == 'u')
             {
                 //
                 // %uXXXX
                 //
 
                 pos++;
-                if (FInput.Length - pos < 4)
+                if (FPath.Length - pos < 4)
                     return false;
 
                 if
                 (
                     !ushort.TryParse
                     (
-                        FInput.Slice(pos, 4)
+                        FPath.Slice(pos, 4)
 #if !NETSTANDARD2_1_OR_GREATER
                             .ToString()
 #endif
@@ -117,7 +113,7 @@ namespace Solti.Utils.Router.Internals
                 (
                     !byte.TryParse
                     (
-                        FInput.Slice(pos, 2)
+                        FPath.Slice(pos, 2)
 #if !NETSTANDARD2_1_OR_GREATER
                             .ToString()
 #endif
@@ -163,7 +159,7 @@ namespace Solti.Utils.Router.Internals
 
         public bool MoveNext()
         {
-            if (FInputPosition == FInput.Length)
+            if (FInputPosition == FPath.Length)
                 return false;
 
             FOutputPosition = 0;
@@ -172,7 +168,7 @@ namespace Solti.Utils.Router.Internals
 
             for (; ; FInputPosition++)
             {
-                ReadOnlySpan<char> chunk = FInput.Slice(FInputPosition);
+                ReadOnlySpan<char> chunk = FPath.Slice(FInputPosition);
 
                 int ctrlIndex = findControl(chunk);
                 if (ctrlIndex is not 0 || chunk[0] is not '%')
@@ -248,11 +244,5 @@ namespace Solti.Utils.Router.Internals
             ArrayPool<char>.Shared.Return(FOutput);
             ArrayPool<byte>.Shared.Return(FBytes);
         }
-
-        /// <summary>
-        /// Splits the given path converting hex values if necessary.
-        /// </summary>
-        /// <remarks>Due to performance considerations and since <see cref="ReadOnlySpan{T}"/> cannot be a generic parameter, this method intentionally doesn't return an <see cref="IEnumerable{T}"/>.</remarks>
-        public static PathSplitter Split(ReadOnlySpan<char> path, SplitOptions? options = null) => new(path, options ?? SplitOptions.Default);
     }
 }

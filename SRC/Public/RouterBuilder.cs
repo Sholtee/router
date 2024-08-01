@@ -113,7 +113,7 @@ namespace Solti.Utils.Router
         private static readonly MethodInfo
             FMoveNext     = typeof(PathSplitter).GetMethod(nameof(PathSplitter.MoveNext)), // MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.MoveNext()),
             FDispose      = typeof(PathSplitter).GetMethod(nameof(PathSplitter.Dispose)), // MethodInfoExtractor.Extract<PathSplitter>(static ps => ps.Dispose()),
-            FSplit        = ((SplitDelegate) PathSplitter.Split).Method, // MethodInfoExtractor.Extract(static () => PathSplitter.Split(null!, SplitOptions.Default)),
+            FSplit        = ((SplitDelegate) Split).Method, // MethodInfoExtractor.Extract(static () => Split(default, SplitOptions.Default)),
             FAddParam     = MethodInfoExtractor.Extract(static () => AddParam(null!, 0, null)),
             FMemoryEquals = ((MemoryEqualsDelegate) System.MemoryExtensions.Equals).Method, // MethodInfoExtractor.Extract(static () => MemoryEquals(default, string.Empty, default)),
             FAsSpan       = ((AsSpanDelegate) System.MemoryExtensions.AsSpan).Method,
@@ -142,6 +142,9 @@ namespace Solti.Utils.Router
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void AddParam(StaticDictionary<object?> paramz, int id, object? value) => paramz[id] = value;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static PathSplitter Split(ReadOnlySpan<char> path, SplitOptions? options) => new(path, options);
 
         private Expression BuildJunction(Junction junction, IReadOnlyDictionary<string, int> shortcuts)
         {
