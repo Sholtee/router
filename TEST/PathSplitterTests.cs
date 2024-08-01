@@ -5,6 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using NUnit.Framework;
@@ -246,6 +247,23 @@ namespace Solti.Utils.Router.Tests
             InvalidOperationException err = Assert.Throws<InvalidOperationException>(() => PathSplitter.Split(input.AsSpan(), opts).AsList())!;
             Assert.That(err.Data, Does.ContainKey("Position"));
             Assert.That(err.Data["Position"], Is.EqualTo(errPos));
+        }
+
+        public static IEnumerable<object[]> SplitShouldSplit_Cases
+        {
+            get
+            {
+                foreach (string url in File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "urls.txt")))
+                {
+                    yield return new object[] { url };
+                }
+            }
+        }
+
+        [TestCaseSource(nameof(SplitShouldSplit_Cases))]
+        public void SplitShouldSplit(string input)
+        {
+            Assert.That(input.Split(['/'], StringSplitOptions.RemoveEmptyEntries).ToList(), Is.EquivalentTo(PathSplitter.Split(input.AsSpan()).AsList()));
         }
     }
 }

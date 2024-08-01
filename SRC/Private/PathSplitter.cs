@@ -28,7 +28,7 @@ namespace Solti.Utils.Router.Internals
 
         private static int FindControlSafe(ReadOnlySpan<char> input) => input.IndexOfAnyExcept
         (
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy0123456789-._~".AsSpan()
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~".AsSpan()
         );
 
         private static readonly FindControlFn  // converting methods to delegates takes long so do it only once
