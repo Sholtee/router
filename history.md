@@ -67,3 +67,11 @@
 - 5.0.5:
   - *improved:* `PathSplitter` performance
   - *removed:* Unsafe codes
+- 6.0.0:
+  - *breaking:* `IParamAccessByInternalId` is now a generic class
+  - *breaking:* `Router` && `AsyncRouter` now expect their string inputs as `ReadOnylSpan<char>`
+  - *breaking:* `PathSplitter` now throws on unsafe URL character by default
+  - *breaking:* `RequestHandlerBuilder` became abstract
+  - *improved:* Routing performance
+  - *introduced:* `InjectorDotNetRequestHandlerBuilder` & `MsDiRequestHandlerBuilder` classes
+  - *introduce:* `SplitOptions.AllowUnsafeChars` property (defaults to `false`)
