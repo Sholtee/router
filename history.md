@@ -75,3 +75,5 @@
   - *improved:* Routing performance
   - *introduced:* `InjectorDotNetRequestHandlerBuilder` & `MsDiRequestHandlerBuilder` classes
   - *introduce:* `SplitOptions.AllowUnsafeChars` property (defaults to `false`)
+- 6.0.1:
+  - *fixed:* Resizing issue in `StringBuilder` class
