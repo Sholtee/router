@@ -23,7 +23,6 @@ namespace Solti.Utils.Router.Tests
     using DI;
     using DI.Interfaces;
     using Extensions;
-    using Primitives;
 
     using ResponseData = (HttpStatusCode Status, object? Body);
 
