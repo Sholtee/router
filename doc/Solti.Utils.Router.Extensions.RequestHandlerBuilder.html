@@ -49,12 +49,14 @@
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">RequestHandlerBuilder</span></div>
+      <div class="level2"><a class="xref" href="Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.html">InjectorDotNetRequestHandlerBuilder</a></div>
+      <div class="level2"><a class="xref" href="Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.html">MsDiRequestHandlerBuilder</a></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Solti.Utils.Router.Extensions.html">Solti.Utils.Router.Extensions</a></h6>
   <h6><strong>Assembly</strong>: Solti.Utils.Router.dll</h6>
   <h5 id="Solti_Utils_Router_Extensions_RequestHandlerBuilder_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class RequestHandlerBuilder : Object</code></pre>
+    <pre><code class="lang-csharp hljs">public abstract class RequestHandlerBuilder : Object</code></pre>
   </div>
   <h5 id="Solti_Utils_Router_Extensions_RequestHandlerBuilder_remarks"><strong>Remarks</strong></h5>
   <div class="markdown level0 remarks"><pre><code>(IReadOnlyDictionary&lt;string, object?> paramz, object? userData) =>
@@ -71,18 +73,18 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RequestHandlerBuilder()</code></pre>
+    <pre><code class="lang-csharp hljs">protected RequestHandlerBuilder()</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
   <a id="Solti_Utils_Router_Extensions_RequestHandlerBuilder_CreateServiceMethod_" data-uid="Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod*"></a>
   <h4 id="Solti_Utils_Router_Extensions_RequestHandlerBuilder_CreateServiceMethod" data-uid="Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod">CreateServiceMethod</h4>
-  <div class="markdown level1 summary"><p>The concrete method being invoked to create the particular service instance. By default it points to the <span class="xref">System.IServiceProvider.GetService(System.Type)</span> method.</p>
+  <div class="markdown level1 summary"><p>The concrete method being invoked to create the particular service instance. For instance <span class="xref">System.IServiceProvider.GetService(System.Type)</span>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected virtual MethodInfo CreateServiceMethod { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">protected abstract MethodInfo CreateServiceMethod { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -326,7 +328,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected virtual Expression GetCreateServiceArgument(ParameterInfo param, Type serviceType, object userData)</code></pre>
+    <pre><code class="lang-csharp hljs">protected abstract Expression GetCreateServiceArgument(ParameterInfo param, Type serviceType, object userData)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">

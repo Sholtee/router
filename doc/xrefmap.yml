@@ -658,6 +658,90 @@ references:
   commentId: Overload:Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder
   fullName: Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder
   nameWithType: AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder
+- uid: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder
+  name: InjectorDotNetRequestHandlerBuilder
+  href: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.html
+  commentId: T:Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder
+  fullName: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder
+  nameWithType: InjectorDotNetRequestHandlerBuilder
+- uid: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.#ctor
+  name: InjectorDotNetRequestHandlerBuilder()
+  href: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.html#Solti_Utils_Router_Extensions_InjectorDotNetRequestHandlerBuilder__ctor
+  commentId: M:Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.#ctor
+  fullName: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.InjectorDotNetRequestHandlerBuilder()
+  nameWithType: InjectorDotNetRequestHandlerBuilder.InjectorDotNetRequestHandlerBuilder()
+- uid: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.#ctor*
+  name: InjectorDotNetRequestHandlerBuilder
+  href: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.html#Solti_Utils_Router_Extensions_InjectorDotNetRequestHandlerBuilder__ctor_
+  commentId: Overload:Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.#ctor
+  fullName: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.InjectorDotNetRequestHandlerBuilder
+  nameWithType: InjectorDotNetRequestHandlerBuilder.InjectorDotNetRequestHandlerBuilder
+- uid: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.CreateServiceMethod
+  name: CreateServiceMethod
+  href: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.html#Solti_Utils_Router_Extensions_InjectorDotNetRequestHandlerBuilder_CreateServiceMethod
+  commentId: P:Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.CreateServiceMethod
+  fullName: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.CreateServiceMethod
+  nameWithType: InjectorDotNetRequestHandlerBuilder.CreateServiceMethod
+- uid: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.CreateServiceMethod*
+  name: CreateServiceMethod
+  href: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.html#Solti_Utils_Router_Extensions_InjectorDotNetRequestHandlerBuilder_CreateServiceMethod_
+  commentId: Overload:Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.CreateServiceMethod
+  fullName: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.CreateServiceMethod
+  nameWithType: InjectorDotNetRequestHandlerBuilder.CreateServiceMethod
+- uid: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo,System.Type,System.Object)
+  name: GetCreateServiceArgument(ParameterInfo, Type, Object)
+  href: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.html#Solti_Utils_Router_Extensions_InjectorDotNetRequestHandlerBuilder_GetCreateServiceArgument_System_Reflection_ParameterInfo_System_Type_System_Object_
+  commentId: M:Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo,System.Type,System.Object)
+  fullName: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo, System.Type, System.Object)
+  nameWithType: InjectorDotNetRequestHandlerBuilder.GetCreateServiceArgument(ParameterInfo, Type, Object)
+- uid: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.GetCreateServiceArgument*
+  name: GetCreateServiceArgument
+  href: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.html#Solti_Utils_Router_Extensions_InjectorDotNetRequestHandlerBuilder_GetCreateServiceArgument_
+  commentId: Overload:Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.GetCreateServiceArgument
+  fullName: Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.GetCreateServiceArgument
+  nameWithType: InjectorDotNetRequestHandlerBuilder.GetCreateServiceArgument
+- uid: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder
+  name: MsDiRequestHandlerBuilder
+  href: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.html
+  commentId: T:Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder
+  fullName: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder
+  nameWithType: MsDiRequestHandlerBuilder
+- uid: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.#ctor
+  name: MsDiRequestHandlerBuilder()
+  href: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.html#Solti_Utils_Router_Extensions_MsDiRequestHandlerBuilder__ctor
+  commentId: M:Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.#ctor
+  fullName: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.MsDiRequestHandlerBuilder()
+  nameWithType: MsDiRequestHandlerBuilder.MsDiRequestHandlerBuilder()
+- uid: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.#ctor*
+  name: MsDiRequestHandlerBuilder
+  href: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.html#Solti_Utils_Router_Extensions_MsDiRequestHandlerBuilder__ctor_
+  commentId: Overload:Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.#ctor
+  fullName: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.MsDiRequestHandlerBuilder
+  nameWithType: MsDiRequestHandlerBuilder.MsDiRequestHandlerBuilder
+- uid: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.CreateServiceMethod
+  name: CreateServiceMethod
+  href: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.html#Solti_Utils_Router_Extensions_MsDiRequestHandlerBuilder_CreateServiceMethod
+  commentId: P:Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.CreateServiceMethod
+  fullName: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.CreateServiceMethod
+  nameWithType: MsDiRequestHandlerBuilder.CreateServiceMethod
+- uid: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.CreateServiceMethod*
+  name: CreateServiceMethod
+  href: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.html#Solti_Utils_Router_Extensions_MsDiRequestHandlerBuilder_CreateServiceMethod_
+  commentId: Overload:Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.CreateServiceMethod
+  fullName: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.CreateServiceMethod
+  nameWithType: MsDiRequestHandlerBuilder.CreateServiceMethod
+- uid: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo,System.Type,System.Object)
+  name: GetCreateServiceArgument(ParameterInfo, Type, Object)
+  href: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.html#Solti_Utils_Router_Extensions_MsDiRequestHandlerBuilder_GetCreateServiceArgument_System_Reflection_ParameterInfo_System_Type_System_Object_
+  commentId: M:Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo,System.Type,System.Object)
+  fullName: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo, System.Type, System.Object)
+  nameWithType: MsDiRequestHandlerBuilder.GetCreateServiceArgument(ParameterInfo, Type, Object)
+- uid: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.GetCreateServiceArgument*
+  name: GetCreateServiceArgument
+  href: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.html#Solti_Utils_Router_Extensions_MsDiRequestHandlerBuilder_GetCreateServiceArgument_
+  commentId: Overload:Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.GetCreateServiceArgument
+  fullName: Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.GetCreateServiceArgument
+  nameWithType: MsDiRequestHandlerBuilder.GetCreateServiceArgument
 - uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder
   name: RequestHandlerBuilder
   href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html
