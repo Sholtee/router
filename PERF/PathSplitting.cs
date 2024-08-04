@@ -20,13 +20,16 @@ namespace Solti.Utils.Router.Perf
 
         public string Input { get; set; } = null!;
 
+        [Params(true, false)]
+        public bool AllowUnsafeChars { get; set; }
+
         [GlobalSetup(Target = nameof(Split))]
         public void SetupSplit() => Input = "/" + string.Join("/", Enumerable.Repeat("segemnt", SegmentCount));
 
         [Benchmark]
         public void Split()
         {
-            using PathSplitter enumerator = new(Input);
+            using PathSplitter enumerator = new(Input, SplitOptions.Default with { AllowUnsafeChars = AllowUnsafeChars});
             while (enumerator.MoveNext())
             {
                 _ = enumerator.Current;
