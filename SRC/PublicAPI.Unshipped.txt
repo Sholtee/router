@@ -1,4 +1,14 @@
-﻿Solti.Utils.Router.IParamAccessByInternalId<TData>
+﻿abstract Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo! param, System.Type! serviceType, object? userData) -> System.Linq.Expressions.Expression!
+abstract Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod.get -> System.Reflection.MethodInfo!
+override Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo! param, System.Type! serviceType, object? userData) -> System.Linq.Expressions.Expression!
+override Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.CreateServiceMethod.get -> System.Reflection.MethodInfo!
+override Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo! param, System.Type! serviceType, object? userData) -> System.Linq.Expressions.Expression!
+override Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.CreateServiceMethod.get -> System.Reflection.MethodInfo!
+Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder
+Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.InjectorDotNetRequestHandlerBuilder() -> void
+Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder
+Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.MsDiRequestHandlerBuilder() -> void
+Solti.Utils.Router.IParamAccessByInternalId<TData>
 Solti.Utils.Router.IParamAccessByInternalId<TData>.this[int internalId].get -> TData?
 Solti.Utils.Router.SplitOptions.AllowUnsafeChars.get -> bool
 Solti.Utils.Router.SplitOptions.AllowUnsafeChars.init -> void

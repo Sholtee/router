@@ -28,11 +28,9 @@ namespace Solti.Utils.Router.Extensions
     /// }
     /// </code>
     /// </remarks>
-    public class RequestHandlerBuilder
+    public abstract class RequestHandlerBuilder
     {
-        private static readonly MethodInfo
-            FGetService = MethodInfoExtractor.Extract<IServiceProvider>(static sp => sp.GetService(null)),
-            FGetParam   = MethodInfoExtractor.Extract<IParamAccessByInternalId<object?>, object?>(static dict => dict[0]);
+        private static readonly MethodInfo FGetParam = MethodInfoExtractor.Extract<IParamAccessByInternalId<object?>, object?>(static dict => dict[0]);
 
         /// <summary>
         /// Expression reflecting the "userData" parameter of <see cref="RequestHandler{TResult}.Invoke(IReadOnlyDictionary{string, object?}, object?)"/>
@@ -76,9 +74,9 @@ namespace Solti.Utils.Router.Extensions
         );
 
         /// <summary>
-        /// The concrete method being invoked to create the particular service instance. By default it points to the <see cref="IServiceProvider.GetService(Type)"/> method.
+        /// The concrete method being invoked to create the particular service instance. For instance <see cref="IServiceProvider.GetService(Type)"/>.
         /// </summary>
-        protected virtual MethodInfo CreateServiceMethod { get; } = FGetService;
+        protected abstract MethodInfo CreateServiceMethod { get; }
 
         /// <summary>
         /// Returns the argument(s) to be passed to the <see cref="CreateServiceMethod"/>.
@@ -86,11 +84,7 @@ namespace Solti.Utils.Router.Extensions
         #if DEBUG
         internal
         #endif
-        protected virtual Expression GetCreateServiceArgument(ParameterInfo param, Type serviceType, object? userData) => param.Position switch
-        {
-            0 => Expression.Constant(serviceType),
-            _ => throw new NotSupportedException()
-        };
+        protected abstract Expression GetCreateServiceArgument(ParameterInfo param, Type serviceType, object? userData);
 
         /// <summary>
         /// Gets the argument name to be used when getting the value from the "paramz" dict.
@@ -153,9 +147,9 @@ namespace Solti.Utils.Router.Extensions
         /// MyHandler((TArg1) elementAccess[internalId_1], (TArg2) elementAccess[internalId_2])
         /// </code>
         /// </remarks>
-#if DEBUG
+        #if DEBUG
         internal
-#endif
+        #endif
         protected virtual Expression InvokeService(ParsedRoute route, MethodInfo invokeServiceMethod, IReadOnlyDictionary<string, int> shortcuts, object? userData)
         {
             List<Expression> block =
@@ -194,7 +188,7 @@ namespace Solti.Utils.Router.Extensions
             return Expression.Block
             (
                 type: blockType,
-                variables: new ParameterExpression[] { ElementAccess },
+                variables: [ElementAccess],
                 block
             );
         }

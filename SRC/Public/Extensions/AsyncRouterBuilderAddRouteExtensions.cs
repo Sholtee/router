@@ -16,10 +16,21 @@ namespace Solti.Utils.Router.Extensions
     /// </summary>
     public static class AsyncRouterBuilderAddRouteExtensions
     {
+        [ThreadStatic]
+        private static RequestHandlerBuilder? FRequestHandlerBuilder;
+
         /// <summary>
-        /// The <see cref="Extensions.RequestHandlerBuilder"/> to be used.
+        /// The <see cref="Extensions.RequestHandlerBuilder"/> to be used. The default is <see cref="MsDiRequestHandlerBuilder"/>
         /// </summary>
-        public static RequestHandlerBuilder RequestHandlerBuilder { get; set; } = new RequestHandlerBuilder();
+        public static RequestHandlerBuilder RequestHandlerBuilder
+        {
+            get
+            {
+                FRequestHandlerBuilder ??= new MsDiRequestHandlerBuilder();
+                return FRequestHandlerBuilder;
+            }
+            set => FRequestHandlerBuilder = value;
+        }
 
         /// <summary>
         /// Registers a new route.

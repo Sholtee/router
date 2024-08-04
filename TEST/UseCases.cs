@@ -386,19 +386,6 @@ namespace Solti.Utils.Router.Tests
     [TestFixture]
     public class UseCaseIOC_InjectorDotNet: UseCaseIOCBase<IScopeFactory, IInjector>
     {
-        private sealed class InjectorDotNetRequestHandlerBuilder : RequestHandlerBuilder
-        {
-            protected override MethodInfo CreateServiceMethod { get; } = MethodInfoExtractor.Extract<IInjector>(i => i.Get(null!, null));
-
-            protected internal override Expression GetCreateServiceArgument(ParameterInfo param, Type serviceType, object? userData)
-            {
-                if (param.Position is 1)
-                    return Expression.Constant(null, typeof(string));
-
-                return base.GetCreateServiceArgument(param, serviceType, userData);
-            }
-        }
-
         private RequestHandlerBuilder OldBuilder { get; set; } = null!;
 
         public override void SetupFixture()
@@ -427,18 +414,8 @@ namespace Solti.Utils.Router.Tests
     public class UseCaseIOC_BodyParameter: UseCaseTestsBase
     {
         #region Helpers
-        private sealed class RequestHandlerBuilderSupportsBodyParameter : RequestHandlerBuilder
+        private sealed class RequestHandlerBuilderSupportsBodyParameter : InjectorDotNetRequestHandlerBuilder
         {
-            protected override MethodInfo CreateServiceMethod { get; } = MethodInfoExtractor.Extract<IInjector>(i => i.Get(null!, null));
-
-            protected internal override Expression GetCreateServiceArgument(ParameterInfo param, Type serviceType, object? userData)
-            {
-                if (param.Position is 1)
-                    return Expression.Constant(null, typeof(string));
-
-                return base.GetCreateServiceArgument(param, serviceType, userData);
-            }
-
             protected internal override Expression GetInvokeServiceArgument(ParameterInfo param, ParsedRoute route, IReadOnlyDictionary<string, int> shortcuts, object? userData)
             {
                 return param.Name == "body"

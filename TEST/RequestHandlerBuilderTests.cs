@@ -35,7 +35,7 @@ namespace Solti.Utils.Router.Extensions.Tests
             int RefMethod(ref int para);
         }
 
-        public RequestHandlerBuilder DefaultBuilder { get; } = new RequestHandlerBuilder();
+        public RequestHandlerBuilder DefaultBuilder { get; } = AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder;
 
         [Test]
         public void GetCreateServiceArgumentShouldThrowOnInvalidArgument()
@@ -153,19 +153,6 @@ namespace Solti.Utils.Router.Extensions.Tests
             mockServicePrivder.Verify(p => p.GetService(typeof(IMyService)), Times.Once);
             mockService.Verify(svc => svc.VoidMethod(), Times.Once);
             mockParamz.VerifyNoOtherCalls();
-        }
-
-        private sealed class InjectorDotNetRequestHandlerBuilder : RequestHandlerBuilder
-        {
-            protected override MethodInfo CreateServiceMethod { get; } = MethodInfoExtractor.Extract<IInjector>(i => i.Get(null!, null));
-
-            protected internal override Expression GetCreateServiceArgument(ParameterInfo param, Type serviceType, object? userData)
-            {
-                if (param.Position is 1)
-                    return Expression.Constant(null, typeof(string));
-
-                return base.GetCreateServiceArgument(param, serviceType, userData);
-            }
         }
 
         [Test]
