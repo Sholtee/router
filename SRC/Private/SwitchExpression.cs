@@ -12,7 +12,7 @@ namespace Solti.Utils.Router.Internals
 {
     using Primitives;
 
-    internal sealed class SwitchExpression(bool ignoreCase)
+    internal sealed class SwitchExpression(bool ignoreCase, ParameterExpression order, Expression key, Expression @default)
     {
         #region Private
         private delegate ReadOnlySpan<char> AsSpanDelegate(string s);
@@ -43,38 +43,32 @@ namespace Solti.Utils.Router.Internals
                 => FKeyComparer.Compare(x.Key, y.Key);
         }
 
-        private Expression ProcessNode(RedBlackTreeNode<KeyValuePair<string, Expression>>? node) => node is null ? Default : Expression.Block
+        private Expression ProcessNode(RedBlackTreeNode<KeyValuePair<string, Expression>>? node) => node is null ? @default : Expression.Block
         (
             Expression.Assign
             (
-                Order,
+                order,
                 Expression.Call
                 (
                     FCompareTo,
-                    Key,
+                    key,
                     Expression.Call(FAsSpan, Expression.Constant(node.Data.Key)),   
                     FComparison
                 )
             ),
             Expression.IfThen
             (
-                Expression.LessThan(Order, Expression.Constant(0)),
+                Expression.LessThan(order, Expression.Constant(0)),
                 ProcessNode(node.Left)
             ),
             Expression.IfThen
             (
-                Expression.GreaterThan(Order, Expression.Constant(0)),
+                Expression.GreaterThan(order, Expression.Constant(0)),
                 ProcessNode(node.Right)
             ),
             node.Data.Value
         );
         #endregion
-
-        public required ParameterExpression Order { get; init; }
-
-        public required Expression Key { get; init; }
-
-        public required Expression Default { get; init; }
 
         public Expression Expression => ProcessNode(FTree.Root);
 

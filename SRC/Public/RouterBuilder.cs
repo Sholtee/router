@@ -160,12 +160,13 @@ namespace Solti.Utils.Router
 
                 LabelTarget exit = Expression.Label(nameof(exit));
 
-                SwitchExpression @switch = new(ignoreCase: true)
-                {
-                    Order = FOrder,
-                    Default = Expression.Goto(exit),
-                    Key = Expression.Property(FSegments, FCurrent)
-                };
+                SwitchExpression @switch = new
+                (
+                    ignoreCase: true,
+                    order: FOrder,
+                    key: Expression.Property(FSegments, FCurrent),
+                    @default: Expression.Goto(exit)
+                );
 
                 foreach (Junction junction in junctions)
                 {

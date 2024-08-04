@@ -28,12 +28,13 @@ namespace Solti.Utils.Router.Internals
                 FOrder = Expression.Variable(typeof(int), "order"),
                 FKey = Expression.Parameter(typeof(ReadOnlySpan<char>), "key");
 
-            private readonly SwitchExpression FSwitchExpression = new(false)
-            {
-                Default = Expression.Goto(FFound, Expression.Constant(-1)),
-                Key = FKey,
-                Order = FOrder
-            };
+            private readonly SwitchExpression FSwitchExpression = new
+            (
+                ignoreCase: false,
+                order: FOrder,
+                key: FKey,
+                @default: Expression.Goto(FFound, Expression.Constant(-1))
+            );
 
             private readonly Dictionary<string, int> FShortcuts = [];
 
