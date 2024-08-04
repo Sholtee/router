@@ -1,7 +1,7 @@
 # Compass.NET [![Build status](https://ci.appveyor.com/api/projects/status/uq0ep9idk7rw8ogr?svg=true)](https://ci.appveyor.com/project/Sholtee/router) ![AppVeyor tests](https://img.shields.io/appveyor/tests/sholtee/router/main) [![Coverage Status](https://coveralls.io/repos/github/Sholtee/router/badge.svg?branch=main)](https://coveralls.io/github/Sholtee/router?branch=main) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/sholtee/router/main) [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/compass.net)](https://www.nuget.org/packages/compass.net)
 > Simple HTTP request router for .NET backends
 
-**This documentation refers the v5.X of the library**
+**This documentation refers the v6.X of the library**
 
 ## How to use
 This library comes with an extremely simple API set (consits of a few methods only)
@@ -51,7 +51,7 @@ This library comes with an extremely simple API set (consits of a few methods on
 	while (Listener.IsListening)  // probably this will run in a separate thread
 	{
 		HttpListenerContext context = Listener.GetContext();
-		route(context, context.Request.Url!.AbsolutePath, context.Request.HttpMethod);
+		route(context, context.Request.Url!.AbsolutePath.AsSpan(), context.Request.HttpMethod.AsSpan());
 	}
 	```
 
@@ -144,7 +144,7 @@ AsyncRouter route = routerBuilder.Build();
 ...
 
 HttpListenerContext context = Listener.GetContext();
-object? result = await route(context, context.Request.Url!.AbsolutePath, context.Request.HttpMethod);
+object? result = await route(context, context.Request.Url!.AbsolutePath.AsSpan(), context.Request.HttpMethod.AsSpan());
 ```
 
 ### IoC backed routing
