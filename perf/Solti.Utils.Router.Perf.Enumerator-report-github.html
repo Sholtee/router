@@ -40,9 +40,9 @@
 <pre><code>
 BenchmarkDotNet v0.13.12, Windows 10 (10.0.17763.5576/1809/October2018Update/Redstone5) (Hyper-V)
 Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
-.NET SDK 8.0.202
-  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+.NET SDK 8.0.300
+  [Host]     : .NET 8.0.5 (8.0.524.21615), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.5 (8.0.524.21615), X64 RyuJIT AVX2
 
 </code></pre><table>
 <thead>
@@ -52,7 +52,6 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <th style="text-align:right">Mean</th>
 <th style="text-align:right">Error</th>
 <th style="text-align:right">StdDev</th>
-<th style="text-align:right">Median</th>
 <th style="text-align:right">Gen0</th>
 <th style="text-align:right">Allocated</th>
 </tr>
@@ -61,41 +60,37 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <tr>
 <td><strong>Enumerate</strong></td>
 <td><strong>1</strong></td>
-<td style="text-align:right"><strong>16.85 ns</strong></td>
-<td style="text-align:right"><strong>0.370 ns</strong></td>
-<td style="text-align:right"><strong>0.827 ns</strong></td>
-<td style="text-align:right"><strong>16.56 ns</strong></td>
+<td style="text-align:right"><strong>12.61 ns</strong></td>
+<td style="text-align:right"><strong>0.303 ns</strong></td>
+<td style="text-align:right"><strong>0.788 ns</strong></td>
 <td style="text-align:right"><strong>0.0022</strong></td>
 <td style="text-align:right"><strong>40 B</strong></td>
 </tr>
 <tr>
 <td><strong>Enumerate</strong></td>
 <td><strong>5</strong></td>
-<td style="text-align:right"><strong>23.32 ns</strong></td>
-<td style="text-align:right"><strong>0.363 ns</strong></td>
-<td style="text-align:right"><strong>0.321 ns</strong></td>
-<td style="text-align:right"><strong>23.30 ns</strong></td>
+<td style="text-align:right"><strong>18.62 ns</strong></td>
+<td style="text-align:right"><strong>0.373 ns</strong></td>
+<td style="text-align:right"><strong>0.472 ns</strong></td>
 <td style="text-align:right"><strong>0.0022</strong></td>
 <td style="text-align:right"><strong>40 B</strong></td>
 </tr>
 <tr>
 <td><strong>Enumerate</strong></td>
 <td><strong>10</strong></td>
-<td style="text-align:right"><strong>32.99 ns</strong></td>
-<td style="text-align:right"><strong>0.561 ns</strong></td>
-<td style="text-align:right"><strong>0.438 ns</strong></td>
-<td style="text-align:right"><strong>33.00 ns</strong></td>
-<td style="text-align:right"><strong>0.0021</strong></td>
+<td style="text-align:right"><strong>26.54 ns</strong></td>
+<td style="text-align:right"><strong>0.287 ns</strong></td>
+<td style="text-align:right"><strong>0.255 ns</strong></td>
+<td style="text-align:right"><strong>0.0022</strong></td>
 <td style="text-align:right"><strong>40 B</strong></td>
 </tr>
 <tr>
 <td><strong>Enumerate</strong></td>
 <td><strong>100</strong></td>
-<td style="text-align:right"><strong>251.03 ns</strong></td>
-<td style="text-align:right"><strong>1.892 ns</strong></td>
-<td style="text-align:right"><strong>1.770 ns</strong></td>
-<td style="text-align:right"><strong>251.27 ns</strong></td>
-<td style="text-align:right"><strong>0.0019</strong></td>
+<td style="text-align:right"><strong>219.34 ns</strong></td>
+<td style="text-align:right"><strong>4.390 ns</strong></td>
+<td style="text-align:right"><strong>3.666 ns</strong></td>
+<td style="text-align:right"><strong>0.0021</strong></td>
 <td style="text-align:right"><strong>40 B</strong></td>
 </tr>
 </tbody>

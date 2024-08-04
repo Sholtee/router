@@ -40,9 +40,9 @@
 <pre><code>
 BenchmarkDotNet v0.13.12, Windows 10 (10.0.17763.5576/1809/October2018Update/Redstone5) (Hyper-V)
 Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
-.NET SDK 8.0.202
-  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+.NET SDK 8.0.300
+  [Host]     : .NET 8.0.5 (8.0.524.21615), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.5 (8.0.524.21615), X64 RyuJIT AVX2
 
 </code></pre><table>
 <thead>
@@ -52,7 +52,6 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <th style="text-align:right">Mean</th>
 <th style="text-align:right">Error</th>
 <th style="text-align:right">StdDev</th>
-<th style="text-align:right">Gen0</th>
 <th style="text-align:right">Allocated</th>
 </tr>
 </thead>
@@ -60,38 +59,34 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <tr>
 <td><strong>Split</strong></td>
 <td><strong>1</strong></td>
-<td style="text-align:right"><strong>83.14 ns</strong></td>
-<td style="text-align:right"><strong>1.727 ns</strong></td>
-<td style="text-align:right"><strong>2.531 ns</strong></td>
-<td style="text-align:right"><strong>0.0052</strong></td>
-<td style="text-align:right"><strong>96 B</strong></td>
+<td style="text-align:right"><strong>122.9 ns</strong></td>
+<td style="text-align:right"><strong>1.22 ns</strong></td>
+<td style="text-align:right"><strong>1.08 ns</strong></td>
+<td style="text-align:right"><strong>-</strong></td>
 </tr>
 <tr>
 <td><strong>Split</strong></td>
 <td><strong>2</strong></td>
-<td style="text-align:right"><strong>98.61 ns</strong></td>
-<td style="text-align:right"><strong>0.852 ns</strong></td>
-<td style="text-align:right"><strong>0.755 ns</strong></td>
-<td style="text-align:right"><strong>0.0052</strong></td>
-<td style="text-align:right"><strong>96 B</strong></td>
+<td style="text-align:right"><strong>159.9 ns</strong></td>
+<td style="text-align:right"><strong>3.17 ns</strong></td>
+<td style="text-align:right"><strong>4.13 ns</strong></td>
+<td style="text-align:right"><strong>-</strong></td>
 </tr>
 <tr>
 <td><strong>Split</strong></td>
 <td><strong>5</strong></td>
-<td style="text-align:right"><strong>152.16 ns</strong></td>
-<td style="text-align:right"><strong>0.996 ns</strong></td>
-<td style="text-align:right"><strong>0.777 ns</strong></td>
-<td style="text-align:right"><strong>0.0052</strong></td>
-<td style="text-align:right"><strong>96 B</strong></td>
+<td style="text-align:right"><strong>559.2 ns</strong></td>
+<td style="text-align:right"><strong>4.25 ns</strong></td>
+<td style="text-align:right"><strong>7.55 ns</strong></td>
+<td style="text-align:right"><strong>-</strong></td>
 </tr>
 <tr>
 <td><strong>Split</strong></td>
 <td><strong>10</strong></td>
-<td style="text-align:right"><strong>242.28 ns</strong></td>
-<td style="text-align:right"><strong>4.602 ns</strong></td>
-<td style="text-align:right"><strong>4.304 ns</strong></td>
-<td style="text-align:right"><strong>0.0052</strong></td>
-<td style="text-align:right"><strong>96 B</strong></td>
+<td style="text-align:right"><strong>1,703.1 ns</strong></td>
+<td style="text-align:right"><strong>160.20 ns</strong></td>
+<td style="text-align:right"><strong>472.35 ns</strong></td>
+<td style="text-align:right"><strong>-</strong></td>
 </tr>
 </tbody>
 </table>

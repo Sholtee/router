@@ -40,9 +40,9 @@
 <pre><code>
 BenchmarkDotNet v0.13.12, Windows 10 (10.0.17763.5576/1809/October2018Update/Redstone5) (Hyper-V)
 Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
-.NET SDK 8.0.202
-  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+.NET SDK 8.0.300
+  [Host]     : .NET 8.0.5 (8.0.524.21615), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.5 (8.0.524.21615), X64 RyuJIT AVX2
 
 </code></pre><table>
 <thead>
@@ -62,9 +62,9 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>1</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>11.56 ns</strong></td>
-<td style="text-align:right"><strong>0.265 ns</strong></td>
-<td style="text-align:right"><strong>0.273 ns</strong></td>
+<td style="text-align:right"><strong>10.94 ns</strong></td>
+<td style="text-align:right"><strong>0.252 ns</strong></td>
+<td style="text-align:right"><strong>0.300 ns</strong></td>
 <td style="text-align:right"><strong>0.0017</strong></td>
 <td style="text-align:right"><strong>32 B</strong></td>
 </tr>
@@ -72,19 +72,19 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>1</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>150.55 ns</strong></td>
-<td style="text-align:right"><strong>2.961 ns</strong></td>
-<td style="text-align:right"><strong>2.770 ns</strong></td>
-<td style="text-align:right"><strong>0.0107</strong></td>
-<td style="text-align:right"><strong>200 B</strong></td>
+<td style="text-align:right"><strong>152.29 ns</strong></td>
+<td style="text-align:right"><strong>3.085 ns</strong></td>
+<td style="text-align:right"><strong>2.885 ns</strong></td>
+<td style="text-align:right"><strong>0.0091</strong></td>
+<td style="text-align:right"><strong>168 B</strong></td>
 </tr>
 <tr>
 <td><strong>Compile</strong></td>
 <td><strong>2</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>12.12 ns</strong></td>
-<td style="text-align:right"><strong>0.225 ns</strong></td>
-<td style="text-align:right"><strong>0.188 ns</strong></td>
+<td style="text-align:right"><strong>10.35 ns</strong></td>
+<td style="text-align:right"><strong>0.249 ns</strong></td>
+<td style="text-align:right"><strong>0.372 ns</strong></td>
 <td style="text-align:right"><strong>0.0017</strong></td>
 <td style="text-align:right"><strong>32 B</strong></td>
 </tr>
@@ -92,19 +92,19 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>2</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>161.79 ns</strong></td>
-<td style="text-align:right"><strong>1.755 ns</strong></td>
-<td style="text-align:right"><strong>1.465 ns</strong></td>
-<td style="text-align:right"><strong>0.0122</strong></td>
-<td style="text-align:right"><strong>224 B</strong></td>
+<td style="text-align:right"><strong>164.57 ns</strong></td>
+<td style="text-align:right"><strong>3.224 ns</strong></td>
+<td style="text-align:right"><strong>3.311 ns</strong></td>
+<td style="text-align:right"><strong>0.0105</strong></td>
+<td style="text-align:right"><strong>192 B</strong></td>
 </tr>
 <tr>
 <td><strong>Compile</strong></td>
 <td><strong>5</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>11.68 ns</strong></td>
-<td style="text-align:right"><strong>0.104 ns</strong></td>
-<td style="text-align:right"><strong>0.102 ns</strong></td>
+<td style="text-align:right"><strong>10.54 ns</strong></td>
+<td style="text-align:right"><strong>0.249 ns</strong></td>
+<td style="text-align:right"><strong>0.365 ns</strong></td>
 <td style="text-align:right"><strong>0.0017</strong></td>
 <td style="text-align:right"><strong>32 B</strong></td>
 </tr>
@@ -112,19 +112,19 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>5</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>418.00 ns</strong></td>
-<td style="text-align:right"><strong>3.626 ns</strong></td>
-<td style="text-align:right"><strong>3.391 ns</strong></td>
-<td style="text-align:right"><strong>0.0286</strong></td>
-<td style="text-align:right"><strong>528 B</strong></td>
+<td style="text-align:right"><strong>398.94 ns</strong></td>
+<td style="text-align:right"><strong>7.449 ns</strong></td>
+<td style="text-align:right"><strong>13.431 ns</strong></td>
+<td style="text-align:right"><strong>0.0234</strong></td>
+<td style="text-align:right"><strong>432 B</strong></td>
 </tr>
 <tr>
 <td><strong>Compile</strong></td>
 <td><strong>10</strong></td>
 <td><strong>False</strong></td>
-<td style="text-align:right"><strong>11.70 ns</strong></td>
-<td style="text-align:right"><strong>0.117 ns</strong></td>
-<td style="text-align:right"><strong>0.098 ns</strong></td>
+<td style="text-align:right"><strong>11.13 ns</strong></td>
+<td style="text-align:right"><strong>0.251 ns</strong></td>
+<td style="text-align:right"><strong>0.279 ns</strong></td>
 <td style="text-align:right"><strong>0.0017</strong></td>
 <td style="text-align:right"><strong>32 B</strong></td>
 </tr>
@@ -132,11 +132,11 @@ Intel Xeon CPU E5-2697 v3 2.60GHz, 1 CPU, 2 logical cores and 1 physical core
 <td><strong>Compile</strong></td>
 <td><strong>10</strong></td>
 <td><strong>True</strong></td>
-<td style="text-align:right"><strong>717.36 ns</strong></td>
-<td style="text-align:right"><strong>6.008 ns</strong></td>
-<td style="text-align:right"><strong>5.017 ns</strong></td>
-<td style="text-align:right"><strong>0.0477</strong></td>
-<td style="text-align:right"><strong>888 B</strong></td>
+<td style="text-align:right"><strong>718.60 ns</strong></td>
+<td style="text-align:right"><strong>14.183 ns</strong></td>
+<td style="text-align:right"><strong>20.340 ns</strong></td>
+<td style="text-align:right"><strong>0.0391</strong></td>
+<td style="text-align:right"><strong>728 B</strong></td>
 </tr>
 </tbody>
 </table>
