@@ -5,7 +5,6 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 using NUnit.Framework;
@@ -14,10 +13,9 @@ namespace Solti.Utils.Router.Tests
 {
     using Internals;
 
-    [TestFixture]
-    public class PathSplitterTests
+    public abstract class PathSplitterTestsBase
     {
-        private static IReadOnlyList<string> Split(string path, SplitOptions? options = null)
+        protected static IReadOnlyList<string> Split(string path, SplitOptions? options = null)
         {
             using PathSplitter pathSplitter = new(path.AsSpan(), options);
 
@@ -30,7 +28,11 @@ namespace Solti.Utils.Router.Tests
 
             return result;
         }
+    }
 
+    [TestFixture]
+    public class PathSplitterTests: PathSplitterTestsBase
+    {
         [TestCase("/", arg2: new string[0])]
         [TestCase("/cica/", arg2: new string[] { "cica" })]
         [TestCase("/cica", arg2: new string[] { "cica" })]
@@ -244,23 +246,6 @@ namespace Solti.Utils.Router.Tests
             InvalidOperationException err = Assert.Throws<InvalidOperationException>(() => Split(input, opts))!;
             Assert.That(err.Data, Does.ContainKey("Position"));
             Assert.That(err.Data["Position"], Is.EqualTo(errPos));
-        }
-
-        public static IEnumerable<object[]> SplitShouldSplit_Cases
-        {
-            get
-            {
-                foreach (string url in File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "urls.txt")))
-                {
-                    yield return new object[] { url };
-                }
-            }
-        }
-
-        [TestCaseSource(nameof(SplitShouldSplit_Cases))]
-        public void SplitShouldSplit(string input)
-        {
-            Assert.That(input.Split(['/'], StringSplitOptions.RemoveEmptyEntries).ToList(), Is.EquivalentTo(Split(input)));
         }
     }
 }
