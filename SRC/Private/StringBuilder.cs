@@ -12,9 +12,11 @@ namespace Solti.Utils.Router.Internals
     /// <summary>
     /// String builder that uses recycled memory
     /// </summary>
-    internal sealed class StringBuilder(int initialLength = 128) : IDisposable
+    internal sealed class StringBuilder(int initialSize = 128) : IDisposable
     {
-        private char[] FBuffer = ArrayPool<char>.Shared.Rent(initialLength);
+        private static readonly ArrayPool<char> FPool = ArrayPool<char>.Shared;
+
+        private char[] FBuffer = FPool.Rent(initialSize);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ResizeIfRequired(int addition)
@@ -22,12 +24,15 @@ namespace Solti.Utils.Router.Internals
             int newLength = Length + addition;
             if (newLength >= FBuffer.Length)
             {
-                ArrayPool<char>.Shared.Return(FBuffer);
-                FBuffer = ArrayPool<char>.Shared.Rent(newLength * 2);
+                char[] newBuffer = FPool.Rent(newLength * 2);
+                FBuffer.CopyTo(newBuffer, 0);
+
+                FPool.Return(FBuffer);
+                FBuffer = newBuffer;
             }
         }
 
-        public void Dispose() => ArrayPool<char>.Shared.Return(FBuffer);
+        public void Dispose() => FPool.Return(FBuffer);
 
         public void Append(string str)
         {
