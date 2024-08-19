@@ -144,13 +144,13 @@ namespace Solti.Utils.Router
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static PathSplitter Split(ReadOnlySpan<char> path, SplitOptions? options) => new(path, options);
 
-        private Expression BuildJunction(Junction junction, IReadOnlyDictionary<string, int> shortcuts)
+        private Expression Build(IReadOnlyDictionary<string, int> shortcuts)
         {
             ApplyShortcuts applyShortcuts = new(shortcuts);
 
             return Expression.Block
             (
-                ProcessJunction(junction)
+                ProcessJunction(FRoot)
             );
 
             IEnumerable<Expression> ProcessStaticJunctions(IEnumerable<Junction> junctions)
@@ -374,7 +374,7 @@ namespace Solti.Utils.Router
                                 Expression.Constant(createParamzDict)
                             )
                         ),
-                        BuildJunction(FRoot, shortcuts)
+                        Build(shortcuts)
                     ),
                     @finally: Expression.Call(FSegments, FDispose)
                 )
