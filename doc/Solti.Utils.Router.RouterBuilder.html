@@ -272,61 +272,6 @@
   <h3 id="methods">Methods
   </h3>
   <a id="Solti_Utils_Router_RouterBuilder_AddRoute_" data-uid="Solti.Utils.Router.RouterBuilder.AddRoute*"></a>
-  <h4 id="Solti_Utils_Router_RouterBuilder_AddRoute_Solti_Utils_Router_ParsedRoute_Solti_Utils_Router_RequestHandlerFactory_System_String___" data-uid="Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute,Solti.Utils.Router.RequestHandlerFactory,System.String[])">AddRoute(ParsedRoute, RequestHandlerFactory, String[])</h4>
-  <div class="markdown level1 summary"><p>Registers a new route.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void AddRoute(ParsedRoute route, RequestHandlerFactory handlerFactory, params string[] methods)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a></td>
-        <td><span class="parametername">route</span></td>
-        <td><p>Route to be registered.</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Solti.Utils.Router.RequestHandlerFactory.html">RequestHandlerFactory</a></td>
-        <td><span class="parametername">handlerFactory</span></td>
-        <td><p>Delegate responsible for creating the handler function.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span>[]</td>
-        <td><span class="parametername">methods</span></td>
-        <td><p>Accepted HTTP methods for this route. If omitted &quot;GET&quot; will be used.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="exceptions">Exceptions</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.ArgumentException</span></td>
-        <td><p>If the route already registered.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="Solti_Utils_Router_RouterBuilder_AddRoute_" data-uid="Solti.Utils.Router.RouterBuilder.AddRoute*"></a>
   <h4 id="Solti_Utils_Router_RouterBuilder_AddRoute_Solti_Utils_Router_ParsedRoute_System_Linq_Expressions_Expression_Solti_Utils_Router_RequestHandler__System_String___" data-uid="Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.Expression{Solti.Utils.Router.RequestHandler},System.String[])">AddRoute(ParsedRoute, Expression&lt;RequestHandler&gt;, String[])</h4>
   <div class="markdown level1 summary"><p>Registers a new route.</p>
 </div>

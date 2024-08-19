@@ -73,15 +73,6 @@ references:
   commentId: T:Solti.Utils.Router.AsyncRouterBuilder
   fullName: Solti.Utils.Router.AsyncRouterBuilder
   nameWithType: AsyncRouterBuilder
-- uid: Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute,Solti.Utils.Router.UntypedRequestHandlerFactory,System.String[])
-  name: AddRoute(ParsedRoute, UntypedRequestHandlerFactory, String[])
-  href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_AddRoute_Solti_Utils_Router_ParsedRoute_Solti_Utils_Router_UntypedRequestHandlerFactory_System_String___
-  commentId: M:Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute,Solti.Utils.Router.UntypedRequestHandlerFactory,System.String[])
-  name.vb: AddRoute(ParsedRoute, UntypedRequestHandlerFactory, String())
-  fullName: Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute, Solti.Utils.Router.UntypedRequestHandlerFactory, System.String[])
-  fullName.vb: Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute, Solti.Utils.Router.UntypedRequestHandlerFactory, System.String())
-  nameWithType: AsyncRouterBuilder.AddRoute(ParsedRoute, UntypedRequestHandlerFactory, String[])
-  nameWithType.vb: AsyncRouterBuilder.AddRoute(ParsedRoute, UntypedRequestHandlerFactory, String())
 - uid: Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.LambdaExpression,System.String[])
   name: AddRoute(ParsedRoute, LambdaExpression, String[])
   href: Solti.Utils.Router.AsyncRouterBuilder.html#Solti_Utils_Router_AsyncRouterBuilder_AddRoute_Solti_Utils_Router_ParsedRoute_System_Linq_Expressions_LambdaExpression_System_String___
@@ -760,12 +751,12 @@ references:
   commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.#ctor
   fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.RequestHandlerBuilder
   nameWithType: RequestHandlerBuilder.RequestHandlerBuilder
-- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateFactory(System.Reflection.MethodInfo,System.Object)
-  name: CreateFactory(MethodInfo, Object)
-  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_CreateFactory_System_Reflection_MethodInfo_System_Object_
-  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateFactory(System.Reflection.MethodInfo,System.Object)
-  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateFactory(System.Reflection.MethodInfo, System.Object)
-  nameWithType: RequestHandlerBuilder.CreateFactory(MethodInfo, Object)
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateFactory(Solti.Utils.Router.ParsedRoute,System.Reflection.MethodInfo,System.Object)
+  name: CreateFactory(ParsedRoute, MethodInfo, Object)
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_CreateFactory_Solti_Utils_Router_ParsedRoute_System_Reflection_MethodInfo_System_Object_
+  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateFactory(Solti.Utils.Router.ParsedRoute,System.Reflection.MethodInfo,System.Object)
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateFactory(Solti.Utils.Router.ParsedRoute, System.Reflection.MethodInfo, System.Object)
+  nameWithType: RequestHandlerBuilder.CreateFactory(ParsedRoute, MethodInfo, Object)
 - uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateFactory*
   name: CreateFactory
   href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_CreateFactory_
@@ -796,18 +787,6 @@ references:
   commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod
   fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod
   nameWithType: RequestHandlerBuilder.CreateServiceMethod
-- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.ElementAccess
-  name: ElementAccess
-  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_ElementAccess
-  commentId: P:Solti.Utils.Router.Extensions.RequestHandlerBuilder.ElementAccess
-  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.ElementAccess
-  nameWithType: RequestHandlerBuilder.ElementAccess
-- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.ElementAccess*
-  name: ElementAccess
-  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_ElementAccess_
-  commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.ElementAccess
-  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.ElementAccess
-  nameWithType: RequestHandlerBuilder.ElementAccess
 - uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetArgumentName(System.Reflection.ParameterInfo)
   name: GetArgumentName(ParameterInfo)
   href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_GetArgumentName_System_Reflection_ParameterInfo_
@@ -832,30 +811,24 @@ references:
   commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetCreateServiceArgument
   fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetCreateServiceArgument
   nameWithType: RequestHandlerBuilder.GetCreateServiceArgument
-- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo,Solti.Utils.Router.ParsedRoute,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32},System.Object)
-  name: GetInvokeServiceArgument(ParameterInfo, ParsedRoute, IReadOnlyDictionary<String, Int32>, Object)
-  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_GetInvokeServiceArgument_System_Reflection_ParameterInfo_Solti_Utils_Router_ParsedRoute_System_Collections_Generic_IReadOnlyDictionary_System_String_System_Int32__System_Object_
-  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo,Solti.Utils.Router.ParsedRoute,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32},System.Object)
-  name.vb: GetInvokeServiceArgument(ParameterInfo, ParsedRoute, IReadOnlyDictionary(Of String, Int32), Object)
-  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo, Solti.Utils.Router.ParsedRoute, System.Collections.Generic.IReadOnlyDictionary<System.String, System.Int32>, System.Object)
-  fullName.vb: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo, Solti.Utils.Router.ParsedRoute, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.Int32), System.Object)
-  nameWithType: RequestHandlerBuilder.GetInvokeServiceArgument(ParameterInfo, ParsedRoute, IReadOnlyDictionary<String, Int32>, Object)
-  nameWithType.vb: RequestHandlerBuilder.GetInvokeServiceArgument(ParameterInfo, ParsedRoute, IReadOnlyDictionary(Of String, Int32), Object)
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo,Solti.Utils.Router.ParsedRoute,System.Object)
+  name: GetInvokeServiceArgument(ParameterInfo, ParsedRoute, Object)
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_GetInvokeServiceArgument_System_Reflection_ParameterInfo_Solti_Utils_Router_ParsedRoute_System_Object_
+  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo,Solti.Utils.Router.ParsedRoute,System.Object)
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo, Solti.Utils.Router.ParsedRoute, System.Object)
+  nameWithType: RequestHandlerBuilder.GetInvokeServiceArgument(ParameterInfo, ParsedRoute, Object)
 - uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument*
   name: GetInvokeServiceArgument
   href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_GetInvokeServiceArgument_
   commentId: Overload:Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument
   fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument
   nameWithType: RequestHandlerBuilder.GetInvokeServiceArgument
-- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute,System.Reflection.MethodInfo,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32},System.Object)
-  name: InvokeService(ParsedRoute, MethodInfo, IReadOnlyDictionary<String, Int32>, Object)
-  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_InvokeService_Solti_Utils_Router_ParsedRoute_System_Reflection_MethodInfo_System_Collections_Generic_IReadOnlyDictionary_System_String_System_Int32__System_Object_
-  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute,System.Reflection.MethodInfo,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32},System.Object)
-  name.vb: InvokeService(ParsedRoute, MethodInfo, IReadOnlyDictionary(Of String, Int32), Object)
-  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute, System.Reflection.MethodInfo, System.Collections.Generic.IReadOnlyDictionary<System.String, System.Int32>, System.Object)
-  fullName.vb: Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute, System.Reflection.MethodInfo, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.Int32), System.Object)
-  nameWithType: RequestHandlerBuilder.InvokeService(ParsedRoute, MethodInfo, IReadOnlyDictionary<String, Int32>, Object)
-  nameWithType.vb: RequestHandlerBuilder.InvokeService(ParsedRoute, MethodInfo, IReadOnlyDictionary(Of String, Int32), Object)
+- uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute,System.Reflection.MethodInfo,System.Object)
+  name: InvokeService(ParsedRoute, MethodInfo, Object)
+  href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_InvokeService_Solti_Utils_Router_ParsedRoute_System_Reflection_MethodInfo_System_Object_
+  commentId: M:Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute,System.Reflection.MethodInfo,System.Object)
+  fullName: Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute, System.Reflection.MethodInfo, System.Object)
+  nameWithType: RequestHandlerBuilder.InvokeService(ParsedRoute, MethodInfo, Object)
 - uid: Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService*
   name: InvokeService
   href: Solti.Utils.Router.Extensions.RequestHandlerBuilder.html#Solti_Utils_Router_Extensions_RequestHandlerBuilder_InvokeService_
@@ -958,32 +931,6 @@ references:
   commentId: Overload:Solti.Utils.Router.IConverter.Type
   fullName: Solti.Utils.Router.IConverter.Type
   nameWithType: IConverter.Type
-- uid: Solti.Utils.Router.IParamAccessByInternalId`1
-  name: IParamAccessByInternalId<TData>
-  href: Solti.Utils.Router.IParamAccessByInternalId-1.html
-  commentId: T:Solti.Utils.Router.IParamAccessByInternalId`1
-  name.vb: IParamAccessByInternalId(Of TData)
-  fullName: Solti.Utils.Router.IParamAccessByInternalId<TData>
-  fullName.vb: Solti.Utils.Router.IParamAccessByInternalId(Of TData)
-  nameWithType: IParamAccessByInternalId<TData>
-  nameWithType.vb: IParamAccessByInternalId(Of TData)
-- uid: Solti.Utils.Router.IParamAccessByInternalId`1.Item(System.Int32)
-  name: Item[Int32]
-  href: Solti.Utils.Router.IParamAccessByInternalId-1.html#Solti_Utils_Router_IParamAccessByInternalId_1_Item_System_Int32_
-  commentId: P:Solti.Utils.Router.IParamAccessByInternalId`1.Item(System.Int32)
-  name.vb: Item(Int32)
-  fullName: Solti.Utils.Router.IParamAccessByInternalId<TData>.Item[System.Int32]
-  fullName.vb: Solti.Utils.Router.IParamAccessByInternalId(Of TData).Item(System.Int32)
-  nameWithType: IParamAccessByInternalId<TData>.Item[Int32]
-  nameWithType.vb: IParamAccessByInternalId(Of TData).Item(Int32)
-- uid: Solti.Utils.Router.IParamAccessByInternalId`1.Item*
-  name: Item
-  href: Solti.Utils.Router.IParamAccessByInternalId-1.html#Solti_Utils_Router_IParamAccessByInternalId_1_Item_
-  commentId: Overload:Solti.Utils.Router.IParamAccessByInternalId`1.Item
-  fullName: Solti.Utils.Router.IParamAccessByInternalId<TData>.Item
-  fullName.vb: Solti.Utils.Router.IParamAccessByInternalId(Of TData).Item
-  nameWithType: IParamAccessByInternalId<TData>.Item
-  nameWithType.vb: IParamAccessByInternalId(Of TData).Item
 - uid: Solti.Utils.Router.ParsedRoute
   name: ParsedRoute
   href: Solti.Utils.Router.ParsedRoute.html
@@ -1161,66 +1108,6 @@ references:
   fullName.vb: Solti.Utils.Router.RequestHandler(Of TResult).Invoke
   nameWithType: RequestHandler<TResult>.Invoke
   nameWithType.vb: RequestHandler(Of TResult).Invoke
-- uid: Solti.Utils.Router.RequestHandlerFactory
-  name: RequestHandlerFactory
-  href: Solti.Utils.Router.RequestHandlerFactory.html
-  commentId: T:Solti.Utils.Router.RequestHandlerFactory
-  fullName: Solti.Utils.Router.RequestHandlerFactory
-  nameWithType: RequestHandlerFactory
-- uid: Solti.Utils.Router.RequestHandlerFactory.#ctor(System.Object,System.IntPtr)
-  name: RequestHandlerFactory(Object, IntPtr)
-  href: Solti.Utils.Router.RequestHandlerFactory.html#Solti_Utils_Router_RequestHandlerFactory__ctor_System_Object_System_IntPtr_
-  commentId: M:Solti.Utils.Router.RequestHandlerFactory.#ctor(System.Object,System.IntPtr)
-  fullName: Solti.Utils.Router.RequestHandlerFactory.RequestHandlerFactory(System.Object, System.IntPtr)
-  nameWithType: RequestHandlerFactory.RequestHandlerFactory(Object, IntPtr)
-- uid: Solti.Utils.Router.RequestHandlerFactory.#ctor*
-  name: RequestHandlerFactory
-  href: Solti.Utils.Router.RequestHandlerFactory.html#Solti_Utils_Router_RequestHandlerFactory__ctor_
-  commentId: Overload:Solti.Utils.Router.RequestHandlerFactory.#ctor
-  fullName: Solti.Utils.Router.RequestHandlerFactory.RequestHandlerFactory
-  nameWithType: RequestHandlerFactory.RequestHandlerFactory
-- uid: Solti.Utils.Router.RequestHandlerFactory.BeginInvoke(Solti.Utils.Router.ParsedRoute,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32},System.AsyncCallback,System.Object)
-  name: BeginInvoke(ParsedRoute, IReadOnlyDictionary<String, Int32>, AsyncCallback, Object)
-  href: Solti.Utils.Router.RequestHandlerFactory.html#Solti_Utils_Router_RequestHandlerFactory_BeginInvoke_Solti_Utils_Router_ParsedRoute_System_Collections_Generic_IReadOnlyDictionary_System_String_System_Int32__System_AsyncCallback_System_Object_
-  commentId: M:Solti.Utils.Router.RequestHandlerFactory.BeginInvoke(Solti.Utils.Router.ParsedRoute,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32},System.AsyncCallback,System.Object)
-  name.vb: BeginInvoke(ParsedRoute, IReadOnlyDictionary(Of String, Int32), AsyncCallback, Object)
-  fullName: Solti.Utils.Router.RequestHandlerFactory.BeginInvoke(Solti.Utils.Router.ParsedRoute, System.Collections.Generic.IReadOnlyDictionary<System.String, System.Int32>, System.AsyncCallback, System.Object)
-  fullName.vb: Solti.Utils.Router.RequestHandlerFactory.BeginInvoke(Solti.Utils.Router.ParsedRoute, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.Int32), System.AsyncCallback, System.Object)
-  nameWithType: RequestHandlerFactory.BeginInvoke(ParsedRoute, IReadOnlyDictionary<String, Int32>, AsyncCallback, Object)
-  nameWithType.vb: RequestHandlerFactory.BeginInvoke(ParsedRoute, IReadOnlyDictionary(Of String, Int32), AsyncCallback, Object)
-- uid: Solti.Utils.Router.RequestHandlerFactory.BeginInvoke*
-  name: BeginInvoke
-  href: Solti.Utils.Router.RequestHandlerFactory.html#Solti_Utils_Router_RequestHandlerFactory_BeginInvoke_
-  commentId: Overload:Solti.Utils.Router.RequestHandlerFactory.BeginInvoke
-  fullName: Solti.Utils.Router.RequestHandlerFactory.BeginInvoke
-  nameWithType: RequestHandlerFactory.BeginInvoke
-- uid: Solti.Utils.Router.RequestHandlerFactory.EndInvoke(System.IAsyncResult)
-  name: EndInvoke(IAsyncResult)
-  href: Solti.Utils.Router.RequestHandlerFactory.html#Solti_Utils_Router_RequestHandlerFactory_EndInvoke_System_IAsyncResult_
-  commentId: M:Solti.Utils.Router.RequestHandlerFactory.EndInvoke(System.IAsyncResult)
-  fullName: Solti.Utils.Router.RequestHandlerFactory.EndInvoke(System.IAsyncResult)
-  nameWithType: RequestHandlerFactory.EndInvoke(IAsyncResult)
-- uid: Solti.Utils.Router.RequestHandlerFactory.EndInvoke*
-  name: EndInvoke
-  href: Solti.Utils.Router.RequestHandlerFactory.html#Solti_Utils_Router_RequestHandlerFactory_EndInvoke_
-  commentId: Overload:Solti.Utils.Router.RequestHandlerFactory.EndInvoke
-  fullName: Solti.Utils.Router.RequestHandlerFactory.EndInvoke
-  nameWithType: RequestHandlerFactory.EndInvoke
-- uid: Solti.Utils.Router.RequestHandlerFactory.Invoke(Solti.Utils.Router.ParsedRoute,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32})
-  name: Invoke(ParsedRoute, IReadOnlyDictionary<String, Int32>)
-  href: Solti.Utils.Router.RequestHandlerFactory.html#Solti_Utils_Router_RequestHandlerFactory_Invoke_Solti_Utils_Router_ParsedRoute_System_Collections_Generic_IReadOnlyDictionary_System_String_System_Int32__
-  commentId: M:Solti.Utils.Router.RequestHandlerFactory.Invoke(Solti.Utils.Router.ParsedRoute,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32})
-  name.vb: Invoke(ParsedRoute, IReadOnlyDictionary(Of String, Int32))
-  fullName: Solti.Utils.Router.RequestHandlerFactory.Invoke(Solti.Utils.Router.ParsedRoute, System.Collections.Generic.IReadOnlyDictionary<System.String, System.Int32>)
-  fullName.vb: Solti.Utils.Router.RequestHandlerFactory.Invoke(Solti.Utils.Router.ParsedRoute, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.Int32))
-  nameWithType: RequestHandlerFactory.Invoke(ParsedRoute, IReadOnlyDictionary<String, Int32>)
-  nameWithType.vb: RequestHandlerFactory.Invoke(ParsedRoute, IReadOnlyDictionary(Of String, Int32))
-- uid: Solti.Utils.Router.RequestHandlerFactory.Invoke*
-  name: Invoke
-  href: Solti.Utils.Router.RequestHandlerFactory.html#Solti_Utils_Router_RequestHandlerFactory_Invoke_
-  commentId: Overload:Solti.Utils.Router.RequestHandlerFactory.Invoke
-  fullName: Solti.Utils.Router.RequestHandlerFactory.Invoke
-  nameWithType: RequestHandlerFactory.Invoke
 - uid: Solti.Utils.Router.Router
   name: Router
   href: Solti.Utils.Router.Router.html
@@ -1320,15 +1207,6 @@ references:
   commentId: Overload:Solti.Utils.Router.RouterBuilder.#ctor
   fullName: Solti.Utils.Router.RouterBuilder.RouterBuilder
   nameWithType: RouterBuilder.RouterBuilder
-- uid: Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute,Solti.Utils.Router.RequestHandlerFactory,System.String[])
-  name: AddRoute(ParsedRoute, RequestHandlerFactory, String[])
-  href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_AddRoute_Solti_Utils_Router_ParsedRoute_Solti_Utils_Router_RequestHandlerFactory_System_String___
-  commentId: M:Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute,Solti.Utils.Router.RequestHandlerFactory,System.String[])
-  name.vb: AddRoute(ParsedRoute, RequestHandlerFactory, String())
-  fullName: Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute, Solti.Utils.Router.RequestHandlerFactory, System.String[])
-  fullName.vb: Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute, Solti.Utils.Router.RequestHandlerFactory, System.String())
-  nameWithType: RouterBuilder.AddRoute(ParsedRoute, RequestHandlerFactory, String[])
-  nameWithType.vb: RouterBuilder.AddRoute(ParsedRoute, RequestHandlerFactory, String())
 - uid: Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.Expression{Solti.Utils.Router.RequestHandler},System.String[])
   name: AddRoute(ParsedRoute, Expression<RequestHandler>, String[])
   href: Solti.Utils.Router.RouterBuilder.html#Solti_Utils_Router_RouterBuilder_AddRoute_Solti_Utils_Router_ParsedRoute_System_Linq_Expressions_Expression_Solti_Utils_Router_RequestHandler__System_String___
@@ -1827,63 +1705,3 @@ references:
   commentId: Overload:Solti.Utils.Router.SplitOptions.ToString
   fullName: Solti.Utils.Router.SplitOptions.ToString
   nameWithType: SplitOptions.ToString
-- uid: Solti.Utils.Router.UntypedRequestHandlerFactory
-  name: UntypedRequestHandlerFactory
-  href: Solti.Utils.Router.UntypedRequestHandlerFactory.html
-  commentId: T:Solti.Utils.Router.UntypedRequestHandlerFactory
-  fullName: Solti.Utils.Router.UntypedRequestHandlerFactory
-  nameWithType: UntypedRequestHandlerFactory
-- uid: Solti.Utils.Router.UntypedRequestHandlerFactory.#ctor(System.Object,System.IntPtr)
-  name: UntypedRequestHandlerFactory(Object, IntPtr)
-  href: Solti.Utils.Router.UntypedRequestHandlerFactory.html#Solti_Utils_Router_UntypedRequestHandlerFactory__ctor_System_Object_System_IntPtr_
-  commentId: M:Solti.Utils.Router.UntypedRequestHandlerFactory.#ctor(System.Object,System.IntPtr)
-  fullName: Solti.Utils.Router.UntypedRequestHandlerFactory.UntypedRequestHandlerFactory(System.Object, System.IntPtr)
-  nameWithType: UntypedRequestHandlerFactory.UntypedRequestHandlerFactory(Object, IntPtr)
-- uid: Solti.Utils.Router.UntypedRequestHandlerFactory.#ctor*
-  name: UntypedRequestHandlerFactory
-  href: Solti.Utils.Router.UntypedRequestHandlerFactory.html#Solti_Utils_Router_UntypedRequestHandlerFactory__ctor_
-  commentId: Overload:Solti.Utils.Router.UntypedRequestHandlerFactory.#ctor
-  fullName: Solti.Utils.Router.UntypedRequestHandlerFactory.UntypedRequestHandlerFactory
-  nameWithType: UntypedRequestHandlerFactory.UntypedRequestHandlerFactory
-- uid: Solti.Utils.Router.UntypedRequestHandlerFactory.BeginInvoke(Solti.Utils.Router.ParsedRoute,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32},System.AsyncCallback,System.Object)
-  name: BeginInvoke(ParsedRoute, IReadOnlyDictionary<String, Int32>, AsyncCallback, Object)
-  href: Solti.Utils.Router.UntypedRequestHandlerFactory.html#Solti_Utils_Router_UntypedRequestHandlerFactory_BeginInvoke_Solti_Utils_Router_ParsedRoute_System_Collections_Generic_IReadOnlyDictionary_System_String_System_Int32__System_AsyncCallback_System_Object_
-  commentId: M:Solti.Utils.Router.UntypedRequestHandlerFactory.BeginInvoke(Solti.Utils.Router.ParsedRoute,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32},System.AsyncCallback,System.Object)
-  name.vb: BeginInvoke(ParsedRoute, IReadOnlyDictionary(Of String, Int32), AsyncCallback, Object)
-  fullName: Solti.Utils.Router.UntypedRequestHandlerFactory.BeginInvoke(Solti.Utils.Router.ParsedRoute, System.Collections.Generic.IReadOnlyDictionary<System.String, System.Int32>, System.AsyncCallback, System.Object)
-  fullName.vb: Solti.Utils.Router.UntypedRequestHandlerFactory.BeginInvoke(Solti.Utils.Router.ParsedRoute, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.Int32), System.AsyncCallback, System.Object)
-  nameWithType: UntypedRequestHandlerFactory.BeginInvoke(ParsedRoute, IReadOnlyDictionary<String, Int32>, AsyncCallback, Object)
-  nameWithType.vb: UntypedRequestHandlerFactory.BeginInvoke(ParsedRoute, IReadOnlyDictionary(Of String, Int32), AsyncCallback, Object)
-- uid: Solti.Utils.Router.UntypedRequestHandlerFactory.BeginInvoke*
-  name: BeginInvoke
-  href: Solti.Utils.Router.UntypedRequestHandlerFactory.html#Solti_Utils_Router_UntypedRequestHandlerFactory_BeginInvoke_
-  commentId: Overload:Solti.Utils.Router.UntypedRequestHandlerFactory.BeginInvoke
-  fullName: Solti.Utils.Router.UntypedRequestHandlerFactory.BeginInvoke
-  nameWithType: UntypedRequestHandlerFactory.BeginInvoke
-- uid: Solti.Utils.Router.UntypedRequestHandlerFactory.EndInvoke(System.IAsyncResult)
-  name: EndInvoke(IAsyncResult)
-  href: Solti.Utils.Router.UntypedRequestHandlerFactory.html#Solti_Utils_Router_UntypedRequestHandlerFactory_EndInvoke_System_IAsyncResult_
-  commentId: M:Solti.Utils.Router.UntypedRequestHandlerFactory.EndInvoke(System.IAsyncResult)
-  fullName: Solti.Utils.Router.UntypedRequestHandlerFactory.EndInvoke(System.IAsyncResult)
-  nameWithType: UntypedRequestHandlerFactory.EndInvoke(IAsyncResult)
-- uid: Solti.Utils.Router.UntypedRequestHandlerFactory.EndInvoke*
-  name: EndInvoke
-  href: Solti.Utils.Router.UntypedRequestHandlerFactory.html#Solti_Utils_Router_UntypedRequestHandlerFactory_EndInvoke_
-  commentId: Overload:Solti.Utils.Router.UntypedRequestHandlerFactory.EndInvoke
-  fullName: Solti.Utils.Router.UntypedRequestHandlerFactory.EndInvoke
-  nameWithType: UntypedRequestHandlerFactory.EndInvoke
-- uid: Solti.Utils.Router.UntypedRequestHandlerFactory.Invoke(Solti.Utils.Router.ParsedRoute,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32})
-  name: Invoke(ParsedRoute, IReadOnlyDictionary<String, Int32>)
-  href: Solti.Utils.Router.UntypedRequestHandlerFactory.html#Solti_Utils_Router_UntypedRequestHandlerFactory_Invoke_Solti_Utils_Router_ParsedRoute_System_Collections_Generic_IReadOnlyDictionary_System_String_System_Int32__
-  commentId: M:Solti.Utils.Router.UntypedRequestHandlerFactory.Invoke(Solti.Utils.Router.ParsedRoute,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32})
-  name.vb: Invoke(ParsedRoute, IReadOnlyDictionary(Of String, Int32))
-  fullName: Solti.Utils.Router.UntypedRequestHandlerFactory.Invoke(Solti.Utils.Router.ParsedRoute, System.Collections.Generic.IReadOnlyDictionary<System.String, System.Int32>)
-  fullName.vb: Solti.Utils.Router.UntypedRequestHandlerFactory.Invoke(Solti.Utils.Router.ParsedRoute, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.Int32))
-  nameWithType: UntypedRequestHandlerFactory.Invoke(ParsedRoute, IReadOnlyDictionary<String, Int32>)
-  nameWithType.vb: UntypedRequestHandlerFactory.Invoke(ParsedRoute, IReadOnlyDictionary(Of String, Int32))
-- uid: Solti.Utils.Router.UntypedRequestHandlerFactory.Invoke*
-  name: Invoke
-  href: Solti.Utils.Router.UntypedRequestHandlerFactory.html#Solti_Utils_Router_UntypedRequestHandlerFactory_Invoke_
-  commentId: Overload:Solti.Utils.Router.UntypedRequestHandlerFactory.Invoke
-  fullName: Solti.Utils.Router.UntypedRequestHandlerFactory.Invoke
-  nameWithType: UntypedRequestHandlerFactory.Invoke
