@@ -230,40 +230,19 @@ namespace Solti.Utils.Router
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
-        /// <param name="handlerFactory">Delegate responsible for creating the handler function.</param>
-        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
-        /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(ParsedRoute route, UntypedRequestHandlerFactory handlerFactory, params string[] methods)
-        {
-            if (handlerFactory is null)
-                throw new ArgumentNullException(nameof(handlerFactory));
-
-            FUnderlyingBuilder.AddRoute
-            (
-                route ?? throw new ArgumentNullException(nameof(route)),
-                (route, shortcuts) =>
-                {
-                    LambdaExpression handlerExpr = handlerFactory(route, shortcuts);
-                    CheckHandler(handlerExpr, typeof(RequestHandler<>));
-                    return Wrap<RequestHandler>(handlerExpr);
-                },
-                methods ?? throw new ArgumentNullException(nameof(methods))
-            );
-        }
-
-        /// <summary>
-        /// Registers a new route.
-        /// </summary>
-        /// <param name="route">Route to be registered. Must NOT include the base URL.</param>
         /// <param name="handlerExpr">Function accepting requests on the given route. You may pass async and sync callbacks as well.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
         public void AddRoute(ParsedRoute route, LambdaExpression handlerExpr, params string[] methods)
         {
-            if (handlerExpr is null)
-                throw new ArgumentNullException(nameof(handlerExpr));
+            CheckHandler(handlerExpr, typeof(RequestHandler<>));
 
-            AddRoute(route, (_, _) => handlerExpr, methods);
+            FUnderlyingBuilder.AddRoute
+            (
+                route ?? throw new ArgumentNullException(nameof(route)),
+                Wrap<RequestHandler>(handlerExpr),
+                methods ?? throw new ArgumentNullException(nameof(methods))
+            );
         }
 
         /// <summary>

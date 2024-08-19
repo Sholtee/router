@@ -18,7 +18,7 @@ namespace Solti.Utils.Router.Internals
     /// <summary>
     /// Dictionary having predefined keys
     /// </summary>
-    internal sealed partial class StaticDictionary<TData>: IReadOnlyDictionary<string, TData?>, IParamAccessByInternalId<TData>
+    internal sealed partial class StaticDictionary<TData>: IReadOnlyDictionary<string, TData?>
     {
         private struct ValueWrapper
         {

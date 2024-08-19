@@ -37,7 +37,7 @@ namespace Solti.Utils.Router.Extensions
             self.AddRoute
             (
                 route,
-                RequestHandlerBuilder.CreateFactory(handler, null),
+                RequestHandlerBuilder.CreateFactory(route, handler, null),
                 methods
             );
         }

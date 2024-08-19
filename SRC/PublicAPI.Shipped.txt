@@ -1,7 +1,6 @@
 ﻿#nullable enable
 Solti.Utils.Router.AsyncRouter
 Solti.Utils.Router.AsyncRouterBuilder
-Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute! route, Solti.Utils.Router.UntypedRequestHandlerFactory! handlerFactory, params string![]! methods) -> void
 Solti.Utils.Router.AsyncRouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute! route, System.Linq.Expressions.LambdaExpression! handlerExpr, params string![]! methods) -> void
 Solti.Utils.Router.AsyncRouterBuilder.AddRoute<T>(string! route, Solti.Utils.Router.RequestHandler<T>! handler, params string![]! methods) -> void
 Solti.Utils.Router.AsyncRouterBuilder.AddRoute<T>(string! route, Solti.Utils.Router.RequestHandler<T>! handler, Solti.Utils.Router.SplitOptions! splitOptions, params string![]! methods) -> void
@@ -33,10 +32,8 @@ Solti.Utils.Router.ParsedRoute.Segments.get -> System.Collections.Generic.IReadO
 Solti.Utils.Router.ParsedRoute.Template.get -> string!
 Solti.Utils.Router.RequestHandler
 Solti.Utils.Router.RequestHandler<TResult>
-Solti.Utils.Router.RequestHandlerFactory
 Solti.Utils.Router.Router
 Solti.Utils.Router.RouterBuilder
-Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute! route, Solti.Utils.Router.RequestHandlerFactory! handlerFactory, params string![]! methods) -> void
 Solti.Utils.Router.RouterBuilder.AddRoute(Solti.Utils.Router.ParsedRoute! route, System.Linq.Expressions.Expression<Solti.Utils.Router.RequestHandler!>! handlerExpr, params string![]! methods) -> void
 Solti.Utils.Router.RouterBuilder.AddRoute(string! route, Solti.Utils.Router.RequestHandler! handler, params string![]! methods) -> void
 Solti.Utils.Router.RouterBuilder.AddRoute(string! route, Solti.Utils.Router.RequestHandler! handler, Solti.Utils.Router.SplitOptions! splitOptions, params string![]! methods) -> void
@@ -62,7 +59,6 @@ Solti.Utils.Router.SplitOptions
 Solti.Utils.Router.SplitOptions.ConvertHexValues.get -> bool
 Solti.Utils.Router.SplitOptions.ConvertSpaces.get -> bool
 Solti.Utils.Router.SplitOptions.Encoding.get -> System.Text.Encoding!
-Solti.Utils.Router.UntypedRequestHandlerFactory
 static Solti.Utils.Router.AsyncRouterBuilder.Create(System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> Solti.Utils.Router.AsyncRouterBuilder!
 static Solti.Utils.Router.AsyncRouterBuilder.Create(System.Linq.Expressions.LambdaExpression! handlerExpr, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> Solti.Utils.Router.AsyncRouterBuilder!
 static Solti.Utils.Router.AsyncRouterBuilder.Create<T>(Solti.Utils.Router.DefaultRequestHandler<T>! handler, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null) -> Solti.Utils.Router.AsyncRouterBuilder!
@@ -76,17 +72,13 @@ static Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRou
 static Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute<TService>(this Solti.Utils.Router.AsyncRouterBuilder! self, string! route, System.Linq.Expressions.Expression<System.Action<TService>!>! handlerExpr, Solti.Utils.Router.SplitOptions! splitOptions, params string![]! methods) -> void
 static Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder.get -> Solti.Utils.Router.Extensions.RequestHandlerBuilder!
 static Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.RequestHandlerBuilder.set -> void
-static Solti.Utils.Router.Extensions.RequestHandlerBuilder.ElementAccess.get -> System.Linq.Expressions.ParameterExpression!
 static Solti.Utils.Router.Extensions.RequestHandlerBuilder.ParamsDict.get -> System.Linq.Expressions.ParameterExpression!
 static Solti.Utils.Router.Extensions.RequestHandlerBuilder.UserData.get -> System.Linq.Expressions.ParameterExpression!
 static Solti.Utils.Router.RouteTemplate.CreateCompiler(string! template, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null, Solti.Utils.Router.SplitOptions? splitOptions = null) -> Solti.Utils.Router.RouteTemplateCompiler!
 static Solti.Utils.Router.RouteTemplate.Parse(string! template, System.Collections.Generic.IReadOnlyDictionary<string!, Solti.Utils.Router.ConverterFactory!>? converters = null, Solti.Utils.Router.SplitOptions? splitOptions = null) -> Solti.Utils.Router.ParsedRoute!
 static Solti.Utils.Router.SplitOptions.Default.get -> Solti.Utils.Router.SplitOptions!
-virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateFactory(System.Reflection.MethodInfo! invokeServiceMethod, object? userData) -> Solti.Utils.Router.UntypedRequestHandlerFactory!
 virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateService(System.Type! serviceType, object? userData) -> System.Linq.Expressions.Expression!
 virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetArgumentName(System.Reflection.ParameterInfo! arg) -> string!
-virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo! param, Solti.Utils.Router.ParsedRoute! route, System.Collections.Generic.IReadOnlyDictionary<string!, int>! shortcuts, object? userData) -> System.Linq.Expressions.Expression!
-virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute! route, System.Reflection.MethodInfo! invokeServiceMethod, System.Collections.Generic.IReadOnlyDictionary<string!, int>! shortcuts, object? userData) -> System.Linq.Expressions.Expression!
 abstract Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo! param, System.Type! serviceType, object? userData) -> System.Linq.Expressions.Expression!
 abstract Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateServiceMethod.get -> System.Reflection.MethodInfo!
 override Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.GetCreateServiceArgument(System.Reflection.ParameterInfo! param, System.Type! serviceType, object? userData) -> System.Linq.Expressions.Expression!
@@ -97,8 +89,6 @@ Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder
 Solti.Utils.Router.Extensions.InjectorDotNetRequestHandlerBuilder.InjectorDotNetRequestHandlerBuilder() -> void
 Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder
 Solti.Utils.Router.Extensions.MsDiRequestHandlerBuilder.MsDiRequestHandlerBuilder() -> void
-Solti.Utils.Router.IParamAccessByInternalId<TData>
-Solti.Utils.Router.IParamAccessByInternalId<TData>.this[int internalId].get -> TData?
 Solti.Utils.Router.SplitOptions.AllowUnsafeChars.get -> bool
 Solti.Utils.Router.SplitOptions.AllowUnsafeChars.init -> void
 Solti.Utils.Router.SplitOptions.ConvertHexValues.init -> void

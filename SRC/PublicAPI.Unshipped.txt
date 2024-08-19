@@ -1,1 +1,3 @@
-﻿
+﻿virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.CreateFactory(Solti.Utils.Router.ParsedRoute! route, System.Reflection.MethodInfo! invokeServiceMethod, object? userData) -> System.Linq.Expressions.LambdaExpression!
+virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.GetInvokeServiceArgument(System.Reflection.ParameterInfo! param, Solti.Utils.Router.ParsedRoute! route, object? userData) -> System.Linq.Expressions.Expression!
+virtual Solti.Utils.Router.Extensions.RequestHandlerBuilder.InvokeService(Solti.Utils.Router.ParsedRoute! route, System.Reflection.MethodInfo! invokeServiceMethod, object? userData) -> System.Linq.Expressions.Expression!

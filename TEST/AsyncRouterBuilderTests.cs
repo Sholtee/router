@@ -188,9 +188,7 @@ namespace Solti.Utils.Router.Tests
         public void BuildShouldThrowOnInvalidHandler()
         {
             AsyncRouterBuilder builder = AsyncRouterBuilder.Create<Task<object?>>(handler: (_, _) => { Assert.Fail(); return null!; }, DefaultConverters.Instance);
-            builder.AddRoute(RouteTemplate.Parse("/"), () => Console.WriteLine(""));
-
-            Assert.Throws<ArgumentException>(() => builder.Build(), Resources.INVALID_HANDLER);
+            Assert.Throws<ArgumentException>(() => builder.AddRoute(RouteTemplate.Parse("/"), () => Console.WriteLine("")), Resources.INVALID_HANDLER);
         }
     }
 }

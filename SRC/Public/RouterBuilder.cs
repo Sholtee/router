@@ -94,8 +94,6 @@ namespace Solti.Utils.Router
     public sealed class RouterBuilder
     {
         #region Private
-        private delegate Expression<RequestHandler> SimpleRequestHandlerFactory(IReadOnlyDictionary<string, int> shortcuts);
-
         private delegate bool MemoryEqualsDelegate(ReadOnlySpan<char> left, ReadOnlySpan<char> right, StringComparison comparison);
 
         private delegate ReadOnlySpan<char> AsSpanDelegate(string s);
@@ -106,7 +104,7 @@ namespace Solti.Utils.Router
         {
             public RouteSegment? Segment { get; init; }  // null at "/"
             // order doesn't matter
-            public Dictionary<string, SimpleRequestHandlerFactory> Methods { get; } = new(StringComparer.OrdinalIgnoreCase);
+            public Dictionary<string, Expression<RequestHandler>> Methods { get; } = new(StringComparer.OrdinalIgnoreCase);
             public List<Junction> Children { get; } = [];
         }
 
@@ -148,6 +146,8 @@ namespace Solti.Utils.Router
 
         private Expression BuildJunction(Junction junction, IReadOnlyDictionary<string, int> shortcuts)
         {
+            ApplyShortcuts applyShortcuts = new(shortcuts);
+
             return Expression.Block
             (
                 ProcessJunction(junction)
@@ -252,18 +252,21 @@ namespace Solti.Utils.Router
                 //    return XyzHandler(...);
                 //
 
-                foreach (IGrouping<SimpleRequestHandlerFactory, string> handlerGroup in junction.Methods.GroupBy(static fact => fact.Value, static fact => fact.Key))
+                foreach (IGrouping<Expression<RequestHandler>, string> handlerGroup in junction.Methods.GroupBy(static fact => fact.Value, static fact => fact.Key))
                 {
                     yield return Expression.IfThen
                     (
                         handlerGroup
                             .Select(static supportedMethod => Equals(FMethod, supportedMethod))
                             .Aggregate(static (accu, curr) => Expression.Or(accu, curr)),
-                        Return
+                        applyShortcuts.Visit
                         (
-                            handlerGroup.Key(shortcuts),
-                            FParams,
-                            FUserData
+                            Return
+                            (
+                                handlerGroup.Key,
+                                FParams,
+                                FUserData
+                            )
                         )
                     );
                 }
@@ -470,16 +473,16 @@ namespace Solti.Utils.Router
         /// Registers a new route.
         /// </summary>
         /// <param name="route">Route to be registered.</param>
-        /// <param name="handlerFactory">Delegate responsible for creating the handler function.</param>
+        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(ParsedRoute route, RequestHandlerFactory handlerFactory, params string[] methods)
+        public void AddRoute(ParsedRoute route, Expression<RequestHandler> handlerExpr, params string[] methods)
         {
             if (route is null)
                 throw new ArgumentNullException(nameof(route));
 
-            if (handlerFactory is null)
-                throw new ArgumentNullException(nameof(handlerFactory));
+            if (handlerExpr is null)
+                throw new ArgumentNullException(nameof(handlerExpr));
 
             if (methods is null)
                 throw new ArgumentNullException(nameof(methods));
@@ -525,28 +528,13 @@ namespace Solti.Utils.Router
                 if (target.Methods.ContainsKey(method))
                     throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
 
-                target.Methods[method] = shortcuts => handlerFactory(route, shortcuts);          
+                target.Methods[method] = handlerExpr;          
             }
 
             foreach (string variable in route.Parameters.Keys)
             {
                 FParameters.RegisterKey(variable);
             }
-        }
-
-        /// <summary>
-        /// Registers a new route.
-        /// </summary>
-        /// <param name="route">Route to be registered.</param>
-        /// <param name="handlerExpr">Function accepting requests on the given route.</param>
-        /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
-        /// <exception cref="ArgumentException">If the route already registered.</exception>
-        public void AddRoute(ParsedRoute route, Expression<RequestHandler> handlerExpr, params string[] methods)
-        {
-            if (handlerExpr is null)
-                throw new ArgumentNullException(nameof(handlerExpr));
-
-            AddRoute(route, (_, _) => handlerExpr, methods);
         }
 
         /// <summary>

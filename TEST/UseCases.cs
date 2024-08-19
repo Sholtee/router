@@ -415,11 +415,11 @@ namespace Solti.Utils.Router.Tests
         #region Helpers
         private sealed class RequestHandlerBuilderSupportsBodyParameter : InjectorDotNetRequestHandlerBuilder
         {
-            protected internal override Expression GetInvokeServiceArgument(ParameterInfo param, ParsedRoute route, IReadOnlyDictionary<string, int> shortcuts, object? userData)
+            protected internal override Expression GetInvokeServiceArgument(ParameterInfo param, ParsedRoute route, object? userData)
             {
                 return param.Name == "body"
                     ? Expression.Invoke(Expression.Constant((Func<object, string>) GetBody), UserData)
-                    : base.GetInvokeServiceArgument(param, route, shortcuts, userData);
+                    : base.GetInvokeServiceArgument(param, route, userData);
 
                 static string GetBody(object userData)
                 {
