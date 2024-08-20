@@ -345,7 +345,7 @@ namespace Solti.Utils.Router
 
             return AsyncRouter;
 
-            // methods having ref struct parameter cannot be async =(
+            // methods having ref struct parameter cannot be async (CS4012) =(
             Task<object?> AsyncRouter(object? userData, ReadOnlySpan<char> path, ReadOnlySpan<char> method, SplitOptions? splitOptions)
             {
                 Task<object?> task;
@@ -358,21 +358,12 @@ namespace Solti.Utils.Router
                     task = Task.FromException<object?>(ex);
                 }
 
-                // CS4012 workaround
-                return CallAsync(task, userData);
+                return excHandler is null
+                    ? task
+                    : task
+                        .ContinueWith(t => t.Exception is not null ? excHandler.Value(userData, t.Exception.InnerException) : t)
+                        .Unwrap();
             };
-
-            async Task<object?> CallAsync(Task<object?> task, object? userData)
-            {
-                try
-                {
-                    return await task;
-                }
-                catch (Exception ex) when (excHandler is not null)
-                {
-                    return await excHandler.Value(userData, ex);
-                }
-            }
         }
     }
 }
