@@ -22,7 +22,7 @@ namespace Solti.Utils.Router
     /// <summary>
     /// Builds router delegate (<see cref="AsyncRouter"/>) that dispatches requests to async handlers.
     /// </summary>
-    public sealed class AsyncRouterBuilder
+    public sealed class AsyncRouterBuilder: IRouterBuilder
     {
         #region Private
         private delegate Task<object?> AsyncExceptionHandler<TException>(object? userData, TException exc) where TException : Exception;

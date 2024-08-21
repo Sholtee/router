@@ -139,19 +139,19 @@
     <value>Inappropriate parameters.</value>
   </data>
   <data name="INVALID_FORMAT_STYLE" xml:space="preserve">
-    <value>Invalid format style: "{0}"</value>
+    <value>Invalid format style: "{0}".</value>
   </data>
   <data name="INVALID_HANDLER" xml:space="preserve">
     <value>Invalid handler.</value>
   </data>
   <data name="INVALID_HEX" xml:space="preserve">
-    <value>Invalid HEX value</value>
+    <value>Invalid HEX value.</value>
   </data>
   <data name="INVALID_ID" xml:space="preserve">
     <value>Invalid ID.</value>
   </data>
   <data name="INVALID_PATH" xml:space="preserve">
-    <value>The given path is not valid: "{0}"</value>
+    <value>The given path is not valid: "{0}".</value>
   </data>
   <data name="INVALID_TEMPLATE" xml:space="preserve">
     <value>Invalid template.</value>
@@ -172,6 +172,9 @@
     <value>A segment may contain one parameter descriptor only.</value>
   </data>
   <data name="UNSAFE_CHAR" xml:space="preserve">
-    <value>Unsafe character</value>
+    <value>Unsafe character.</value>
+  </data>
+  <data name="INVALID_SELECTOR" xml:space="preserve">
+    <value>Invalid selector.</value>
   </data>
 </root>

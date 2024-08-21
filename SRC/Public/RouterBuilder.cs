@@ -16,7 +16,8 @@ namespace Solti.Utils.Router
 {
     using Internals;
     using Primitives;
-    using Properties;
+
+    using static Properties.Resources;
 
     /// <summary>
     /// Builds the <see cref="Router"/> delegate that does the actual routing.
@@ -91,7 +92,7 @@ namespace Solti.Utils.Router
     ///     [catch(Exception exc) { return ExceptionHandler(userData, exc); }]
     /// </code>
     /// </summary>
-    public sealed class RouterBuilder
+    public sealed class RouterBuilder: IRouterBuilder
     {
         #region Private
         private delegate bool MemoryEqualsDelegate(ReadOnlySpan<char> left, ReadOnlySpan<char> right, StringComparison comparison);
@@ -347,7 +348,7 @@ namespace Solti.Utils.Router
             // Compiler generated expression tree cannot contain throw expression (CS8188)
             //
 
-            handler: static (_, _) => throw new InvalidOperationException(Resources.ROUTE_NOT_REGISTERED),
+            handler: static (_, _) => throw new InvalidOperationException(ROUTE_NOT_REGISTERED),
             converters
         ) { }
 
@@ -523,10 +524,10 @@ namespace Solti.Utils.Router
             foreach (string method in methods)
             {
                 if (string.IsNullOrEmpty(method))
-                    throw new ArgumentException(Resources.EMPTY_METHOD, nameof(methods));
+                    throw new ArgumentException(EMPTY_METHOD, nameof(methods));
 
                 if (target.Methods.ContainsKey(method))
-                    throw new ArgumentException(string.Format(Resources.Culture, Resources.ROUTE_ALREADY_REGISTERED, route), nameof(route));
+                    throw new ArgumentException(string.Format(Culture, ROUTE_ALREADY_REGISTERED, route), nameof(route));
 
                 target.Methods[method] = handlerExpr;          
             }
@@ -535,6 +536,14 @@ namespace Solti.Utils.Router
             {
                 FParameters.RegisterKey(variable);
             }
+        }
+
+        void IRouterBuilder.AddRoute(ParsedRoute route, LambdaExpression handlerExpr, params string[] methods)
+        {
+            if (handlerExpr is not Expression<RequestHandler> typedHandlerExpr)
+                throw new ArgumentException(INVALID_HANDLER, nameof(handlerExpr));
+
+            AddRoute(route, typedHandlerExpr, methods);
         }
 
         /// <summary>

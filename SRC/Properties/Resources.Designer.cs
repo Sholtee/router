@@ -124,7 +124,7 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid format style: &quot;{0}&quot;.
+        ///   Looks up a localized string similar to Invalid format style: &quot;{0}&quot;..
         /// </summary>
         internal static string INVALID_FORMAT_STYLE {
             get {
@@ -142,7 +142,7 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid HEX value.
+        ///   Looks up a localized string similar to Invalid HEX value..
         /// </summary>
         internal static string INVALID_HEX {
             get {
@@ -160,11 +160,20 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The given path is not valid: &quot;{0}&quot;.
+        ///   Looks up a localized string similar to The given path is not valid: &quot;{0}&quot;..
         /// </summary>
         internal static string INVALID_PATH {
             get {
                 return ResourceManager.GetString("INVALID_PATH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid selector..
+        /// </summary>
+        internal static string INVALID_SELECTOR {
+            get {
+                return ResourceManager.GetString("INVALID_SELECTOR", resourceCulture);
             }
         }
         
@@ -223,7 +232,7 @@ namespace Solti.Utils.Router.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unsafe character.
+        ///   Looks up a localized string similar to Unsafe character..
         /// </summary>
         internal static string UNSAFE_CHAR {
             get {

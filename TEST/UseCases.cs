@@ -254,12 +254,9 @@ namespace Solti.Utils.Router.Tests
                 handler: static (object? state, HttpStatusCode reason) => new ResponseData(reason, reason.ToString())
             );
 
-            routerBuilder.AddRoute<CalculatorService>
-            (
-                RouteTemplate,
-                calc => calc.Calculate(0, default, 0)
-            );
-            routerBuilder.AddRoute<CalculatorService>("/error", calc => calc.ErrorMethod());
+            routerBuilder.UseModule<CalculatorService>()
+                .AddRoute<int, ArithmeticalOperation, int, int>(RouteTemplate, calc => calc.Calculate)
+                .AddRoute("/error", calc => calc.ErrorMethod);
             routerBuilder.RegisterExceptionHandler<Exception, ResponseData>(handler: (_, exc) => new ResponseData(HttpStatusCode.InternalServerError, exc.Message));
 
             return routerBuilder.Build();
@@ -477,7 +474,7 @@ namespace Solti.Utils.Router.Tests
                 handler: static (object? state, HttpStatusCode reason) => new ResponseData(reason, reason.ToString())
             );
 
-            routerBuilder.AddRoute<ConverterService>("/upper", conv => conv.ToUpperCase(default!), "POST");
+            routerBuilder.UseModule<ConverterService>().AddRoute<string, string>("/upper", conv => conv.ToUpperCase, "POST");
             routerBuilder.RegisterExceptionHandler<Exception, ResponseData>(handler: (_, exc) => new ResponseData(HttpStatusCode.InternalServerError, exc.Message));
 
             return routerBuilder.Build();
