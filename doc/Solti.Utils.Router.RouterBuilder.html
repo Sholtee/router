@@ -118,11 +118,15 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">RouterBuilder</span></div>
   </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Solti.Utils.Router.IRouterBuilder.html">IRouterBuilder</a></div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Solti.Utils.Router.html">Solti.Utils.Router</a></h6>
   <h6><strong>Assembly</strong>: Solti.Utils.Router.dll</h6>
   <h5 id="Solti_Utils_Router_RouterBuilder_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public sealed class RouterBuilder : Object</code></pre>
+    <pre><code class="lang-csharp hljs">public sealed class RouterBuilder : Object, IRouterBuilder</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -666,6 +670,47 @@
       </tr>
     </tbody>
   </table>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <a id="Solti_Utils_Router_RouterBuilder_Solti_Utils_Router_IRouterBuilder_AddRoute_" data-uid="Solti.Utils.Router.RouterBuilder.Solti#Utils#Router#IRouterBuilder#AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_RouterBuilder_Solti_Utils_Router_IRouterBuilder_AddRoute_Solti_Utils_Router_ParsedRoute_System_Linq_Expressions_LambdaExpression_System_String___" data-uid="Solti.Utils.Router.RouterBuilder.Solti#Utils#Router#IRouterBuilder#AddRoute(Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.LambdaExpression,System.String[])">IRouterBuilder.AddRoute(ParsedRoute, LambdaExpression, String[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void IRouterBuilder.AddRoute(ParsedRoute route, LambdaExpression handlerExpr, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.LambdaExpression</span></td>
+        <td><span class="parametername">handlerExpr</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Solti.Utils.Router.IRouterBuilder.html">IRouterBuilder</a>
+  </div>
 </article>
           </div>
           

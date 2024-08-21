@@ -1,0 +1,1152 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ModuleRegistration&lt;TModule&gt;
+   | Compass </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ModuleRegistration&lt;TModule&gt;
+   | Compass ">
+    <meta name="generator" content="docfx 2.59.3.0">
+    
+    <link rel="shortcut icon" href="icon.png">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1">
+  
+  
+  <h1 id="Solti_Utils_Router_Extensions_ModuleRegistration_1" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1" class="text-break">Class ModuleRegistration&lt;TModule&gt;
+  </h1>
+  <div class="markdown level0 summary"><p>Encapsulates route registratons that are specific for a given module.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">ModuleRegistration&lt;TModule&gt;</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Solti.Utils.Router.Extensions.html">Solti.Utils.Router.Extensions</a></h6>
+  <h6><strong>Assembly</strong>: Solti.Utils.Router.dll</h6>
+  <h5 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ModuleRegistration&lt;TModule&gt; : Object</code></pre>
+  </div>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TModule</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="constructors">Constructors
+  </h3>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1__ctor_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.#ctor*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1__ctor_Solti_Utils_Router_IRouterBuilder_Solti_Utils_Router_Extensions_RequestHandlerBuilder_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.#ctor(Solti.Utils.Router.IRouterBuilder,Solti.Utils.Router.Extensions.RequestHandlerBuilder)">ModuleRegistration(IRouterBuilder, RequestHandlerBuilder)</h4>
+  <div class="markdown level1 summary"><p>Encapsulates route registratons that are specific for a given module.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration(IRouterBuilder routerBuilder, RequestHandlerBuilder handlerBuilder)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.IRouterBuilder.html">IRouterBuilder</a></td>
+        <td><span class="parametername">routerBuilder</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.RequestHandlerBuilder.html">RequestHandlerBuilder</a></td>
+        <td><span class="parametername">handlerBuilder</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_System_String_System_Linq_Expressions_Expression_System_Func__0_System_Action___System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute(System.String,System.Linq.Expressions.Expression{System.Func{`0,System.Action}},System.String[])">AddRoute(String, Expression&lt;Func&lt;TModule, Action&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration&lt;TModule&gt; AddRoute(string route, Expression&lt;Func&lt;TModule, Action&gt;&gt; selector, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, <span class="xref">System.Action</span>&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute__1_System_String_System_Linq_Expressions_Expression_System_Func__0_System_Action___0____System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute``1(System.String,System.Linq.Expressions.Expression{System.Func{`0,System.Action{``0}}},System.String[])">AddRoute&lt;T&gt;(String, Expression&lt;Func&lt;TModule, Action&lt;T&gt;&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration&lt;TModule&gt; AddRoute&lt;T&gt;(string route, Expression&lt;Func&lt;TModule, Action&lt;T&gt;&gt;&gt; selector, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, <span class="xref">System.Action</span>&lt;T&gt;&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute__1_System_String_System_Linq_Expressions_Expression_System_Func__0_System_Func___0____System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute``1(System.String,System.Linq.Expressions.Expression{System.Func{`0,System.Func{``0}}},System.String[])">AddRoute&lt;TResult&gt;(String, Expression&lt;Func&lt;TModule, Func&lt;TResult&gt;&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration&lt;TModule&gt; AddRoute&lt;TResult&gt;(string route, Expression&lt;Func&lt;TModule, Func&lt;TResult&gt;&gt;&gt; selector, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, <span class="xref">System.Func</span>&lt;TResult&gt;&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute__2_System_String_System_Linq_Expressions_Expression_System_Func__0_System_Action___0___1____System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute``2(System.String,System.Linq.Expressions.Expression{System.Func{`0,System.Action{``0,``1}}},System.String[])">AddRoute&lt;T1, T2&gt;(String, Expression&lt;Func&lt;TModule, Action&lt;T1, T2&gt;&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration&lt;TModule&gt; AddRoute&lt;T1, T2&gt;(string route, Expression&lt;Func&lt;TModule, Action&lt;T1, T2&gt;&gt;&gt; selector, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, <span class="xref">System.Action</span>&lt;T1, T2&gt;&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute__2_System_String_System_Linq_Expressions_Expression_System_Func__0_System_Func___0___1____System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute``2(System.String,System.Linq.Expressions.Expression{System.Func{`0,System.Func{``0,``1}}},System.String[])">AddRoute&lt;T, TResult&gt;(String, Expression&lt;Func&lt;TModule, Func&lt;T, TResult&gt;&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration&lt;TModule&gt; AddRoute&lt;T, TResult&gt;(string route, Expression&lt;Func&lt;TModule, Func&lt;T, TResult&gt;&gt;&gt; selector, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, <span class="xref">System.Func</span>&lt;T, TResult&gt;&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute__3_System_String_System_Linq_Expressions_Expression_System_Func__0_System_Action___0___1___2____System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute``3(System.String,System.Linq.Expressions.Expression{System.Func{`0,System.Action{``0,``1,``2}}},System.String[])">AddRoute&lt;T1, T2, T3&gt;(String, Expression&lt;Func&lt;TModule, Action&lt;T1, T2, T3&gt;&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration&lt;TModule&gt; AddRoute&lt;T1, T2, T3&gt;(string route, Expression&lt;Func&lt;TModule, Action&lt;T1, T2, T3&gt;&gt;&gt; selector, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, <span class="xref">System.Action</span>&lt;T1, T2, T3&gt;&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute__3_System_String_System_Linq_Expressions_Expression_System_Func__0_System_Func___0___1___2____System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute``3(System.String,System.Linq.Expressions.Expression{System.Func{`0,System.Func{``0,``1,``2}}},System.String[])">AddRoute&lt;T1, T2, TResult&gt;(String, Expression&lt;Func&lt;TModule, Func&lt;T1, T2, TResult&gt;&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration&lt;TModule&gt; AddRoute&lt;T1, T2, TResult&gt;(string route, Expression&lt;Func&lt;TModule, Func&lt;T1, T2, TResult&gt;&gt;&gt; selector, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, <span class="xref">System.Func</span>&lt;T1, T2, TResult&gt;&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute__4_System_String_System_Linq_Expressions_Expression_System_Func__0_System_Action___0___1___2___3____System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute``4(System.String,System.Linq.Expressions.Expression{System.Func{`0,System.Action{``0,``1,``2,``3}}},System.String[])">AddRoute&lt;T1, T2, T3, T4&gt;(String, Expression&lt;Func&lt;TModule, Action&lt;T1, T2, T3, T4&gt;&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration&lt;TModule&gt; AddRoute&lt;T1, T2, T3, T4&gt;(string route, Expression&lt;Func&lt;TModule, Action&lt;T1, T2, T3, T4&gt;&gt;&gt; selector, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, <span class="xref">System.Action</span>&lt;T1, T2, T3, T4&gt;&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute__4_System_String_System_Linq_Expressions_Expression_System_Func__0_System_Func___0___1___2___3____System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute``4(System.String,System.Linq.Expressions.Expression{System.Func{`0,System.Func{``0,``1,``2,``3}}},System.String[])">AddRoute&lt;T1, T2, T3, TResult&gt;(String, Expression&lt;Func&lt;TModule, Func&lt;T1, T2, T3, TResult&gt;&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration&lt;TModule&gt; AddRoute&lt;T1, T2, T3, TResult&gt;(string route, Expression&lt;Func&lt;TModule, Func&lt;T1, T2, T3, TResult&gt;&gt;&gt; selector, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, <span class="xref">System.Func</span>&lt;T1, T2, T3, TResult&gt;&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute__5_System_String_System_Linq_Expressions_Expression_System_Func__0_System_Action___0___1___2___3___4____System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute``5(System.String,System.Linq.Expressions.Expression{System.Func{`0,System.Action{``0,``1,``2,``3,``4}}},System.String[])">AddRoute&lt;T1, T2, T3, T4, T5&gt;(String, Expression&lt;Func&lt;TModule, Action&lt;T1, T2, T3, T4, T5&gt;&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration&lt;TModule&gt; AddRoute&lt;T1, T2, T3, T4, T5&gt;(string route, Expression&lt;Func&lt;TModule, Action&lt;T1, T2, T3, T4, T5&gt;&gt;&gt; selector, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, <span class="xref">System.Action</span>&lt;T1, T2, T3, T4, T5&gt;&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute__5_System_String_System_Linq_Expressions_Expression_System_Func__0_System_Func___0___1___2___3___4____System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute``5(System.String,System.Linq.Expressions.Expression{System.Func{`0,System.Func{``0,``1,``2,``3,``4}}},System.String[])">AddRoute&lt;T1, T2, T3, T4, TResult&gt;(String, Expression&lt;Func&lt;TModule, Func&lt;T1, T2, T3, T4, TResult&gt;&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration&lt;TModule&gt; AddRoute&lt;T1, T2, T3, T4, TResult&gt;(string route, Expression&lt;Func&lt;TModule, Func&lt;T1, T2, T3, T4, TResult&gt;&gt;&gt; selector, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, <span class="xref">System.Func</span>&lt;T1, T2, T3, T4, TResult&gt;&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRoute__6_System_String_System_Linq_Expressions_Expression_System_Func__0_System_Func___0___1___2___3___4___5____System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRoute``6(System.String,System.Linq.Expressions.Expression{System.Func{`0,System.Func{``0,``1,``2,``3,``4,``5}}},System.String[])">AddRoute&lt;T1, T2, T3, T4, T5, TResult&gt;(String, Expression&lt;Func&lt;TModule, Func&lt;T1, T2, T3, T4, T5, TResult&gt;&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModuleRegistration&lt;TModule&gt; AddRoute&lt;T1, T2, T3, T4, T5, TResult&gt;(string route, Expression&lt;Func&lt;TModule, Func&lt;T1, T2, T3, T4, T5, TResult&gt;&gt;&gt; selector, params string[] methods)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, <span class="xref">System.Func</span>&lt;T1, T2, T3, T4, T5, TResult&gt;&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T5</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRouteInternal_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRouteInternal*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRouteInternal__1_Solti_Utils_Router_ParsedRoute_System_Linq_Expressions_Expression_System_Func__0___0___System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRouteInternal``1(Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.Expression{System.Func{`0,``0}},System.String[])">AddRouteInternal&lt;TDelegate&gt;(ParsedRoute, Expression&lt;Func&lt;TModule, TDelegate&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ModuleRegistration&lt;TModule&gt; AddRouteInternal&lt;TDelegate&gt;(ParsedRoute route, Expression&lt;Func&lt;TModule, TDelegate&gt;&gt; selector, string[] methods)
+    where TDelegate : Delegate</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, TDelegate&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TDelegate</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRouteInternal_" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRouteInternal*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_ModuleRegistration_1_AddRouteInternal__1_System_String_System_Linq_Expressions_Expression_System_Func__0___0___System_String___" data-uid="Solti.Utils.Router.Extensions.ModuleRegistration`1.AddRouteInternal``1(System.String,System.Linq.Expressions.Expression{System.Func{`0,``0}},System.String[])">AddRouteInternal&lt;TDelegate&gt;(String, Expression&lt;Func&lt;TModule, TDelegate&gt;&gt;, String[])</h4>
+  <div class="markdown level1 summary"><p>Registers a module method (specified by the <code data-dev-comment-type="paramref" class="paramref">selector</code> expression) to handle incoming requests on the given <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ModuleRegistration&lt;TModule&gt; AddRouteInternal&lt;TDelegate&gt;(string route, Expression&lt;Func&lt;TModule, TDelegate&gt;&gt; selector, string[] methods)
+    where TDelegate : Delegate</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">route</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Func</span>&lt;TModule, TDelegate&gt;&gt;</td>
+        <td><span class="parametername">selector</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">methods</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TDelegate</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>

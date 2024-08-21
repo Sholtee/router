@@ -273,14 +273,14 @@
       </tr>
     </tbody>
   </table>
-  <a id="Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute_" data-uid="Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute*"></a>
-  <h4 id="Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute__1_Solti_Utils_Router_AsyncRouterBuilder_Solti_Utils_Router_ParsedRoute_System_Linq_Expressions_Expression_System_Action___0___System_String___" data-uid="Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``1(Solti.Utils.Router.AsyncRouterBuilder,Solti.Utils.Router.ParsedRoute,System.Linq.Expressions.Expression{System.Action{``0}},System.String[])">AddRoute&lt;TService&gt;(AsyncRouterBuilder, ParsedRoute, Expression&lt;Action&lt;TService&gt;&gt;, String[])</h4>
-  <div class="markdown level1 summary"><p>Registers a new route.</p>
+  <a id="Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_UseModule_" data-uid="Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.UseModule*"></a>
+  <h4 id="Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_UseModule__1_Solti_Utils_Router_AsyncRouterBuilder_" data-uid="Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.UseModule``1(Solti.Utils.Router.AsyncRouterBuilder)">UseModule&lt;TModule&gt;(AsyncRouterBuilder)</h4>
+  <div class="markdown level1 summary"><p>Begins a registration block where each route is bound to a specific module.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void AddRoute&lt;TService&gt;(this AsyncRouterBuilder self, ParsedRoute route, Expression&lt;Action&lt;TService&gt;&gt; handlerExpr, params string[] methods)</code></pre>
+    <pre><code class="lang-csharp hljs">public static ModuleRegistration&lt;TModule&gt; UseModule&lt;TModule&gt;(this AsyncRouterBuilder self)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -295,26 +295,22 @@
       <tr>
         <td><a class="xref" href="Solti.Utils.Router.AsyncRouterBuilder.html">AsyncRouterBuilder</a></td>
         <td><span class="parametername">self</span></td>
-        <td><p><a class="xref" href="Solti.Utils.Router.AsyncRouterBuilder.html">AsyncRouterBuilder</a> instance.</p>
-</td>
+        <td></td>
       </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
       <tr>
-        <td><a class="xref" href="Solti.Utils.Router.ParsedRoute.html">ParsedRoute</a></td>
-        <td><span class="parametername">route</span></td>
-        <td><p>Route to be registered.</p>
-</td>
+        <th>Type</th>
+        <th>Description</th>
       </tr>
+    </thead>
+    <tbody>
       <tr>
-        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Action</span>&lt;TService&gt;&gt;</td>
-        <td><span class="parametername">handlerExpr</span></td>
-        <td><p>Function accepting requests on the given route.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span>[]</td>
-        <td><span class="parametername">methods</span></td>
-        <td><p>Accepted HTTP methods for this route. If omitted &quot;GET&quot; will be used.</p>
-</td>
+        <td><a class="xref" href="Solti.Utils.Router.Extensions.ModuleRegistration-1.html">ModuleRegistration</a>&lt;TModule&gt;</td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -328,182 +324,8 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="parametername">TService</span></td>
+        <td><span class="parametername">TModule</span></td>
         <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="exceptions">Exceptions</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.ArgumentException</span></td>
-        <td><p>If the route already registered.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute_" data-uid="Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute*"></a>
-  <h4 id="Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute__1_Solti_Utils_Router_AsyncRouterBuilder_System_String_System_Linq_Expressions_Expression_System_Action___0___Solti_Utils_Router_SplitOptions_System_String___" data-uid="Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``1(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Action{``0}},Solti.Utils.Router.SplitOptions,System.String[])">AddRoute&lt;TService&gt;(AsyncRouterBuilder, String, Expression&lt;Action&lt;TService&gt;&gt;, SplitOptions, String[])</h4>
-  <div class="markdown level1 summary"><p>Registers a new route.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void AddRoute&lt;TService&gt;(this AsyncRouterBuilder self, string route, Expression&lt;Action&lt;TService&gt;&gt; handlerExpr, SplitOptions splitOptions, params string[] methods)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Solti.Utils.Router.AsyncRouterBuilder.html">AsyncRouterBuilder</a></td>
-        <td><span class="parametername">self</span></td>
-        <td><p><a class="xref" href="Solti.Utils.Router.AsyncRouterBuilder.html">AsyncRouterBuilder</a> instance.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">route</span></td>
-        <td><p>Route to be registered.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Action</span>&lt;TService&gt;&gt;</td>
-        <td><span class="parametername">handlerExpr</span></td>
-        <td><p>Function accepting requests on the given route.</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Solti.Utils.Router.SplitOptions.html">SplitOptions</a></td>
-        <td><span class="parametername">splitOptions</span></td>
-        <td><p>Specifies how to split the <code data-dev-comment-type="paramref" class="paramref">route</code>.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span>[]</td>
-        <td><span class="parametername">methods</span></td>
-        <td><p>Accepted HTTP methods for this route. If omitted &quot;GET&quot; will be used.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">TService</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="exceptions">Exceptions</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.ArgumentException</span></td>
-        <td><p>If the route already registered.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute_" data-uid="Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute*"></a>
-  <h4 id="Solti_Utils_Router_Extensions_AsyncRouterBuilderAddRouteExtensions_AddRoute__1_Solti_Utils_Router_AsyncRouterBuilder_System_String_System_Linq_Expressions_Expression_System_Action___0___System_String___" data-uid="Solti.Utils.Router.Extensions.AsyncRouterBuilderAddRouteExtensions.AddRoute``1(Solti.Utils.Router.AsyncRouterBuilder,System.String,System.Linq.Expressions.Expression{System.Action{``0}},System.String[])">AddRoute&lt;TService&gt;(AsyncRouterBuilder, String, Expression&lt;Action&lt;TService&gt;&gt;, String[])</h4>
-  <div class="markdown level1 summary"><p>Registers a new route.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void AddRoute&lt;TService&gt;(this AsyncRouterBuilder self, string route, Expression&lt;Action&lt;TService&gt;&gt; handlerExpr, params string[] methods)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Solti.Utils.Router.AsyncRouterBuilder.html">AsyncRouterBuilder</a></td>
-        <td><span class="parametername">self</span></td>
-        <td><p><a class="xref" href="Solti.Utils.Router.AsyncRouterBuilder.html">AsyncRouterBuilder</a> instance.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">route</span></td>
-        <td><p>Route to be registered.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Linq.Expressions.Expression</span>&lt;<span class="xref">System.Action</span>&lt;TService&gt;&gt;</td>
-        <td><span class="parametername">handlerExpr</span></td>
-        <td><p>Function accepting requests on the given route.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span>[]</td>
-        <td><span class="parametername">methods</span></td>
-        <td><p>Accepted HTTP methods for this route. If omitted &quot;GET&quot; will be used.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">TService</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="exceptions">Exceptions</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.ArgumentException</span></td>
-        <td><p>If the route already registered.</p>
-</td>
       </tr>
     </tbody>
   </table>
