@@ -28,19 +28,19 @@ namespace Solti.Utils.Router.Internals
 
         private static int FindControl(ReadOnlySpan<char> input) => input.IndexOfAny("/%+".AsSpan());
 
-        private static readonly ParsedSearchValues FParsedSearchValues;
+        private static readonly ParsedSearchValues FSafeChars;
 
         static PathSplitter() => MemoryExtensions.IndexOfAnyExcept
         (
             default,
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~".AsSpan(),
-            ref FParsedSearchValues
+            ref FSafeChars
         );
 
         private static int FindControlSafe(ReadOnlySpan<char> input)
         {
-            ParsedSearchValues parsedSearchValues = FParsedSearchValues;
-            return input.IndexOfAnyExcept(default, ref parsedSearchValues);
+            ParsedSearchValues safeChars = FSafeChars;
+            return input.IndexOfAnyExcept(default, ref safeChars);
         }
 
         private static readonly FindControlFn  // converting methods to delegates takes long so do it only once
