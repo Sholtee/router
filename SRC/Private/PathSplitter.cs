@@ -14,6 +14,7 @@ namespace Solti.Utils.Router.Internals
 {
     using Primitives;
 
+    using static Primitives.MemoryExtensions;
     using static Properties.Resources;
 
     /// <summary>
@@ -25,15 +26,22 @@ namespace Solti.Utils.Router.Internals
         #region Private
         private delegate int FindControlFn(ReadOnlySpan<char> input);
 
-        private static int FindControl(ReadOnlySpan<char> input) => input.IndexOfAny
+        private static int FindControl(ReadOnlySpan<char> input) => input.IndexOfAny("/%+".AsSpan());
+
+        private static readonly ParsedSearchValues FParsedSearchValues;
+
+        static PathSplitter() => MemoryExtensions.IndexOfAnyExcept
         (
-            "/%+".AsSpan()
+            default,
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~".AsSpan(),
+            ref FParsedSearchValues
         );
 
-        private static int FindControlSafe(ReadOnlySpan<char> input) => input.IndexOfAnyExcept
-        (
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~".AsSpan()
-        );
+        private static int FindControlSafe(ReadOnlySpan<char> input)
+        {
+            ParsedSearchValues parsedSearchValues = FParsedSearchValues;
+            return input.IndexOfAnyExcept(default, ref parsedSearchValues);
+        }
 
         private static readonly FindControlFn  // converting methods to delegates takes long so do it only once
             FFindControl = FindControl,

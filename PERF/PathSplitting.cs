@@ -24,7 +24,7 @@ namespace Solti.Utils.Router.Perf
         public bool AllowUnsafeChars { get; set; }
 
         [GlobalSetup(Target = nameof(Split))]
-        public void SetupSplit() => Input = "/" + string.Join("/", Enumerable.Repeat("segemnt", SegmentCount));
+        public void SetupSplit() => Input = "/" + string.Join("/", Enumerable.Repeat("segement", SegmentCount));
 
         [Benchmark]
         public void Split()
