@@ -6,7 +6,7 @@
 	<Configurations>Debug;Release</Configurations>
 	<OutputPath>..\BIN\$(Configuration)</OutputPath>
     <Nullable>enable</Nullable>
-	<LangVersion>12</LangVersion>
+	<LangVersion>13</LangVersion>
 	<AnalysisMode>AllEnabledByDefault</AnalysisMode>
 	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	<AssemblyName>Solti.Utils.Router</AssemblyName>
@@ -64,15 +64,15 @@
 
   <ItemGroup>
     <PackageReference Include="Injector.NET.Interfaces" Version="10.*" />
-    <PackageReference Include="IsExternalInit" Version="1.0.*">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
 	<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.*">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
 	<PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.*">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="PolySharp" Version="1.*">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>

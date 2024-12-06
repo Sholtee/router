@@ -319,6 +319,7 @@ namespace Solti.Utils.Router
         /// </summary>
         /// <param name="handlerExpr">Delegate to handle unknown routes.</param>
         /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be used.</param>
+        [OverloadResolutionPriority(1)]
         public RouterBuilder(Expression<DefaultRequestHandler> handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null)
         {
             DefaultHandler = handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr));
@@ -332,7 +333,7 @@ namespace Solti.Utils.Router
         /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be used.</param>
         public RouterBuilder(DefaultRequestHandler handler, IReadOnlyDictionary<string, ConverterFactory>? converters = null) : this
         (
-            handlerExpr: handler is not null
+            handler is not null
                 ? (state, reason) => handler(state, reason)
                 : throw new ArgumentNullException(nameof(handler)),
             converters
@@ -477,6 +478,7 @@ namespace Solti.Utils.Router
         /// <param name="handlerExpr">Function accepting requests on the given route.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
+        [OverloadResolutionPriority(1)]
         public void AddRoute(ParsedRoute route, Expression<RequestHandler> handlerExpr, params string[] methods)
         {
             if (route is null)
@@ -554,6 +556,7 @@ namespace Solti.Utils.Router
         /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
+        [OverloadResolutionPriority(1)]
         public void AddRoute(string route, Expression<RequestHandler> handlerExpr, SplitOptions splitOptions, params string[] methods) => AddRoute
         (
             RouteTemplate.Parse
@@ -573,6 +576,7 @@ namespace Solti.Utils.Router
         /// <param name="handlerExpr">Function accepting requests on the given route.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
+        [OverloadResolutionPriority(1)]
         public void AddRoute(string route, Expression<RequestHandler> handlerExpr, params string[] methods) =>
             AddRoute(route, handlerExpr, SplitOptions.Default, methods);
 
@@ -597,7 +601,7 @@ namespace Solti.Utils.Router
         public void AddRoute(string route, RequestHandler handler, SplitOptions splitOptions, params string[] methods) => AddRoute
         (
             route,
-            handlerExpr: handler is not null
+            handler is not null
                 ? (paramz, state) => handler(paramz, state)
                 : throw new ArgumentNullException(nameof(handler)),
             splitOptions,
@@ -607,6 +611,7 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Registers a new exception handler.
         /// </summary>
+        [OverloadResolutionPriority(1)]
         public void RegisterExceptionHandler<TException>(Expression<ExceptionHandler<TException>> handlerExpr) where TException : Exception =>
             FExceptionHandlers.Add(handlerExpr ?? throw new ArgumentNullException(nameof(handlerExpr)));
 
@@ -615,7 +620,7 @@ namespace Solti.Utils.Router
         /// </summary>
         public void RegisterExceptionHandler<TException>(ExceptionHandler<TException> handler) where TException : Exception => RegisterExceptionHandler<TException>
         (
-            handlerExpr: handler is not null
+            handler is not null
                 ? (userData, exc) => handler(userData, exc)
                 : throw new ArgumentNullException(nameof(handler))
         );

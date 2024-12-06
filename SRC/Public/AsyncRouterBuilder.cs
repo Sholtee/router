@@ -191,6 +191,7 @@ namespace Solti.Utils.Router
         /// </summary>
         /// <param name="handlerExpr">Delegate to handle unknown routes. You may pass async and sync callbacks as well.</param>
         /// <param name="converters">Converters to be used during parameter resolution. If null, <see cref="DefaultConverters"/> will be sued.</param>
+        [OverloadResolutionPriority(1)]
         public static AsyncRouterBuilder Create<T>(Expression<DefaultRequestHandler<T>> handlerExpr, IReadOnlyDictionary<string, ConverterFactory>? converters = null) =>
             Create((LambdaExpression) handlerExpr, converters);
 
@@ -253,6 +254,7 @@ namespace Solti.Utils.Router
         /// <param name="splitOptions">Specifies how to split the <paramref name="route"/>.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
+        [OverloadResolutionPriority(1)]
         public void AddRoute<T>(string route, Expression<RequestHandler<T>> handlerExpr, SplitOptions splitOptions, params string[] methods) => AddRoute
         (
             RouteTemplate.Parse(route, FUnderlyingBuilder.Converters, splitOptions),
@@ -267,6 +269,7 @@ namespace Solti.Utils.Router
         /// <param name="handlerExpr">Function accepting requests on the given route. You may pass async and sync callbacks as well.</param>
         /// <param name="methods">Accepted HTTP methods for this route. If omitted "GET" will be used.</param>
         /// <exception cref="ArgumentException">If the route already registered.</exception>
+        [OverloadResolutionPriority(1)]
         public void AddRoute<T>(string route, Expression<RequestHandler<T>> handlerExpr, params string[] methods) =>
             AddRoute(route, handlerExpr, SplitOptions.Default, methods);
 
@@ -316,6 +319,7 @@ namespace Solti.Utils.Router
         /// <summary>
         /// Registers a new exception handler.
         /// </summary>
+        [OverloadResolutionPriority(1)]
         public void RegisterExceptionHandler<TException, T>(Expression<ExceptionHandler<TException, T>> handlerExpr) where TException : Exception =>
             RegisterExceptionHandler((LambdaExpression) handlerExpr);
 
